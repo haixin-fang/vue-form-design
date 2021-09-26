@@ -16,7 +16,7 @@
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "client/*"
       ]
     },
     "lib": [
@@ -27,13 +27,13 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    "client/**/*.ts",
+    "client/**/*.tsx",
+    "client/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "client/router/index.ts"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }
