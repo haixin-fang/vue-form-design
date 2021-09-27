@@ -8,11 +8,21 @@ module.exports = {
             title: 'starfish-h5'
         }
     },
+    css: {
+        loaderOptions: {
+            sass: {
+                // 全局sass变量	
+                //sass-loader 新版本
+                prependData: `@import "./client/styles/variables.scss";`
+            }
+        }
+    },
     configureWebpack: {
         devtool: "source-map",
         resolve: {
             alias: {
-                '@': path.resolve(__dirname, './client')
+                '@': path.resolve(__dirname, './client'),
+                '~editor': path.resolve(__dirname, './client/pages/Editor/components')
             }
         },
         module: {
@@ -22,7 +32,7 @@ module.exports = {
                     use: [
                         "style-loader",
                         "css-loader",
-                        "sass-loader"
+                        "sass-loader",
                     ]
                 }
             ]
