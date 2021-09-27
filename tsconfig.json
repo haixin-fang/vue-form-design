@@ -32,7 +32,7 @@
     "client/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "client/router/index.ts"  ],
+, "client/router/index.ts", "client/utils/editMouse.ts"  ],
   "exclude": [
     "node_modules",
   ]

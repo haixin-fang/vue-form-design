@@ -13,7 +13,7 @@ module.exports = {
             sass: {
                 // 全局sass变量	
                 //sass-loader 新版本
-                prependData: `@import "./client/styles/variables.scss";`
+                prependData: `@import "./client/styles/variables.scss";@import "./client/styles/iconfont.scss";`
             }
         }
     },
@@ -22,7 +22,7 @@ module.exports = {
         resolve: {
             alias: {
                 '@': path.resolve(__dirname, './client'),
-                '~editor': path.resolve(__dirname, './client/pages/Editor/components')
+                '~editor': path.resolve(__dirname, './client/pages/Editor/components'),
             }
         },
         module: {
