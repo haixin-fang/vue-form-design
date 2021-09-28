@@ -10,11 +10,15 @@ import { defineComponent } from "vue";
 import EditorLeft from "~editor/EditorLeft/index.vue";
 import EditorCenter from "~editor/EditorCenter/index.vue";
 import EditorRight from "~editor/EditorRight/index.vue";
+import { formcomponents } from "../../index";
 export default defineComponent({
   components: {
     EditorLeft,
     EditorCenter,
     EditorRight,
+  },
+  mounted() {
+    console.log(formcomponents);
   },
 });
 </script>

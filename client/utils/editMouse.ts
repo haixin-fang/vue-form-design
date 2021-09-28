@@ -37,8 +37,13 @@ function windowAddMouseWheel(canvasBox: HTMLElement) {
   document.addEventListener("DOMMouseScroll", scrollFunc, false);
   win.onmousewheel = de.onmousewheel = scrollFunc;
 }
-// 获取用户点击编辑器当前的transform值
+/**
+ * 获取用户点击编辑器当前的transform值
+ * @param {HTMLElement} dom 获取transfrom中的x,y值
+ * @returns {Array<number>} 返回数组
+ */
 function getDomTransfrom(dom: HTMLElement): Array<number> {
+  console.log("dom", dom);
   const translates = getComputedStyle(dom).transform;
   const translatesArr: string[] = translates.substring(7).split(",");
   let nowX = 0;
@@ -49,11 +54,17 @@ function getDomTransfrom(dom: HTMLElement): Array<number> {
   }
   return [nowX, nowY];
 }
+/**
+ * 移动元素
+ * @param {HTMLElement} canvasBox 用户移动的元素
+ * @param {any} e 鼠标点击事件对象
+ * @returns {isTransition} isTransition 是否需要补间动画
+ */
 export function useUserMove(canvasBox: HTMLElement, e: any, isTransition: isTransition): void {
   // 检查用户鼠标落到编辑器中
   e.preventDefault();
-  const dom: any = document.getElementsByClassName("canvasBox")[0];
-  const [nowX, nowY] = getDomTransfrom(dom);
+  e.stopPropagation();
+  const [nowX, nowY] = getDomTransfrom(canvasBox);
   const startX = e.clientX;
   const startY = e.clientY;
   const move = (e: any) => {
@@ -72,7 +83,10 @@ export function useUserMove(canvasBox: HTMLElement, e: any, isTransition: isTran
   document.documentElement.addEventListener("mousemove", move);
   document.documentElement.addEventListener("mouseup", up);
 }
-
+/**
+ * 获取用户移动滚轮事件
+ * @param {HTMLElement} dom 监听鼠标滚动
+ */
 export function handleWheelScroll(dom: HTMLElement): any {
   windowAddMouseWheel(dom);
 }
