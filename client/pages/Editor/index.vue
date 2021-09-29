@@ -5,9 +5,10 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import EditorTop from "./components/EditorTop/index.vue";
 import EditorMain from "./components/EditorMain/index.vue";
+import { useStore } from "vuex";
 export default defineComponent({
   components: {
     EditorTop,

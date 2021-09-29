@@ -43,7 +43,6 @@ function windowAddMouseWheel(canvasBox: HTMLElement) {
  * @returns {Array<number>} 返回数组
  */
 function getDomTransfrom(dom: HTMLElement): Array<number> {
-  console.log("dom", dom);
   const translates = getComputedStyle(dom).transform;
   const translatesArr: string[] = translates.substring(7).split(",");
   let nowX = 0;
