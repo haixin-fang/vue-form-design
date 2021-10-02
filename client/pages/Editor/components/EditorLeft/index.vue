@@ -26,6 +26,9 @@ export default defineComponent({
     let lastFormComponents = [];
     for (const key in formcomponents) {
       let item = formcomponents[key];
+      if(item.isHide){
+        continue
+      }
       let model: any = {};
       // model.data = item.formConfig.data();
       model.ControlType = item.ControlType;
@@ -36,6 +39,7 @@ export default defineComponent({
       // model.controlItems = controlItems;
       lastFormComponents.push(model);
     }
+    console.log('lastFormComponents',lastFormComponents)
     return {
       formcomponents: lastFormComponents,
     };
@@ -46,14 +50,20 @@ export default defineComponent({
 .editor_pages_left {
   width: 248px;
   height: 100%;
+  .list-group{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
   .list-group-item {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-bottom: 10px;
     .form-item {
       width: 70px;
       height: 70px;
-      border: 2px solid #aca9a9;
+      border: 1px solid #aca9a9;
       display: flex;
       flex-direction: column;
       align-items: center;

@@ -34,14 +34,19 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .editor_pages_right {
-  width: 318px;
+  width: 378px;
   height: 100%;
   position: fixed;
   right: 0;
   top: $editor_header_top;
   background: white;
   transition: all 0.5s ease-in-out 0s;
-  overflow: auto;
+  overflow: hidden;
+  padding: 30px 0;
+  z-index: 1;
+  .dynamic{
+    overflow: auto;
+  }
   &.editor_pages_right_visible {
     right: 0;
   }

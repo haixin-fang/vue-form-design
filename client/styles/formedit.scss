@@ -1,8 +1,22 @@
-.starfish-text {
+.starfish-formitem {
     text-align: left;
     padding: 0 12px 16px;
+    position: relative;
+    &.formCover::after{
+        width: 100%;
+        height: 100%;
+        content: '';
+        display: block;
+        background-color: transparent;
+        position:absolute;
+        top: 0;
+        left:0;
+    }
     .label {
         height: 36px;
         line-height: 36px;
+    }
+    .item_require{
+        color: red;
     }
 }

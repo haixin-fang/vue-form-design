@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem">
+  <div class="starfish-formitem" :class="drag?'formCover': ''">
     <div class="label">
       <label>{{ item.data.label }}</label>
       <span v-if="item.data.required" class="item_require">*</span>
@@ -8,56 +8,44 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-input v-model="item.data.default" :placeholder="item.data.placeholder" v-if="drag" />
-      <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" />
+      <el-switch v-model="item.data.default" v-if="drag" />
+      <el-switch v-model="data[item.data.fieldName]" v-if="!drag" />
     </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  ControlType: "Text", // 必须与文件名匹配
-  nameCn: "文本框",
-  icon: "icon-wenbenkuang",
+  ControlType: "Switch", // 必须与文件名匹配
+  nameCn: "开关",
+  icon: "icon-kaiguanguan",
   formConfig: {
     data() {
       return {
         fieldName: "",
         label: "标签名称",
         tip: "",
-        placeholder: "",
+        value: '',
         showRule: "{}",
         required: false,
         rule: "[]",
-        default: "",
+        default:  false,
       };
     },
     morenConfig() {
       return [
         {
-          ControlType: "Text",
+          ControlType: "Switch",
           data: {
             fieldName: "default",
             tip: "",
             label: "默认值",
-            placeholder: "",
             showRule: "{}",
             required: false,
+            default: false,
             rule: "[]",
           },
-        },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "placeholder",
-            tip: "",
-            label: "输入占位文字",
-            placeholder: "请输入占位文字",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
+        }
       ];
     },
   },

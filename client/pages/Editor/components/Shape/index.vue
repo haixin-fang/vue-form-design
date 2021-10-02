@@ -19,6 +19,7 @@ export default defineComponent({
 <style lang="scss">
 .shape {
   box-sizing: content-box;
+  border: 3px solid transparent;
 }
 .shape_border {
   border: 3px solid blue;

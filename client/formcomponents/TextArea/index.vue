@@ -8,17 +8,17 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-input v-model="item.data.default" :placeholder="item.data.placeholder" v-if="drag" />
-      <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" />
+      <el-input type="textarea" v-model="item.data.default" :placeholder="item.data.placeholder" v-if="drag" />
+      <el-input type="textarea" v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" />
     </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  ControlType: "Text", // 必须与文件名匹配
-  nameCn: "文本框",
-  icon: "icon-wenbenkuang",
+  ControlType: "TextArea", // 必须与文件名匹配
+  nameCn: "文本域",
+  icon: "icon-textarea",
   formConfig: {
     data() {
       return {
