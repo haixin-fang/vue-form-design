@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem">
+  <div class="starfish-formitem" :class="drag ? 'formCover' : ''">
     <div class="label">
       <label>{{ item.data.label }}</label>
       <span v-if="item.data.required" class="item_require">*</span>
