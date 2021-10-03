@@ -41,7 +41,7 @@ export default defineComponent({
   top: $editor_header_top;
   background: white;
   transition: all 0.5s ease-in-out 0s;
-  overflow: hidden;
+  overflow: auto;
   padding: 30px 0;
   z-index: 1;
   .dynamic{

@@ -9,6 +9,12 @@ function windowAddMouseWheel(canvasBox: HTMLElement) {
   const scrollFunc = function (e: any) {
     const [nowX, nowY] = getDomTransfrom(canvasBox);
     e = e || window.event;
+    const path = e.path;
+    for(let i=0;i<path.length;i++){
+      if((path[i].getAttribute && path[i].getAttribute('class') && path[i].getAttribute('class').indexOf('dynamic') >= 0) || (path[i].getAttribute && path[i].getAttribute('class') && path[i].getAttribute('class').indexOf('editor_pages_right')>=0)){
+        return
+      }
+    }
     if (e.wheelDelta) {
       //判断浏览器IE，谷歌滑轮事件
       if (e.wheelDelta > 0) {
