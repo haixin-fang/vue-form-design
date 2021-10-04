@@ -1,11 +1,41 @@
 <template>
   <div class="editorHeadTop">
-    <div class="component_pages_header"></div>
+    <div class="component_pages_header">
+      <button @click="handleFormSave">保存</button>
+      <button @click="handleFormPre">预览</button>
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({});
+import { computed, defineComponent } from "vue";
+import {useStore} from 'vuex'
+import _ from "@/utils/_";
+export default defineComponent({
+  setup(){
+    let store = useStore()
+    let allFormList = computed(() => store.getters.getAllFormList)
+    let handleFormSave = () => {
+      let result:any[] = []
+      allFormList.value.forEach((item: any) => {
+        result.push({
+          data: item.data,
+          ControlType: item.ControlType,
+          id: _.generateMixed(8)
+        })
+      })
+      localStorage.setItem('formResult', JSON.stringify(result))
+    }
+    let handleFormPre = () => {
+      handleFormSave()
+      store.commit('openPreview', true)
+      store.commit('handleDynamicForm')
+    }
+    return {
+      handleFormSave,
+      handleFormPre
+    }
+  }
+});
 </script>
 <style lang="scss" scoped>
 .editorHeadTop {
