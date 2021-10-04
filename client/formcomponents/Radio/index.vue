@@ -87,6 +87,9 @@ export default defineComponent({
       ];
     },
   },
+  mounted(){
+    console.log('drag', this.drag)
+  },
   props: {
     drag: Boolean,
     data: Object,

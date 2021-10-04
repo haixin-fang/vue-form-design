@@ -71,12 +71,8 @@ export default defineComponent({
             item = JSON.parse(JSON.stringify(item));
             item.formConfig = formcomponents[item.ControlType].formConfig;
             item.data = item.formConfig.data();
-            if(!item.data.fieldName){
-              item.data.fieldName = item.ControlType + '_' + _.generateMixed(3)
-            }
             let defaultConfig = JSON.parse(JSON.stringify(myMixin.initControlItems()));
             let controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
-            item.rules = _.controlFormRule(controlItems)
             item.controlItems = controlItems;
           }
           return item;

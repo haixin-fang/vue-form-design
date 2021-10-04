@@ -85,32 +85,40 @@ export default defineComponent({
       };
     },
   },
+  mounted() {
+    console.log("ffg", this.data);
+    console.log("ffg", this.item);
+  },
   methods: {
     getChangeValue(sitem: any) {
       let data: any = this.data;
       let item: any = this.item;
       let allItems = data[item.data.fieldName];
-      allItems.value = [];
-      allItems.items.forEach((item: any) => {
-        if (item.select) {
-          allItems.value.push(item.value);
-        }
-      });
+      allItems.value = sitem.value;
+      allItems.id = sitem.id;
     },
     getChangeSelect(sitem: any) {
-      debugger;
       let data: any = this.data;
       let item: any = this.item;
       let allItems = data[item.data.fieldName];
       if (sitem.select) {
-        allItems.value.push(sitem.value);
+        allItems.value.push(sitem.value)
       } else {
-        allItems.value = [];
+        let value = sitem.value
+        let isHave = false;
+        allItems.value = allItems.value.filter((v:any) => {
+          if(v !== value){
+            return v
+          }
+        })
         allItems.items.forEach((item: any) => {
           if (item.select) {
-            allItems.value.push(item.value);
+            isHave = true;
           }
         });
+        if (!isHave) {
+          allItems.value = [];
+        }
       }
     },
     getMaxId() {
@@ -127,7 +135,7 @@ export default defineComponent({
       let data: any = this.data;
       let item: any = this.item;
       let allItems = data[item.data.fieldName];
-      if (allItems.items.length <= 1) return;
+      if(allItems.items.length <= 1)return
       allItems.items.splice(index, 1);
     },
     handleTop(index: number) {
@@ -143,7 +151,7 @@ export default defineComponent({
       let data: any = this.data;
       let item: any = this.item;
       let allItem = data[item.data.fieldName].items;
-      if (index < allItem.length - 1) {
+      if(index < allItem.length - 1){
         let newItem = allItem.splice(index, 1)[0];
         allItem.splice(index + 1, 0, newItem);
       }

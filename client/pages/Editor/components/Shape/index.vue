@@ -22,6 +22,6 @@ export default defineComponent({
   border: 3px solid transparent;
 }
 .shape_border {
-  border: 3px solid #409eff;
+  border: 3px solid blue;
 }
 </style>

@@ -8,39 +8,33 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
-import { ElMessageBox, ElMessage } from "element-plus";
+import {useStore} from 'vuex'
 import _ from "@/utils/_";
 export default defineComponent({
-  setup() {
-    let store = useStore();
-    let allFormList = computed(() => store.getters.getAllFormList);
-    const open = (message: string, title: string) => {
-      ElMessageBox.alert(message, title, {
-        confirmButtonText: "OK",
-      });
-    };
+  setup(){
+    let store = useStore()
+    let allFormList = computed(() => store.getters.getAllFormList)
     let handleFormSave = () => {
-      let result: any[] = [];
+      let result:any[] = []
       allFormList.value.forEach((item: any) => {
         result.push({
           data: item.data,
           ControlType: item.ControlType,
-          id: _.generateMixed(8),
-        });
-      });
-     localStorage.setItem("formResult", JSON.stringify(result));
-    };
+          id: _.generateMixed(8)
+        })
+      })
+      localStorage.setItem('formResult', JSON.stringify(result))
+    }
     let handleFormPre = () => {
-      handleFormSave();
-      store.commit("openPreview", true);
-      store.commit("handleDynamicForm");
-    };
+      handleFormSave()
+      store.commit('openPreview', true)
+      store.commit('handleDynamicForm')
+    }
     return {
       handleFormSave,
-      handleFormPre,
-    };
-  },
+      handleFormPre
+    }
+  }
 });
 </script>
 <style lang="scss" scoped>

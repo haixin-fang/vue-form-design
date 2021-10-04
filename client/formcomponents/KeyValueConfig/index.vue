@@ -85,6 +85,10 @@ export default defineComponent({
       };
     },
   },
+  mounted() {
+    console.log("ffg", this.data);
+    console.log("ffg", this.item);
+  },
   methods: {
     getChangeValue(sitem: any) {
       let data: any = this.data;
