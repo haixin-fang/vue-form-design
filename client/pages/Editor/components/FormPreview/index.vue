@@ -43,7 +43,7 @@ export default defineComponent({
     let store = useStore();
     let expand = ref(false);
     let previewShow = computed(() => store.state.form.preview);
-    let allFormList = computed(() => store.state.form.allFormList);
+    let allFormList = computed(() => store.state.form.AllFormResult);
     let formResult = computed(() => store.state.form.formResult);
     let handleExpand = (item: boolean) => {
       expand.value = item;

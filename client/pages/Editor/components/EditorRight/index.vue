@@ -1,12 +1,44 @@
 <template>
-  <div class="editor_pages_right" :class="moduleIsHidden ? 'editor_pages_right_visible' : 'editor_pages_right_hidden'">
+  <div
+    class="editor_pages_right"
+    :class="
+      moduleIsHidden
+        ? 'editor_pages_right_visible'
+        : 'editor_pages_right_hidden'
+    "
+  >
     <div class="editor_right_accept" @click="handleEditBtn">
-      <i class="iconfont icon-jiantou_xiangyouliangci" :class="moduleIsHidden ? 'icon-jiantou_xiangyouliangci' : 'icon-jiantou_xiangzuoliangci'"></i>
+      <i
+        class="iconfont icon-jiantou_xiangyouliangci"
+        :class="
+          moduleIsHidden
+            ? 'icon-jiantou_xiangyouliangci'
+            : 'icon-jiantou_xiangzuoliangci'
+        "
+      ></i>
     </div>
     <div class="dynamic">
-      <div v-for="(item, index) in controlItems" :key="index">
-        <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item"></component>
-      </div>
+      <el-form
+        ref="ruleForm"
+        :model="curControl.data"
+        :rules="curControl.rules"
+        label-width="120px"
+        class="demo-ruleForm"
+        :validate-on-rule-change="false"
+      >
+        <el-form-item
+          v-for="(item, index) in controlItems"
+          :key="index"
+          :prop="item.data.fieldName"
+        >
+          <component
+            :drag="false"
+            :is="item.ControlType"
+            :data="curControl.data"
+            :item="item"
+          ></component>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
@@ -41,17 +73,17 @@ export default defineComponent({
   top: $editor_header_top;
   background: white;
   transition: all 0.5s ease-in-out 0s;
-  overflow: auto;
   padding: 30px 0;
   z-index: 1;
-  .dynamic{
+  .dynamic {
     overflow: auto;
+    height: 88%;
   }
   &.editor_pages_right_visible {
     right: 0;
   }
   &.editor_pages_right_hidden {
-    right: -318px;
+    right: -378px;
   }
   .editor_right_accept {
     width: 20px;

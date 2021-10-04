@@ -8,11 +8,11 @@ const form: Module<allFormList, any> = {
     curControl: {}, // 选中的表单控件
     currentIndex: "", // 选中的控件的索引
     preview: false, // 是否开启预览
+    AllFormResult: {}, // 预览和存储到数据库最终结果
     formResult: {}, // 用户在动态表单输入的配置结果
   },
   mutations: {
     updateAllFormList(state, allFormList) {
-      console.log('allFormList',allFormList)
       state.allFormList = allFormList;
     },
     setFormCurrentIndex(state, index) {
@@ -23,10 +23,12 @@ const form: Module<allFormList, any> = {
         state.curControl = {};
       }
     },
+    // 获取默认值和键名组成新对象
     handleDynamicForm(state){
-      const allFormList = state.allFormList;
+      const formResult:any = localStorage.getItem('formResult')
+      state.AllFormResult = JSON.parse(formResult)
       const data:any = {}
-      allFormList.forEach((item: any) => {
+      state.AllFormResult.forEach((item: any) => {
         if(item.data.itemConfig){
           data[item.data.fieldName] = item.data.itemConfig.value
         }else{

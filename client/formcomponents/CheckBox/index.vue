@@ -15,10 +15,10 @@
     </div>
     <div class="control">
       <el-checkbox-group v-model="data[item.data.fieldName]" v-if="!drag&&data[item.data.fieldName]">
-        <el-checkbox v-for="(sitem, sindex) in item.data.itemConfig.items" :key="sindex" :label="sitem.value" />
+        <el-checkbox v-for="(sitem, sindex) in item.data.itemConfig.items" :key="sindex" :label="sitem.value">{{sitem.label}}</el-checkbox>
       </el-checkbox-group>
      <el-checkbox-group v-model="item.data.itemConfig.value" v-if="drag">
-        <el-checkbox v-for="(sitem, sindex) in item.data.itemConfig.items" :key="sindex" :label="sitem.value" />
+        <el-checkbox v-for="(sitem, sindex) in item.data.itemConfig.items" :key="sindex" :label="sitem.value">{{sitem.label}}</el-checkbox>
       </el-checkbox-group>
     </div>
   </div>
@@ -75,9 +75,6 @@ export default defineComponent({
         },
       ];
     },
-  },
-    mounted(){
-    console.log("chck", this.item)
   },
   props: {
     drag: Boolean,
