@@ -38,6 +38,21 @@ class Flex {
     }
     return res;
   }
+  controlFormRule(controlItems: any[]):any {
+    const rules:any = {}
+    controlItems.forEach((item: any) => {
+      if(item.data.required){
+        const rule:any[] = []
+        rule.push({
+          required: true,
+          message: '请输入' + item.data.label,
+          trigger: 'blur',
+        })
+        rules[item.data.fieldName] = rule
+      }
+    })
+    return rules
+  }
 }
 
 export default new Flex();
