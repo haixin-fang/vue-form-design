@@ -155,7 +155,6 @@ export default defineComponent({
     },
     addItem(index: number) {
       let maxId = this.getMaxId();
-      console.log(this.item);
       let data: any = this.data;
       let item: any = this.item;
       let allItems = data[item.data.fieldName];
@@ -190,8 +189,11 @@ export default defineComponent({
   }
   .keyValueInput {
     flex: 1;
+    .inputItem{
+      line-height: 20px;
+    }
     > div {
-      margin-bottom: 15px;
+      margin-bottom: 7px;
       span {
         display: block;
         margin-bottom: 6px;

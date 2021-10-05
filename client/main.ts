@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import App from "./App.vue";
 import "@/styles/index.scss";
+import "@/assets/jsoneditor.min.css"
 import { formcomponents } from "./pages/Editor";
 const app = createApp(App);
 const install: any = () => {

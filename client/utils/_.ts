@@ -2,6 +2,7 @@ const chars: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", 
 declare global {
   interface Window {
     clickCountLimitMock: boolean;
+    JSONEditor: any
   }
 }
 
@@ -38,20 +39,32 @@ class Flex {
     }
     return res;
   }
-  controlFormRule(controlItems: any[]):any {
+  controlFormRule(controlItems: any[], items:any):any {
     const rules:any = {}
     controlItems.forEach((item: any) => {
+      const rule:any[] = []
       if(item.data.required){
-        const rule:any[] = []
         rule.push({
           required: true,
           message: '请输入' + item.data.label,
           trigger: 'blur',
         })
+      }
+      if(rule.length > 0 || (items.rule && items.ControlType === item.ControlType)) {
+        if(items.rule && items.ControlType === item.ControlType){
+          rule.push(...items.rule)
+        }
         rules[item.data.fieldName] = rule
       }
     })
     return rules
+  }
+  tryParseJson(json:string) {
+    try {
+      return JSON.parse(json);
+    } catch (E) {
+      return {};
+    }
   }
 }
 

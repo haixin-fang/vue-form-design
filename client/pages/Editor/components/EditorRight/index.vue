@@ -52,6 +52,7 @@ export default defineComponent({
     let store = useStore();
     let controlItems = computed(() => store.getters.getControlItems);
     let curControl = computed(() => store.state.form.curControl);
+    console.log(controlItems,curControl)
     let handleEditBtn = () => {
       moduleIsHidden.value = !moduleIsHidden.value;
     };

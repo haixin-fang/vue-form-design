@@ -17,6 +17,7 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     'vue/no-mutating-props': 0,
-    "endOfLine": 0
+    "endOfLine": 0,
+    "@typescript-eslint/no-this-alias": ["off"]
   },
 };

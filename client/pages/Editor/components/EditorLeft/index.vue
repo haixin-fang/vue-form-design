@@ -34,12 +34,15 @@ export default defineComponent({
       model.ControlType = item.ControlType;
       model.icon = item.icon;
       model.nameCn = item.nameCn;
+      // 有json编辑器时，验证格式有固定的规则
+      if(item.rule){
+        model.rule = item.rule
+      }
       // let defaultConfig = myMixin.initControlItems();
       // let controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
       // model.controlItems = controlItems;
       lastFormComponents.push(model);
     }
-    console.log('lastFormComponents',lastFormComponents)
     return {
       formcomponents: lastFormComponents,
     };
@@ -69,7 +72,10 @@ export default defineComponent({
       align-items: center;
       justify-content: space-around;
       > span:first-child {
-        font-size: 30px;
+        font-size: 32px;
+      }
+      >span:nth-child(2){
+        font-size: 14px;
       }
     }
   }

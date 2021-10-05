@@ -68,7 +68,13 @@ export default defineComponent({
         // 防止引用类型污染
         value = value.map((item: any) => {
           if (!item.data && !item.controlItems) {
+            let rule;
+            // 防止序列号把函数过滤，进行存储
+            if(item.rule){
+              rule = item.rule
+            }
             item = JSON.parse(JSON.stringify(item));
+            item.rule = rule
             item.formConfig = formcomponents[item.ControlType].formConfig;
             item.data = item.formConfig.data();
             if(!item.data.fieldName){
@@ -76,7 +82,7 @@ export default defineComponent({
             }
             let defaultConfig = JSON.parse(JSON.stringify(myMixin.initControlItems()));
             let controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
-            item.rules = _.controlFormRule(controlItems)
+            item.rules = _.controlFormRule(controlItems, item)
             item.controlItems = controlItems;
           }
           return item;

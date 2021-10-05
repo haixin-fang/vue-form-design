@@ -150,7 +150,6 @@ export default defineComponent({
     },
     addItem(index: number) {
       let maxId = this.getMaxId();
-      console.log(this.item);
       let data: any = this.data;
       let item: any = this.item;
       let allItems = data[item.data.fieldName];

@@ -1,0 +1,120 @@
+<template>
+  <div class="starfish-formitem" :class="drag ? 'formCover' : ''">
+    <div class="label">
+      <label>{{ item.data.label }}</label>
+      <span v-if="item.data.required" class="item_require">*</span>
+      <el-tooltip
+        v-if="item.data.tip"
+        class="item"
+        effect="dark"
+        :content="item.data.tip"
+        placement="bottom-start"
+      >
+        <span class="tip iconfont icon-tishi"></span>
+      </el-tooltip>
+    </div>
+    <div class="control">
+      <div id="jsoneditor" ref="jsoneditor"></div>
+    </div>
+  </div>
+</template>
+<script lang="ts">
+import { defineComponent } from "vue";
+import _ from "@/utils/_";
+// import "@/assets/jsoneditor/jsoneditor.min.js"
+export default defineComponent({
+  ControlType: "JsonEditor", // 必须与文件名匹配
+  nameCn: "JSON编辑",
+  icon: "icon-json-full",
+  rule: [
+    {
+      validator: (rule: any, value: any, callback: (a:any) => any) => {
+        debugger
+        try {
+          const text = JSON.parse(value);
+          callback(null);
+        } catch (e) {
+          console.error(e);
+          return callback(new Error("请输入正确的json格式"));
+        }
+      },
+      trigger: "blur",
+    },
+  ],
+  formConfig: {
+    data() {
+      return {
+        fieldName: "",
+        label: "校验规则",
+        tip: "",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+        default: "[]",
+      };
+    },
+    morenConfig() {
+      return [
+        {
+          ControlType: "JsonEditor",
+          data: {
+            fieldName: "default",
+            tip: "",
+            label: "默认值",
+            placeholder: "",
+            showRule: "{}",
+            required: false,
+            rule: "[]",
+          },
+        },
+      ];
+    },
+  },
+  props: {
+    drag: Boolean,
+    data: Object,
+    item: Object,
+  },
+  data() {
+    interface jsonEditor {
+      [key: string]: any;
+    }
+    let jsonEditorType: jsonEditor = {};
+    return {
+      jsonEditor: jsonEditorType,
+    };
+  },
+  watch: {
+    item: {
+      handler(newValue) {
+        if (this.drag) {
+          this.jsonEditor.set(_.tryParseJson(newValue.data.default));
+        }
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    const container = this.$refs.jsoneditor;
+    let data: any = this.data;
+    let item: any = this.item;
+    let fieldName = item.data.fieldName;
+    let that = this;
+    const options = {
+      modes: ["text", "code", "view"],
+      mode: "code",
+      search: false,
+      onChange() {
+        data[fieldName] = that.jsonEditor.getText();
+      },
+    };
+    this.jsonEditor = new window.JSONEditor(container, options);
+    if (this.drag) {
+      this.jsonEditor.set(_.tryParseJson(item.data.default));
+    } else {
+      this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
+    }
+  },
+});
+</script>
+<style scoped></style>

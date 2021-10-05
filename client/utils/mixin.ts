@@ -51,6 +51,18 @@ const afterBaseFormConfig:any[] = [
       required: false,
       rule: "[]",
     },
+  },
+  {
+    ControlType: "JsonEditor",
+    data: {
+      fieldName: "rule",
+      tip: "",
+      label: "校验规则",
+      showRule: "{}",
+      required: false,
+      rule: "[]",
+      default: "[]"
+    },
   }
 ];
 const myMixin = {

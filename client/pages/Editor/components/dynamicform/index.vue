@@ -25,6 +25,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
+import _ from "@/utils/_";
 export default defineComponent({
   props: {
     allFormList: Array,
@@ -34,15 +35,16 @@ export default defineComponent({
     let { allFormList } = reactive(props);
     let rules: any = ref({});
     allFormList?.forEach((item: any) => {
+      let rule: any[] = [];
       if (item.data.required) {
-        let rule: any[] = [];
         rule.push({
           required: true,
           message: "请输入" + item.data.label,
           trigger: "blur",
         });
-        rules.value[item.data.fieldName] = rule;
       }
+      rule = rule.concat(_.tryParseJson(item.data.rule))
+      rules.value[item.data.fieldName] = rule;
     });
     return {
       rules,
