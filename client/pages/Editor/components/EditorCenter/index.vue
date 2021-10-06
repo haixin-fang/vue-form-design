@@ -52,7 +52,6 @@ export default defineComponent({
     let canvasSize = ref(1);
     // 移动的dom
     let dragDom = ref();
-    let mainList = reactive<any>([]);
     // 控制格子是否显示
     let handleGrid = (show: boolean) => {
       gridShow.value = show;
@@ -132,7 +131,7 @@ export default defineComponent({
     // 出现了一个问题，canvasBox无法通过子元素的高度进行自适应，所以通过js获取高度直接给父元素赋值
     // 通过监听数据源的方式判断数据是否更新了
     // 数据更新是异步导致高度赋值完成了，dom才更新，所以使用了nextTick
-    watch(mainList, async () => {
+    watch(allmainList, async () => {
       await nextTick();
       canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
     });
@@ -145,7 +144,6 @@ export default defineComponent({
       handleCanvasSize,
       canvasSize,
       dragDom,
-      mainList,
       Shape,
       chooseClick,
       addControl,

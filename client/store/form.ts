@@ -34,7 +34,8 @@ const form: Module<allFormList, any> = {
       const data:any = {}
       state.AllFormResult.forEach((item: any) => {
         if(item.data.itemConfig){
-          data[item.data.fieldName] = item.data.itemConfig.value
+          // 防止对数据进行劫持监听
+          data[item.data.fieldName] = [...item.data.itemConfig.value]
         }else{
           data[item.data.fieldName] = item.data.default
         }

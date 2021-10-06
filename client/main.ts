@@ -7,7 +7,10 @@ import App from "./App.vue";
 import "@/styles/index.scss";
 import "@/assets/jsoneditor.min.css"
 import { formcomponents } from "./pages/Editor";
+import CustomDialog from '@/components/CustomDialog/index.vue'
 const app = createApp(App);
+
+app.component('CustomDialog', CustomDialog)
 const install: any = () => {
   if (install.installed) return;
   install.installed = true;

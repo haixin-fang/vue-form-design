@@ -1,6 +1,6 @@
 <template>
   <div class="editor_pages_left">
-    <draggable class="dragArea list-group" :list="formcomponents" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :clone="cloneDog" item-key="id">
+    <draggable class="dragArea list-group" :list="formcomponents" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" :clone="cloneDog" item-key="id">
       <template #item="{ element }">
         <div class="list-group-item">
           <div class="form-item">

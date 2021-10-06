@@ -62,15 +62,36 @@ export default defineComponent({
         if (item.data.showRule === "{}") {
           item.show = true;
         } else {
-          let showRule = JSON.parse(item.data.showRule);
-          for (let key in showRule) {
-            if (formResults[key] == showRule[key]) {
-              item.show = true;
-            } else {
-              item.show = false;
+          let showRule;
+          try {
+            showRule = JSON.parse(item.data.showRule);
+            for (let key in showRule) {
+              if (_.getDataType(formResults[key]) == "Array") {
+                let isHave = false; // 默认不显示
+                // 配置数组就是或者的关系
+                if (_.getDataType(showRule[key]) == "Array") {
+                  showRule[key].forEach((rule: any) => {
+                    if (formResults[key].indexOf(String(rule)) > -1) {
+                      isHave = true;
+                    }
+                  });
+                } else {
+                  if (formResults[key].indexOf(String(showRule[key])) > -1) {
+                    isHave = true;
+                  }
+                }
+                item.show = isHave;
+              } else {
+                if (formResults[key] == showRule[key]) {
+                  item.show = true;
+                } else {
+                  item.show = false;
+                }
+              }
             }
+          } catch (e) {
+            item.show = true
           }
-          console.log("11", allFormList);
         }
       });
     };
@@ -79,7 +100,7 @@ export default defineComponent({
       rules,
       ruleForm,
       controlObj,
-      handleControlChange
+      handleControlChange,
     };
   },
 });

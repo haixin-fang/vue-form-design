@@ -7,15 +7,25 @@
 ## 目录结构
 
 - formcomponents 表单组件
+  - CheckBox 复选框
+  - JsonEditor JSON编辑器
+  - KeyValueConfig 单选框键值对配置
+  - KeyValueConfigMult 多选框键值对配置
+  - Radio 单选框
+  - Switch 开关
+  - Text 文本
+  - TextArea 文本域
 - pages 存放页面
   - Editer 编辑组件页面
     - components 编辑器相关组件
+      - dynamicform 动态表单渲染(已经配置完成的渲染)
 - styles 全局样式
 - router 路由管理
 - store 状态管理
 - utils 全局公共方法
   - _ 公共方法
   - editMouse 编辑器鼠标拖拽和监听鼠标滚动事件
+  - dynamicform 表单组件公共表单配置
 
 ## 更新
 
@@ -37,7 +47,7 @@
 
 > 2021/10/5 增加json编辑器表单组件
 
-> 2021/10/6 修复编辑器鼠标拖动和放大缩小冲突问题，增加所有表单组件验证规则判断，显示条件判断
+> 2021/10/6 修复编辑器鼠标拖动和放大缩小冲突问题，增加所有表单组件验证规则判断，显示条件判断，jsonEditor表单组件全屏功能，增加公共组件dialog
 
 ## 问题
 

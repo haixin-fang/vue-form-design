@@ -137,6 +137,12 @@ class Flex {
       },
     ])
   }
+  // 获取数据类型
+  getDataType(data:any):any{
+    const str:any = Object.prototype.toString.call(data)
+    const reg = /\[object (.*)\]/
+    return str.match(reg)[1]
+  }
 }
 
 export default new Flex();

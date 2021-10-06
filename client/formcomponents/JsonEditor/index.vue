@@ -14,8 +14,28 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <div id="jsoneditor" ref="jsoneditor"></div>
+      <div id="jsoneditor" ref="jsoneditor">
+        <div class="fullScreen" @click="showCustomDialog">
+          <i class="iconfont icon-quanping"></i>
+        </div>
+      </div>
     </div>
+    <CustomDialog ref="myDialog">
+      <el-main style="padding: 0">
+        <el-container style="height: 100%">
+          <el-main class="my-pageMain">
+            <div ref="JsonViewerDialog" style="height: calc(100% - 24px)"></div>
+          </el-main>
+          <el-footer
+            class="my-Footer"
+            style="height: 60px; padding-top: 10px; text-align: right"
+          >
+            <el-button type="primary" @click="saveJson">保存</el-button>
+            <el-button @click="closeDialog">关闭</el-button>
+          </el-footer>
+        </el-container>
+      </el-main>
+    </CustomDialog>
   </div>
 </template>
 <script lang="ts">
@@ -37,7 +57,7 @@ export default defineComponent({
         required: false,
         rule: "[]",
         default: "[]",
-        json: true
+        json: true,
       };
     },
     morenConfig() {
@@ -69,6 +89,7 @@ export default defineComponent({
     let jsonEditorType: jsonEditor = {};
     return {
       jsonEditor: jsonEditorType,
+      jsonEditorDialog: jsonEditorType,
     };
   },
   watch: {
@@ -81,11 +102,41 @@ export default defineComponent({
       deep: true,
     },
     data: {
-      handler(){
-        this.$emit('change')
+      handler() {
+        this.$emit("change");
       },
-      deep: true
-    }
+      deep: true,
+    },
+  },
+  methods: {
+    showCustomDialog() {
+      let myDialog: any = this.$refs.myDialog;
+      myDialog.show();
+      myDialog.init("JSON编辑", "icon-json-full");
+      this.$nextTick(() => {
+        const container = this.$refs.JsonViewerDialog;
+        const options = {
+          modes: ["text", "code", "view"],
+          mode: "code",
+          search: false,
+        };
+        this.jsonEditorDialog = new window.JSONEditor(container, options);
+        this.jsonEditorDialog.set(_.tryParseJson(this.jsonEditor.getText()));
+      });
+    },
+    closeDialog() {
+      let myDialog: any = this.$refs.myDialog;
+      myDialog.close();
+    },
+    saveJson() {
+      this.jsonEditor.set(_.tryParseJson(this.jsonEditorDialog.getText()));
+      let data: any = this.data;
+      let item: any = this.item;
+      let fieldName = item.data.fieldName;
+      data[fieldName] = this.jsonEditor.getText();
+      let myDialog: any = this.$refs.myDialog;
+      myDialog.close();
+    },
   },
   mounted() {
     const container = this.$refs.jsoneditor;
@@ -110,4 +161,18 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+#jsoneditor {
+  position: relative;
+  z-index: 1;
+  .fullScreen {
+    position: absolute;
+    right: 10px;
+    line-height: 1;
+    z-index: 2;
+    top: 10px;
+    color: white;
+    font-size: 18px;
+  }
+}
+</style>

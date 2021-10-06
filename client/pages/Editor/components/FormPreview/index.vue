@@ -1,5 +1,14 @@
 <template>
-  <div class="preview" v-if="previewShow">
+  <CustomDialog ref="previewDialog" :showDialog="previewShow" @close="handlePreviewShow">
+    <div class="formconfig">
+        <dynamicform
+          :formResult="formResult"
+          :allFormList="allFormList"
+          ref="dynamicform"
+        />
+      </div>
+  </CustomDialog>
+  <!-- <div class="preview" v-if="previewShow">
     <div class="mask"></div>
     <div
       class="previewContext"
@@ -33,10 +42,10 @@
         />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import dynamicform from "~editor/dynamicform/index.vue";
 import { useStore } from "vuex";
 export default defineComponent({
@@ -45,14 +54,11 @@ export default defineComponent({
   },
   setup() {
     let store = useStore();
-    let expand = ref(false);
     let previewShow = computed(() => store.state.form.preview);
     let allFormList = computed(() => store.state.form.AllFormResult);
     let formResult = computed(() => store.state.form.formResult);
     let dynamicform = ref();
-    let handleExpand = (item: boolean) => {
-      expand.value = item;
-    };
+    let previewDialog = ref<any>();
     let handlePreviewShow = () => {
       store.commit("openPreview", false);
     };
@@ -62,10 +68,16 @@ export default defineComponent({
         console.log(dynamicform.value);
       });
     };
+    watch(previewShow, () => {
+      if(!previewShow.value){
+        previewDialog.value.close()
+      }else{
+        previewDialog.value.init('表单预览', 'icon-biaodan')
+      }
+    })
     return {
       previewShow,
-      expand,
-      handleExpand,
+      previewDialog,
       handlePreviewShow,
       handleFormResult,
       allFormList,
