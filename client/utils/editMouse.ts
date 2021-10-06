@@ -59,6 +59,11 @@ function getDomTransfrom(dom: HTMLElement): Array<number> {
   }
   return [nowX, nowY];
 }
+function getDomScale(dom: HTMLElement): number {
+  const translates = getComputedStyle(dom).transform;
+  const translatesArr: string[] = translates.substring(7).split(",");
+  return parseFloat(translatesArr[0])
+}
 /**
  * 移动元素
  * @param {HTMLElement} canvasBox 用户移动的元素
@@ -70,6 +75,7 @@ export function useUserMove(canvasBox: HTMLElement, e: any, isTransition: isTran
   e.preventDefault();
   e.stopPropagation();
   const [nowX, nowY] = getDomTransfrom(canvasBox);
+  const scale = getDomScale(canvasBox) || 1;
   const startX = e.clientX;
   const startY = e.clientY;
   const move = (e: any) => {
@@ -77,7 +83,7 @@ export function useUserMove(canvasBox: HTMLElement, e: any, isTransition: isTran
     const moveY = e.clientY;
     const x = moveX - startX + nowX;
     const y = moveY - startY + nowY;
-    canvasBox.style.transform = `translate(${x}px, ${y}px)`;
+    canvasBox.style.transform = `translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
   };
   const up = () => {
     // 鼠标松开，则恢复补件动画

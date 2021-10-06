@@ -98,7 +98,6 @@ export default defineComponent({
       });
     },
     getChangeSelect(sitem: any) {
-      debugger;
       let data: any = this.data;
       let item: any = this.item;
       let allItems = data[item.data.fieldName];

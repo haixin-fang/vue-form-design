@@ -26,7 +26,11 @@
         </div>
       </div>
       <div class="formconfig">
-          <dynamicform :formResult="formResult" :allFormList="allFormList" />
+        <dynamicform
+          :formResult="formResult"
+          :allFormList="allFormList"
+          ref="dynamicform"
+        />
       </div>
     </div>
   </div>
@@ -45,6 +49,7 @@ export default defineComponent({
     let previewShow = computed(() => store.state.form.preview);
     let allFormList = computed(() => store.state.form.AllFormResult);
     let formResult = computed(() => store.state.form.formResult);
+    let dynamicform = ref();
     let handleExpand = (item: boolean) => {
       expand.value = item;
     };
@@ -52,8 +57,11 @@ export default defineComponent({
       store.commit("openPreview", false);
     };
     let handleFormResult = () => {
-        console.log(formResult)
-    }
+      // 配置组件时动态表单提交时进行校验
+      dynamicform.value.ruleForm.validate((valid: any, errFields: any) => {
+        console.log(dynamicform.value);
+      });
+    };
     return {
       previewShow,
       expand,
@@ -62,6 +70,7 @@ export default defineComponent({
       handleFormResult,
       allFormList,
       formResult,
+      dynamicform,
     };
   },
 });

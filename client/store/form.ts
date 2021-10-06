@@ -10,6 +10,7 @@ const form: Module<allFormList, any> = {
     preview: false, // 是否开启预览
     AllFormResult: {}, // 预览和存储到数据库最终结果
     formResult: {}, // 用户在动态表单输入的配置结果
+    ruleFormRef: null, // 存储验证表单的dom
   },
   mutations: {
     updateAllFormList(state, allFormList) {
@@ -22,6 +23,9 @@ const form: Module<allFormList, any> = {
       } else {
         state.curControl = {};
       }
+    },
+    initRuleForm(state, dom){
+      state.ruleFormRef = dom
     },
     // 获取默认值和键名组成新对象
     handleDynamicForm(state){

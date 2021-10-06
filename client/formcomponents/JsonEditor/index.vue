@@ -26,31 +26,18 @@ export default defineComponent({
   ControlType: "JsonEditor", // 必须与文件名匹配
   nameCn: "JSON编辑",
   icon: "icon-json-full",
-  rule: [
-    {
-      validator: (rule: any, value: any, callback: (a:any) => any) => {
-        debugger
-        try {
-          const text = JSON.parse(value);
-          callback(null);
-        } catch (e) {
-          console.error(e);
-          return callback(new Error("请输入正确的json格式"));
-        }
-      },
-      trigger: "blur",
-    },
-  ],
+  rule: _.getJsonValidate(),
   formConfig: {
     data() {
       return {
         fieldName: "",
-        label: "校验规则",
+        label: "标签名称",
         tip: "",
         showRule: "{}",
         required: false,
         rule: "[]",
         default: "[]",
+        json: true
       };
     },
     morenConfig() {
@@ -93,6 +80,12 @@ export default defineComponent({
       },
       deep: true,
     },
+    data: {
+      handler(){
+        this.$emit('change')
+      },
+      deep: true
+    }
   },
   mounted() {
     const container = this.$refs.jsoneditor;

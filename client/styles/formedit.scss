@@ -1,19 +1,23 @@
 .el-form-item__content{
     margin-left: 0 !important;
+    margin-bottom: 12px;
 }
 .el-form-item{
     margin-bottom: 0 !important;
 }
 .el-form-item__error{
-    top: 88%;
+    top: 100%;
     left: 15px !important;
+}
+.el-form{
+    padding-bottom: 30px;
 }
 .jsoneditor-poweredBy{
     display: none;
 }
 .starfish-formitem {
     text-align: left;
-    padding: 0 12px 12px;
+    margin: 0 12px;
     position: relative;
     &.formCover::after{
         width: 100%;

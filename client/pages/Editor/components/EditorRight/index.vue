@@ -29,6 +29,7 @@
         <el-form-item
           v-for="(item, index) in controlItems"
           :key="index"
+          :control="item.ControlType"
           :prop="item.data.fieldName"
         >
           <component
@@ -36,6 +37,7 @@
             :is="item.ControlType"
             :data="curControl.data"
             :item="item"
+            v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"
           ></component>
         </el-form-item>
       </el-form>
@@ -43,24 +45,40 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, ref, watch, nextTick} from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
     // 该模块是否隐藏 默认显示
     let moduleIsHidden = ref(true);
+    let show = ref(true)
+    let ruleForm = ref();
     let store = useStore();
     let controlItems = computed(() => store.getters.getControlItems);
     let curControl = computed(() => store.state.form.curControl);
-    console.log(controlItems,curControl)
+    console.log(curControl)
+    // ruleForm.value.validate((valid:any, errFields:any) => {
+    //   debugger
+    // })
     let handleEditBtn = () => {
       moduleIsHidden.value = !moduleIsHidden.value;
     };
+    watch(curControl, async () => {
+      show.value = false
+      await nextTick()
+      show.value = true
+    })
+    // 当保存和预览的时候要验证表单是否通过，所以通过vuex进行状态管理
+    onMounted(() => {
+      store.commit('initRuleForm', ruleForm)
+    })
     return {
       moduleIsHidden,
       handleEditBtn,
       controlItems,
       curControl,
+      ruleForm,
+      show
     };
   },
 });

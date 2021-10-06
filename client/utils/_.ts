@@ -1,8 +1,46 @@
-const chars: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+import { ElMessageBox } from "element-plus";
+const chars: string[] = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 declare global {
   interface Window {
     clickCountLimitMock: boolean;
-    JSONEditor: any
+    JSONEditor: any;
   }
 }
 
@@ -39,32 +77,65 @@ class Flex {
     }
     return res;
   }
-  controlFormRule(controlItems: any[], items:any):any {
-    const rules:any = {}
+  controlFormRule(controlItems: any[], items: any): any {
+    const rules: any = {};
     controlItems.forEach((item: any) => {
-      const rule:any[] = []
-      if(item.data.required){
+      const rule: any[] = [];
+      if (item.data.required) {
         rule.push({
           required: true,
-          message: '请输入' + item.data.label,
-          trigger: 'blur',
-        })
-      }
-      if(rule.length > 0 || (items.rule && items.ControlType === item.ControlType)) {
-        if(items.rule && items.ControlType === item.ControlType){
-          rule.push(...items.rule)
-        }
+          message: "请输入" + item.data.label,
+          trigger: "blur",
+        });
         rules[item.data.fieldName] = rule
+      } 
+      if(item.ControlType === 'JsonEditor'){
+        rules[item.data.fieldName] = this.getJsonValidate()
       }
-    })
-    return rules
+    });
+    return rules;
   }
-  tryParseJson(json:string) {
+  deepClone(data: AnalyserOptions | any) {
+    if (!data || !(data instanceof Object) || typeof data == "function") {
+      return data || undefined;
+    }
+    const constructor: any = data.constructor;
+    const result = new constructor();
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        result[key] = this.deepClone(data[key]);
+      }
+    }
+    return result;
+  }
+
+  tryParseJson(json: string) {
     try {
       return JSON.parse(json);
     } catch (E) {
       return {};
     }
+  }
+  open(message: string, title?: string) {
+    ElMessageBox.alert(message, title, {
+      confirmButtonText: "OK",
+    });
+  }
+  getJsonValidate(){
+    return this.deepClone([
+      {
+        validator: (rule: any, value: any, callback: (a?:any | undefined) => any) => {
+          try {
+            const text = JSON.parse(value);
+            callback();
+          } catch (e) {
+            console.error(e);
+            return callback(new Error("请输入正确的json格式"));
+          }
+        },
+        trigger: "blur",
+      },
+    ])
   }
 }
 

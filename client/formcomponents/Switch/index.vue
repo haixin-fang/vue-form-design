@@ -54,5 +54,13 @@ export default defineComponent({
     data: Object,
     item: Object,
   },
+  watch: {
+    data: {
+      handler(){
+        this.$emit('change')
+      },
+      deep: true
+    }
+  },
 });
 </script>

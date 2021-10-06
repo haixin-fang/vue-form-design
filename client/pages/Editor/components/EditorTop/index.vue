@@ -15,26 +15,37 @@ export default defineComponent({
   setup() {
     let store = useStore();
     let allFormList = computed(() => store.getters.getAllFormList);
-    const open = (message: string, title: string) => {
-      ElMessageBox.alert(message, title, {
-        confirmButtonText: "OK",
+    let ruleFormRef: any = computed(() => store.state.form.ruleFormRef);
+    let handleFormSave = (pre?: boolean) => {
+      let isHave = false;
+      ruleFormRef.value.validate((valid: any, errFields: any) => {
+        if (!valid) {
+          _.open("请检查动态表单输入格式问题", "保存失败");
+          isHave = false;
+        } else {
+          let result: any[] = [];
+          allFormList.value.forEach((item: any) => {
+            result.push({
+              data: item.data,
+              ControlType: item.ControlType,
+              id: _.generateMixed(8),
+            });
+          });
+          localStorage.setItem("formResult", JSON.stringify(result));
+          // 非预览 ，预览状态说明要无感知保存
+          if (!pre) {
+            _.open("保存成功");
+          }
+          isHave = true;
+        }
       });
-    };
-    let handleFormSave = () => {
-      let result: any[] = [];
-      allFormList.value.forEach((item: any) => {
-        result.push({
-          data: item.data,
-          ControlType: item.ControlType,
-          id: _.generateMixed(8),
-        });
-      });
-     localStorage.setItem("formResult", JSON.stringify(result));
+      return isHave;
     };
     let handleFormPre = () => {
-      handleFormSave();
-      store.commit("openPreview", true);
-      store.commit("handleDynamicForm");
+      if (handleFormSave(true)) {
+        store.commit("openPreview", true);
+        store.commit("handleDynamicForm");
+      }
     };
     return {
       handleFormSave,

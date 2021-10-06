@@ -30,7 +30,7 @@ import { useUserMove, handleWheelScroll } from "@/utils/editMouse";
 import ControllEditSize from "~editor/ControllEditSize/index.vue";
 import draggable from "vuedraggable";
 import Shape from "~editor/Shape/index.vue";
-import { myMixin } from "@/utils/mixin";
+import { myMixin } from "@/utils/dynamicform";
 import { formcomponents } from "@/pages/Editor";
 import { useStore } from "vuex";
 import _ from "@/utils/_";
@@ -68,15 +68,10 @@ export default defineComponent({
         // 防止引用类型污染
         value = value.map((item: any) => {
           if (!item.data && !item.controlItems) {
-            let rule;
-            // 防止序列号把函数过滤，进行存储
-            if(item.rule){
-              rule = item.rule
-            }
-            item = JSON.parse(JSON.stringify(item));
-            item.rule = rule
+            item = _.deepClone(item);
             item.formConfig = formcomponents[item.ControlType].formConfig;
-            item.data = item.formConfig.data();
+            console.log(item.formConfig.data())
+            item.data = JSON.parse(JSON.stringify(item.formConfig.data()));
             if(!item.data.fieldName){
               item.data.fieldName = item.ControlType + '_' + _.generateMixed(3)
             }
