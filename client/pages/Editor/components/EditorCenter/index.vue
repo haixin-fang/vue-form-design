@@ -3,16 +3,19 @@
     <div class="editor_container" @mousedown="handleMouseDown">
       <ControllEditSize @change="handleCanvasSize" :size="canvasSize" />
     </div>
-    <div class="canvasBox" ref="canvasBox" :style="{ transition: isTransition ? 'all 0.2s linear' : '' }" :class="editType == 1 ? 'formCanvasBox' : ''">
+    <div class="canvasBox" ref="canvasBox" :style="{ transition: isTransition ? 'all 0.05s linear' : '' }" :class="editType == 1 ? 'formCanvasBox' : ''">
       <div class="grid_controller">
         <span :class="gridShow ? 'grid_check' : 'grid_check_none1'" @click="handleGrid(true)">Edit</span>
         <span :class="gridShow ? 'grid_check_none2' : 'grid_check'" @click="handleGrid(false)">Preview</span>
       </div>
       <Grid v-show="gridShow" />
-      <div class="draggable_container" ref="dragDom">
+      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
+        <div class="editForm" ref="editForm" v-show="pasteShow">
+          <span @click="handlePaste">粘贴</span>
+        </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" @start="start2" @end="end2" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentIndex == index">
+            <Shape :active="currentIndex == index" @paste="handleDraggableHeight">
               <div class="list-group-item">
                 <component :is="element.ControlType" :drag="true" :item="element" :data="'{}'"></component>
               </div>
@@ -34,6 +37,7 @@ import { myMixin } from "@/utils/dynamicform";
 import { formcomponents } from "@/pages/Editor";
 import { useStore } from "vuex";
 import _ from "@/utils/_";
+import { paste } from "@/utils/shortcutKey";
 export default defineComponent({
   components: {
     Grid,
@@ -52,6 +56,9 @@ export default defineComponent({
     let canvasSize = ref(1);
     // 移动的dom
     let dragDom = ref();
+    // 粘贴模块是否显示
+    let pasteShow = ref(false);
+    let editForm = ref();
     // 控制格子是否显示
     let handleGrid = (show: boolean) => {
       gridShow.value = show;
@@ -59,6 +66,7 @@ export default defineComponent({
     // 对store操作
     let store = useStore();
     let editType = computed(() => store.state.editType);
+
     let allmainList = computed<any>({
       get() {
         return store.state.form.allFormList;
@@ -69,14 +77,14 @@ export default defineComponent({
           if (!item.data && !item.controlItems) {
             item = _.deepClone(item);
             item.formConfig = formcomponents[item.ControlType].formConfig;
-            console.log(item.formConfig.data())
+            console.log(item.formConfig.data());
             item.data = JSON.parse(JSON.stringify(item.formConfig.data()));
-            if(!item.data.fieldName){
-              item.data.fieldName = item.ControlType + '_' + _.generateMixed(3)
+            if (!item.data.fieldName) {
+              item.data.fieldName = item.ControlType + "_" + _.generateMixed(3);
             }
             let defaultConfig = JSON.parse(JSON.stringify(myMixin.initControlItems()));
             let controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
-            item.rules = _.controlFormRule(controlItems, item)
+            item.rules = _.controlFormRule(controlItems, item);
             item.controlItems = controlItems;
           }
           return item;
@@ -125,22 +133,48 @@ export default defineComponent({
     let addControl = (e: any) => {
       store.commit("setFormCurrentIndex", e.newIndex);
     };
+    let handlePaste = () => {
+      pasteShow.value = false;
+      paste();
+    };
+    let handleNoDraggable = (e: any) => {
+      if (pasteShow.value) {
+        pasteShow.value = false;
+      }
+      e.preventDefault();
+      const path = e.path;
+      for (let i = 0; i < path.length; i++) {
+        if (path[i].getAttribute && path[i].getAttribute("class") && path[i].getAttribute("class").indexOf("shape") >= 0) {
+          return;
+        }
+      }
+      let x = e.offsetX;
+      let y = e.offsetY;
+      nextTick(() => {
+        editForm.value.style.left = x + "px";
+        editForm.value.style.top = y + "px";
+        pasteShow.value = true
+      });
+    };
     // 监听鼠标滚动，编辑器实时变动
     onMounted(handleMounted);
     // 拖拽dom和grid元素都需要顶部和左边对齐，所以dragDom设置了绝对定位
     // 出现了一个问题，canvasBox无法通过子元素的高度进行自适应，所以通过js获取高度直接给父元素赋值
     // 通过监听数据源的方式判断数据是否更新了
     // 数据更新是异步导致高度赋值完成了，dom才更新，所以使用了nextTick
-    watch(allmainList, async () => {
-      await nextTick();
-      canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
-    });
+    let handleDraggableHeight = async () => {
+      setTimeout(() => {
+        canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
+      })
+    }
+    watch(allmainList, handleDraggableHeight);
     return {
       gridShow,
       handleGrid,
       handleMouseDown,
       canvasBox,
       isTransition,
+      editForm,
       handleCanvasSize,
       canvasSize,
       dragDom,
@@ -150,7 +184,11 @@ export default defineComponent({
       changePos,
       allmainList,
       currentIndex,
+      handleNoDraggable,
       editType,
+      handlePaste,
+      pasteShow,
+      handleDraggableHeight
     };
   },
 });
@@ -223,4 +261,28 @@ export default defineComponent({
     }
   }
 }
+.editForm {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    user-select: none;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 30%), 0 0 0 1px #eee;
+    padding: 5px 0;
+    min-width: 180px;
+    span {
+      padding: 6px 12px;
+      display: flex;
+      text-align: left;
+      white-space: nowrap;
+      color: #333;
+      position: relative;
+      &:hover {
+        background: #409eff;
+        color: white;
+      }
+    }
+  }
 </style>

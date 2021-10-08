@@ -1,23 +1,28 @@
 <template>
   <div class="shape" :class="[active ? 'shape_border' : '']" @contextmenu="handleShortCut" @click="handleMenu">
     <div class="editForm" v-show="isShow && active" ref="editForm">
-      <span>复制</span>
+      <span @click="handleActive('copy')">复制</span>
       <span>剪切</span>
       <span>删除</span>
+      <span v-if="copyContent" @click="handleActive('paste')">粘贴</span>
     </div>
     <slot></slot>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, toRefs, nextTick, watch, watchEffect, reactive } from "vue";
-
+import { defineComponent, ref, toRefs, nextTick, watch, computed, reactive } from "vue";
+import {copy, paste} from '@/utils/shortcutKey'
+import {useStore} from 'vuex'
 export default defineComponent({
   props: {
     active: Boolean,
   },
-  setup(props) {
+  setup(props, context) {
+    let store = useStore();
     let isShow = ref(false);
     let editForm = ref();
+    let {emit} = context
+    let copyContent = computed(() => store.state.copyContent)
     let handleShortCut = (e: any) => {
       if (props.active) {
         e.preventDefault();
@@ -41,11 +46,21 @@ export default defineComponent({
     let handleMenu = () => {
       isShow.value = false;
     };
+    let handleActive = (type: string) => {
+      if(type === 'copy'){
+        copy()
+      }else if(type === 'paste'){
+        emit('paste')
+        paste()
+      }
+    }
     return {
       isShow,
       handleShortCut,
       handleMenu,
       editForm,
+      handleActive,
+      copyContent
     };
   },
 });

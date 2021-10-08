@@ -88,68 +88,76 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-.preview {
-  .mask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 6;
-  }
-  .previewContext {
-    width: 80%;
-    height: 80%;
-    top: 50%;
-    left: 50%;
-    position: fixed;
-    transform: translate(-50%, -50%);
-    background: white;
-    z-index: 7;
-    border-radius: 10px;
-    overflow: auto;
-    &.previewMoren {
-      width: 80%;
-      height: 80%;
-    }
-    &.previewExpand {
-      width: 100%;
-      height: 100%;
-    }
-    .previewTitle {
-      width: 100%;
-      height: 60px;
-      background: #eee;
-      text-align: left;
-      line-height: 60px;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      .controlPreview {
-        position: absolute;
-        right: 20px;
-        span {
-          font-size: 24px;
-          margin-left: 6px;
-        }
-      }
-      i {
-        font-size: 20px;
-        color: white;
-      }
-      > span:first-child {
-        width: 30px;
-        height: 30px;
-        background: #409eff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 10px;
-      }
-    }
+.formconfig{
+  height: 100%;
+  overflow: scroll;
+  @include scrollbar();
+  .el-form{
+    padding-bottom: 0;
   }
 }
+// .preview {
+//   .mask {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     background: rgba(0, 0, 0, 0.3);
+//     z-index: 6;
+//   }
+//   .previewContext {
+//     width: 80%;
+//     height: 80%;
+//     top: 50%;
+//     left: 50%;
+//     position: fixed;
+//     transform: translate(-50%, -50%);
+//     background: white;
+//     z-index: 7;
+//     border-radius: 10px;
+//     overflow: auto;
+//     &.previewMoren {
+//       width: 80%;
+//       height: 80%;
+//     }
+//     &.previewExpand {
+//       width: 100%;
+//       height: 100%;
+//     }
+//     .previewTitle {
+//       width: 100%;
+//       height: 60px;
+//       background: #eee;
+//       text-align: left;
+//       line-height: 60px;
+//       font-size: 20px;
+//       display: flex;
+//       align-items: center;
+//       position: relative;
+//       .controlPreview {
+//         position: absolute;
+//         right: 20px;
+//         span {
+//           font-size: 24px;
+//           margin-left: 6px;
+//         }
+//       }
+//       i {
+//         font-size: 20px;
+//         color: white;
+//       }
+//       > span:first-child {
+//         width: 30px;
+//         height: 30px;
+//         background: #409eff;
+//         border-radius: 50%;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//         margin: 0 10px;
+//       }
+//     }
+//   }
+// }
 </style>
