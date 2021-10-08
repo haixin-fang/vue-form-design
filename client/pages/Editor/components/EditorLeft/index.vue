@@ -51,7 +51,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .editor_pages_left {
-  width: 248px;
+  width: 278px;
   height: 100%;
   .list-group{
     display: flex;
@@ -64,15 +64,22 @@ export default defineComponent({
     flex-wrap: wrap;
     margin-bottom: 10px;
     .form-item {
-      width: 70px;
-      height: 70px;
+      width: 80px;
+      height: 80px;
       border: 1px solid #aca9a9;
+      background: #f4f4f4;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-around;
+      transition: all 0.2s ease-in-out;
+      &:hover{
+        background: #fff;
+        border: 1px solid #409eff;
+        color:#409eff;
+      }
       > span:first-child {
-        font-size: 32px;
+        font-size: 40px;
       }
       >span:nth-child(2){
         font-size: 14px;

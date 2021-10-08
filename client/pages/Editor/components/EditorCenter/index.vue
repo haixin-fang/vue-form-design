@@ -10,7 +10,7 @@
       </div>
       <Grid v-show="gridShow" />
       <div class="draggable_container" ref="dragDom">
-        <draggable class="dragArea list-group" v-model="allmainList" @add="addControl" @start="start2" @end="end2" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
+        <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" @start="start2" @end="end2" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
             <Shape :active="currentIndex == index">
               <div class="list-group-item">

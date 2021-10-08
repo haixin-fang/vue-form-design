@@ -1,84 +1,83 @@
 <template>
-  <div
-    class="editor_pages_right"
-    :class="
-      moduleIsHidden
-        ? 'editor_pages_right_visible'
-        : 'editor_pages_right_hidden'
-    "
-  >
+  <div class="editor_pages_right" ref="editRight" :class="[moduleIsHidden ? 'editor_pages_right_visible' : 'editor_pages_right_hidden', isTransition ? 'editor_transition' : '']">
     <div class="editor_right_accept" @click="handleEditBtn">
-      <i
-        class="iconfont icon-jiantou_xiangyouliangci"
-        :class="
-          moduleIsHidden
-            ? 'icon-jiantou_xiangyouliangci'
-            : 'icon-jiantou_xiangzuoliangci'
-        "
-      ></i>
+      <i class="iconfont icon-jiantou_xiangyouliangci" :class="moduleIsHidden ? 'icon-jiantou_xiangyouliangci' : 'icon-jiantou_xiangzuoliangci'"></i>
     </div>
+    <div class="controlLine" @mousedown="handleLine"></div>
     <div class="dynamic">
-      <el-form
-        ref="ruleForm"
-        :model="curControl.data"
-        :rules="curControl.rules"
-        label-width="120px"
-        class="demo-ruleForm"
-        :validate-on-rule-change="false"
-      >
-        <el-form-item
-          v-for="(item, index) in controlItems"
-          :key="index"
-          :control="item.ControlType"
-          :prop="item.data.fieldName"
-        >
-          <component
-            :drag="false"
-            :is="item.ControlType"
-            :data="curControl.data"
-            :item="item"
-            v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"
-          ></component>
+      <el-form ref="ruleForm" :model="curControl.data" :rules="curControl.rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
+        <el-form-item v-for="(item, index) in controlItems" :key="index" :control="item.ControlType" :prop="item.data.fieldName">
+          <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch, nextTick} from "vue";
+import { computed, defineComponent, onMounted, ref, watch, nextTick } from "vue";
 import { useStore } from "vuex";
+import _ from '@/utils/_'
 export default defineComponent({
   setup() {
     // 该模块是否隐藏 默认显示
     let moduleIsHidden = ref(true);
-    let show = ref(true)
+    let show = ref(true);
     let ruleForm = ref();
+    let editRight = ref();
     let store = useStore();
+    let isTransition = ref(true); // 默认有补间动画
     let controlItems = computed(() => store.getters.getControlItems);
     let curControl = computed(() => store.state.form.curControl);
-    console.log(curControl)
+    console.log(curControl);
     // ruleForm.value.validate((valid:any, errFields:any) => {
     //   debugger
     // })
     let handleEditBtn = () => {
       moduleIsHidden.value = !moduleIsHidden.value;
     };
+    let handleLine = (e: any) => {
+      isTransition.value = false;
+      const startX = e.clientX;
+      const width = editRight.value.offsetWidth;
+      const move = (e: any) => {
+        const moveX = e.clientX;
+        const x = startX - moveX;
+        if (width + x > 200) {
+          editRight.value.style.width = width + x + "px";
+        }else{
+          if(_.clickCountLimit()){
+            _.open('不能再小啦！')
+          }
+        }
+        console.log(x);
+      };
+      const up = () => {
+        isTransition.value = true;
+        document.documentElement.removeEventListener("mousemove", move);
+        document.documentElement.removeEventListener("mouseup", up);
+      };
+      document.documentElement.addEventListener("mousemove", move);
+      document.documentElement.addEventListener("mouseup", up);
+    };
     watch(curControl, async () => {
-      show.value = false
-      await nextTick()
-      show.value = true
-    })
+      show.value = false;
+      await nextTick();
+      show.value = true;
+    });
     // 当保存和预览的时候要验证表单是否通过，所以通过vuex进行状态管理
     onMounted(() => {
-      store.commit('initRuleForm', ruleForm)
-    })
+      store.commit("initRuleForm", ruleForm);
+    });
     return {
       moduleIsHidden,
       handleEditBtn,
+      handleLine,
+      isTransition,
+      editRight,
       controlItems,
       curControl,
       ruleForm,
-      show
+      show,
     };
   },
 });
@@ -91,18 +90,35 @@ export default defineComponent({
   right: 0;
   top: $editor_header_top;
   background: white;
-  transition: all 0.5s ease-in-out 0s;
-  padding: 30px 0;
+  // padding: 30px 0;
   z-index: 1;
+  &.editor_transition {
+    transition: all 0.5s ease-in-out 0s;
+  }
+  .controlLine {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 5px;
+    background: red;
+    z-index: 2;
+    &:hover {
+      background: blue;
+      cursor: ew-resize;
+    }
+  }
   .dynamic {
     overflow: auto;
-    height: 88%;
+    height: 100%;
+    @include scrollbar();
   }
+
   &.editor_pages_right_visible {
     right: 0;
   }
   &.editor_pages_right_hidden {
-    right: -378px;
+    transform: translateX(100%);
+    // right: -100%;
   }
   .editor_right_accept {
     width: 20px;

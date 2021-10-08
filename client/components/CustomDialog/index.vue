@@ -25,8 +25,8 @@
                 @click="isFullScreen = !isFullScreen"
               >
                 <em
-                  class="icon-quanping iconfont icon"
-                  :class="{ 'icon-suoxiao': isFullScreen }"
+                  class="iconfont icon"
+                  :class="{ 'icon-suoxiao1': isFullScreen, 'icon-quanping': !isFullScreen }"
                 ></em>
               </el-button>
               <el-button class="my-toolbtn" @click="close">
