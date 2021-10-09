@@ -130,6 +130,8 @@ export default defineComponent({
     align-items: center;
     right: 304px;
     top: 50%;
+    margin-top: -32px;
+    transform: translateY(-50%);
     cursor: pointer;
     position: absolute;
     left: -20px;

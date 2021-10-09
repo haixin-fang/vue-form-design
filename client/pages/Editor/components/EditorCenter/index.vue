@@ -15,7 +15,7 @@
         </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" @start="start2" @end="end2" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentIndex == index" @paste="handleDraggableHeight">
+            <Shape :active="currentIndex == index" @paste="handleDraggableHeight" :currentIndex="index" :len="allmainList.length">
               <div class="list-group-item">
                 <component :is="element.ControlType" :drag="true" :item="element" :data="'{}'"></component>
               </div>
@@ -95,6 +95,7 @@ export default defineComponent({
     let currentIndex = computed(() => {
       return store.state.form.currentIndex;
     });
+    let formListLen = computed(() => store.state.form.formListLen)
     // 鼠标落下
     let handleMouseDown = (e: any) => {
       store.commit("setFormCurrentIndex", -1);
@@ -167,7 +168,7 @@ export default defineComponent({
         canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
       })
     }
-    watch(allmainList, handleDraggableHeight);
+    watch(formListLen, handleDraggableHeight);
     return {
       gridShow,
       handleGrid,
@@ -216,6 +217,7 @@ export default defineComponent({
     margin-left: -350px;
     background: white;
     transform-origin: 0 0;
+    box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
     &.formCanvasBox {
       width: 600px;
       margin-left: -470px;

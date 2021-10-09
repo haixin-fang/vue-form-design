@@ -11,10 +11,12 @@ const form: Module<allFormList, any> = {
     AllFormResult: {}, // 预览和存储到数据库最终结果
     formResult: {}, // 用户在动态表单输入的配置结果
     ruleFormRef: null, // 存储验证表单的dom
+    formListLen: 0, // 表单控件个数
   },
   mutations: {
     updateAllFormList(state, allFormList) {
       state.allFormList = allFormList;
+      state.formListLen = allFormList.length
     },
     setFormCurrentIndex(state, index) {
       state.currentIndex = index;

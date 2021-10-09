@@ -8,12 +8,15 @@
 import { defineComponent, computed } from "vue";
 import EditorTop from "./components/EditorTop/index.vue";
 import EditorMain from "./components/EditorMain/index.vue";
-import { useStore } from "vuex";
+import {listenGlobalKeyDown} from '@/utils/shortcutKey'
 export default defineComponent({
   components: {
     EditorTop,
     EditorMain,
   },
+  created(){
+    listenGlobalKeyDown()
+  }
 });
 </script>
 <style lang="scss" scoped>

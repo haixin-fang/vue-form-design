@@ -2,20 +2,28 @@
   <div class="shape" :class="[active ? 'shape_border' : '']" @contextmenu="handleShortCut" @click="handleMenu">
     <div class="editForm" v-show="isShow && active" ref="editForm">
       <span @click="handleActive('copy')">复制</span>
-      <span>剪切</span>
-      <span>删除</span>
+      <span @click="handleActive('cut')">剪切</span>
+      <span @click="handleActive('delete')">删除</span>
       <span v-if="copyContent" @click="handleActive('paste')">粘贴</span>
+      <span @click="handleActive('top')" v-if="currentIndex != 0">上移</span>
+      <span @click="handleActive('bottom')" v-if="currentIndex != len - 1">下移</span>
     </div>
     <slot></slot>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref, toRefs, nextTick, watch, computed, reactive } from "vue";
-import {copy, paste} from '@/utils/shortcutKey'
+import {copy, paste, onDelete, cut, onTop, onBottom} from '@/utils/shortcutKey'
 import {useStore} from 'vuex'
 export default defineComponent({
   props: {
     active: Boolean,
+    currentIndex: Number,
+    len: Number
+  },
+  mounted(){
+    console.log(this.currentIndex)
+    console.log(this.len)
   },
   setup(props, context) {
     let store = useStore();
@@ -52,6 +60,14 @@ export default defineComponent({
       }else if(type === 'paste'){
         emit('paste')
         paste()
+      }else if(type === 'cut'){
+        cut()
+      }else if(type === 'delete'){
+        onDelete()
+      }else if(type === 'top'){
+        onTop()
+      }else if(type === 'bottom'){
+        onBottom()
       }
     }
     return {
