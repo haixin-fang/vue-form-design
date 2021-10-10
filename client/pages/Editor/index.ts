@@ -6,6 +6,7 @@ import KeyValueConfig from '@/formcomponents/KeyValueConfig/index.vue'
 import KeyValueConfigMult from '@/formcomponents/KeyValueConfigMult/index.vue'
 import CheckBox from '@/formcomponents/CheckBox/index.vue'
 import JsonEditor from '@/formcomponents/JsonEditor/index.vue'
+import ColorSelect from '@/formcomponents/ColorSelect/index.vue'
 const formcomponents: any = {};
 formcomponents[Text.ControlType] = Text;
 formcomponents[TextArea.ControlType] = TextArea;
@@ -15,4 +16,5 @@ formcomponents[KeyValueConfig.ControlType] = KeyValueConfig
 formcomponents[KeyValueConfigMult.ControlType] = KeyValueConfigMult
 formcomponents[CheckBox.ControlType] = CheckBox
 formcomponents[JsonEditor.ControlType] = JsonEditor
+formcomponents[ColorSelect.ControlType] = ColorSelect
 export { formcomponents };

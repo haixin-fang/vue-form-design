@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import form from "./form";
-import { reactive } from "vue";
 export interface GlobalDataProps {
   form: any;
 }
