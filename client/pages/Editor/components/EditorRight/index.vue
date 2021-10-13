@@ -4,6 +4,10 @@
       <i class="iconfont icon-jiantou_xiangyouliangci" :class="moduleIsHidden ? 'icon-jiantou_xiangyouliangci' : 'icon-jiantou_xiangzuoliangci'"></i>
     </div>
     <div class="controlLine" @mousedown="handleLine"></div>
+    <div class="viewAndJson" >
+      <div class="view" :class="viewAndJson == 'view'?'active': ''" @click="triggerViewJson('view')">视图</div>
+      <div class="json" :class="viewAndJson == 'json'?'active': ''" @click="triggerViewJson('json')">JSON</div>
+    </div>
     <div class="dynamic">
       <el-form ref="ruleForm" :model="curControl.data" :rules="curControl.rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
         <el-form-item v-for="(item, index) in controlItems" :key="index" :control="item.ControlType" :prop="item.data.fieldName">
@@ -28,6 +32,10 @@ export default defineComponent({
     let isTransition = ref(true); // 默认有补间动画
     let controlItems = computed(() => store.getters.getControlItems);
     let curControl = computed(() => store.state.form.curControl);
+    let currentIndex = computed(() => {
+      return store.state.form.currentIndex;
+    });
+    let viewAndJson = computed(() => store.state.form.viewAndJson)
     console.log(curControl);
     // ruleForm.value.validate((valid:any, errFields:any) => {
     //   debugger
@@ -59,6 +67,9 @@ export default defineComponent({
       document.documentElement.addEventListener("mousemove", move);
       document.documentElement.addEventListener("mouseup", up);
     };
+    let triggerViewJson = (type: string) => {
+      store.commit('setViewAndJson', type)
+    }
     watch(curControl, async () => {
       show.value = false;
       await nextTick();
@@ -78,6 +89,9 @@ export default defineComponent({
       curControl,
       ruleForm,
       show,
+      currentIndex,
+      viewAndJson,
+      triggerViewJson
     };
   },
 });
@@ -103,8 +117,27 @@ export default defineComponent({
     background: red;
     z-index: 2;
     &:hover {
-      background: blue;
+      background: $blue;
       cursor: ew-resize;
+    }
+  }
+  .viewAndJson{
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    margin: 0 auto;
+    width: 80%;
+    >div{
+      width: 30%;
+      border: 3px solid rgb(121, 118, 118);
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 5px;
+      &.active{
+        border-color: $blue;
+        color:$blue;
+      }
     }
   }
   .dynamic {

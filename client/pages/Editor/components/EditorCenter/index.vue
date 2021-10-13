@@ -3,13 +3,13 @@
     <div class="editor_container" @mousedown="handleMouseDown">
       <ControllEditSize @change="handleCanvasSize" :size="canvasSize" />
     </div>
-    <div class="canvasBox" ref="canvasBox" :style="{ transition: isTransition ? 'all 0.05s linear' : '' }" :class="editType == 1 ? 'formCanvasBox' : ''">
+    <div class="canvasBox" v-show="viewAndJson == 'view'" :ref="viewAndJson == 'view' ? 'canvasBox' : ''" :style="{ transition: isTransition ? 'all 0.05s linear' : '' }" :class="editType == 1 ? 'formCanvasBox' : ''">
       <div class="grid_controller">
         <span :class="gridShow ? 'grid_check' : 'grid_check_none1'" @click="handleGrid(true)">Edit</span>
         <span :class="gridShow ? 'grid_check_none2' : 'grid_check'" @click="handleGrid(false)">Preview</span>
       </div>
       <Grid v-show="gridShow" />
-      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
+      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable" v-show="viewAndJson == 'view'">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
@@ -23,6 +23,12 @@
           </template>
         </draggable>
       </div>
+      <!-- <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable" v-show="viewAndJson == 'json'">
+        <div ref="jsonCenter" min-height="600"></div>
+      </div> -->
+    </div>
+    <div :ref="viewAndJson == 'json' ? 'canvasBox' : ''" class="jsonCanvas" v-show="viewAndJson == 'json'">
+      <div ref="jsonCenter"></div>
     </div>
   </div>
 </template>
@@ -45,6 +51,9 @@ export default defineComponent({
     draggable,
     Shape,
   },
+  // mounted(){
+
+  // },
   setup() {
     // 画布中格子是否显示 默认展示
     let gridShow = ref<boolean>(true);
@@ -66,7 +75,8 @@ export default defineComponent({
     // 对store操作
     let store = useStore();
     let editType = computed(() => store.state.editType);
-
+    let jsonCenter = ref();
+    let jsonEditor = reactive<any>({});
     let allmainList = computed<any>({
       get() {
         return store.state.form.allFormList;
@@ -95,17 +105,30 @@ export default defineComponent({
     let currentIndex = computed(() => {
       return store.state.form.currentIndex;
     });
-    let formListLen = computed(() => store.state.form.formListLen)
+    let viewAndJson = computed(() => store.state.form.viewAndJson);
+    let formListLen = computed(() => store.state.form.formListLen);
+
     // 鼠标落下
     let handleMouseDown = (e: any) => {
       store.commit("setFormCurrentIndex", -1);
       isTransition.value = false;
       useUserMove(canvasBox.value, e, isTransition);
     };
-
+    let initJsonCenter = () => {
+      let jsonDom = jsonCenter.value;
+      const options = {
+        modes: ["text", "code", "view"],
+        mode: "code",
+        search: false,
+      };
+      // console.log(window.JSONEditor)
+      jsonEditor = new window.JSONEditor(jsonDom, options);
+      jsonEditor.set(allmainList.value)
+    };
     // mounted生命周期
     let handleMounted = () => {
       handleWheelScroll(canvasBox.value);
+      initJsonCenter();
     };
     let handleCanvasScale = () => {
       // 处理页面的放大缩小
@@ -154,7 +177,7 @@ export default defineComponent({
       nextTick(() => {
         editForm.value.style.left = x + "px";
         editForm.value.style.top = y + "px";
-        pasteShow.value = true
+        pasteShow.value = true;
       });
     };
     // 监听鼠标滚动，编辑器实时变动
@@ -165,9 +188,10 @@ export default defineComponent({
     // 数据更新是异步导致高度赋值完成了，dom才更新，所以使用了nextTick
     let handleDraggableHeight = async () => {
       setTimeout(() => {
+        jsonEditor.set(allmainList.value)
         canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
-      })
-    }
+      });
+    };
     watch(formListLen, handleDraggableHeight);
     return {
       gridShow,
@@ -186,10 +210,12 @@ export default defineComponent({
       allmainList,
       currentIndex,
       handleNoDraggable,
+      viewAndJson,
       editType,
       handlePaste,
       pasteShow,
-      handleDraggableHeight
+      handleDraggableHeight,
+      jsonCenter,
     };
   },
 });
@@ -263,28 +289,40 @@ export default defineComponent({
     }
   }
 }
+.jsonCanvas {
+  width: 500px;
+  height: 666px;
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-85%);
+  >div{
+    width: 100%;
+    height: 100%;
+  }
+}
 .editForm {
-    position: absolute;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+  user-select: none;
+  background-color: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 10px 20px rgb(0 0 0 / 30%), 0 0 0 1px #eee;
+  padding: 5px 0;
+  min-width: 180px;
+  span {
+    padding: 6px 12px;
     display: flex;
-    flex-direction: column;
-    z-index: 3;
-    user-select: none;
-    background-color: #fff;
-    box-sizing: border-box;
-    box-shadow: 0 10px 20px rgb(0 0 0 / 30%), 0 0 0 1px #eee;
-    padding: 5px 0;
-    min-width: 180px;
-    span {
-      padding: 6px 12px;
-      display: flex;
-      text-align: left;
-      white-space: nowrap;
-      color: #333;
-      position: relative;
-      &:hover {
-        background: #409eff;
-        color: white;
-      }
+    text-align: left;
+    white-space: nowrap;
+    color: #333;
+    position: relative;
+    &:hover {
+      background: #409eff;
+      color: white;
     }
   }
+}
 </style>

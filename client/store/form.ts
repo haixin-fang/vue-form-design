@@ -6,12 +6,13 @@ const form: Module<allFormList, any> = {
   state: {
     allFormList: [], // 存储所有选择的表单控件
     curControl: {}, // 选中的表单控件
-    currentIndex: "", // 选中的控件的索引
+    currentIndex: -1, // 选中的控件的索引
     preview: false, // 是否开启预览
     AllFormResult: {}, // 预览和存储到数据库最终结果
     formResult: {}, // 用户在动态表单输入的配置结果
     ruleFormRef: null, // 存储验证表单的dom
     formListLen: 0, // 表单控件个数
+    viewAndJson: 'view', // 默认是视图
   },
   mutations: {
     updateAllFormList(state, allFormList) {
@@ -19,6 +20,10 @@ const form: Module<allFormList, any> = {
       state.formListLen = allFormList.length
     },
     setFormCurrentIndex(state, index) {
+      // 查看表单的json格式时，点击编辑区域外时不清空
+      if(state.viewAndJson == 'json'){
+        return
+      }
       state.currentIndex = index;
       if (index >= 0) {
         state.curControl = state.allFormList[index];
@@ -28,6 +33,9 @@ const form: Module<allFormList, any> = {
     },
     initRuleForm(state, dom){
       state.ruleFormRef = dom
+    },
+    setViewAndJson(state, type){
+      state.viewAndJson = type
     },
     // 获取默认值和键名组成新对象
     handleDynamicForm(state){

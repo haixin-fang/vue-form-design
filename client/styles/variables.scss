@@ -3,6 +3,7 @@ $editor_header_top: 64px;
 // 画布的最小高度
 $editor_canvas_min_height: 667px;
 
+$blue:#409eff;
 @mixin scrollbar() {
   &::-webkit-scrollbar {
     width: 7px;
