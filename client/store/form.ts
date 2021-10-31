@@ -7,10 +7,13 @@ const form: Module<allFormList, any> = {
     allFormList: [], // 存储所有选择的表单控件
     curControl: {}, // 选中的表单控件
     currentIndex: -1, // 选中的控件的索引
-    preview: false, // 是否开启预览
+    preview: false, // 开启预览进行表单验证
+    previewShow: false, // 预览是否展示
+    save: false, // 保存
+    // 下一次保存的时候判断表单是否变更了，而不用变更就改变vuex的save，但是我们监听了save会形成死循环
+    formUpdate: false, // 判断表单是否更新
     AllFormResult: {}, // 预览和存储到数据库最终结果
     formResult: {}, // 用户在动态表单输入的配置结果
-    ruleFormRef: null, // 存储验证表单的dom
     formListLen: 0, // 表单控件个数
     viewAndJson: 'view', // 默认是视图
   },
@@ -30,9 +33,6 @@ const form: Module<allFormList, any> = {
       } else {
         state.curControl = {};
       }
-    },
-    initRuleForm(state, dom){
-      state.ruleFormRef = dom
     },
     setViewAndJson(state, type){
       state.viewAndJson = type
@@ -54,6 +54,12 @@ const form: Module<allFormList, any> = {
     },
     openPreview(state, preview){
       state.preview = preview
+    },
+    setSave(state, type){
+      state.save = type
+    },
+    setFormUpdate(state, type){
+      state.formUpdate = type
     }
   },
   getters: {

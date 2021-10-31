@@ -4,12 +4,12 @@
       <i class="iconfont icon-jiantou_xiangyouliangci" :class="moduleIsHidden ? 'icon-jiantou_xiangyouliangci' : 'icon-jiantou_xiangzuoliangci'"></i>
     </div>
     <div class="controlLine" @mousedown="handleLine"></div>
-    <div class="viewAndJson" >
-      <div class="view" :class="viewAndJson == 'view'?'active': ''" @click="triggerViewJson('view')">视图</div>
-      <div class="json" :class="viewAndJson == 'json'?'active': ''" @click="triggerViewJson('json')">JSON</div>
+    <div class="viewAndJson">
+      <div class="view" :class="viewAndJson == 'view' ? 'active' : ''" @click="triggerViewJson('view')">视图</div>
+      <div class="json" :class="viewAndJson == 'json' ? 'active' : ''" @click="triggerViewJson('json')">JSON</div>
     </div>
     <div class="dynamic">
-      <el-form ref="ruleForm" :model="curControl.data" :rules="curControl.rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
+      <el-form ref="ruleForm" :model="curControl.data" :rules="curControl.rules" label-width="120px" class="demo-ruleForm" :status-icon="true">
         <el-form-item v-for="(item, index) in controlItems" :key="index" :control="item.ControlType" :prop="item.data.fieldName">
           <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
         </el-form-item>
@@ -20,7 +20,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, watch, nextTick } from "vue";
 import { useStore } from "vuex";
-import _ from '@/utils/_'
+import _ from "@/utils/_";
 export default defineComponent({
   setup() {
     // 该模块是否隐藏 默认显示
@@ -32,11 +32,12 @@ export default defineComponent({
     let isTransition = ref(true); // 默认有补间动画
     let controlItems = computed(() => store.getters.getControlItems);
     let curControl = computed(() => store.state.form.curControl);
+    let save = computed(() => store.state.form.save);
     let currentIndex = computed(() => {
       return store.state.form.currentIndex;
     });
-    let viewAndJson = computed(() => store.state.form.viewAndJson)
-    console.log(curControl);
+    let viewAndJson = computed(() => store.state.form.viewAndJson);
+    console.log("curControl", curControl);
     // ruleForm.value.validate((valid:any, errFields:any) => {
     //   debugger
     // })
@@ -52,9 +53,9 @@ export default defineComponent({
         const x = startX - moveX;
         if (width + x > 200) {
           editRight.value.style.width = width + x + "px";
-        }else{
-          if(_.clickCountLimit()){
-            _.open('不能再小啦！')
+        } else {
+          if (_.clickCountLimit()) {
+            _.open("不能再小啦！");
           }
         }
         console.log(x);
@@ -68,17 +69,92 @@ export default defineComponent({
       document.documentElement.addEventListener("mouseup", up);
     };
     let triggerViewJson = (type: string) => {
-      store.commit('setViewAndJson', type)
-    }
-    watch(curControl, async () => {
-      show.value = false;
-      await nextTick();
-      show.value = true;
+      store.commit("setViewAndJson", type);
+    };
+
+    // 预览或保存时验证所有表单是否输入正确
+    let previewShow = computed(() => store.state.form.preview);
+    let allFormList = computed(() => store.getters.getAllFormList);
+    let checkNowFormValidate = function (content: string, title: string) {
+      return new Promise((resolve, reject) => {
+        ruleForm.value.validate((valid: any, errFields: any) => {
+          if (!valid) {
+            _.open(content, title);
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        });
+      });
+    };
+    let checkFormValidate = async () => {
+      let len = allFormList.value.length;
+      for (let i = 0; i < len; ++i) {
+        store.commit("setFormCurrentIndex", i);
+        await nextTick();
+        let valid = await checkNowFormValidate("请检查动态表单输入格式问题", "表单验证失败");
+        if (!valid) {
+          return false;
+        }
+      }
+      return true;
+    };
+    const formUpdate = computed(() => store.state.form.formUpdate)
+
+    let checkValidates = async (formSave?: boolean) => {
+      let curControlIndex = store.state.form.currentIndex;
+      if (previewShow.value || save.value || formUpdate.value) {
+        let preview = await checkFormValidate();
+        if (preview) {
+          store.commit("setFormCurrentIndex", curControlIndex);
+        }
+        if (!formSave) {
+          store.state.form.previewShow = preview;
+          store.state.form.preview = false;
+        } else {
+          store.commit('setSave', preview)
+          store.commit('setFormUpdate', false)
+          if (preview) {
+            let result: any[] = [];
+            allFormList.value.forEach((item: any) => {
+              result.push({
+                data: item.data,
+                ControlType: item.ControlType,
+                id: _.generateMixed(8),
+              });
+            });
+            localStorage.setItem("formResult", JSON.stringify(result));
+            _.open("保存成功");
+          }
+        }
+      }
+    };
+    watch(previewShow, async () => {
+      checkValidates();
     });
+
+    watch(save, async () => {
+      if (formUpdate.value) {
+        checkValidates(true);
+      }
+    });
+    watch(
+      () => curControl.value.data,
+      async () => {
+        if(!formUpdate.value){
+          store.commit('setFormUpdate', true)
+        }
+        // 表单更新保存的状态都要变化
+        show.value = false;
+        await nextTick();
+        show.value = true;
+      },
+      { deep: true }
+    );
     // 当保存和预览的时候要验证表单是否通过，所以通过vuex进行状态管理
-    onMounted(() => {
-      store.commit("initRuleForm", ruleForm);
-    });
+    // onMounted(() => {
+    //   store.commit("initRuleForm", ruleForm);
+    // });
     return {
       moduleIsHidden,
       handleEditBtn,
@@ -91,7 +167,7 @@ export default defineComponent({
       show,
       currentIndex,
       viewAndJson,
-      triggerViewJson
+      triggerViewJson,
     };
   },
 });
@@ -121,22 +197,22 @@ export default defineComponent({
       cursor: ew-resize;
     }
   }
-  .viewAndJson{
+  .viewAndJson {
     display: flex;
     justify-content: space-around;
     justify-items: center;
     margin: 0 auto;
     width: 80%;
-    >div{
+    > div {
       width: 30%;
       border: 3px solid rgb(121, 118, 118);
       height: 30px;
       line-height: 30px;
       text-align: center;
       border-radius: 5px;
-      &.active{
+      &.active {
         border-color: $blue;
-        color:$blue;
+        color: $blue;
       }
     }
   }

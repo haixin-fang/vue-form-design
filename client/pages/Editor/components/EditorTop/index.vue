@@ -7,45 +7,28 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent, computed} from "vue";
 import { useStore } from "vuex";
-import { ElMessageBox, ElMessage } from "element-plus";
 import _ from "@/utils/_";
 export default defineComponent({
   setup() {
     let store = useStore();
-    let allFormList = computed(() => store.getters.getAllFormList);
-    let ruleFormRef: any = computed(() => store.state.form.ruleFormRef);
-    let handleFormSave = (pre?: boolean) => {
-      let isHave = false;
-      ruleFormRef.value.validate((valid: any, errFields: any) => {
-        if (!valid) {
-          _.open("请检查动态表单输入格式问题", "保存失败");
-          isHave = false;
-        } else {
-          let result: any[] = [];
-          allFormList.value.forEach((item: any) => {
-            result.push({
-              data: item.data,
-              ControlType: item.ControlType,
-              id: _.generateMixed(8),
-            });
-          });
-          localStorage.setItem("formResult", JSON.stringify(result));
-          // 非预览 ，预览状态说明要无感知保存
-          if (!pre) {
-            _.open("保存成功");
-          }
-          isHave = true;
+    const formUpdate = computed(() => store.state.form.formUpdate)
+    let handleFormSave = () => {
+      debugger
+      if (store.state.form.save && !formUpdate.value) {
+        _.open("已保存，请不要重复保存");
+      } else {
+        if(store.state.form.save){
+          store.commit('setSave', false)
+        }else{
+          store.commit('setSave', true)
         }
-      });
-      return isHave;
+      }
     };
     let handleFormPre = () => {
-      if (handleFormSave(true)) {
-        store.commit("openPreview", true);
-        store.commit("handleDynamicForm");
-      }
+      store.commit("openPreview", true);
+      store.commit("handleDynamicForm");
     };
     return {
       handleFormSave,

@@ -108,8 +108,10 @@ export default defineComponent({
     let viewAndJson = computed(() => store.state.form.viewAndJson);
     let formListLen = computed(() => store.state.form.formListLen);
 
+    // 切换表单时验证数据
+    let ruleFormRef: any = computed(() => store.state.form.ruleFormRef);
     // 鼠标落下
-    let handleMouseDown = (e: any) => {
+    let handleMouseDown = async (e: any) => {
       store.commit("setFormCurrentIndex", -1);
       isTransition.value = false;
       useUserMove(canvasBox.value, e, isTransition);
@@ -123,7 +125,7 @@ export default defineComponent({
       };
       // console.log(window.JSONEditor)
       jsonEditor = new window.JSONEditor(jsonDom, options);
-      jsonEditor.set(allmainList.value)
+      jsonEditor.set(allmainList.value);
     };
     // mounted生命周期
     let handleMounted = () => {
@@ -188,7 +190,7 @@ export default defineComponent({
     // 数据更新是异步导致高度赋值完成了，dom才更新，所以使用了nextTick
     let handleDraggableHeight = async () => {
       setTimeout(() => {
-        jsonEditor.set(allmainList.value)
+        jsonEditor.set(allmainList.value);
         canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
       });
     };
@@ -290,13 +292,13 @@ export default defineComponent({
   }
 }
 .jsonCanvas {
-  width: 500px;
+  width: 600px;
   height: 666px;
   position: absolute;
   left: 50%;
   top: 50px;
   transform: translateX(-85%);
-  >div{
+  > div {
     width: 100%;
     height: 100%;
   }

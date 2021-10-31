@@ -46,8 +46,10 @@ declare global {
 
 class Flex {
   lastClickTime: number;
+  openTanc:boolean ;
   constructor() {
     this.lastClickTime = 0;
+    this.openTanc = false // 是否有弹窗
   }
   //  防止用户多次点击
   clickCountLimit(): boolean {
@@ -117,8 +119,12 @@ class Flex {
     }
   }
   open(message: string, title?: string) {
+    if(this.openTanc)return
+    this.openTanc = true
     ElMessageBox.alert(message, title, {
       confirmButtonText: "OK",
+    }).then(() => {
+      this.openTanc = false
     });
   }
   getJsonValidate(){

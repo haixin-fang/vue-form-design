@@ -54,13 +54,13 @@ export default defineComponent({
   },
   setup() {
     let store = useStore();
-    let previewShow = computed(() => store.state.form.preview);
+    let previewShow = computed(() => store.state.form.previewShow);
     let allFormList = computed(() => store.state.form.AllFormResult);
     let formResult = computed(() => store.state.form.formResult);
     let dynamicform = ref();
     let previewDialog = ref<any>();
     let handlePreviewShow = () => {
-      store.commit("openPreview", false);
+      store.state.form.previewShow = false
     };
     let handleFormResult = () => {
       // 配置组件时动态表单提交时进行校验
