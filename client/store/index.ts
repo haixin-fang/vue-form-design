@@ -21,11 +21,13 @@ const store = createStore({
       if (state.editType == 1 && state.copyContent) {
         state.form.allFormList.push(JSON.parse(JSON.stringify(state.copyContent)));
         state.form.formListLen = state.form.allFormList.length
+        state.form.formUpdate = true
       }
     },
     delete(state) {
       if (state.editType == 1) {
         state.form.allFormList.splice(state.form.currentIndex, 1);
+        state.form.formUpdate = true
       }
     },
     onTop(state) {
@@ -49,6 +51,7 @@ const store = createStore({
     clear(state) {
       if (state.editType == 1) {
         state.form.allFormList.length = 0;
+        state.form.formUpdate = true
       }
     },
     moveTop(state){

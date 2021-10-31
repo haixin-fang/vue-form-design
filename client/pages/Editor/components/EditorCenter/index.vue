@@ -13,11 +13,11 @@
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
-        <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" @start="start2" @end="end2" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
+        <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl"  group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
             <Shape :active="currentIndex == index" @paste="handleDraggableHeight" :currentIndex="index" :len="allmainList.length">
               <div class="list-group-item">
-                <component :is="element.ControlType" :drag="true" :item="element" :data="'{}'"></component>
+                <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
               </div>
             </Shape>
           </template>
@@ -108,8 +108,6 @@ export default defineComponent({
     let viewAndJson = computed(() => store.state.form.viewAndJson);
     let formListLen = computed(() => store.state.form.formListLen);
 
-    // 切换表单时验证数据
-    let ruleFormRef: any = computed(() => store.state.form.ruleFormRef);
     // 鼠标落下
     let handleMouseDown = async (e: any) => {
       store.commit("setFormCurrentIndex", -1);

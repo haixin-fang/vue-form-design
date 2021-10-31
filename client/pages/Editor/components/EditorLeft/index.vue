@@ -1,6 +1,6 @@
 <template>
   <div class="editor_pages_left">
-    <draggable class="dragArea list-group" :list="formcomponents" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" :clone="cloneDog" item-key="id">
+    <draggable class="dragArea list-group" :list="formcomponents" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
         <div class="list-group-item">
           <div class="form-item">
@@ -51,7 +51,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .editor_pages_left {
-  width: 278px;
+  width: 308px;
   height: 100%;
   .list-group{
     display: flex;
@@ -64,9 +64,9 @@ export default defineComponent({
     flex-wrap: wrap;
     margin-bottom: 10px;
     .form-item {
-      width: 80px;
-      height: 80px;
-      border: 1px solid #aca9a9;
+      width: 88px;
+      height: 88px;
+      border: 1px solid #dfdada;
       background: #f4f4f4;
       display: flex;
       flex-direction: column;

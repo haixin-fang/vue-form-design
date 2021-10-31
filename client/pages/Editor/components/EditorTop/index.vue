@@ -28,7 +28,6 @@ export default defineComponent({
     };
     let handleFormPre = () => {
       store.commit("openPreview", true);
-      store.commit("handleDynamicForm");
     };
     return {
       handleFormSave,

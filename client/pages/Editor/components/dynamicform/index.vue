@@ -1,27 +1,8 @@
 <template>
   <div class="dynamicform">
-    <el-form
-      ref="ruleForm"
-      :model="formResult"
-      :rules="rules"
-      label-width="120px"
-      class="demo-ruleForm"
-      :validate-on-rule-change="false"
-    >
-      <el-form-item
-        v-for="item in allFormList"
-        :key="item.id"
-        :prop="item.data.fieldName"
-      >
-        <component
-          ref="controlObj"
-          @change="handleControlChange"
-          :is="item.ControlType"
-          :item="item"
-          :data="formResult || '{}'"
-          :drag="false"
-          v-if="item.show"
-        ></component>
+    <el-form ref="ruleForm" :model="formResult" :rules="rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
+      <el-form-item v-for="item in allFormList" :key="item.id" :prop="item.data.fieldName">
+        <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" :item="item" :data="formResult || '{}'" :drag="false" v-if="item.show"></component>
       </el-form-item>
     </el-form>
   </div>
@@ -90,7 +71,7 @@ export default defineComponent({
               }
             }
           } catch (e) {
-            item.show = true
+            item.show = true;
           }
         }
       });

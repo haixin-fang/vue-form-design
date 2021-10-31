@@ -9,7 +9,7 @@
       <div class="json" :class="viewAndJson == 'json' ? 'active' : ''" @click="triggerViewJson('json')">JSON</div>
     </div>
     <div class="dynamic">
-      <el-form ref="ruleForm" :model="curControl.data" :rules="curControl.rules" label-width="120px" class="demo-ruleForm" :status-icon="true">
+      <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">
         <el-form-item v-for="(item, index) in controlItems" :key="index" :control="item.ControlType" :prop="item.data.fieldName">
           <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
         </el-form-item>
@@ -73,7 +73,7 @@ export default defineComponent({
     };
 
     // 预览或保存时验证所有表单是否输入正确
-    let previewShow = computed(() => store.state.form.preview);
+    let preview = computed(() => store.state.form.preview);
     let allFormList = computed(() => store.getters.getAllFormList);
     let checkNowFormValidate = function (content: string, title: string) {
       return new Promise((resolve, reject) => {
@@ -99,38 +99,43 @@ export default defineComponent({
       }
       return true;
     };
-    const formUpdate = computed(() => store.state.form.formUpdate)
+    const formUpdate = computed(() => store.state.form.formUpdate);
 
     let checkValidates = async (formSave?: boolean) => {
       let curControlIndex = store.state.form.currentIndex;
-      if (previewShow.value || save.value || formUpdate.value) {
+      if (preview.value || save.value || formUpdate.value) {
         let preview = await checkFormValidate();
         if (preview) {
           store.commit("setFormCurrentIndex", curControlIndex);
+        }
+        store.commit("setSave", preview);
+        store.commit("setFormUpdate", false);
+        if (preview) {
+          debugger
+          let result: any[] = [];
+          allFormList.value.forEach((item: any) => {
+            result.push({
+              data: item.data,
+              ControlType: item.ControlType,
+              id: _.generateMixed(8),
+            });
+          });
+          localStorage.setItem("formResult", JSON.stringify(result));
+          store.commit("handleDynamicForm");
         }
         if (!formSave) {
           store.state.form.previewShow = preview;
           store.state.form.preview = false;
         } else {
-          store.commit('setSave', preview)
-          store.commit('setFormUpdate', false)
-          if (preview) {
-            let result: any[] = [];
-            allFormList.value.forEach((item: any) => {
-              result.push({
-                data: item.data,
-                ControlType: item.ControlType,
-                id: _.generateMixed(8),
-              });
-            });
-            localStorage.setItem("formResult", JSON.stringify(result));
-            _.open("保存成功");
-          }
+          _.open("保存成功");
         }
       }
     };
-    watch(previewShow, async () => {
-      checkValidates();
+    watch(preview, async () => {
+      // 每次预览成功弹窗后，preview会变成false，如果不加该判断，又会执行一遍这个方法
+      if(preview.value){
+        checkValidates();
+      }
     });
 
     watch(save, async () => {
@@ -141,8 +146,8 @@ export default defineComponent({
     watch(
       () => curControl.value.data,
       async () => {
-        if(!formUpdate.value){
-          store.commit('setFormUpdate', true)
+        if (!formUpdate.value) {
+          store.commit("setFormUpdate", true);
         }
         // 表单更新保存的状态都要变化
         show.value = false;

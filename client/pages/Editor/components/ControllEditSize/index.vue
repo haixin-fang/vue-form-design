@@ -9,7 +9,7 @@
         <shortcutKey v-show="shortCutShow" />
       </transition>
     </span>
-    <span class="line" @click="handleCanvasSize('restore')">
+    <span class="line" @click="handleCanvasSize('restore')" title="复位">
       <i class="iconfont icon-huanyuan"></i>
     </span>
   </div>

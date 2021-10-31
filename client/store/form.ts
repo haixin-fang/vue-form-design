@@ -20,7 +20,7 @@ const form: Module<allFormList, any> = {
   mutations: {
     updateAllFormList(state, allFormList) {
       state.allFormList = allFormList;
-      state.formListLen = allFormList.length
+      state.formListLen = allFormList.length;
     },
     setFormCurrentIndex(state, index) {
       // 查看表单的json格式时，点击编辑区域外时不清空
@@ -39,6 +39,7 @@ const form: Module<allFormList, any> = {
     },
     // 获取默认值和键名组成新对象
     handleDynamicForm(state){
+      debugger
       const formResult:any = localStorage.getItem('formResult')
       state.AllFormResult = JSON.parse(formResult)
       const data:any = {}
