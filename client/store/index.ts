@@ -27,6 +27,7 @@ const store = createStore({
     delete(state) {
       if (state.editType == 1) {
         state.form.allFormList.splice(state.form.currentIndex, 1);
+        state.form.curControl = {}
         state.form.formUpdate = true
       }
     },

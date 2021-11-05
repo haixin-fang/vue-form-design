@@ -13,7 +13,7 @@
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
-        <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl"  group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
+        <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
             <Shape :active="currentIndex == index" @paste="handleDraggableHeight" :currentIndex="index" :len="allmainList.length">
               <div class="list-group-item">
@@ -27,7 +27,7 @@
         <div ref="jsonCenter" min-height="600"></div>
       </div> -->
     </div>
-    <div :ref="viewAndJson == 'json' ? 'canvasBox' : ''" class="jsonCanvas" v-show="viewAndJson == 'json'">
+    <div :ref="viewAndJson == 'json' ? 'canvasBox' : ''" class="jsonCanvas" v-if="viewAndJson == 'json'">
       <div ref="jsonCenter"></div>
     </div>
   </div>
@@ -42,6 +42,7 @@ import Shape from "~editor/Shape/index.vue";
 import { myMixin } from "@/utils/dynamicform";
 import { formcomponents } from "@/pages/Editor";
 import { useStore } from "vuex";
+import vm from "@/utils/vm";
 import _ from "@/utils/_";
 import { paste } from "@/utils/shortcutKey";
 export default defineComponent({
@@ -51,9 +52,6 @@ export default defineComponent({
     draggable,
     Shape,
   },
-  // mounted(){
-
-  // },
   setup() {
     // 画布中格子是否显示 默认展示
     let gridShow = ref<boolean>(true);
@@ -97,6 +95,8 @@ export default defineComponent({
             item.rules = _.controlFormRule(controlItems, item);
             item.controlItems = controlItems;
           }
+          delete item.formConfig;
+          delete item.icon;
           return item;
         });
         store.commit("updateAllFormList", value);
@@ -105,7 +105,7 @@ export default defineComponent({
     let currentIndex = computed(() => {
       return store.state.form.currentIndex;
     });
-    let viewAndJson = computed(() => store.state.form.viewAndJson);
+    let viewAndJson = ref<any>("view");
     let formListLen = computed(() => store.state.form.formListLen);
 
     // 鼠标落下
@@ -114,6 +114,19 @@ export default defineComponent({
       isTransition.value = false;
       useUserMove(canvasBox.value, e, isTransition);
     };
+    let initJsonData = (formlist: any) => {
+      let jsonData: any = [];
+      formlist.forEach((item: any) => {
+        let obj = {
+          ControlType: item.ControlType,
+          nameCn: item.nameCn,
+          data: item.data,
+          random: Math.random(),
+        };
+        jsonData.push(obj);
+      });
+      return jsonData;
+    };
     let initJsonCenter = () => {
       let jsonDom = jsonCenter.value;
       const options = {
@@ -121,14 +134,23 @@ export default defineComponent({
         mode: "code",
         search: false,
       };
-      // console.log(window.JSONEditor)
       jsonEditor = new window.JSONEditor(jsonDom, options);
-      jsonEditor.set(allmainList.value);
+      jsonEditor.set(initJsonData(allmainList.value));
+    };
+    // 初始化组件传值
+    let initEventBus = () => {
+      vm.on("changeViewAndJson", async (type) => {
+        viewAndJson.value = type;
+        if (type == "json") {
+          await nextTick()
+          initJsonCenter();
+        }
+      });
     };
     // mounted生命周期
     let handleMounted = () => {
+      initEventBus();
       handleWheelScroll(canvasBox.value);
-      initJsonCenter();
     };
     let handleCanvasScale = () => {
       // 处理页面的放大缩小
@@ -188,7 +210,6 @@ export default defineComponent({
     // 数据更新是异步导致高度赋值完成了，dom才更新，所以使用了nextTick
     let handleDraggableHeight = async () => {
       setTimeout(() => {
-        jsonEditor.set(allmainList.value);
         canvasBox.value.style.height = dragDom.value.offsetHeight + "px";
       });
     };

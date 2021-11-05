@@ -21,6 +21,7 @@
 import { computed, defineComponent, onMounted, ref, watch, nextTick } from "vue";
 import { useStore } from "vuex";
 import _ from "@/utils/_";
+import vm from '@/utils/vm'
 export default defineComponent({
   setup() {
     // 该模块是否隐藏 默认显示
@@ -36,11 +37,7 @@ export default defineComponent({
     let currentIndex = computed(() => {
       return store.state.form.currentIndex;
     });
-    let viewAndJson = computed(() => store.state.form.viewAndJson);
-    console.log("curControl", curControl);
-    // ruleForm.value.validate((valid:any, errFields:any) => {
-    //   debugger
-    // })
+    let viewAndJson = ref<any>('view');
     let handleEditBtn = () => {
       moduleIsHidden.value = !moduleIsHidden.value;
     };
@@ -51,8 +48,10 @@ export default defineComponent({
       const move = (e: any) => {
         const moveX = e.clientX;
         const x = startX - moveX;
-        if (width + x > 200) {
+        if (width + x > 200 && width + x <= 600) {
           editRight.value.style.width = width + x + "px";
+        } else if (width + x > 600) {
+          _.open("不能太大啦！");
         } else {
           if (_.clickCountLimit()) {
             _.open("不能再小啦！");
@@ -69,7 +68,8 @@ export default defineComponent({
       document.documentElement.addEventListener("mouseup", up);
     };
     let triggerViewJson = (type: string) => {
-      store.commit("setViewAndJson", type);
+      viewAndJson.value = type
+      vm.emit('changeViewAndJson', type)
     };
 
     // 预览或保存时验证所有表单是否输入正确
@@ -111,7 +111,6 @@ export default defineComponent({
         store.commit("setSave", preview);
         store.commit("setFormUpdate", false);
         if (preview) {
-          debugger
           let result: any[] = [];
           allFormList.value.forEach((item: any) => {
             result.push({
@@ -133,7 +132,7 @@ export default defineComponent({
     };
     watch(preview, async () => {
       // 每次预览成功弹窗后，preview会变成false，如果不加该判断，又会执行一遍这个方法
-      if(preview.value){
+      if (preview.value) {
         checkValidates();
       }
     });

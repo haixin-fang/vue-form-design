@@ -10,6 +10,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "element-plus": "^1.1.0-beta.17",
+    "mitt": "^3.0.0",
     "node-sass": "^4.14.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.11",

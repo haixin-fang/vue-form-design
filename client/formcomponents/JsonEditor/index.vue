@@ -41,7 +41,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import _ from "@/utils/_";
-// import "@/assets/jsoneditor/jsoneditor.min.js"
 export default defineComponent({
   ControlType: "JsonEditor", // 必须与文件名匹配
   nameCn: "JSON编辑",

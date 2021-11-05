@@ -15,7 +15,6 @@ const form: Module<allFormList, any> = {
     AllFormResult: {}, // 预览和存储到数据库最终结果
     formResult: {}, // 用户在动态表单输入的配置结果
     formListLen: 0, // 表单控件个数
-    viewAndJson: 'view', // 默认是视图
   },
   mutations: {
     updateAllFormList(state, allFormList) {
@@ -33,9 +32,6 @@ const form: Module<allFormList, any> = {
       } else {
         state.curControl = {};
       }
-    },
-    setViewAndJson(state, type){
-      state.viewAndJson = type
     },
     // 获取默认值和键名组成新对象
     handleDynamicForm(state){
