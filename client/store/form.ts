@@ -33,6 +33,9 @@ const form: Module<allFormList, any> = {
         state.curControl = {};
       }
     },
+    setPreviewShow(state, type){
+      state.previewShow  = type
+    },
     // 获取默认值和键名组成新对象
     handleDynamicForm(state){
       debugger
