@@ -1,5 +1,6 @@
 const path = require('path');
 module.exports = {
+    publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
     pages: {
         index: {
             entry: "client/main.ts",

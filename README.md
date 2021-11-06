@@ -75,3 +75,11 @@
 
 - https://blog.csdn.net/weixin_43768107/article/details/120556194
 
+
+### 打包问题
+
+- 打包出来的静态资源直接在浏览器打开路径不对，在html中直接使用的是绝对路径，找不到资源
+
+> 解决方法：vue.config.js配置publicPath区分环境，生产环境输出文件为./
+
+- 打包结果找不到iconfont资源，因为直接使用是cdn链接，没写协议，直接打开默认协议为file，所以直接写死https
