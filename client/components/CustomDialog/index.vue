@@ -90,7 +90,7 @@ export default defineComponent({
     top: 5%;
     // transform: translate(-50%, -50%);
     // -webkit-transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 5;
   }
 
   .myDialogMask {
@@ -98,7 +98,7 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1;
+    z-index: 4;
   }
 }
 

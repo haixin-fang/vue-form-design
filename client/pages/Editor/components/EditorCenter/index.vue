@@ -95,8 +95,8 @@ export default defineComponent({
             item.rules = _.controlFormRule(controlItems, item);
             item.controlItems = controlItems;
           }
-          delete item.formConfig;
-          delete item.icon;
+          // delete item.formConfig;
+          // delete item.icon;
           return item;
         });
         store.commit("updateAllFormList", value);
@@ -120,8 +120,7 @@ export default defineComponent({
         let obj = {
           ControlType: item.ControlType,
           nameCn: item.nameCn,
-          data: item.data,
-          random: Math.random(),
+          data: item.data
         };
         jsonData.push(obj);
       });
@@ -137,13 +136,34 @@ export default defineComponent({
       jsonEditor = new window.JSONEditor(jsonDom, options);
       jsonEditor.set(initJsonData(allmainList.value));
     };
+    // json转view数据处理
+    let initMainData = (json: any) => {
+      let mainList:any = [];
+      json.forEach((item: any) => {
+        console.log(formcomponents);
+        if (formcomponents[item.ControlType]) {
+          item.formConfig = formcomponents[item.ControlType].formConfig;
+          let defaultConfig = JSON.parse(JSON.stringify(myMixin.initControlItems()));
+          let controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
+          item.rules = _.controlFormRule(controlItems, item);
+          item.controlItems = controlItems;
+        }
+        // delete item.formConfig
+        mainList.push(item)
+      });
+      store.commit('updateAllFormList', mainList)
+      store.commit('setFormCurrentIndex', store.state.form.currentIndex)
+    };
     // 初始化组件传值
     let initEventBus = () => {
       vm.on("changeViewAndJson", async (type) => {
-        viewAndJson.value = type;
         if (type == "json") {
-          await nextTick()
+          viewAndJson.value = type;
+          await nextTick();
           initJsonCenter();
+        } else {
+          initMainData(JSON.parse(jsonEditor.getText()));
+          viewAndJson.value = type;
         }
       });
     };
@@ -312,7 +332,7 @@ export default defineComponent({
 }
 .jsonCanvas {
   width: 600px;
-  height: 666px;
+  height: 666px !important;
   position: absolute;
   left: 50%;
   top: 50px;

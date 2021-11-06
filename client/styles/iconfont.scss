@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2838003 */
-  src: url('//at.alicdn.com/t/font_2838003_1r0akl8h6ve.woff2?t=1633860249566') format('woff2'),
-       url('//at.alicdn.com/t/font_2838003_1r0akl8h6ve.woff?t=1633860249566') format('woff'),
-       url('//at.alicdn.com/t/font_2838003_1r0akl8h6ve.ttf?t=1633860249566') format('truetype');
+  src: url('//at.alicdn.com/t/font_2838003_lat14vo2snk.woff2?t=1636181238042') format('woff2'),
+       url('//at.alicdn.com/t/font_2838003_lat14vo2snk.woff?t=1636181238042') format('woff'),
+       url('//at.alicdn.com/t/font_2838003_lat14vo2snk.ttf?t=1636181238042') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,30 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xuanzeqi:before {
+  content: "\e701";
+}
+
+.icon-icon_huakuai:before {
+  content: "\e738";
+}
+
+.icon-jishuqi:before {
+  content: "\e6fd";
+}
+
+.icon-riqishijian:before {
+  content: "\e6c8";
+}
+
+.icon-shijian:before {
+  content: "\e666";
+}
+
+.icon-24gl-calendar:before {
+  content: "\eb3f";
 }
 
 .icon-sen103:before {

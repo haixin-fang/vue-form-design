@@ -3,13 +3,7 @@
     <div class="label">
       <label>{{ item.data.label }}</label>
       <span v-if="item.data.required" class="item_require">*</span>
-      <el-tooltip
-        v-if="item.data.tip"
-        class="item"
-        effect="dark"
-        :content="item.data.tip"
-        placement="bottom-start"
-      >
+      <el-tooltip v-if="item.data.tip" class="item" effect="dark" :content="item.data.tip" placement="bottom-start">
         <span class="tip iconfont icon-tishi"></span>
       </el-tooltip>
     </div>
@@ -26,10 +20,7 @@
           <el-main class="my-pageMain">
             <div ref="JsonViewerDialog" style="height: calc(100% - 24px)"></div>
           </el-main>
-          <el-footer
-            class="my-Footer"
-            style="height: 60px; padding-top: 10px; text-align: right"
-          >
+          <el-footer class="my-Footer" style="height: 60px; padding-top: 10px; text-align: right">
             <el-button type="primary" @click="saveJson">保存</el-button>
             <el-button @click="closeDialog">关闭</el-button>
           </el-footer>
@@ -96,6 +87,10 @@ export default defineComponent({
       handler(newValue) {
         if (this.drag) {
           this.jsonEditor.set(_.tryParseJson(newValue.data.default));
+        } else {
+          let data: any = this.data;
+          let item: any = this.item;
+          this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
         }
       },
       deep: true,
@@ -136,27 +131,30 @@ export default defineComponent({
       let myDialog: any = this.$refs.myDialog;
       myDialog.close();
     },
+    initJson() {
+      const container = this.$refs.jsoneditor;
+      let data: any = this.data;
+      let item: any = this.item;
+      let fieldName = item.data.fieldName;
+      let that = this;
+      const options = {
+        modes: ["text", "code", "view"],
+        mode: "code",
+        search: false,
+        onChange() {
+          data[fieldName] = that.jsonEditor.getText();
+        },
+      };
+      this.jsonEditor = new window.JSONEditor(container, options);
+      if (this.drag) {
+        this.jsonEditor.set(_.tryParseJson(item.data.default));
+      } else {
+        this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
+      }
+    },
   },
   mounted() {
-    const container = this.$refs.jsoneditor;
-    let data: any = this.data;
-    let item: any = this.item;
-    let fieldName = item.data.fieldName;
-    let that = this;
-    const options = {
-      modes: ["text", "code", "view"],
-      mode: "code",
-      search: false,
-      onChange() {
-        data[fieldName] = that.jsonEditor.getText();
-      },
-    };
-    this.jsonEditor = new window.JSONEditor(container, options);
-    if (this.drag) {
-      this.jsonEditor.set(_.tryParseJson(item.data.default));
-    } else {
-      this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
-    }
+    this.initJson();
   },
 });
 </script>

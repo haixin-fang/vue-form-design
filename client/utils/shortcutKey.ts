@@ -1,5 +1,15 @@
 import store from '@/store/index'
+import vm from './vm'
 
+// 当是json模式下，快捷键失效
+let jsonState = false
+vm.on('changeViewAndJson', (type) => {
+    if(type === 'json'){
+        jsonState = true
+    }else{
+        jsonState = false
+    }
+})
 const CTRL = 17, 
 CKEY = 67, // 复制
 VKEY = 86, // 粘贴
@@ -54,6 +64,9 @@ let isCtrlDown = false; // 默认没有按住ctrl
 
 export function listenGlobalKeyDown(){
     window.onkeydown = (e:any) => {
+        if(jsonState){
+            return
+        }
         if(e.keyCode === CTRL){
             isCtrlDown = true
         }else if(!isCtrlDown){
@@ -70,6 +83,9 @@ export function listenGlobalKeyDown(){
         }
     }
     window.onkeyup = (e: any) => {
+        if(jsonState){
+            return
+        }
         if(isCtrlDown && e.keyCode === CTRL){
             isCtrlDown = false
         }

@@ -14,6 +14,7 @@
           <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
         </el-form-item>
       </el-form>
+      <el-empty :image-size="200" v-if="!curControl.data" description="没有选中表单控件"></el-empty>
     </div>
   </div>
 </template>
@@ -149,9 +150,9 @@ export default defineComponent({
           store.commit("setFormUpdate", true);
         }
         // 表单更新保存的状态都要变化
-        show.value = false;
-        await nextTick();
-        show.value = true;
+        // show.value = false;
+        // await nextTick();
+        // show.value = true;
       },
       { deep: true }
     );

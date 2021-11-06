@@ -3,6 +3,9 @@
 - Vue3
 - typescript
 - webpack
+- jsoneditor
+- mitt
+- element-plus
 
 ## 目录结构
 - componments 公共组件
@@ -57,6 +60,8 @@
 > 2021/10/9 快捷键功能
 
 > 2021/10/31 保存和预览功能的表单验证
+
+> 2021/11/6 使用json快速创建表单和直接修改json达到更新效果
 
 ## 问题
 
