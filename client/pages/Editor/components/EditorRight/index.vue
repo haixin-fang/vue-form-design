@@ -5,8 +5,10 @@
     </div>
     <div class="controlLine" @mousedown="handleLine"></div>
     <div class="viewAndJson">
-      <div class="view" :class="viewAndJson == 'view' ? 'active' : ''" @click="triggerViewJson('view')">视图</div>
-      <div class="json" :class="viewAndJson == 'json' ? 'active' : ''" @click="triggerViewJson('json')">JSON</div>
+      <el-button type="primary" size="medium" :plain="viewAndJson !== 'view'" @click="triggerViewJson('view')">视图</el-button>
+      <el-button type="primary" size="medium" :plain="viewAndJson !== 'json'" @click="triggerViewJson('json')">JSON</el-button>
+      <!-- <div class="view" :class="viewAndJson == 'view' ? 'active' : ''" @click="triggerViewJson('view')">视图</div>
+      <div class="json" :class="viewAndJson == 'json' ? 'active' : ''" @click="triggerViewJson('json')">JSON</div> -->
     </div>
     <div class="dynamic">
       <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">
