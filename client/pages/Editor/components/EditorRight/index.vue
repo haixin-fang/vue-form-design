@@ -131,20 +131,25 @@ export default defineComponent({
         }
       }
     };
-    watch(preview, async () => {
-      // 每次预览成功弹窗后，preview会变成false，如果不加该判断，又会执行一遍这个方法
-      if (preview.value) {
-        checkValidates();
-      }
-    });
-
-    watch(save, async () => {
-      if (formUpdate.value) {
-        checkValidates(true);
-      }
-    });
+    // watch(preview, async () => {
+    //   // 每次预览成功弹窗后，preview会变成false，如果不加该判断，又会执行一遍这个方法
+    //   if (preview.value) {
+    //     checkValidates();
+    //   }
+    // });
+    vm.on('openPreview', async () => {
+      checkValidates();
+    })
+    vm.on('setSave', async () => {
+      checkValidates(true);
+    })
+    // watch(save, async () => {
+    //   if (formUpdate.value) {
+    //     checkValidates(true);
+    //   }
+    // });
     watch(
-      () => curControl.value.data,
+      () => curControl.value?.data,
       async () => {
         if (!formUpdate.value) {
           store.commit("setFormUpdate", true);

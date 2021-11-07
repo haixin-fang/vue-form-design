@@ -28,7 +28,7 @@ const form: Module<allFormList, any> = {
       }
       state.currentIndex = index;
       if (index >= 0) {
-        state.curControl = state.allFormList[index];
+        state.curControl = state.allFormList[index] || {};
       } else {
         state.curControl = {};
       }

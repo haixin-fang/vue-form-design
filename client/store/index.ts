@@ -1,3 +1,4 @@
+import _ from "@/utils/_";
 import { createStore } from "vuex";
 import form from "./form";
 export interface GlobalDataProps {
@@ -19,7 +20,9 @@ const store = createStore({
     },
     paste(state) {
       if (state.editType == 1 && state.copyContent) {
-        state.form.allFormList.push(JSON.parse(JSON.stringify(state.copyContent)));
+        const pasteControl = JSON.parse(JSON.stringify(state.copyContent))
+        pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed(3);
+        state.form.allFormList.push(pasteControl);
         state.form.formListLen = state.form.allFormList.length
         state.form.formUpdate = true
       }

@@ -64,6 +64,7 @@ export default defineComponent({
         mode: "code",
         search: false,
       };
+      debugger
       let editor = new window.JSONEditor(JsonViewerDialog.value, options);
       editor.set(_.tryParseJson(JSON.stringify(formResult.value)));
     };

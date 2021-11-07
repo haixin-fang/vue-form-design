@@ -13,6 +13,8 @@ import DateTime from '@/formcomponents/DateTime/index.vue'
 import InputNumber from '@/formcomponents/InputNumber/index.vue'
 import Slider from '@/formcomponents/Slider/index.vue'
 import Selected from '@/formcomponents/Selected/index.vue'
+import Divider from '@/formcomponents/Divider/index.vue'
+import RichText from '@/formcomponents/RichText/index.vue'
 const formcomponents: any = {};
 formcomponents[Text.ControlType] = Text;
 formcomponents[TextArea.ControlType] = TextArea;
@@ -29,4 +31,6 @@ formcomponents[DateTime.ControlType] = DateTime
 formcomponents[InputNumber.ControlType] = InputNumber
 formcomponents[Slider.ControlType] = Slider
 formcomponents[Selected.ControlType] = Selected
+formcomponents[Divider.ControlType] = Divider
+formcomponents[RichText.ControlType] = RichText
 export { formcomponents };

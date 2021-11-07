@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent, computed} from "vue";
 import { useStore } from "vuex";
+import vm from '@/utils/vm'
 import _ from "@/utils/_";
 export default defineComponent({
   setup() {
@@ -19,15 +20,18 @@ export default defineComponent({
       if (store.state.form.save && !formUpdate.value) {
         _.open("已保存，请不要重复保存");
       } else {
-        if(store.state.form.save){
-          store.commit('setSave', false)
-        }else{
-          store.commit('setSave', true)
-        }
+        vm.emit('setSave')
+        // if(store.state.form.save){
+        //   store.commit('setSave', false)
+        //   vm.emit('setSave')
+        // }else{
+        //   store.commit('setSave', true)
+        // }
       }
     };
     let handleFormPre = () => {
-      store.commit("openPreview", true);
+      vm.emit('openPreview')
+      // store.commit("openPreview", true);
     };
     return {
       handleFormSave,

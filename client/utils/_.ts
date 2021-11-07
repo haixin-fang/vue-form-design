@@ -37,13 +37,12 @@ const chars: string[] = [
   "Y",
   "Z",
 ];
-declare global {
+declare global{
   interface Window {
     clickCountLimitMock: boolean;
     JSONEditor: any;
   }
 }
-
 class Flex {
   lastClickTime: number;
   openTanc:boolean ;
