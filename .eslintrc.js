@@ -7,7 +7,6 @@ module.exports = {
     "plugin:vue/vue3-essential",
     "eslint:recommended",
     "@vue/typescript/recommended",
-    "@vue/prettier",
     "@vue/prettier/@typescript-eslint",
   ],
   parserOptions: {
@@ -18,6 +17,7 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     'vue/no-mutating-props': 0,
     "endOfLine": 0,
-    "@typescript-eslint/no-this-alias": ["off"]
+    "@typescript-eslint/no-this-alias": ["off"],
+    '@typescript-eslint/no-var-requires': 0
   },
 };
