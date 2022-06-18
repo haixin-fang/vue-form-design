@@ -12,11 +12,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
+      "node",
     ],
     "paths": {
       "@/*": [
-        "client/*"
+        "editor/src/*"
       ]
     },
     "lib": [
@@ -26,13 +26,6 @@
       "scripthost"
     ]
   },
-  "include": [
-    "client/**/*.ts",
-    "client/**/*.tsx",
-    "client/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "client/router/index.ts", "client/utils/editMouse.ts"  ],
   "exclude": [
     "node_modules",
   ]
