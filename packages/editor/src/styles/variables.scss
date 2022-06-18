@@ -1,0 +1,27 @@
+// 编辑页面头部的高度
+$editor_header_top: 64px;
+// 画布的最小高度
+$editor_canvas_min_height: 667px;
+
+$blue: #409eff;
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 2px;
+    background-color: transparent;
+    transition: all 0.3s;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+    border: none;
+  }
+}

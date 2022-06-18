@@ -1,0 +1,35 @@
+{
+  "name": "starfish-editor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "dev": "vite",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@babel/core": "^7.18.5",
+    "core-js": "^3.6.5",
+    "element-plus": "1.1.0-beta.17",
+    "mitt": "^3.0.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.11",
+    "vuedraggable": "^4.1.0",
+    "vuex": "^4.0.2",
+    "wangeditor": "^4.7.9"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "node-sass": "4.14.1",
+    "sass": "^1.42.1",
+    "sass-loader": "8.0.2",
+    "typescript": "4.1.5",
+    "vite": "^2.9.12"
+  }
+}
