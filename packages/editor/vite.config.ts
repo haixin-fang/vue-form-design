@@ -13,7 +13,8 @@ export default defineConfig({
             },
             {
                 find: /@starfish/, replacement: path.resolve(__dirname, '../'),
-            }
+            },
+            { find: /^@starfish\/form/, replacement: path.join(__dirname, '../packages/form/src/main.ts') },
         ]
     },
     css: {

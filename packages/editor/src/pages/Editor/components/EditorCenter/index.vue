@@ -33,7 +33,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance,ComponentInternalInstance } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance } from "vue";
 import Grid from "~editor/Grid/index.vue";
 import { useUserMove, handleWheelScroll } from "@/utils/editMouse";
 import ControllEditSize from "~editor/ControllEditSize/index.vue";

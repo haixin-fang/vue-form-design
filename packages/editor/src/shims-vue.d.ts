@@ -5,9 +5,4 @@ declare module '*.vue' {
   export default component
 }
 
-declare module '@starfish/*' {
-  export default {
-    install: () => {},
-    formcomponents: any
-  };
-}
+declare module '@starfish/*'

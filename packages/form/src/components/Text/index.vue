@@ -15,49 +15,19 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import {fields, setReturnConfig} from '../../utils/fieldConfig'
 export default defineComponent({
   ControlType: "Text", // 必须与文件名匹配
   nameCn: "文本框",
   icon: "icon-wenbenkuang",
   formConfig: {
     data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "",
-      };
+      return fields;
     },
     morenConfig() {
       return [
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "placeholder",
-            tip: "",
-            label: "输入占位文字",
-            placeholder: "请输入占位文字",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
+        setReturnConfig('Text', 'default'),
+        setReturnConfig('Text', 'placeholder'),
       ];
     },
   },
@@ -65,6 +35,9 @@ export default defineComponent({
     drag: Boolean,
     data: Object,
     item: Object,
+  },
+  mounted(){
+    console.log(this);
   },
   watch: {
     data: {
