@@ -4,10 +4,17 @@ import path from 'path'
 export default defineConfig({
     plugins: [vue()],
     resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-            '~editor': path.resolve(__dirname, './src/pages/Editor/components'),
-        }
+        alias: [
+            {
+                find: '@', replacement: path.resolve(__dirname, './src'),
+            },
+            {
+                find: '~editor', replacement: path.resolve(__dirname, './src/pages/Editor/components'),
+            },
+            {
+                find: /@starfish/, replacement: path.resolve(__dirname, '../'),
+            }
+        ]
     },
     css: {
         //css预处理

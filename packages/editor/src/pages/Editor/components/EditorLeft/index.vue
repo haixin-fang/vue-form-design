@@ -15,7 +15,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import draggable from "vuedraggable";
-import { formcomponents } from "../../index";
 import _ from "@/utils/_";
 
 export default defineComponent({
@@ -23,6 +22,7 @@ export default defineComponent({
     draggable,
   },
   data() {
+    const formcomponents:any = this.$formcomponents;
     const lastFormComponents = [];
     for (const key in formcomponents) {
       const item = formcomponents[key];

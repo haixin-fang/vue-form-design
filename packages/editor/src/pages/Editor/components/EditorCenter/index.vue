@@ -33,14 +33,14 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance,ComponentInternalInstance } from "vue";
 import Grid from "~editor/Grid/index.vue";
 import { useUserMove, handleWheelScroll } from "@/utils/editMouse";
 import ControllEditSize from "~editor/ControllEditSize/index.vue";
 import draggable from "vuedraggable";
 import Shape from "~editor/Shape/index.vue";
 import { myMixin } from "@/utils/dynamicform";
-import { formcomponents } from "@/pages/Editor";
+// import { formcomponents } from "@/pages/Editor";
 import { useStore } from "vuex";
 import vm from "@/utils/vm";
 import _ from "@/utils/_";
@@ -53,6 +53,8 @@ export default defineComponent({
     Shape,
   },
   setup() {
+    const {proxy} = getCurrentInstance() as any;
+    const formcomponents = proxy.$formcomponents;
     // 画布中格子是否显示 默认展示
     const gridShow = ref<boolean>(true);
     // 画布dom

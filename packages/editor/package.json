@@ -1,6 +1,6 @@
 {
   "name": "starfish-editor",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -17,7 +17,8 @@
     "vue-router": "^4.0.11",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2",
-    "wangeditor": "^4.7.9"
+    "wangeditor": "^4.7.9",
+    "@starfish/form": "1.0.0-alpha.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

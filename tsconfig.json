@@ -16,7 +16,10 @@
     ],
     "paths": {
       "@/*": [
-        "editor/src/*"
+        "packages/editor/src/*"
+      ],
+      "@starfish/*": [
+        "packages/*/src"
       ]
     },
     "lib": [
