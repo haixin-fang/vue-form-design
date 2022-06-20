@@ -1,14 +1,17 @@
-import {PropType} from 'vue';
+import { PropType } from "vue";
 
 interface FormConfig {
-    [key:string]: string;
+  [key: string]: string;
 }
 
 export default {
-    drag: {
-        type: Boolean,
-        default: false
-    },
-    data: Object as PropType<FormConfig>,
-    item: Object,
-}
+  drag: {
+    type: Boolean,
+    default: false,
+  },
+  data: {
+    type: Object as PropType<FormConfig>,
+    required: true,
+  },
+  item: Object,
+};

@@ -8,16 +8,17 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <div :class="'richText' + random" v-if="drag"></div>
-      <div :class="'richText' + random" v-if="!drag"></div>
+      <div :class="'richText' + a" v-if="drag"></div>
+      <div :class="'richText' + a" v-if="!drag"></div>
     </div>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, onMounted, ref, onUnmounted } from "vue";
   import E from "wangeditor";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
   export default defineComponent({
     ControlType: "RichText", // 必须与文件名匹配
     nameCn: "富文本",
@@ -33,36 +34,34 @@
         editor: editor,
       };
     },
-    watch: {
-      data: {
-        handler() {
-          this.$emit("change");
-        },
-        deep: true,
-      },
-    },
-    mounted() {
-      if (this.drag) {
-        const editor = new E(".richText" + this.random);
-        editor.config.focus = false;
-        editor.create();
-        this.editor = editor;
-      } else {
-        const editor = new E(".richText" + this.random);
-        editor.config.focus = false;
-        editor.create();
-        const data: any = this.data;
-        const item: any = this.item;
-        editor.config.onchange = function (newHtml: string) {
-          console.log("onblur", newHtml); // 获取最新的 html 内容
-          data[item.data.fieldName] = newHtml;
-        };
-        this.editor = editor;
-      }
-    },
-    unmounted() {
-      this.editor.destroy();
-      this.editor = null;
+    setup(props) {
+      const random = ref(Math.ceil(Math.random() * 100));
+      let editor: any = null;
+      useWatch(props.data);
+      onMounted(() => {
+        if (props.drag) {
+          editor = new E(".richText" + random.value);
+          editor.config.focus = false;
+          editor.create();
+        } else {
+          editor = new E(".richText" + random.value);
+          editor.config.focus = false;
+          editor.create();
+          const data: any = props.data;
+          const item: any = props.item;
+          editor.config.onchange = function (newHtml: string) {
+            console.log("onblur", newHtml); // 获取最新的 html 内容
+            data[item.data.fieldName] = newHtml;
+          };
+        }
+      });
+      onUnmounted(() => {
+        editor.destroy();
+        editor = null;
+      });
+      return {
+        a: random,
+      };
     },
   });
 </script>

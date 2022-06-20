@@ -8,7 +8,7 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <div id="jsoneditor" ref="jsoneditor">
+      <div id="jsoneditor" ref="jsonEditor">
         <div class="fullScreen" @click="showCustomDialog">
           <i class="iconfont icon-quanping"></i>
         </div>
@@ -18,7 +18,7 @@
       <el-main style="padding: 0">
         <el-container style="height: 100%">
           <el-main class="my-pageMain">
-            <div ref="JsonViewerDialog" style="height: calc(100% - 24px)"></div>
+            <div ref="JsonViewerDialogDom" style="height: calc(100% - 24px)"></div>
           </el-main>
           <el-footer class="my-Footer" style="height: 60px; padding-top: 10px; text-align: right">
             <el-button type="primary" @click="saveJson">保存</el-button>
@@ -30,10 +30,14 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, watch, ref, nextTick, onMounted } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
   import _ from "@/utils/_";
+  interface jsonEditor {
+    [key: string]: any;
+  }
   export default defineComponent({
     ControlType: "JsonEditor", // 必须与文件名匹配
     nameCn: "JSON编辑",
@@ -43,90 +47,132 @@
     props: {
       ...fieldProps,
     },
-    data() {
-      interface jsonEditor {
-        [key: string]: any;
-      }
-      const jsonEditorType: jsonEditor = {};
-      return {
-        jsonEditor: jsonEditorType,
-        jsonEditorDialog: jsonEditorType,
-      };
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (this.drag) {
-            this.jsonEditor.set(_.tryParseJson(newValue.data.default));
-          } else {
-            const data: any = this.data;
-            const item: any = this.item;
-            this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
-          }
-        },
-        deep: true,
-      },
-      data: {
-        handler() {
-          this.$emit("change");
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      showCustomDialog() {
-        const myDialog: any = this.$refs.myDialog;
-        myDialog.show();
-        myDialog.init("JSON编辑", "icon-json-full");
-        this.$nextTick(() => {
-          const container = this.$refs.JsonViewerDialog;
-          const options = {
-            modes: ["text", "code", "view"],
-            mode: "code",
-            search: false,
-          };
-          this.jsonEditorDialog = new window.JSONEditor(container, options);
-          this.jsonEditorDialog.set(_.tryParseJson(this.jsonEditor.getText()));
-        });
-      },
-      closeDialog() {
-        const myDialog: any = this.$refs.myDialog;
-        myDialog.close();
-      },
-      saveJson() {
-        this.jsonEditor.set(_.tryParseJson(this.jsonEditorDialog.getText()));
-        const data: any = this.data;
-        const item: any = this.item;
+    setup(props) {
+      const jsonEditor = ref<jsonEditor>({});
+      const jsonEditorDialog = ref<jsonEditor>({});
+      const JsonViewerDialogDom = ref<any>();
+      const myDialog = ref<any>();
+      useWatch(props.data);
+      function initJson() {
+        const container = jsonEditor.value;
+        const data: any = props.data;
+        const item: any = props.item;
         const fieldName = item.data.fieldName;
-        data[fieldName] = this.jsonEditor.getText();
-        const myDialog: any = this.$refs.myDialog;
-        myDialog.close();
-      },
-      initJson() {
-        const container = this.$refs.jsoneditor;
-        const data: any = this.data;
-        const item: any = this.item;
-        const fieldName = item.data.fieldName;
-        const that = this;
         const options = {
           modes: ["text", "code", "view"],
           mode: "code",
           search: false,
           onChange() {
-            data[fieldName] = that.jsonEditor.getText();
+            data[fieldName] = jsonEditor.value.getText();
           },
         };
-        this.jsonEditor = new window.JSONEditor(container, options);
-        if (this.drag) {
-          this.jsonEditor.set(_.tryParseJson(item.data.default));
+        jsonEditor.value = new window.JSONEditor(container, options);
+        if (props.drag) {
+          jsonEditor.value.set(_.tryParseJson(item.data.default));
         } else {
-          this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
+          jsonEditor.value.set(_.tryParseJson(data[item.data.fieldName]));
         }
-      },
+      }
+      onMounted(() => {
+        initJson();
+      });
+      watch(
+        () => props.item,
+        (newValue: any) => {
+          if (props.drag) {
+            jsonEditor.value.set(_.tryParseJson(newValue.data.default));
+          } else {
+            const data: any = props.data;
+            const item: any = props.item;
+            jsonEditor.value.set(_.tryParseJson(data[item.data.fieldName]));
+          }
+        }
+      );
+      return {
+        myDialog,
+        jsonEditor,
+        JsonViewerDialogDom,
+        async showCustomDialog() {
+          const myDialogDom: any = myDialog.value;
+          myDialogDom.show();
+          myDialogDom.init("JSON编辑", "icon-json-full");
+          await nextTick();
+          const container = JsonViewerDialogDom.value;
+          const options = {
+            modes: ["text", "code", "view"],
+            mode: "code",
+            search: false,
+          };
+          jsonEditorDialog.value = new window.JSONEditor(container, options);
+          jsonEditorDialog.value.set(_.tryParseJson(jsonEditor.value.getText()));
+        },
+        closeDialog() {
+          myDialog.value.close();
+        },
+        saveJson() {
+          jsonEditor.value.set(_.tryParseJson(jsonEditorDialog.value.getText()));
+          const data: any = props.data;
+          const item: any = props.item;
+          const fieldName = item.data.fieldName;
+          data[fieldName] = jsonEditor.value.getText();
+          myDialog.value.close();
+        },
+      };
     },
-    mounted() {
-      this.initJson();
-    },
+    // methods: {
+    //   showCustomDialog() {
+    //     const myDialog: any = this.$refs.myDialog;
+    //     myDialog.show();
+    //     myDialog.init("JSON编辑", "icon-json-full");
+    //     this.$nextTick(() => {
+    //       const container = this.$refs.JsonViewerDialog;
+    //       const options = {
+    //         modes: ["text", "code", "view"],
+    //         mode: "code",
+    //         search: false,
+    //       };
+    //       this.jsonEditorDialog = new window.JSONEditor(container, options);
+    //       this.jsonEditorDialog.set(_.tryParseJson(this.jsonEditor.getText()));
+    //     });
+    //   },
+    // closeDialog() {
+    //   const myDialog: any = this.$refs.myDialog;
+    //   myDialog.close();
+    // },
+    // saveJson() {
+    //   this.jsonEditor.set(_.tryParseJson(this.jsonEditorDialog.getText()));
+    //   const data: any = this.data;
+    //   const item: any = this.item;
+    //   const fieldName = item.data.fieldName;
+    //   data[fieldName] = this.jsonEditor.getText();
+    //   const myDialog: any = this.$refs.myDialog;
+    //   myDialog.close();
+    // },
+    // initJson() {
+    //   const container = this.$refs.jsoneditor;
+    //   const data: any = this.data;
+    //   const item: any = this.item;
+    //   const fieldName = item.data.fieldName;
+    //   const that = this;
+    //   const options = {
+    //     modes: ["text", "code", "view"],
+    //     mode: "code",
+    //     search: false,
+    //     onChange() {
+    //       data[fieldName] = that.jsonEditor.getText();
+    //     },
+    //   };
+    //   this.jsonEditor = new window.JSONEditor(container, options);
+    //   if (this.drag) {
+    //     this.jsonEditor.set(_.tryParseJson(item.data.default));
+    //   } else {
+    //     this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
+    //   }
+    // },
+    // },
+    // mounted() {
+    //   this.initJson();
+    // },
   });
 </script>
 <style scoped lang="scss">

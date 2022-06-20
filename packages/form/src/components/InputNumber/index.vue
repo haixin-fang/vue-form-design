@@ -17,6 +17,7 @@
   import { defineComponent } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
   export default defineComponent({
     ControlType: "InputNumber", // 必须与文件名匹配
     nameCn: "计数器",
@@ -29,13 +30,8 @@
     props: {
       ...fieldProps,
     },
-    watch: {
-      data: {
-        handler() {
-          this.$emit("change");
-        },
-        deep: true,
-      },
+    setup(props) {
+      useWatch(props.data);
     },
   });
 </script>

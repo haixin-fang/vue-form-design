@@ -14,64 +14,60 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import fieldProps from '../../utils/fieldProps';
-export default defineComponent({
-  ControlType: "Time", // 必须与文件名匹配
-  nameCn: "时间选择",
-  icon: "icon-shijian",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "请输入",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "",
-      };
-    },
-    morenConfig() {
-      return [
-        {
-          ControlType: "Time",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "请输入",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "placeholder",
-            tip: "",
-            label: "输入占位文字",
-            placeholder: "请输入占位文字",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
-  props: {
-    ...fieldProps
-  },
-  watch: {
-    data: {
-      handler() {
-        this.$emit("change");
+  import { defineComponent } from "vue";
+  import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
+  export default defineComponent({
+    ControlType: "Time", // 必须与文件名匹配
+    nameCn: "时间选择",
+    icon: "icon-shijian",
+    formConfig: {
+      data() {
+        return {
+          fieldName: "",
+          label: "标签名称",
+          tip: "",
+          placeholder: "请输入",
+          showRule: "{}",
+          required: false,
+          rule: "[]",
+          default: "",
+        };
       },
-      deep: true,
+      morenConfig() {
+        return [
+          {
+            ControlType: "Time",
+            data: {
+              fieldName: "default",
+              tip: "",
+              label: "默认值",
+              placeholder: "请输入",
+              showRule: "{}",
+              required: false,
+              rule: "[]",
+            },
+          },
+          {
+            ControlType: "Text",
+            data: {
+              fieldName: "placeholder",
+              tip: "",
+              label: "输入占位文字",
+              placeholder: "请输入占位文字",
+              showRule: "{}",
+              required: false,
+              rule: "[]",
+            },
+          },
+        ];
+      },
     },
-  },
-});
+    props: {
+      ...fieldProps,
+    },
+    setup(props) {
+      useWatch(props.data);
+    },
+  });
 </script>

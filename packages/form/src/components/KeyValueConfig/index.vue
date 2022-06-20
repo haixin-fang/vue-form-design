@@ -48,95 +48,99 @@
   import { defineComponent } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
   export default defineComponent({
     ControlType: "KeyValueConfig", // 必须与文件名匹配
     nameCn: "键值对匹配",
     icon: "icon-danxuankuang",
     isHide: true,
     formConfig: getFormConfig("KeyValueConfig"),
-    methods: {
-      getChangeValue(sitem: any) {
-        const data: any = this.data;
-        const item: any = this.item;
-        const allItems = data[item.data.fieldName];
-        allItems.value = sitem.value;
-        allItems.id = sitem.id;
-      },
-      getChangeSelect(sitem: any) {
-        const data: any = this.data;
-        const item: any = this.item;
-        const allItems = data[item.data.fieldName];
-        if (sitem.select) {
-          allItems.value = sitem.value;
-          allItems.id = sitem.id;
-          allItems.items.forEach((item: any) => {
-            if (item.id !== sitem.id) {
-              item.select = false;
-            }
-          });
-        } else {
-          let isHave = false;
-          allItems.items.forEach((item: any) => {
-            if (item.select) {
-              isHave = true;
-            }
-          });
-          if (!isHave) {
-            allItems.value = "";
-            allItems.id = "";
-          }
-        }
-      },
-      getMaxId() {
+    props: {
+      ...fieldProps,
+    },
+    setup(props) {
+      useWatch(props.data);
+      function getMaxId() {
         let maxId = 0;
-        const data: any = this.data;
-        const item: any = this.item;
+        const data: any = props.data;
+        const item: any = props.item;
         const allItems = data[item.data.fieldName];
         allItems.items.forEach((item: any) => {
           maxId = Math.max(item.id, maxId);
         });
         return maxId + 1;
-      },
-      removeItem(index: number) {
-        const data: any = this.data;
-        const item: any = this.item;
-        const allItems = data[item.data.fieldName];
-        if (allItems.items.length <= 1) return;
-        allItems.items.splice(index, 1);
-      },
-      handleTop(index: number) {
-        if (index > 0) {
-          const data: any = this.data;
-          const item: any = this.item;
+      }
+      return {
+        getChangeValue(sitem: any) {
+          const data: any = props.data;
+          const item: any = props.item;
+          const allItems = data[item.data.fieldName];
+          allItems.value = sitem.value;
+          allItems.id = sitem.id;
+        },
+        getChangeSelect(sitem: any) {
+          const data: any = props.data;
+          const item: any = props.item;
+          const allItems = data[item.data.fieldName];
+          if (sitem.select) {
+            allItems.value = sitem.value;
+            allItems.id = sitem.id;
+            allItems.items.forEach((item: any) => {
+              if (item.id !== sitem.id) {
+                item.select = false;
+              }
+            });
+          } else {
+            let isHave = false;
+            allItems.items.forEach((item: any) => {
+              if (item.select) {
+                isHave = true;
+              }
+            });
+            if (!isHave) {
+              allItems.value = "";
+              allItems.id = "";
+            }
+          }
+        },
+        removeItem(index: number) {
+          const data: any = props.data;
+          const item: any = props.item;
+          const allItems = data[item.data.fieldName];
+          if (allItems.items.length <= 1) return;
+          allItems.items.splice(index, 1);
+        },
+        handleTop(index: number) {
+          if (index > 0) {
+            const data: any = props.data;
+            const item: any = props.item;
+            const allItem = data[item.data.fieldName].items;
+            const newItem = allItem.splice(index, 1)[0];
+            allItem.splice(index - 1, 0, newItem);
+          }
+        },
+        handleBottom(index: number) {
+          const data: any = props.data;
+          const item: any = props.item;
           const allItem = data[item.data.fieldName].items;
-          const newItem = allItem.splice(index, 1)[0];
-          allItem.splice(index - 1, 0, newItem);
-        }
-      },
-      handleBottom(index: number) {
-        const data: any = this.data;
-        const item: any = this.item;
-        const allItem = data[item.data.fieldName].items;
-        if (index < allItem.length - 1) {
-          const newItem = allItem.splice(index, 1)[0];
-          allItem.splice(index + 1, 0, newItem);
-        }
-      },
-      addItem(index: number) {
-        const maxId = this.getMaxId();
-        const data: any = this.data;
-        const item: any = this.item;
-        const allItems = data[item.data.fieldName];
-        allItems.items.splice(index + 1, 0, {
-          label: "选项" + maxId,
-          value: "选项" + maxId,
-          select: false,
-          id: maxId,
-        });
-      },
-    },
-    props: {
-      ...fieldProps,
+          if (index < allItem.length - 1) {
+            const newItem = allItem.splice(index, 1)[0];
+            allItem.splice(index + 1, 0, newItem);
+          }
+        },
+        addItem(index: number) {
+          const maxId = getMaxId();
+          const data: any = props.data;
+          const item: any = props.item;
+          const allItems = data[item.data.fieldName];
+          allItems.items.splice(index + 1, 0, {
+            label: "选项" + maxId,
+            value: "选项" + maxId,
+            select: false,
+            id: maxId,
+          });
+        },
+      };
     },
   });
 </script>

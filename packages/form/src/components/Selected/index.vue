@@ -17,6 +17,7 @@
   import { defineComponent } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
   export default defineComponent({
     ControlType: "Selected", // 必须与文件名匹配
     nameCn: "虚拟选择器",
@@ -25,18 +26,8 @@
     props: {
       ...fieldProps,
     },
-    data() {
-      return {
-        a: "",
-      };
-    },
-    watch: {
-      data: {
-        handler() {
-          this.$emit("change");
-        },
-        deep: true,
-      },
+    setup(props) {
+      useWatch(props.data);
     },
   });
 </script>

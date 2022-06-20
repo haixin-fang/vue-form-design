@@ -17,21 +17,21 @@
   import { defineComponent } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
+  import { useWatch } from "../../utils/customHooks";
   export default defineComponent({
     ControlType: "Slider", // 必须与文件名匹配
     nameCn: "滑块",
     icon: "icon-icon_huakuai",
-    formConfig: getFormConfig("Slider", [{ fieldName: "default", component: "InputNumber" },{ fieldName: "min", component: "Text" },{ fieldName: "max", component: "Text" }]),
+    formConfig: getFormConfig("Slider", [
+      { fieldName: "default", component: "InputNumber" },
+      { fieldName: "min", component: "Text" },
+      { fieldName: "max", component: "Text" },
+    ]),
     props: {
-      ...fieldProps
+      ...fieldProps,
     },
-    watch: {
-      data: {
-        handler() {
-          this.$emit("change");
-        },
-        deep: true,
-      },
+    setup(props) {
+      useWatch(props.data);
     },
   });
 </script>
