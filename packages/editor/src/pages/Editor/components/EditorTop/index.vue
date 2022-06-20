@@ -16,16 +16,15 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { useStore } from "vuex";
+import formStorm from '@/store/form'
 import vm from "@/utils/vm";
 import _ from "@/utils/_";
 import {cut, paste, onDelete,onTop, onBottom, copy} from '@/utils/shortcutKey'
 export default defineComponent({
   setup() {
-    const store = useStore();
-    const formUpdate = computed(() => store.state.form.formUpdate);
+    const formUpdate = computed(() => formStorm.get('formUpdate'));
     const handleFormSave = () => {
-      if (store.state.form.save && !formUpdate.value) {
+      if (formStorm.get('save') && !formUpdate.value) {
         _.open("已保存，请不要重复保存");
       } else {
         vm.emit("setSave");

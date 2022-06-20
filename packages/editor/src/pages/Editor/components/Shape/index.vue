@@ -14,7 +14,8 @@
 <script lang="ts">
 import { defineComponent, ref, toRefs, nextTick, watch, computed, reactive } from "vue";
 import {copy, paste, onDelete, cut, onTop, onBottom} from '@/utils/shortcutKey'
-import {useStore} from 'vuex'
+// import {useStore} from 'vuex'
+import useStore from '@/store/form'
 export default defineComponent({
   props: {
     active: Boolean,
@@ -26,11 +27,11 @@ export default defineComponent({
     console.log(this.len)
   },
   setup(props, context) {
-    const store = useStore();
+    // const store = useStore();
     const isShow = ref(false);
     const editForm = ref();
     const {emit} = context
-    const copyContent = computed(() => store.state.copyContent)
+    const copyContent = computed(() => useStore.get('copyContent'))
     const handleShortCut = (e: any) => {
       if (props.active) {
         e.preventDefault();

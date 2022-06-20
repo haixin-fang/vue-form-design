@@ -41,7 +41,8 @@ import draggable from "vuedraggable";
 import Shape from "~editor/Shape/index.vue";
 import { myMixin } from "@/utils/dynamicform";
 // import { formcomponents } from "@/pages/Editor";
-import { useStore } from "vuex";
+import formStore from '@/store/form'
+import store from '@/store/index'
 import vm from "@/utils/vm";
 import _ from "@/utils/_";
 import { paste } from "@/utils/shortcutKey";
@@ -73,13 +74,12 @@ export default defineComponent({
       gridShow.value = show;
     };
     // 对store操作
-    const store = useStore();
-    const editType = computed(() => store.state.editType);
+    const editType = computed(() => store.get('editType'));
     const jsonCenter = ref();
     let jsonEditor = reactive<any>({});
     const allmainList = computed<any>({
       get() {
-        return store.state.form.allFormList;
+        return formStore.get('allFormList');
       },
       set(value) {
         // 防止引用类型污染
@@ -100,18 +100,18 @@ export default defineComponent({
           // delete item.icon;
           return item;
         });
-        store.commit("updateAllFormList", value);
+        formStore.updateAllFormList(value);
       },
     });
     const currentIndex = computed(() => {
-      return store.state.form.currentIndex;
+      return formStore.get('currentIndex');
     });
     const viewAndJson = ref<any>("view");
-    const formListLen = computed(() => store.state.form.formListLen);
+    const formListLen = computed(() => formStore.get('formListLen'));
 
     // 鼠标落下
     const handleMouseDown = async (e: any) => {
-      store.commit("setFormCurrentIndex", -1);
+      formStore.setFormCurrentIndex(-1);
       isTransition.value = false;
       useUserMove(canvasBox.value, e, isTransition);
     };
@@ -152,8 +152,8 @@ export default defineComponent({
         // delete item.formConfig
         mainList.push(item)
       });
-      store.commit('updateAllFormList', mainList)
-      store.commit('setFormCurrentIndex', store.state.form.currentIndex)
+      formStore.updateAllFormList(mainList);
+      formStore.setFormCurrentIndex(formStore.get('currentIndex'))
     };
     // 初始化组件传值
     const initEventBus = () => {
@@ -191,14 +191,13 @@ export default defineComponent({
       }
     };
     const chooseClick = (e: any) => {
-      store.commit("setFormCurrentIndex", e.oldIndex);
+      formStore.setFormCurrentIndex(e.oldIndex);
     };
-    // let upDateControlItem = (item: any, index: number) => {};
     const changePos = (e: any) => {
-      store.commit("setFormCurrentIndex", e.newIndex);
+      formStore.setFormCurrentIndex(e.newIndex);
     };
     const addControl = (e: any) => {
-      store.commit("setFormCurrentIndex", e.newIndex);
+      formStore.setFormCurrentIndex(e.newIndex);
     };
     const handlePaste = () => {
       pasteShow.value = false;

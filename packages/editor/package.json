@@ -14,11 +14,8 @@
     "element-plus": "1.1.0-beta.17",
     "mitt": "^3.0.0",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.11",
     "vuedraggable": "^4.1.0",
-    "vuex": "^4.0.2",
-    "wangeditor": "^4.7.9",
-    "@starfish/form": "1.0.0-alpha.1"
+    "wangeditor": "^4.7.9"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
