@@ -30,118 +30,117 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { getFormConfig } from "../../utils/fieldConfig";
-import _ from "@/utils/_";
-export default defineComponent({
-  ControlType: "JsonEditor", // 必须与文件名匹配
-  nameCn: "JSON编辑",
-  icon: "icon-json-full",
-  rule: _.getJsonValidate(),
-  formConfig: getFormConfig('JsonEditor', [{ fieldName: "default", component: "JsonEditor" }]),
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  data() {
-    interface jsonEditor {
-      [key: string]: any;
-    }
-    const jsonEditorType: jsonEditor = {};
-    return {
-      jsonEditor: jsonEditorType,
-      jsonEditorDialog: jsonEditorType,
-    };
-  },
-  watch: {
-    item: {
-      handler(newValue) {
-        if (this.drag) {
-          this.jsonEditor.set(_.tryParseJson(newValue.data.default));
-        } else {
-          const data: any = this.data;
-          const item: any = this.item;
-          this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
-        }
-      },
-      deep: true,
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
+  import _ from "@/utils/_";
+  export default defineComponent({
+    ControlType: "JsonEditor", // 必须与文件名匹配
+    nameCn: "JSON编辑",
+    icon: "icon-json-full",
+    rule: _.getJsonValidate(),
+    formConfig: getFormConfig("JsonEditor", [{ fieldName: "default", component: "JsonEditor" }]),
+    props: {
+      ...fieldProps,
     },
-    data: {
-      handler() {
-        this.$emit("change");
-      },
-      deep: true,
+    data() {
+      interface jsonEditor {
+        [key: string]: any;
+      }
+      const jsonEditorType: jsonEditor = {};
+      return {
+        jsonEditor: jsonEditorType,
+        jsonEditorDialog: jsonEditorType,
+      };
     },
-  },
-  methods: {
-    showCustomDialog() {
-      const myDialog: any = this.$refs.myDialog;
-      myDialog.show();
-      myDialog.init("JSON编辑", "icon-json-full");
-      this.$nextTick(() => {
-        const container = this.$refs.JsonViewerDialog;
+    watch: {
+      item: {
+        handler(newValue) {
+          if (this.drag) {
+            this.jsonEditor.set(_.tryParseJson(newValue.data.default));
+          } else {
+            const data: any = this.data;
+            const item: any = this.item;
+            this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
+          }
+        },
+        deep: true,
+      },
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
+      },
+    },
+    methods: {
+      showCustomDialog() {
+        const myDialog: any = this.$refs.myDialog;
+        myDialog.show();
+        myDialog.init("JSON编辑", "icon-json-full");
+        this.$nextTick(() => {
+          const container = this.$refs.JsonViewerDialog;
+          const options = {
+            modes: ["text", "code", "view"],
+            mode: "code",
+            search: false,
+          };
+          this.jsonEditorDialog = new window.JSONEditor(container, options);
+          this.jsonEditorDialog.set(_.tryParseJson(this.jsonEditor.getText()));
+        });
+      },
+      closeDialog() {
+        const myDialog: any = this.$refs.myDialog;
+        myDialog.close();
+      },
+      saveJson() {
+        this.jsonEditor.set(_.tryParseJson(this.jsonEditorDialog.getText()));
+        const data: any = this.data;
+        const item: any = this.item;
+        const fieldName = item.data.fieldName;
+        data[fieldName] = this.jsonEditor.getText();
+        const myDialog: any = this.$refs.myDialog;
+        myDialog.close();
+      },
+      initJson() {
+        const container = this.$refs.jsoneditor;
+        const data: any = this.data;
+        const item: any = this.item;
+        const fieldName = item.data.fieldName;
+        const that = this;
         const options = {
           modes: ["text", "code", "view"],
           mode: "code",
           search: false,
+          onChange() {
+            data[fieldName] = that.jsonEditor.getText();
+          },
         };
-        this.jsonEditorDialog = new window.JSONEditor(container, options);
-        this.jsonEditorDialog.set(_.tryParseJson(this.jsonEditor.getText()));
-      });
+        this.jsonEditor = new window.JSONEditor(container, options);
+        if (this.drag) {
+          this.jsonEditor.set(_.tryParseJson(item.data.default));
+        } else {
+          this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
+        }
+      },
     },
-    closeDialog() {
-      const myDialog: any = this.$refs.myDialog;
-      myDialog.close();
+    mounted() {
+      this.initJson();
     },
-    saveJson() {
-      this.jsonEditor.set(_.tryParseJson(this.jsonEditorDialog.getText()));
-      const data: any = this.data;
-      const item: any = this.item;
-      const fieldName = item.data.fieldName;
-      data[fieldName] = this.jsonEditor.getText();
-      const myDialog: any = this.$refs.myDialog;
-      myDialog.close();
-    },
-    initJson() {
-      const container = this.$refs.jsoneditor;
-      const data: any = this.data;
-      const item: any = this.item;
-      const fieldName = item.data.fieldName;
-      const that = this;
-      const options = {
-        modes: ["text", "code", "view"],
-        mode: "code",
-        search: false,
-        onChange() {
-          data[fieldName] = that.jsonEditor.getText();
-        },
-      };
-      this.jsonEditor = new window.JSONEditor(container, options);
-      if (this.drag) {
-        this.jsonEditor.set(_.tryParseJson(item.data.default));
-      } else {
-        this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
-      }
-    },
-  },
-  mounted() {
-    this.initJson();
-  },
-});
+  });
 </script>
 <style scoped lang="scss">
-#jsoneditor {
-  position: relative;
-  z-index: 1;
-  .fullScreen {
-    position: absolute;
-    right: 10px;
-    line-height: 1;
-    z-index: 2;
-    top: 10px;
-    color: white;
-    font-size: 18px;
+  #jsoneditor {
+    position: relative;
+    z-index: 1;
+    .fullScreen {
+      position: absolute;
+      right: 10px;
+      line-height: 1;
+      z-index: 2;
+      top: 10px;
+      color: white;
+      font-size: 18px;
+    }
   }
-}
 </style>

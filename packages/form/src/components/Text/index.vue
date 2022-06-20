@@ -16,6 +16,7 @@
 <script lang="ts">
   import { defineComponent } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from '../../utils/fieldProps';
   export default defineComponent({
     ControlType: "Text", // 必须与文件名匹配
     nameCn: "文本框",
@@ -25,9 +26,7 @@
       { fieldName: "placeholder", component: "Text" },
     ]),
     props: {
-      drag: Boolean,
-      data: Object,
-      item: Object,
+      ...fieldProps
     },
     mounted() {
       console.log(this);

@@ -8,33 +8,33 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-date-picker v-model="item.data.default" type="date" :placeholder="item.data.placeholder"  v-if="drag">
-      </el-date-picker>
-      <el-date-picker v-model="data[item.data.fieldName]" type="date" :placeholder="item.data.placeholder"  v-if="!drag">
-      </el-date-picker>
+      <el-date-picker v-model="item.data.default" type="date" :placeholder="item.data.placeholder" v-if="drag"> </el-date-picker>
+      <el-date-picker v-model="data[item.data.fieldName]" type="date" :placeholder="item.data.placeholder" v-if="!drag"> </el-date-picker>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { getFormConfig } from "../../utils/fieldConfig";
-export default defineComponent({
-  ControlType: "Date", // 必须与文件名匹配
-  nameCn: "日期选择",
-  icon: "icon-24gl-calendar",
-  formConfig: getFormConfig('Date', [{ fieldName: "default", component: "Date" },{ fieldName: "placeholder", component: "Text" }]),
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler(){
-        this.$emit('change')
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
+  export default defineComponent({
+    ControlType: "Date", // 必须与文件名匹配
+    nameCn: "日期选择",
+    icon: "icon-24gl-calendar",
+    formConfig: getFormConfig("Date", [
+      { fieldName: "default", component: "Date" },
+      { fieldName: "placeholder", component: "Text" },
+    ]),
+    props: {
+      ...fieldProps,
+    },
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
       },
-      deep: true
-    }
-  },
-});
+    },
+  });
 </script>

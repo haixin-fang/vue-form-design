@@ -20,15 +20,14 @@
 <script lang="ts">
   import { defineComponent } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
   export default defineComponent({
     ControlType: "CheckBox", // 必须与文件名匹配
     nameCn: "复选框",
     icon: "icon-fuxuankuang_xuanzhong",
     formConfig: getFormConfig("CheckBox", [{ fieldName: "itemConfig", component: "KeyValueConfigMult" }]),
     props: {
-      drag: Boolean,
-      data: Object,
-      item: Object,
+      ...fieldProps,
     },
     watch: {
       data: {

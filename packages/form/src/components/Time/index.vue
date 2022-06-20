@@ -15,6 +15,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import fieldProps from '../../utils/fieldProps';
 export default defineComponent({
   ControlType: "Time", // 必须与文件名匹配
   nameCn: "时间选择",
@@ -62,9 +63,7 @@ export default defineComponent({
     },
   },
   props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
+    ...fieldProps
   },
   watch: {
     data: {

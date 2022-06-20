@@ -8,46 +8,45 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <div  v-if="drag">
+      <div v-if="drag">
         <el-input v-model="item.data.default" :placeholder="item.data.placeholder" size="small" />
-        <el-color-picker v-model="item.data.default"  show-alpha ></el-color-picker>
+        <el-color-picker v-model="item.data.default" show-alpha></el-color-picker>
       </div>
-      <div v-if="!drag" >
-        <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" size="small"/>
-        <el-color-picker v-model="data[item.data.fieldName]"  show-alpha></el-color-picker>
+      <div v-if="!drag">
+        <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" size="small" />
+        <el-color-picker v-model="data[item.data.fieldName]" show-alpha></el-color-picker>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { getFormConfig } from "../../utils/fieldConfig";
-export default defineComponent({
-  ControlType: "ColorSelect", // 必须与文件名匹配
-  nameCn: "颜色选择",
-  icon: "icon-sen103",
-  formConfig: getFormConfig('ColorSelect', [{fieldName: 'default', component: 'ColorSelect'}]),
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler() {
-        this.$emit("change");
-      },
-      deep: true,
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
+  export default defineComponent({
+    ControlType: "ColorSelect", // 必须与文件名匹配
+    nameCn: "颜色选择",
+    icon: "icon-sen103",
+    formConfig: getFormConfig("ColorSelect", [{ fieldName: "default", component: "ColorSelect" }]),
+    props: {
+      ...fieldProps,
     },
-  },
-});
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
+      },
+    },
+  });
 </script>
-<style scoped lang='scss'>
-.control{
-  width: 240px;
-  >div{
-    display: flex;
-    align-items: center;
+<style scoped lang="scss">
+  .control {
+    width: 240px;
+    > div {
+      display: flex;
+      align-items: center;
+    }
   }
-}
 </style>

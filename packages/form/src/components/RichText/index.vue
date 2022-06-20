@@ -14,56 +14,55 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import E from "wangeditor";
-import { getFormConfig } from "../../utils/fieldConfig";
-export default defineComponent({
-  ControlType: "RichText", // 必须与文件名匹配
-  nameCn: "富文本",
-  icon: "icon-textEdit",
-  formConfig: getFormConfig('RichText'),
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  data(){
-    const editor: any = null
-    return {
-      random: Math.ceil(Math.random() * 100),
-      editor: editor
-    }
-  },
-  watch: {
-    data: {
-      handler() {
-        this.$emit("change");
-      },
-      deep: true,
+  import { defineComponent } from "vue";
+  import E from "wangeditor";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
+  export default defineComponent({
+    ControlType: "RichText", // 必须与文件名匹配
+    nameCn: "富文本",
+    icon: "icon-textEdit",
+    formConfig: getFormConfig("RichText"),
+    props: {
+      ...fieldProps,
     },
-  },
-  mounted() {
-    if (this.drag) {
-      const editor = new E(".richText" + this.random);
-      editor.config.focus = false
-      editor.create();
-      this.editor = editor
-    } else {
-      const editor = new E(".richText"+ this.random);
-      editor.config.focus = false
-      editor.create();
-      const data: any = this.data;
-      const item: any = this.item;
-      editor.config.onchange  = function (newHtml: string) {
-        console.log("onblur", newHtml); // 获取最新的 html 内容
-        data[item.data.fieldName] = newHtml
+    data() {
+      const editor: any = null;
+      return {
+        random: Math.ceil(Math.random() * 100),
+        editor: editor,
       };
-      this.editor = editor
-    }
-  },
-  unmounted(){
-    this.editor.destroy()
-    this.editor = null
-  }
-});
+    },
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
+      },
+    },
+    mounted() {
+      if (this.drag) {
+        const editor = new E(".richText" + this.random);
+        editor.config.focus = false;
+        editor.create();
+        this.editor = editor;
+      } else {
+        const editor = new E(".richText" + this.random);
+        editor.config.focus = false;
+        editor.create();
+        const data: any = this.data;
+        const item: any = this.item;
+        editor.config.onchange = function (newHtml: string) {
+          console.log("onblur", newHtml); // 获取最新的 html 内容
+          data[item.data.fieldName] = newHtml;
+        };
+        this.editor = editor;
+      }
+    },
+    unmounted() {
+      this.editor.destroy();
+      this.editor = null;
+    },
+  });
 </script>

@@ -36,15 +36,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getFormConfig } from "../../utils/fieldConfig";
+import fieldProps from "../../utils/fieldProps";
 export default defineComponent({
   ControlType: "Radio", // 必须与文件名匹配
   nameCn: "单选框",
   icon: "icon-danxuankuang",
   formConfig: getFormConfig('Radio',[{ fieldName: "itemConfig", component: "KeyValueConfig" }]),
   props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
+    ...fieldProps
   },
   watch: {
     data: {

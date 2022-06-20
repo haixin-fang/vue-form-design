@@ -8,31 +8,34 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-input-number v-model="item.data.default" :controls-position="item.data.type == 2?'right':''" :size="item.data.size" v-if="drag" />
-      <el-input-number v-model="data[item.data.fieldName]" v-if="!drag" :controls-position="item.data.type == 2?'right':''" :size="item.data.size" />
+      <el-input-number v-model="item.data.default" :controls-position="item.data.type == 2 ? 'right' : ''" :size="item.data.size" v-if="drag" />
+      <el-input-number v-model="data[item.data.fieldName]" v-if="!drag" :controls-position="item.data.type == 2 ? 'right' : ''" :size="item.data.size" />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { getFormConfig } from "../../utils/fieldConfig";
-export default defineComponent({
-  ControlType: "InputNumber", // 必须与文件名匹配
-  nameCn: "计数器",
-  icon: "icon-jishuqi",
-  formConfig: getFormConfig('InputNumber', [{ fieldName: "default", component: "InputNumber" },{ fieldName: "type", component: "Radio" },{ fieldName: "size", component: "Radio" }]),
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler() {
-        this.$emit("change");
-      },
-      deep: true,
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
+  export default defineComponent({
+    ControlType: "InputNumber", // 必须与文件名匹配
+    nameCn: "计数器",
+    icon: "icon-jishuqi",
+    formConfig: getFormConfig("InputNumber", [
+      { fieldName: "default", component: "InputNumber" },
+      { fieldName: "type", component: "Radio" },
+      { fieldName: "size", component: "Radio" },
+    ]),
+    props: {
+      ...fieldProps,
     },
-  },
-});
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
+      },
+    },
+  });
 </script>

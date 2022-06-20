@@ -68,6 +68,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getFormConfig } from "../../utils/fieldConfig";
+import fieldProps from "../../utils/fieldProps";
 export default defineComponent({
   ControlType: "KeyValueConfigMult", // 必须与文件名匹配
   nameCn: "多选键值对匹配",
@@ -150,9 +151,7 @@ export default defineComponent({
     },
   },
   props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
+    ...fieldProps
   },
 });
 </script>

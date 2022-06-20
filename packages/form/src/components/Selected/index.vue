@@ -14,30 +14,29 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { getFormConfig } from "../../utils/fieldConfig";
-export default defineComponent({
-  ControlType: "Selected", // 必须与文件名匹配
-  nameCn: "虚拟选择器",
-  icon: "icon-xuanzeqi",
-  formConfig: getFormConfig('Selected', [{ fieldName: "itemConfig", component: "KeyValueConfigMult" }]),
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  data(){
-    return {
-      a: ''
-    }
-  },
-  watch: {
-    data: {
-      handler() {
-        this.$emit("change");
-      },
-      deep: true,
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  import fieldProps from "../../utils/fieldProps";
+  export default defineComponent({
+    ControlType: "Selected", // 必须与文件名匹配
+    nameCn: "虚拟选择器",
+    icon: "icon-xuanzeqi",
+    formConfig: getFormConfig("Selected", [{ fieldName: "itemConfig", component: "KeyValueConfigMult" }]),
+    props: {
+      ...fieldProps,
     },
-  },
-});
+    data() {
+      return {
+        a: "",
+      };
+    },
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
+      },
+    },
+  });
 </script>
