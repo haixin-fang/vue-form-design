@@ -8,67 +8,28 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-select-v2 v-model="item.data.itemConfig.value" :options="item.data.itemConfig.items" placeholder="Please select" style="width: 240px" multiple v-if="drag" />
-      <el-select-v2 v-model="data[item.data.fieldName]" :options="item.data.itemConfig.items" placeholder="Please select" style="width: 240px" multiple v-if="!drag" />
+      <!-- <el-select-v2 v-model="item.data.itemConfig.value" :options="item.data.itemConfig.items" :placeholder="item.data.itemConfig.value[0]" style="width: 240px" multiple v-if="drag" />
+      <el-select-v2 v-model="data[item.data.fieldName]" :options="item.data.itemConfig.items" placeholder="Please select" style="width: 240px" multiple v-if="!drag" /> -->
     </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { getFormConfig } from "../../utils/fieldConfig";
 export default defineComponent({
-  ControlType: "Seleted", // 必须与文件名匹配
+  ControlType: "Selected", // 必须与文件名匹配
   nameCn: "虚拟选择器",
   icon: "icon-xuanzeqi",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        itemConfig: {
-          value: ["选项1"],
-          items: [
-            {
-              label: "选项1",
-              value: "选项1",
-              select: true,
-              id: 1,
-            },
-            {
-              label: "选项2",
-              value: "选项2",
-              select: false,
-              id: 2,
-            },
-          ],
-        },
-      };
-    },
-    morenConfig() {
-      return [
-        {
-          ControlType: "KeyValueConfigMult",
-          data: {
-            fieldName: "itemConfig",
-            tip: "",
-            label: "默认值",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
+  formConfig: getFormConfig('Selected', [{ fieldName: "itemConfig", component: "KeyValueConfigMult" }]),
   props: {
     drag: Boolean,
     data: Object,
     item: Object,
+  },
+  data(){
+    return {
+      a: ''
+    }
   },
   watch: {
     data: {

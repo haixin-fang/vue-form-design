@@ -67,24 +67,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { getFormConfig } from "../../utils/fieldConfig";
 export default defineComponent({
   ControlType: "KeyValueConfigMult", // 必须与文件名匹配
   nameCn: "多选键值对匹配",
   icon: "icon-danxuankuang",
   isHide: true,
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        value: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-      };
-    },
-  },
+  getFormConfig: getFormConfig('KeyValueConfigMult'),
   methods: {
     getChangeValue(sitem: any) {
       const data: any = this.data;

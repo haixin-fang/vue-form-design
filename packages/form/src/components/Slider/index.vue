@@ -9,83 +9,30 @@
     </div>
     <div class="control">
       <el-slider v-model="item.data.default" v-if="drag" :min="Number(item.data.min)" :max="Number(item.data.max)"></el-slider>
-      <el-slider v-model="data[item.data.fieldName]"  v-if="!drag" :min="Number(item.data.min)" :max="Number(item.data.max)"></el-slider>
+      <el-slider v-model="data[item.data.fieldName]" v-if="!drag" :min="Number(item.data.min)" :max="Number(item.data.max)"></el-slider>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  ControlType: "Slider", // 必须与文件名匹配
-  nameCn: "滑块",
-  icon: "icon-icon_huakuai",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: 0,
-        min: 0,
-        max: 100
-      };
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  export default defineComponent({
+    ControlType: "Slider", // 必须与文件名匹配
+    nameCn: "滑块",
+    icon: "icon-icon_huakuai",
+    formConfig: getFormConfig("Slider", [{ fieldName: "default", component: "InputNumber" },{ fieldName: "min", component: "Text" },{ fieldName: "max", component: "Text" }]),
+    props: {
+      drag: Boolean,
+      data: Object,
+      item: Object,
     },
-    morenConfig() {
-      return [
-        {
-          ControlType: "InputNumber",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
         },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "min",
-            tip: "",
-            label: "最小范围",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "max",
-            tip: "",
-            label: "最大范围",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler(){
-        this.$emit('change')
+        deep: true,
       },
-      deep: true
-    }
-  },
-});
+    },
+  });
 </script>

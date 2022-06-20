@@ -14,65 +14,28 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  ControlType: "DateTime", // 必须与文件名匹配
-  nameCn: "日期时间选择",
-  icon: "icon-riqishijian",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "1",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "1",
-      };
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  export default defineComponent({
+    ControlType: "DateTime", // 必须与文件名匹配
+    nameCn: "日期时间选择",
+    icon: "icon-riqishijian",
+    formConfig: getFormConfig("DateTime", [
+      { fieldName: "default", component: "DateTime" },
+      { fieldName: "placeholder", component: "Text" },
+    ]),
+    props: {
+      drag: Boolean,
+      data: Object,
+      item: Object,
     },
-    morenConfig() {
-      return [
-        {
-          ControlType: "DateTime",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "1",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
         },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "placeholder",
-            tip: "",
-            label: "输入占位文字",
-            placeholder: "1",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler() {
-        this.$emit("change");
+        deep: true,
       },
-      deep: true,
     },
-  },
-});
+  });
 </script>

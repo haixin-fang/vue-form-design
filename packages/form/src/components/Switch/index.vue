@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem" :class="drag?'formCover': ''">
+  <div class="starfish-formitem" :class="drag ? 'formCover' : ''">
     <div class="label">
       <label>{{ item.data.label }}</label>
       <span v-if="item.data.required" class="item_require">*</span>
@@ -14,53 +14,25 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  ControlType: "Switch", // 必须与文件名匹配
-  nameCn: "开关",
-  icon: "icon-kaiguanguan",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        value: '',
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default:  false,
-      };
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  export default defineComponent({
+    ControlType: "Switch", // 必须与文件名匹配
+    nameCn: "开关",
+    icon: "icon-kaiguanguan",
+    formConfig: getFormConfig("Switch", [{ fieldName: "default", component: "Switch" }]),
+    props: {
+      drag: Boolean,
+      data: Object,
+      item: Object,
     },
-    morenConfig() {
-      return [
-        {
-          ControlType: "Switch",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            showRule: "{}",
-            required: false,
-            default: false,
-            rule: "[]",
-          },
-        }
-      ];
-    },
-  },
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler(){
-        this.$emit('change')
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
       },
-      deep: true
-    }
-  },
-});
+    },
+  });
 </script>

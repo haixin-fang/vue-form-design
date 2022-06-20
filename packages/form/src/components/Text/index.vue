@@ -14,38 +14,31 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import {fields, setReturnConfig} from '../../utils/fieldConfig'
-export default defineComponent({
-  ControlType: "Text", // 必须与文件名匹配
-  nameCn: "文本框",
-  icon: "icon-wenbenkuang",
-  formConfig: {
-    data() {
-      return fields;
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  export default defineComponent({
+    ControlType: "Text", // 必须与文件名匹配
+    nameCn: "文本框",
+    icon: "icon-wenbenkuang",
+    formConfig: getFormConfig("Text", [
+      { fieldName: "default", component: "Text" },
+      { fieldName: "placeholder", component: "Text" },
+    ]),
+    props: {
+      drag: Boolean,
+      data: Object,
+      item: Object,
     },
-    morenConfig() {
-      return [
-        setReturnConfig('Text', 'default'),
-        setReturnConfig('Text', 'placeholder'),
-      ];
+    mounted() {
+      console.log(this);
     },
-  },
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  mounted(){
-    console.log(this);
-  },
-  watch: {
-    data: {
-      handler(){
-        this.$emit('change')
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
+        },
+        deep: true,
       },
-      deep: true
-    }
-  },
-});
+    },
+  });
 </script>

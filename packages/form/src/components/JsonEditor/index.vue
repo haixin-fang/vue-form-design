@@ -31,42 +31,14 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { getFormConfig } from "../../utils/fieldConfig";
 import _ from "@/utils/_";
 export default defineComponent({
   ControlType: "JsonEditor", // 必须与文件名匹配
   nameCn: "JSON编辑",
   icon: "icon-json-full",
   rule: _.getJsonValidate(),
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "[]",
-        json: true,
-      };
-    },
-    morenConfig() {
-      return [
-        {
-          ControlType: "JsonEditor",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
+  formConfig: getFormConfig('JsonEditor', [{ fieldName: "default", component: "JsonEditor" }]),
   props: {
     drag: Boolean,
     data: Object,

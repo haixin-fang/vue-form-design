@@ -16,27 +16,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import E from "wangeditor";
+import { getFormConfig } from "../../utils/fieldConfig";
 export default defineComponent({
   ControlType: "RichText", // 必须与文件名匹配
   nameCn: "富文本",
   icon: "icon-textEdit",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "",
-      };
-    },
-    morenConfig() {
-      return [];
-    },
-  },
+  formConfig: getFormConfig('RichText'),
   props: {
     drag: Boolean,
     data: Object,

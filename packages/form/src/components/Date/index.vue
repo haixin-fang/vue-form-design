@@ -17,52 +17,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { getFormConfig } from "../../utils/fieldConfig";
 export default defineComponent({
   ControlType: "Date", // 必须与文件名匹配
   nameCn: "日期选择",
   icon: "icon-24gl-calendar",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "请输入",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "",
-      };
-    },
-    morenConfig() {
-      return [
-        {
-          ControlType: "Date",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "请输入",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "placeholder",
-            tip: "",
-            label: "输入占位文字",
-            placeholder: "请输入占位文字",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
+  formConfig: getFormConfig('Date', [{ fieldName: "default", component: "Date" },{ fieldName: "placeholder", component: "Text" }]),
   props: {
     drag: Boolean,
     data: Object,

@@ -14,65 +14,28 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  ControlType: "TextArea", // 必须与文件名匹配
-  nameCn: "文本域",
-  icon: "icon-textarea",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: "",
-      };
+  import { defineComponent } from "vue";
+  import { getFormConfig } from "../../utils/fieldConfig";
+  export default defineComponent({
+    ControlType: "TextArea", // 必须与文件名匹配
+    nameCn: "文本域",
+    icon: "icon-textarea",
+    formConfig: getFormConfig("TextArea", [
+      { fieldName: "default", component: "Text" },
+      { fieldName: "placeholder", component: "Text" },
+    ]),
+    props: {
+      drag: Boolean,
+      data: Object,
+      item: Object,
     },
-    morenConfig() {
-      return [
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
+    watch: {
+      data: {
+        handler() {
+          this.$emit("change");
         },
-        {
-          ControlType: "Text",
-          data: {
-            fieldName: "placeholder",
-            tip: "",
-            label: "输入占位文字",
-            placeholder: "请输入占位文字",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
-  props: {
-    drag: Boolean,
-    data: Object,
-    item: Object,
-  },
-  watch: {
-    data: {
-      handler(){
-        this.$emit('change')
+        deep: true,
       },
-      deep: true
-    }
-  },
-});
+    },
+  });
 </script>

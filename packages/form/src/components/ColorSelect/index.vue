@@ -21,40 +21,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { getFormConfig } from "../../utils/fieldConfig";
 export default defineComponent({
   ControlType: "ColorSelect", // 必须与文件名匹配
   nameCn: "颜色选择",
   icon: "icon-sen103",
-  formConfig: {
-    data() {
-      return {
-        fieldName: "",
-        label: "标签名称",
-        tip: "",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-        default: '#409EFF',
-      };
-    },
-    morenConfig() {
-      return [
-        {
-          ControlType: "ColorSelect",
-          data: {
-            fieldName: "default",
-            tip: "",
-            label: "默认值",
-            placeholder: "",
-            showRule: "{}",
-            required: false,
-            rule: "[]",
-          },
-        },
-      ];
-    },
-  },
+  formConfig: getFormConfig('ColorSelect', [{fieldName: 'default', component: 'ColorSelect'}]),
   props: {
     drag: Boolean,
     data: Object,

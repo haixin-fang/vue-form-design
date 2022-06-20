@@ -88,12 +88,11 @@ export default defineComponent({
             item = _.deepClone(item);
             item.formConfig = formcomponents[item.ControlType].formConfig;
             console.log(item.formConfig.data());
-            item.data = JSON.parse(JSON.stringify(item.formConfig.data()));
+            item.data =item.formConfig.data();
             if (!item.data.fieldName) {
               item.data.fieldName = item.ControlType + "_" + _.generateMixed(3);
             }
-            const defaultConfig = JSON.parse(JSON.stringify(myMixin.initControlItems()));
-            const controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
+            const controlItems = item.formConfig.morenConfig();
             item.rules = _.controlFormRule(controlItems, item);
             item.controlItems = controlItems;
           }
