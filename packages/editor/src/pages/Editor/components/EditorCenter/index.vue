@@ -33,7 +33,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance } from "vue";
+import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance, } from "vue";
 import Grid from "~editor/Grid/index.vue";
 import { useUserMove, handleWheelScroll } from "@/utils/editMouse";
 import ControllEditSize from "~editor/ControllEditSize/index.vue";
@@ -43,7 +43,6 @@ import { myMixin } from "@/utils/dynamicform";
 // import { formcomponents } from "@/pages/Editor";
 import formStore from '@/store/form'
 import store from '@/store/index'
-import vm from "@/utils/vm";
 import _ from "@/utils/_";
 import { paste } from "@/utils/shortcutKey";
 export default defineComponent({
@@ -157,7 +156,7 @@ export default defineComponent({
     };
     // 初始化组件传值
     const initEventBus = () => {
-      vm.on("changeViewAndJson", async (type) => {
+      proxy.$EventBus.on("changeViewAndJson", async (type:any) => {
         if (type == "json") {
           viewAndJson.value = type;
           await nextTick();

@@ -1,5 +1,7 @@
 import { App } from "vue";
 
+import './styles/formedit.scss';
+
 import Text from "./components/Text/index.vue";
 import TextArea from "./components/TextArea/index.vue";
 import Switch from "./components/Switch/index.vue";

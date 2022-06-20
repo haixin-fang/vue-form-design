@@ -14,7 +14,6 @@
 <script lang="ts">
 import { defineComponent, ref, toRefs, nextTick, watch, computed, reactive } from "vue";
 import {copy, paste, onDelete, cut, onTop, onBottom} from '@/utils/shortcutKey'
-// import {useStore} from 'vuex'
 import useStore from '@/store/form'
 export default defineComponent({
   props: {
@@ -27,7 +26,6 @@ export default defineComponent({
     console.log(this.len)
   },
   setup(props, context) {
-    // const store = useStore();
     const isShow = ref(false);
     const editForm = ref();
     const {emit} = context

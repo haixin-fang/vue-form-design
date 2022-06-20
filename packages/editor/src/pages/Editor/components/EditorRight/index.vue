@@ -21,12 +21,12 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, onMounted, ref, watch, nextTick } from "vue";
+  import { computed, defineComponent, onMounted, ref, watch, nextTick, getCurrentInstance} from "vue";
   import formStore from "@/store/form";
   import _ from "@/utils/_";
-  import vm from "@/utils/vm";
   export default defineComponent({
     setup() {
+      const {proxy}  = getCurrentInstance() as any;
       // 该模块是否隐藏 默认显示
       const moduleIsHidden = ref(true);
       const show = ref(true);
@@ -71,7 +71,7 @@
       };
       const triggerViewJson = (type: string) => {
         viewAndJson.value = type;
-        vm.emit("changeViewAndJson", type);
+        proxy.$EventBus.emit("changeViewAndJson", type);
       };
 
       // 预览或保存时验证所有表单是否输入正确
@@ -138,10 +138,10 @@
       //     checkValidates();
       //   }
       // });
-      vm.on("openPreview", async () => {
+      proxy.$EventBus.on("openPreview", async () => {
         checkValidates();
       });
-      vm.on("setSave", async () => {
+      proxy.$EventBus.on("setSave", async () => {
         checkValidates(true);
       });
       // watch(save, async () => {

@@ -8,8 +8,8 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-input v-model="item.data.default" :placeholder="item.data.placeholder" v-if="drag" />
-      <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" />
+      <el-input v-model="item.data.default" :placeholder="item.data.placeholder" v-if="drag" size="small" />
+      <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" size="small" />
     </div>
   </div>
 </template>
