@@ -1,6 +1,6 @@
 import { App } from "vue";
 
-import './styles/formedit.scss';
+import "./styles/formedit.scss";
 
 import Text from "./components/Text/index.vue";
 import TextArea from "./components/TextArea/index.vue";
@@ -19,6 +19,8 @@ import Slider from "./components/Slider/index.vue";
 // import Selected from './components/Selected/index.vue'
 import Divider from "./components/Divider/index.vue";
 import RichText from "./components/RichText/index.vue";
+
+export { default as Dynamicform } from "./Form.vue";
 
 // 可以单个导入表单组件
 export { default as SText } from "./components/Text/index.vue";

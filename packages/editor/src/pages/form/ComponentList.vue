@@ -1,8 +1,8 @@
 <template>
-  <div class="editor_pages_left">
+  <el-scrollbar class="editor_pages_left">
     <draggable class="dragArea list-group" :list="formcomponents" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
-        <div class="list-group-item">
+        <div class="list-group-item" :alt="element.nameCn">
           <div class="form-item">
             <span class="iconfont" :class="element.icon"></span>
           </div>
@@ -10,12 +10,11 @@
         </div>
       </template>
     </draggable>
-  </div>
+  </el-scrollbar>
 </template>
 <script lang="ts">
   import { defineComponent } from "vue";
   import draggable from "vuedraggable";
-  import _ from "@/utils/_";
 
   export default defineComponent({
     components: {
@@ -51,8 +50,8 @@
 </script>
 <style lang="scss" scoped>
   .editor_pages_left {
-    padding: 15px 10px;
-    width: 308px;
+    padding: 15px 0;
+    width: 100%;
     height: 100%;
     .list-group {
       display: flex;
@@ -65,7 +64,7 @@
       align-items: center;
       flex-wrap: wrap;
       margin: 7px 10px;
-      width: 25%;
+      width: 55px;
       .form-item {
         width: 42px;
         height: 42px;
@@ -89,7 +88,7 @@
       .item-text {
         font-size: 12px;
         display: inline-block;
-        width: 100;
+        width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

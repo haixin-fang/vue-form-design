@@ -1,43 +1,6 @@
 import { ElMessageBox } from "element-plus";
-const chars: string[] = [
-  "0",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
-declare global{
+const chars: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+declare global {
   interface Window {
     clickCountLimitMock: boolean;
     JSONEditor: any;
@@ -45,10 +8,10 @@ declare global{
 }
 class Flex {
   lastClickTime: number;
-  openTanc:boolean ;
+  openTanc: boolean;
   constructor() {
     this.lastClickTime = 0;
-    this.openTanc = false // 是否有弹窗
+    this.openTanc = false; // 是否有弹窗
   }
   //  防止用户多次点击
   clickCountLimit(): boolean {
@@ -78,7 +41,7 @@ class Flex {
     }
     return res;
   }
-  controlFormRule(controlItems: any[], items: any): any {
+  controlFormRule(controlItems: any[], items?: any): any {
     const rules: any = {};
     controlItems.forEach((item: any) => {
       const rule: any[] = [];
@@ -88,10 +51,10 @@ class Flex {
           message: "请输入" + item.data.label,
           trigger: "blur",
         });
-        rules[item.data.fieldName] = rule
-      } 
-      if(item.ControlType === 'JsonEditor'){
-        rules[item.data.fieldName] = this.getJsonValidate()
+        rules[item.data.fieldName] = rule;
+      }
+      if (item.ControlType === "JsonEditor") {
+        rules[item.data.fieldName] = this.getJsonValidate();
       }
     });
     return rules;
@@ -118,20 +81,20 @@ class Flex {
     }
   }
   open(message: string, title?: string) {
-    if(this.openTanc)return
-    this.openTanc = true
+    if (this.openTanc) return;
+    this.openTanc = true;
     ElMessageBox.alert(message, title, {
       confirmButtonText: "OK",
     }).then(() => {
-      this.openTanc = false
+      this.openTanc = false;
     });
   }
-  getJsonValidate(){
+  getJsonValidate() {
     return this.deepClone([
       {
-        validator: (rule: any, value: any, callback: (a?:any | undefined) => any) => {
+        validator: (rule: any, value: any, callback: (a?: any | undefined) => any) => {
           try {
-            const text = JSON.parse(value);
+            JSON.parse(value);
             callback();
           } catch (e) {
             console.error(e);
@@ -140,13 +103,13 @@ class Flex {
         },
         trigger: "blur",
       },
-    ])
+    ]);
   }
   // 获取数据类型
-  getDataType(data:any):any{
-    const str:any = Object.prototype.toString.call(data)
-    const reg = /\[object (.*)\]/
-    return str.match(reg)[1]
+  getDataType(data: any): any {
+    const str: any = Object.prototype.toString.call(data);
+    const reg = /\[object (.*)\]/;
+    return str.match(reg)[1];
   }
 }
 

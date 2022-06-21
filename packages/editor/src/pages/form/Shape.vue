@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, toRefs, nextTick, watch, computed, reactive } from "vue";
+import { defineComponent, ref,nextTick, watch, computed } from "vue";
 import {copy, paste, onDelete, cut, onTop, onBottom} from '@/utils/shortcutKey'
 import useStore from '@/store/form'
 export default defineComponent({
@@ -83,7 +83,7 @@ export default defineComponent({
 <style lang="scss">
 .shape {
   box-sizing: content-box;
-  padding-bottom: 12px;
+  // padding-bottom: 12px;
   border: 2px solid transparent;
   position: relative;
   cursor: move;

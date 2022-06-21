@@ -12,6 +12,7 @@
     "@babel/core": "^7.18.5",
     "core-js": "^3.6.5",
     "element-plus": "1.1.0-beta.17",
+    "gesto": "^1.9.0",
     "mitt": "^3.0.0",
     "vue": "^3.0.0",
     "vuedraggable": "^4.1.0",
@@ -27,7 +28,7 @@
     "node-sass": "4.14.1",
     "sass": "^1.42.1",
     "sass-loader": "8.0.2",
-    "typescript": "4.1.5",
+    "typescript": "^4.3.4",
     "vite": "^2.9.12"
   }
 }

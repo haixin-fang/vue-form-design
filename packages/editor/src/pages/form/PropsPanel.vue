@@ -3,10 +3,10 @@
     <div class="editor_right_accept" @click="handleEditBtn">
       <i class="iconfont icon-jiantou_xiangyouliangci" :class="moduleIsHidden ? 'icon-jiantou_xiangyouliangci' : 'icon-jiantou_xiangzuoliangci'"></i>
     </div>
-    <div class="controlLine" @mousedown="handleLine"></div>
+    <!-- <div class="controlLine" @mousedown="handleLine"></div> -->
     <div class="viewAndJson">
-      <el-button type="primary" size="medium" :plain="viewAndJson !== 'view'" @click="triggerViewJson('view')">视图</el-button>
-      <el-button type="primary" size="medium" :plain="viewAndJson !== 'json'" @click="triggerViewJson('json')">JSON</el-button>
+      <el-button  size="small" :plain="viewAndJson !== 'view'" @click="triggerViewJson('view')">视图</el-button>
+      <el-button  size="small" :plain="viewAndJson !== 'json'" @click="triggerViewJson('json')">JSON</el-button>
       <!-- <div class="view" :class="viewAndJson == 'view' ? 'active' : ''" @click="triggerViewJson('view')">视图</div>
       <div class="json" :class="viewAndJson == 'json' ? 'active' : ''" @click="triggerViewJson('json')">JSON</div> -->
     </div>
@@ -21,7 +21,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, onMounted, ref, watch, nextTick, getCurrentInstance} from "vue";
+  import { computed, defineComponent,  ref, watch, nextTick, getCurrentInstance} from "vue";
   import formStore from "@/store/form";
   import _ from "@/utils/_";
   export default defineComponent({
@@ -78,8 +78,8 @@
       const preview = computed(() => formStore.get("preview"));
       const allFormList = computed(() => formStore.getAllFormList());
       const checkNowFormValidate = function (content: string, title: string) {
-        return new Promise((resolve, reject) => {
-          ruleForm.value.validate((valid: any, errFields: any) => {
+        return new Promise((resolve) => {
+          ruleForm.value.validate((valid: any) => {
             if (!valid) {
               _.open(content, title);
               resolve(false);
@@ -104,6 +104,7 @@
       const formUpdate = computed(() => formStore.get("formUpdate"));
 
       const checkValidates = async (formSave?: boolean) => {
+        debugger
         const curControlIndex = formStore.get("currentIndex");
         if (preview.value || save.value || formUpdate.value) {
           const preview = await checkFormValidate();
@@ -186,11 +187,11 @@
 </script>
 <style lang="scss">
   .editor_pages_right {
-    width: 378px;
+    width: 100%;
     height: 100%;
-    position: fixed;
-    right: 0;
-    top: $editor_header_top;
+    // position: fixed;
+    // right: 0;
+    top: $editor_nav;
     background: white;
     // padding: 30px 0;
     z-index: 1;

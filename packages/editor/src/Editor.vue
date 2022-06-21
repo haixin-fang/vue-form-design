@@ -1,0 +1,59 @@
+<template>
+  <!-- <Editor></Editor> -->
+  <framework>
+    <template #nav>
+      <nav-list></nav-list>
+    </template>
+    <template #left>
+      <component-list></component-list>
+    </template>
+    <template #workspace>
+      <workspace></workspace>
+    </template>
+    <template #propsPanel>
+      <props-panel></props-panel>
+    </template>
+    <template #other>
+      <form-preview></form-preview>
+    </template>
+  </framework>
+</template>
+
+<script lang="ts">
+  import { defineComponent, provide } from "vue";
+  // import Editor from "@/pages/Editor/index.vue";
+  import Framework from "@/layouts/Framework.vue";
+  import NavList from "~editor/NavList.vue";
+  import ComponentList from "~editor/ComponentList.vue";
+  import Workspace from "~editor/Workspace.vue";
+  import PropsPanel from "~editor/PropsPanel.vue";
+  import FormPreview from "~editor/FormPreview.vue";
+
+  import uiControl from "@/controller/ui";
+
+  import { listenGlobalKeyDown } from "@/utils/shortcutKey";
+
+  import type { Controls } from "./type";
+
+  export default defineComponent({
+    name: "App",
+    components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview },
+    setup() {
+      const control: Controls = {
+        uiControl,
+      };
+      listenGlobalKeyDown();
+      provide("control", control);
+    },
+  });
+</script>
+
+<style>
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+</style>

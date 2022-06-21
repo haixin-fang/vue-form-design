@@ -9,7 +9,7 @@ export default defineConfig({
                 find: '@', replacement: path.resolve(__dirname, './src'),
             },
             {
-                find: '~editor', replacement: path.resolve(__dirname, './src/pages/Editor/components'),
+                find: '~editor', replacement: path.resolve(__dirname, './src/pages/form'),
             },
             {
                 find: /@starfish/, replacement: path.resolve(__dirname, '../'),

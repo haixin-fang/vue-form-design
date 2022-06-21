@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <teleport to="body">
     <CustomDialog ref="previewDialog" :showDialog="previewShow" @close="handlePreviewShow">
       <div class="formconfig">
         <dynamicform :formResult="formResult" :allFormList="allFormList" ref="dynamicform" />
       </div>
       <el-footer class="my-Footer" style="height: 60px; padding-top: 10px; text-align: right">
-        <el-button type="primary" @click="ImitateSubmit">模拟提交</el-button>
-        <el-button @click="closeDialog">关闭</el-button>
+        <el-button size="small" @click="ImitateSubmit">模拟提交</el-button>
+        <el-button size="small" @click="closeDialog">关闭</el-button>
       </el-footer>
     </CustomDialog>
     <CustomDialog ref="myDialog">
@@ -18,29 +18,30 @@
         </el-container>
       </el-main>
     </CustomDialog>
-  </div>
+  </teleport>
 </template>
 <script lang="ts">
   import { computed, defineComponent, nextTick, ref, watch } from "vue";
-  import dynamicform from "~editor/dynamicform/index.vue";
-  import formStore from '@/store/form';
+  // import dynamicform from "~editor/dynamicform/index.vue";
+  import formStore from "@/store/form";
+  import { Dynamicform } from "@starfish/form";
   import _ from "@/utils/_";
   export default defineComponent({
     components: {
-      dynamicform,
+      Dynamicform,
     },
     setup() {
-      const previewShow = computed(() => formStore.get('previewShow'));
-      const allFormList = computed(() => formStore.get('AllFormResult'));
-      const formResult = computed(() => formStore.get('formResult'));
+      const previewShow = computed(() => formStore.get("previewShow"));
+      const allFormList = computed(() => formStore.get("AllFormResult"));
+      const formResult = computed(() => formStore.get("formResult"));
       const dynamicform = ref();
       const previewDialog = ref<any>();
       const handlePreviewShow = () => {
-        formStore.set('previewShow', false)
+        formStore.set("previewShow", false);
       };
       const handleFormResult = () => {
         // 配置组件时动态表单提交时进行校验
-        dynamicform.value.ruleForm.validate((valid: any, errFields: any) => {
+        dynamicform.value.ruleForm.validate(() => {
           console.log(dynamicform.value);
         });
       };
@@ -65,7 +66,6 @@
           mode: "code",
           search: false,
         };
-        debugger;
         const editor = new window.JSONEditor(JsonViewerDialog.value, options);
         editor.set(_.tryParseJson(JSON.stringify(formResult.value)));
       };
