@@ -6,6 +6,10 @@ $editor-nav-background-color: white;
 $editor_canvas_min_height: 667px;
 
 $blue: #409eff;
+
+$resizer_background_color: #e6dddd;
+
+$resizer_hover_background_color: #999;
 @mixin scrollbar() {
   &::-webkit-scrollbar {
     width: 7px;

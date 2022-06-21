@@ -17,7 +17,9 @@
               </el-button>
             </div>
           </el-header>
-          <slot></slot>
+          <el-scrollbar>
+            <slot></slot>
+          </el-scrollbar>
         </el-container>
       </div>
     </div>

@@ -17,7 +17,7 @@ const DIALOG_WIDTH = 500
 
 const state = reactive<UiState>({
   columnWidth: defaultColumnWidth,
-  dialogWidth: DIALOG_WIDTH
+  dialogWidth: DIALOG_WIDTH,
 });
 
 class Ui {
@@ -33,17 +33,21 @@ class Ui {
     const columnWidth = {
       ...toRaw(this.get<GetColumnWidth>("columnWidth")),
     };
-    if (left) {
+    if (left && left >= 0) {
       columnWidth.left = left;
+    }else{
+      columnWidth.left = defaultColumnWidth.left;
     }
-    if (right) {
+    if (right && right >= 0) {
       columnWidth.right = right;
+    }else{
+      columnWidth.right = defaultColumnWidth.right;
     }
 
     if (!center || center == "auto") {
       const bodyWidth = window.document.body.clientWidth;
       columnWidth.center = bodyWidth - (columnWidth?.left || 0) - (columnWidth?.right || 0);
-      if (columnWidth.center < 0) {
+      if (columnWidth.center <= 0) {
         columnWidth.left = defaultColumnWidth.left;
         columnWidth.center = defaultColumnWidth.center;
         columnWidth.right = defaultColumnWidth.right;
@@ -53,6 +57,8 @@ class Ui {
     }
 
     state.columnWidth = columnWidth;
+    console.log(1,defaultColumnWidth)
+    console.log(2,columnWidth)
   }
 }
 

@@ -50,7 +50,6 @@
 </script>
 <style lang="scss" scoped>
   .editor_pages_left {
-    padding: 15px 0;
     width: 100%;
     height: 100%;
     .list-group {

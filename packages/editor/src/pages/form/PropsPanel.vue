@@ -43,32 +43,6 @@
       const handleEditBtn = () => {
         moduleIsHidden.value = !moduleIsHidden.value;
       };
-      const handleLine = (e: any) => {
-        isTransition.value = false;
-        const startX = e.clientX;
-        const width = editRight.value.offsetWidth;
-        const move = (e: any) => {
-          const moveX = e.clientX;
-          const x = startX - moveX;
-          if (width + x > 200 && width + x <= 600) {
-            editRight.value.style.width = width + x + "px";
-          } else if (width + x > 600) {
-            _.open("不能太大啦！");
-          } else {
-            if (_.clickCountLimit()) {
-              _.open("不能再小啦！");
-            }
-          }
-          console.log(x);
-        };
-        const up = () => {
-          isTransition.value = true;
-          document.documentElement.removeEventListener("mousemove", move);
-          document.documentElement.removeEventListener("mouseup", up);
-        };
-        document.documentElement.addEventListener("mousemove", move);
-        document.documentElement.addEventListener("mouseup", up);
-      };
       const triggerViewJson = (type: string) => {
         viewAndJson.value = type;
         proxy.$EventBus.emit("changeViewAndJson", type);
@@ -170,7 +144,6 @@
       return {
         moduleIsHidden,
         handleEditBtn,
-        handleLine,
         isTransition,
         editRight,
         controlItems,
@@ -194,6 +167,7 @@
     background: white;
     // padding: 30px 0;
     z-index: 1;
+    overflow: hidden;
     &.editor_transition {
       transition: all 0.5s ease-in-out 0s;
     }
@@ -211,9 +185,9 @@
     }
     .viewAndJson {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       justify-items: center;
-      margin: 0 auto;
+      margin: 5px auto;
       width: 80%;
       > div {
         width: 30%;

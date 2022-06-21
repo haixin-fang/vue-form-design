@@ -21,6 +21,7 @@
           container: window,
           pinchOutside: true,
         }).on("drag", (e) => {
+          debugger
           if (!target.value || !uiControl) return;
           let { right, left } = {
             ...toRaw(uiControl?.get("columnWidth")),
@@ -48,13 +49,13 @@
   .starfish-editor-resizer {
     height: 100%;
     width: 5px;
-    background: red;
+    background: $resizer_background_color;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     box-sizing: border-box;
     &:hover {
       cursor: ew-resize;
-      border-color: $blue;
+      border-color: $resizer_hover_background_color;
     }
   }
 </style>
