@@ -104,7 +104,6 @@
       const formUpdate = computed(() => formStore.get("formUpdate"));
 
       const checkValidates = async (formSave?: boolean) => {
-        debugger
         const curControlIndex = formStore.get("currentIndex");
         if (preview.value || save.value || formUpdate.value) {
           const preview = await checkFormValidate();

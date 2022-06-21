@@ -8,7 +8,7 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <div id="jsoneditor" ref="jsonEditor">
+      <div id="jsoneditor" ref="jsoneditor">
         <div class="fullScreen" @click="showCustomDialog">
           <i class="iconfont icon-quanping"></i>
         </div>
@@ -48,13 +48,26 @@
       ...fieldProps,
     },
     setup(props) {
-      const jsonEditor = ref<jsonEditor>({});
+      /**
+       * json dom
+       */
+      const jsoneditor = ref<jsonEditor>({});
+      /**
+       * dialog 初始化jsoneditor对象
+       */
       const jsonEditorDialog = ref<jsonEditor>({});
+      /**
+       * jsoneditor对象
+       */
+      const jsonEditors = ref<jsonEditor>();
+      /**
+       * dialog dom
+       */
       const JsonViewerDialogDom = ref<any>();
       const myDialog = ref<any>();
       useWatch(props.data);
       function initJson() {
-        const container = jsonEditor.value;
+        const container = jsoneditor.value;
         const data: any = props.data;
         const item: any = props.item;
         const fieldName = item.data.fieldName;
@@ -63,14 +76,14 @@
           mode: "code",
           search: false,
           onChange() {
-            data[fieldName] = jsonEditor.value.getText();
+            data[fieldName] = jsoneditor.value.getText();
           },
         };
-        jsonEditor.value = new window.JSONEditor(container, options);
+        jsonEditors.value = new window.JSONEditor(container, options);
         if (props.drag) {
-          jsonEditor.value.set(_.tryParseJson(item.data.default));
+          jsonEditors.value?.set(_.tryParseJson(item.data.default));
         } else {
-          jsonEditor.value.set(_.tryParseJson(data[item.data.fieldName]));
+          jsonEditors.value?.set(_.tryParseJson(data[item.data.fieldName]));
         }
       }
       onMounted(() => {
@@ -80,17 +93,17 @@
         () => props.item,
         (newValue: any) => {
           if (props.drag) {
-            jsonEditor.value.set(_.tryParseJson(newValue.data.default));
+            jsonEditors.value?.set(_.tryParseJson(newValue.data.default));
           } else {
             const data: any = props.data;
             const item: any = props.item;
-            jsonEditor.value.set(_.tryParseJson(data[item.data.fieldName]));
+            jsonEditors.value?.set(_.tryParseJson(data[item.data.fieldName]));
           }
         }
       );
       return {
         myDialog,
-        jsonEditor,
+        jsoneditor,
         JsonViewerDialogDom,
         async showCustomDialog() {
           const myDialogDom: any = myDialog.value;
@@ -104,17 +117,17 @@
             search: false,
           };
           jsonEditorDialog.value = new window.JSONEditor(container, options);
-          jsonEditorDialog.value.set(_.tryParseJson(jsonEditor.value.getText()));
+          jsonEditorDialog.value.set(_.tryParseJson(jsoneditor.value.getText()));
         },
         closeDialog() {
           myDialog.value.close();
         },
         saveJson() {
-          jsonEditor.value.set(_.tryParseJson(jsonEditorDialog.value.getText()));
+          jsonEditors.value?.set(_.tryParseJson(jsonEditorDialog.value.getText()));
           const data: any = props.data;
           const item: any = props.item;
           const fieldName = item.data.fieldName;
-          data[fieldName] = jsonEditor.value.getText();
+          data[fieldName] = jsonEditors.value?.getText();
           myDialog.value.close();
         },
       };
