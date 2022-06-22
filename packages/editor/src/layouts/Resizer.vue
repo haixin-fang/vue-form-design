@@ -21,7 +21,6 @@
           container: window,
           pinchOutside: true,
         }).on("drag", (e) => {
-          debugger
           if (!target.value || !uiControl) return;
           let { right, left } = {
             ...toRaw(uiControl?.get("columnWidth")),
