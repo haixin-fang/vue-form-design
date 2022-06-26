@@ -14,6 +14,10 @@ export interface UiState {
    * 弹窗宽度
    */
   dialogWidth: number;
+  /**
+   * 编辑器缩放比例
+   */
+  scale: number;
 }
 
 export interface Controls {

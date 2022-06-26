@@ -8,8 +8,8 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <div :class="'richText' + a" v-if="drag"></div>
-      <div :class="'richText' + a" v-if="!drag"></div>
+      <div ref="richText" v-if="drag" ></div>
+      <div ref="richText" v-if="!drag" ></div>
     </div>
   </div>
 </template>
@@ -36,15 +36,16 @@
     },
     setup(props) {
       const random = ref(Math.ceil(Math.random() * 100));
+      const richText = ref();
       let editor: any = null;
       useWatch(props.data);
       onMounted(() => {
         if (props.drag) {
-          editor = new E(".richText" + random.value);
+          editor = new E(richText.value);
           editor.config.focus = false;
           editor.create();
         } else {
-          editor = new E(".richText" + random.value);
+          editor = new E(richText.value);
           editor.config.focus = false;
           editor.create();
           const data: any = props.data;
@@ -60,7 +61,7 @@
         editor = null;
       });
       return {
-        a: random,
+        richText
       };
     },
   });

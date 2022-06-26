@@ -47,8 +47,8 @@
 <style lang="scss" scoped>
   .starfish-editor-resizer {
     height: 100%;
-    width: 5px;
-    background: $resizer_background_color;
+    width: 8px;
+    background: padding-box $resizer_background_color;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     box-sizing: border-box;

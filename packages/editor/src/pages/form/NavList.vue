@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
-    <el-button  plain @click="handleFormSave" size="small">保存</el-button>
-    <el-button  plain @click="handleFormPre" size="small">预览</el-button>
+    <el-button plain @click="handleFormSave" size="small">保存</el-button>
+    <el-button plain @click="handleFormPre" size="small">预览</el-button>
     <!-- <el-button type="primary" plain @click="handleShortKey('copy')" >复制</el-button>
         <el-button type="primary" plain @click="handleShortKey('paste')" >粘贴</el-button>
         <el-button type="primary" plain @click="handleShortKey('cut')" >剪切</el-button>
@@ -49,12 +49,12 @@
   });
 </script>
 <style lang="scss" scoped>
-   .nav {
-      height: $editor_nav;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: $editor-nav-background-color;
-      border-bottom: 1px solid #d8dee8;
-    }
+  .nav {
+    height: $editor_nav;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $editor-nav-background-color;
+    border-bottom: 1px solid #d8dee8;
+  }
 </style>

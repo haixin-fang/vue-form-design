@@ -12,12 +12,16 @@ const defaultColumnWidth = {
   right: DEFAUTL_RIGHT_COLUMN_WIDTH,
 };
 
-
-const DIALOG_WIDTH = 500
+const DIALOG_WIDTH = 500;
+/**
+ * 编辑器缩放比例
+ */
+const scale = 1;
 
 const state = reactive<UiState>({
   columnWidth: defaultColumnWidth,
   dialogWidth: DIALOG_WIDTH,
+  scale,
 });
 
 class Ui {
@@ -27,20 +31,30 @@ class Ui {
   public set<T>(name: keyof typeof state, value: T) {
     if (name === "columnWidth") {
       this.setColumnWidth(value);
+    }else if(name === 'scale'){
+      this.setScale(Number(value))
     }
   }
+
+  private setScale(size: number){
+    const range=[0.2, 1.5];
+    if(size >= range[0] && size <= range[1]){
+      state.scale = size
+    }
+  }
+
   private setColumnWidth({ left, center, right }: setColumnWidth) {
     const columnWidth = {
       ...toRaw(this.get<GetColumnWidth>("columnWidth")),
     };
     if (left && left >= 0) {
       columnWidth.left = left;
-    }else{
+    } else {
       columnWidth.left = defaultColumnWidth.left;
     }
-    if (right && right >= 0) {
+    if (right != undefined && right >= 0) {
       columnWidth.right = right;
-    }else{
+    } else {
       columnWidth.right = defaultColumnWidth.right;
     }
 
@@ -57,8 +71,8 @@ class Ui {
     }
 
     state.columnWidth = columnWidth;
-    console.log(1,defaultColumnWidth)
-    console.log(2,columnWidth)
+    console.log(1, defaultColumnWidth);
+    console.log(2, columnWidth);
   }
 }
 

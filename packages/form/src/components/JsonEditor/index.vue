@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <CustomDialog ref="myDialog">
+    <CustomDialog ref="myDialog" :width="500">
       <el-main style="padding: 0">
         <el-container style="height: 100%">
           <el-main class="my-pageMain">
@@ -76,7 +76,7 @@
           mode: "code",
           search: false,
           onChange() {
-            data[fieldName] = jsoneditor.value.getText();
+            data[fieldName] = jsonEditors.value?.getText();
           },
         };
         jsonEditors.value = new window.JSONEditor(container, options);
@@ -117,7 +117,7 @@
             search: false,
           };
           jsonEditorDialog.value = new window.JSONEditor(container, options);
-          jsonEditorDialog.value.set(_.tryParseJson(jsoneditor.value.getText()));
+          jsonEditorDialog.value?.set(_.tryParseJson(jsoneditor.value.getText()));
         },
         closeDialog() {
           myDialog.value.close();

@@ -64,9 +64,10 @@ export default defineComponent({
   position: absolute;
   width: 250px;
   background: #fff;
+  // transform: translateY(-105%);
+  // left: -105px;
+  right: 120%;
   top: 0;
-  transform: translateY(-105%);
-  left: -105px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   z-index: 20;
   padding-bottom: 20px;
@@ -75,10 +76,10 @@ export default defineComponent({
       height: 0;
       width: 0;
       border: 8px solid transparent;
-      border-top-color: #fff;
-      bottom: -15px;
-      left: 50%;
-      margin-left: -8px;
+      border-left-color: #fff;
+      right: 0;
+      top: 30%;
+      margin-right: -16px;
   }
   .title{
       text-align: center;

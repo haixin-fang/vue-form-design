@@ -72,16 +72,16 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.1s ease-in-out;
         margin-bottom: 5px;
         border-radius: 5px;
         &:hover {
-          background: #fff;
-          border: 1px solid #409eff;
-          color: #409eff;
+          background: #409eff;
+          // border: 1px solid #409eff;
+          color: #fff;
         }
         > span:first-child {
-          font-size: 16px;
+          font-size: 18px;
         }
       }
       .item-text {

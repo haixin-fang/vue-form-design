@@ -1,9 +1,6 @@
 <template>
   <div class="editor_pages_center">
-    <div class="editor_container" @mousedown="handleMouseDown">
-      <ControllEditSize @change="handleCanvasSize" :size="canvasSize" />
-    </div>
-    <div class="canvasBox" v-show="viewAndJson == 'view'" :ref="viewAndJson == 'view' ? 'canvasBox' : ''" :style="{ transition: isTransition ? 'all 0.05s linear' : '' }" :class="editType == 1 ? 'formCanvasBox' : ''">
+    <div class="canvasBox" v-show="viewAndJson == 'view'" :ref="viewAndJson == 'view' ? 'canvasBox' : ''" :class="editType == 1 ? 'formCanvasBox' : ''" :style="`transform: translateX(-50%) scale(${scale})`">
       <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable" v-show="viewAndJson == 'view'">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
@@ -28,9 +25,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance } from "vue";
-  import { useUserMove, handleWheelScroll } from "@/utils/editMouse";
-  import ControllEditSize from "@/layouts/ControlEditSize.vue";
+  import { defineComponent, ref, onMounted, reactive, watch, nextTick, computed, getCurrentInstance, inject } from "vue";
   import draggable from "vuedraggable";
   import Shape from "~editor/Shape.vue";
   import { myMixin } from "@/utils/dynamicform";
@@ -39,19 +34,18 @@
   import store from "@/store/index";
   import _ from "@/utils/_";
   import { paste } from "@/utils/shortcutKey";
+  import type { Controls } from "@/type";
   export default defineComponent({
     components: {
-      ControllEditSize,
       draggable,
       Shape,
     },
     setup() {
       const { proxy } = getCurrentInstance() as any;
+      const { uiControl } = inject<Controls>("control") || {};
       const formcomponents = proxy.$formcomponents;
       // 画布dom
       const canvasBox = ref();
-      // 鼠标点击则取消补间动画，原因：用户鼠标拖动会有延迟
-      const isTransition = ref<boolean>(true);
       // 页面默认大小
       const canvasSize = ref(1);
       // 移动的dom
@@ -76,7 +70,7 @@
               console.log(item.formConfig.data());
               item.data = item.formConfig.data();
               if (!item.data.fieldName) {
-                item.data.fieldName = item.ControlType + "_" + _.generateMixed(3);
+                item.data.fieldName = item.ControlType + "_" + _.generateMixed(6);
               }
               const controlItems = item.formConfig.morenConfig();
               item.rules = _.controlFormRule(controlItems, item);
@@ -95,12 +89,6 @@
       const viewAndJson = ref<any>("view");
       const formListLen = computed(() => formStore.get("formListLen"));
 
-      // 鼠标落下
-      const handleMouseDown = async (e: any) => {
-        formStore.setFormCurrentIndex(-1);
-        isTransition.value = false;
-        useUserMove(canvasBox.value, e, isTransition);
-      };
       const initJsonData = (formlist: any) => {
         const jsonData: any = [];
         formlist.forEach((item: any) => {
@@ -157,7 +145,6 @@
       // mounted生命周期
       const handleMounted = () => {
         initEventBus();
-        handleWheelScroll(canvasBox.value);
       };
       const handleCanvasScale = () => {
         // 处理页面的放大缩小
@@ -221,9 +208,8 @@
       };
       watch(formListLen, handleDraggableHeight);
       return {
-        handleMouseDown,
+        scale: computed(() => uiControl?.get<number>('scale')),
         canvasBox,
-        isTransition,
         editForm,
         handleCanvasSize,
         canvasSize,
@@ -247,17 +233,10 @@
 </script>
 <style lang="scss" scoped>
   .editor_pages_center {
-    overflow: hidden;
     background: #f0f2f5;
     position: relative;
     height: 100%;
-    .editor_container {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #f5f5f5;
-      border-width: 0 1px;
-      position: absolute;
-    }
+    overflow-y: auto;
     .canvasBox {
       width: 375px;
       height: auto;
@@ -266,10 +245,10 @@
       left: 50%;
       top: 50px;
       // margin-left: -350px;
-      transform: translateX(-50%);
       background: white;
-      transform-origin: 0 0;
+      transform-origin: 50% 0;
       box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
+      transition: all 0.2s linear;
       &.formCanvasBox {
         width: 500px;
         // margin-left: -470px;
@@ -278,9 +257,6 @@
         width: 100%;
         min-height: $editor_canvas_min_height;
         z-index: 1;
-        position: absolute;
-        top: 0;
-        left: 0;
         .dragArea {
           width: 100%;
           height: 100%;
@@ -320,8 +296,9 @@
     height: 666px !important;
     position: absolute;
     left: 50%;
-    top: 50px;
-    transform: translateX(-85%);
+    top: 50%;
+    transform: translate(-50%, -50%);
+
     > div {
       width: 100%;
       height: 100%;

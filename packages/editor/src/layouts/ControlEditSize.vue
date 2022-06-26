@@ -1,57 +1,49 @@
 <template>
-  <div class="controller_edit_size" @mousedown="handleMouseDownSize" ref="controllerSize">
-    <span @click="handleCanvasSize('add')"><i class="iconfont icon-jiahao"></i></span>
+  <div class="controller_edit_size" ref="controllerSize">
+    <span @click="handleCanvasSize(0.1)"><i class="iconfont icon-jiahao"></i></span>
     <span>{{ parseInt(size * 100) }}%</span>
-    <span @click="handleCanvasSize('cut')"><i class="iconfont icon-jianhao"></i></span>
-    <span class="line" @mouseover="handleShortcutShow" @mouseleave="handleShortCutHidden">
+    <span @click="handleCanvasSize(-0.1)"><i class="iconfont icon-jianhao"></i></span>
+    <span @mouseover="handleShortcutShow" @mouseleave="handleShortCutHidden">
       <i class="iconfont icon-jianpan_o"></i>
       <transition name="slide-fade">
         <shortcutKey v-show="shortCutShow" />
       </transition>
     </span>
-    <span class="line" @click="handleCanvasSize('restore')" title="复位">
+    <span @click="handleCanvasSize()" title="复位">
       <i class="iconfont icon-huanyuan"></i>
     </span>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, toRefs, reactive, ref } from "vue";
-  import { useUserMove } from "@/utils/editMouse";
+  import { defineComponent, ref, inject, computed } from "vue";
   import shortcutKey from "./ShortcutKey.vue";
+  import type { Controls } from "@/type";
   export default defineComponent({
     components: {
       shortcutKey,
     },
-    props: {
-      size: Number,
-    },
-    setup(props, context) {
-      const parent = { ...context };
-      // controllerEditSize dom
+    setup() {
+      const { uiControl } = inject<Controls>("control") || {};
       const controllerSize = ref();
-      const isTransition = ref(false);
       const shortCutShow = ref(false);
-      const date = reactive({
-        handleCanvasSize: (type: string) => {
-          parent.emit("change", type);
-        },
-      });
-      // 鼠标落到ControllEditSize上面
-      const handleMouseDownSize = (e: any) => {
-        useUserMove(controllerSize.value, e, isTransition);
+      const handleCanvasSize = (size: number) => {
+        if (!size) {
+          uiControl?.set<number>("scale", 1);
+        } else {
+          uiControl?.set<number>("scale", (uiControl?.get<number>("scale") || 1) + size);
+        }
       };
       const handleShortCutHidden = () => {
         shortCutShow.value = false;
       };
       const handleShortcutShow = () => {
-        console.log("1");
         shortCutShow.value = true;
       };
       return {
-        ...toRefs(date),
+        size: computed(() => uiControl?.get<number>("scale")),
+        handleCanvasSize,
         controllerSize,
         shortCutShow,
-        handleMouseDownSize,
         handleShortCutHidden,
         handleShortcutShow,
       };
@@ -60,41 +52,18 @@
 </script>
 <style lang="scss" scoped>
   .controller_edit_size {
-    position: absolute;
     display: flex;
+    flex-direction: column;
     align-items: center;
     z-index: 3;
-    right: 290px;
-    bottom: 150px;
-    height: 32px;
+    width: 38px;
     line-height: 30px;
-    background: #fff;
+    background: white;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     color: #4a4a4a;
     span {
-      padding: 0 4px;
       font-size: 14px;
-    }
-    span:first-child {
-      padding-left: 15px;
-    }
-    span:nth-child(4) {
-      position: relative;
-    }
-    .line::before {
-      content: "|";
-      color: #dbdbdb;
-      margin-right: 5px;
-      position: relative;
-      top: -1px;
-    }
-    .line {
-      i {
-        position: relative;
-        top: 1px;
-        font-size: 18px;
-      }
     }
   }
   .slide-fade-enter-active {
@@ -105,15 +74,15 @@
   }
   .slide-fade-enter-to,
   .slide-fade-leave {
-    transform: translateY(-105%) scale(1);
-    transform-origin: center bottom;
+    transform: translateX(0) scale(1);
+    // transform-origin: center bottom;
     opacity: 1;
   }
   .slide-fade-enter,
   .slide-fade-leave-to {
     opacity: 0;
-    transform: translateY(-105%) scale(0.5);
-    transform-origin: center bottom;
+    transform: translateX(-105%) scale(0.5);
+    // transform-origin: center bottom;
     // transform: translateX(5px);
     // opacity: 0;
   }

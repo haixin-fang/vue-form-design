@@ -28,7 +28,6 @@
   import Workspace from "~editor/Workspace.vue";
   import PropsPanel from "~editor/PropsPanel.vue";
   import FormPreview from "~editor/FormPreview.vue";
-
   import uiControl from "@/controller/ui";
 
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
@@ -54,6 +53,5 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
   }
 </style>

@@ -1,22 +1,14 @@
 <template>
   <teleport to="body">
     <CustomDialog ref="previewDialog" :showDialog="previewShow" @close="handlePreviewShow">
-      <div class="formconfig">
-        <dynamicform :formResult="formResult" :allFormList="allFormList" ref="dynamicform" />
+      <div class="previewList">
+        <div>
+          <dynamicform :formResult="formResult" :allFormList="allFormList" ref="dynamicform" />
+        </div>
+        <div>
+          <div ref="JsonViewerDialog" ></div>
+        </div>
       </div>
-      <el-footer class="my-Footer" style="height: 60px; padding-top: 10px; text-align: right">
-        <el-button size="small" @click="ImitateSubmit">模拟提交</el-button>
-        <el-button size="small" @click="closeDialog">关闭</el-button>
-      </el-footer>
-    </CustomDialog>
-    <CustomDialog ref="myDialog">
-      <el-main style="padding: 0">
-        <el-container style="height: 100%">
-          <el-main class="my-pageMain">
-            <div ref="JsonViewerDialog" style="height: calc(100% - 24px)"></div>
-          </el-main>
-        </el-container>
-      </el-main>
     </CustomDialog>
   </teleport>
 </template>
@@ -25,6 +17,7 @@
   // import dynamicform from "~editor/dynamicform/index.vue";
   import formStore from "@/store/form";
   import { Dynamicform } from "@starfish/form";
+  import uiControl from "@/controller/ui";
   import _ from "@/utils/_";
   export default defineComponent({
     components: {
@@ -36,6 +29,7 @@
       const formResult = computed(() => formStore.get("formResult"));
       const dynamicform = ref();
       const previewDialog = ref<any>();
+      let editor: any = null;
       const handlePreviewShow = () => {
         formStore.set("previewShow", false);
       };
@@ -45,44 +39,42 @@
           console.log(dynamicform.value);
         });
       };
-      watch(previewShow, () => {
+
+      watch(previewShow, async () => {
         if (!previewShow.value) {
           previewDialog.value.close();
         } else {
           previewDialog.value.init("表单预览", "icon-biaodan");
+          await nextTick();
+          const options = {
+            modes: ["text"],
+            mode: "code",
+            search: false,
+          };
+          editor = new window.JSONEditor(JsonViewerDialog.value, options);
+          editor?.set(_.tryParseJson(JSON.stringify(formResult.value)));
         }
       });
 
-      // 模拟提交
-      const myDialog = ref();
-      const JsonViewerDialog = ref();
-      const jsonEditorDialog = ref();
-      const ImitateSubmit = async () => {
-        myDialog.value.show();
-        myDialog.value.init("模拟提交的假数据", "icon-json-full");
-        await nextTick();
-        const options = {
-          modes: ["text"],
-          mode: "code",
-          search: false,
-        };
-        const editor = new window.JSONEditor(JsonViewerDialog.value, options);
-        editor.set(_.tryParseJson(JSON.stringify(formResult.value)));
-      };
+      watch(
+        () => formResult,
+        () => {
+          console.log(333);
+          editor?.set(_.tryParseJson(JSON.stringify(formResult.value)));
+        },
+        {
+          deep: true,
+        }
+      );
 
-      const closeDialog = () => {
-        formStore.setPreviewShow(false);
-      };
+      const JsonViewerDialog = ref();
       return {
+        dialogWidth: computed(() => uiControl?.get("dialogWidth")),
         previewShow,
         previewDialog,
         handlePreviewShow,
         handleFormResult,
-        ImitateSubmit,
-        closeDialog,
-        jsonEditorDialog,
         JsonViewerDialog,
-        myDialog,
         allFormList,
         formResult,
         dynamicform,
@@ -91,6 +83,27 @@
   });
 </script>
 <style lang="scss">
+  .previewList {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    background: #f0f2f5;
+    >div:first-child {
+      width: 30%;
+      height: 100%;
+      background: white;
+      overflow: auto;
+    }
+    >div:nth-child(2){
+      width: 70%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      >div{
+        width: 60%;
+      }
+    }
+  }
   .formconfig {
     height: 100%;
     overflow: scroll;
@@ -99,13 +112,4 @@
       padding-bottom: 0;
     }
   }
-  .submit {
-    position: absolute;
-    width: 150px;
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-    bottom: 0;
-  }
-
 </style>

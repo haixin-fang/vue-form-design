@@ -1,12 +1,12 @@
 <template>
-  <div class="editor_pages_right" ref="editRight" :class="[moduleIsHidden ? 'editor_pages_right_visible' : 'editor_pages_right_hidden', isTransition ? 'editor_transition' : '']">
+  <div class="editor_pages_right editor_pages_right_visible" ref="editRight">
     <div class="editor_right_accept" @click="handleEditBtn">
       <i class="iconfont icon-jiantou_xiangyouliangci" :class="moduleIsHidden ? 'icon-jiantou_xiangyouliangci' : 'icon-jiantou_xiangzuoliangci'"></i>
     </div>
     <!-- <div class="controlLine" @mousedown="handleLine"></div> -->
     <div class="viewAndJson">
-      <el-button  size="small" :plain="viewAndJson !== 'view'" @click="triggerViewJson('view')">视图</el-button>
-      <el-button  size="small" :plain="viewAndJson !== 'json'" @click="triggerViewJson('json')">JSON</el-button>
+      <el-button size="small" :plain="viewAndJson !== 'view'" @click="triggerViewJson('view')">视图</el-button>
+      <el-button size="small" :plain="viewAndJson !== 'json'" @click="triggerViewJson('json')">JSON</el-button>
       <!-- <div class="view" :class="viewAndJson == 'view' ? 'active' : ''" @click="triggerViewJson('view')">视图</div>
       <div class="json" :class="viewAndJson == 'json' ? 'active' : ''" @click="triggerViewJson('json')">JSON</div> -->
     </div>
@@ -18,15 +18,25 @@
       </el-form>
       <el-empty :image-size="200" v-if="!curControl.data" description="没有选中表单控件"></el-empty>
     </div>
+
+    <div class="editor_container" @mousedown="handleMouseDown">
+      <ControllEditSize />
+    </div>
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent,  ref, watch, nextTick, getCurrentInstance} from "vue";
+  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject } from "vue";
+  import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import formStore from "@/store/form";
+  import type { Controls } from "@/type";
   import _ from "@/utils/_";
   export default defineComponent({
+    components: {
+      ControllEditSize,
+    },
     setup() {
-      const {proxy}  = getCurrentInstance() as any;
+      const { proxy } = getCurrentInstance() as any;
+      const { uiControl } = inject<Controls>("control") || {};
       // 该模块是否隐藏 默认显示
       const moduleIsHidden = ref(true);
       const show = ref(true);
@@ -42,10 +52,20 @@
       const viewAndJson = ref<any>("view");
       const handleEditBtn = () => {
         moduleIsHidden.value = !moduleIsHidden.value;
+        if (moduleIsHidden.value) {
+          uiControl?.set("columnWidth", { right: undefined });
+        } else {
+          uiControl?.set("columnWidth", { right: 0 });
+        }
       };
       const triggerViewJson = (type: string) => {
         viewAndJson.value = type;
         proxy.$EventBus.emit("changeViewAndJson", type);
+      };
+
+      // 鼠标落下
+      const handleMouseDown = async (e: any) => {
+        formStore.setFormCurrentIndex(-1);
       };
 
       // 预览或保存时验证所有表单是否输入正确
@@ -142,6 +162,7 @@
       //   store.commit("initRuleForm", ruleForm);
       // });
       return {
+        handleMouseDown,
         moduleIsHidden,
         handleEditBtn,
         isTransition,
@@ -163,13 +184,18 @@
     height: 100%;
     // position: fixed;
     // right: 0;
-    top: $editor_nav;
     background: white;
     // padding: 30px 0;
     z-index: 1;
-    overflow: hidden;
+    position: relative;
     &.editor_transition {
       transition: all 0.5s ease-in-out 0s;
+    }
+    .editor_container {
+      position: absolute;
+      top: 100px;
+      left: 0;
+      transform: translateX(calc(-100% - 8px));
     }
     .controlLine {
       position: absolute;
@@ -229,7 +255,7 @@
       transform: translateY(-50%);
       cursor: pointer;
       position: absolute;
-      left: -20px;
+      left: -28px;
     }
   }
 </style>

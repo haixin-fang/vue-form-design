@@ -1,6 +1,6 @@
 <template>
   <div class="MyDialogFrame" v-if="isshow || showDialog">
-    <div class="MyDialogBody" :class="[{ fullscreen: isFullScreen }, dialogclass]" :style="`width: ${dialogWidth}px`">
+    <div class="MyDialogBody" :class="[{ fullscreen: isFullScreen }, dialogclass]"  :style="`width: ${width}px`">
       <div class="pageContent" style="height: 100%; padding: 0; overflow: hidden; background-color: transparent">
         <el-container class="my-pageContainer">
           <el-header class="my-pageHeader" style="height: 45px">
@@ -17,9 +17,7 @@
               </el-button>
             </div>
           </el-header>
-          <el-scrollbar>
             <slot></slot>
-          </el-scrollbar>
         </el-container>
       </div>
     </div>
@@ -27,26 +25,24 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, computed } from "vue";
-  import uiControl from "@/controller/ui";
+  import { defineComponent, ref } from "vue";
 
   export default defineComponent({
     props: {
       dialogclass: String,
       showDialog: Boolean,
+      width: Number
     },
     setup(props, { emit }) {
       const isshow = ref<boolean>(false);
       const title = ref<string>("");
       const icon = ref<string>("");
       const isFullScreen = ref<boolean>(false);
-      const dialogWidth = computed(() => uiControl?.get("dialogWidth"));
       return {
         isshow,
         title,
         icon,
         isFullScreen,
-        dialogWidth,
         init(titles: string, icons: string) {
           title.value = titles;
           icon.value = icons;
@@ -73,14 +69,18 @@
     z-index: 2000;
 
     .MyDialogBody {
-      width: 80%;
-      height: 90%;
+      width: 100%;
+      height: 100%;
       position: fixed;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       z-index: 5;
+    }
+    .fullscreen{
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .myDialogMask {

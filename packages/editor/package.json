@@ -16,7 +16,7 @@
     "mitt": "^3.0.0",
     "vue": "^3.0.0",
     "vuedraggable": "^4.1.0",
-    "wangeditor": "^4.7.9"
+    "wangeditor": "^4.7.15"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
