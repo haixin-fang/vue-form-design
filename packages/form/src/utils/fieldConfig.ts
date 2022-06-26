@@ -30,7 +30,9 @@ export interface fields {
   /**
    * 默认内容
    */
-  default?: string;
+  default?: string | number;
+  type?: number;
+  size?: string | number;
   itemConfig?: any;
 }
 interface FormConfig {
@@ -210,7 +212,7 @@ const fieldsMap: any = {
     rule: "[]",
     default: false,
     itemConfig: {
-      value: ["选项1"],
+      value: "选项1",
       id: 1,
       items: [
         {
@@ -265,7 +267,7 @@ const fieldsMap: any = {
     required: false,
     rule: "[]",
     default: 0,
-    type: 1,
+    type: '1',
     size: "large",
   },
   Divider: {
@@ -501,13 +503,16 @@ function getMoren(fieldName: string, component: string): fields {
     InputNumber: {
       ControlType: "InputNumber",
       data: {
-        fieldName: "default",
+        fieldName: "",
+        label: "标签名称",
         tip: "",
-        label: "默认值",
         placeholder: "",
         showRule: "{}",
         required: false,
         rule: "[]",
+        default: 0,
+        type: 1,
+        size: "large",
       },
     },
   };

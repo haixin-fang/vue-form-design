@@ -14,7 +14,6 @@ const state: any = reactive({
   formUpdate: false, // 判断表单是否更新
   AllFormResult: {}, // 预览和存储到数据库最终结果
   formResult: {}, // 用户在动态表单输入的配置结果
-  formListLen: 0, // 表单控件个数
 });
 
 export { state };
@@ -22,7 +21,6 @@ export { state };
 export default {
   updateAllFormList(allFormList: any) {
     state.allFormList = allFormList;
-    state.formListLen = allFormList.length;
   },
   setFormCurrentIndex(index: any) {
     // 查看表单的json格式时，点击编辑区域外时不清空
@@ -46,8 +44,12 @@ export default {
     const data: any = {};
     state.AllFormResult.forEach((item: any) => {
       if (item.data.itemConfig) {
-        // 防止对数据进行劫持监听
-        data[item.data.fieldName] = [...item.data.itemConfig.value];
+        if (typeof item.data.itemConfig.value == "string") {
+          data[item.data.fieldName] = item.data.itemConfig.value;
+        } else {
+          // 防止对数据进行劫持监听
+          data[item.data.fieldName] = [...item.data.itemConfig.value];
+        }
       } else {
         data[item.data.fieldName] = item.data.default;
       }

@@ -8,7 +8,7 @@
         </div> -->
         <el-scrollbar class="dynamic">
           <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">
-            <el-form-item v-for="(item, index) in controlItems" :key="index" :control="item.ControlType" :prop="item.data.fieldName">
+            <el-form-item v-for="(item) in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
               <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
             </el-form-item>
           </el-form>

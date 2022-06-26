@@ -8,10 +8,10 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-radio-group v-if="!drag" v-model="data[item.data.fieldName][0]">
+      <el-radio-group v-if="!drag" v-model="data[item.data.fieldName]">
         <el-radio v-for="(sitem, sindex) in item.data.itemConfig.items" :key="sindex" :label="sitem.value">{{ sitem.label }}</el-radio>
       </el-radio-group>
-      <el-radio-group v-if="drag" v-model="item.data.itemConfig.value[0]">
+      <el-radio-group v-if="drag" v-model="item.data.itemConfig.value">
         <el-radio v-for="(sitem, sindex) in item.data.itemConfig.items" :key="sindex" :label="sitem.value">{{ sitem.label }}</el-radio>
       </el-radio-group>
     </div>
