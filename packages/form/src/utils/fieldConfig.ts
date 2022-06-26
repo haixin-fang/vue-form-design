@@ -210,7 +210,7 @@ const fieldsMap: any = {
     rule: "[]",
     default: false,
     itemConfig: {
-      value: "选项1",
+      value: ["选项1"],
       id: 1,
       items: [
         {
