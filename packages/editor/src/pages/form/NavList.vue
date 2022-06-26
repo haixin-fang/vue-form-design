@@ -1,7 +1,10 @@
 <template>
   <div class="nav">
-    <el-button plain @click="handleFormSave" size="small">保存</el-button>
-    <el-button plain @click="handleFormPre" size="small">预览</el-button>
+    <div class="logo">starfish-vue3-lowcode</div>
+    <div class="detailBtn">
+      <el-button plain @click="handleFormSave" size="small">保存</el-button>
+      <el-button plain @click="handleFormPre" size="small">预览</el-button>
+    </div>
     <!-- <el-button type="primary" plain @click="handleShortKey('copy')" >复制</el-button>
         <el-button type="primary" plain @click="handleShortKey('paste')" >粘贴</el-button>
         <el-button type="primary" plain @click="handleShortKey('cut')" >剪切</el-button>
@@ -53,8 +56,15 @@
     height: $editor_nav;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: $editor-nav-background-color;
     border-bottom: 1px solid #d8dee8;
+    padding: 0 15px;
+    .logo{
+      font-size: 20px;
+      font-style: italic;
+      color: #409eff;
+      font-weight: bold;
+    }
   }
 </style>
