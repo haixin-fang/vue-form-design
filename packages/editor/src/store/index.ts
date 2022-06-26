@@ -23,7 +23,6 @@ export default {
       const pasteControl = JSON.parse(JSON.stringify(state.copyContent));
       pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed(3);
       state.form.allFormList.push(pasteControl);
-      state.form.formListLen = state.form.allFormList.length;
       state.form.formUpdate = true;
     }
   },

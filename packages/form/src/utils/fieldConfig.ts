@@ -539,7 +539,7 @@ function getFormConfig(componentName: string, config?: Config[]): FormConfigRetu
 
   return {
     data() {
-      return fieldsMap[componentName];
+      return JSON.parse(JSON.stringify(fieldsMap[componentName]));
     },
     morenConfig() {
       return [...beforeBaseFormCofig(), ...configList, ...afterBaseFormConfig()];
