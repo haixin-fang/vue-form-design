@@ -6,7 +6,7 @@
           <div class="form-item">
             <span class="iconfont" :class="element.icon"></span>
           </div>
-          <span class="item-text">{{ element.nameCn }}</span>
+          <div class="item-text">{{ element.nameCn }}</div>
         </div>
       </template>
     </draggable>
@@ -59,10 +59,10 @@
     .list-group-item {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      margin: 7px 10px;
+      margin: 7px 10px 0;
       width: 55px;
       .form-item {
         width: 42px;
@@ -85,12 +85,21 @@
         }
       }
       .item-text {
+        height: 30px;
+        // display: flex;
+        align-items: center;
         font-size: 12px;
         display: inline-block;
         width: 100%;
+        -webkit-box-orient: vertical;
+        /*! autoprefixer: on*/
+
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
       }
     }
   }

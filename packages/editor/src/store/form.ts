@@ -1,7 +1,4 @@
 import { reactive } from "vue";
-interface allFormList {
-  [key: string]: any;
-}
 
 const state: any = reactive({
   allFormList: [], // 存储所有选择的表单控件

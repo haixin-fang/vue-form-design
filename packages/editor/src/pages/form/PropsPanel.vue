@@ -1,11 +1,7 @@
 <template>
   <div class="editor_pages_right editor_pages_right_visible" ref="editRight">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" type="border-card" style="height: 100%">
-      <el-tab-pane label="表单配置" name="form">
-        <!-- <div class="viewAndJson">
-          <el-button size="small" :plain="viewAndJson !== 'view'" @click="triggerViewJson('view')">视图</el-button>
-          <el-button size="small" :plain="viewAndJson !== 'json'" @click="triggerViewJson('json')">JSON</el-button>
-        </div> -->
+      <el-tab-pane label="组件配置" name="form">
         <el-scrollbar class="dynamic">
           <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">
             <el-form-item v-for="(item) in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
@@ -19,6 +15,9 @@
         <div class="json">
           <div ref="jsonCenter"></div>
         </div>
+      </el-tab-pane>
+      <el-tab-pane label="表单配置" name="global">
+
       </el-tab-pane>
     </el-tabs>
     <!-- 交互 -->
@@ -35,6 +34,7 @@
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import formStore from "@/store/form";
   import type { Controls } from "@/type";
+  // 可能是element-plus版本太低,后期升级
   import type { TabsPaneContext } from "element-plus";
   import _ from "@/utils/_";
   export default defineComponent({
