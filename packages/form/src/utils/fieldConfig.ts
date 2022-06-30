@@ -174,8 +174,9 @@ const fieldsMap: any = {
     showRule: "{}",
     required: false,
     rule: "[]",
+    multiple: false,
     itemConfig: {
-      value: ["选项1"],
+      value: "选项1",
       items: [
         {
           label: "选项1",
@@ -338,7 +339,7 @@ const fieldsMap: any = {
     },
   },
 };
-type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "size" | "color" | "dividerColor" | "InputNumber";
+type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "size" | "color" | "dividerColor" | "InputNumber" | "multiple";
 
 type morenFields = Record<fieldMap, FormConfig>;
 
@@ -363,6 +364,17 @@ function getMoren(fieldName: string, component: string): fields {
         tip: "",
         label: "输入占位文字",
         placeholder: "请输入占位文字",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+      },
+    },
+    multiple: {
+      ControlType: "Switch",
+      data: {
+        fieldName: "multiple",
+        tip: "",
+        label: "是否多选",
         showRule: "{}",
         required: false,
         rule: "[]",

@@ -4,7 +4,7 @@
       <el-tab-pane label="组件配置" name="form">
         <el-scrollbar class="dynamic">
           <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">
-            <el-form-item v-for="(item) in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
+            <el-form-item v-for="item in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
               <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
             </el-form-item>
           </el-form>
@@ -16,9 +16,7 @@
           <div ref="jsonCenter"></div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="表单配置" name="global">
-
-      </el-tab-pane>
+      <el-tab-pane label="表单配置" name="global"> </el-tab-pane>
     </el-tabs>
     <!-- 交互 -->
     <div class="editor_container" @mousedown="handleMouseDown">
@@ -51,15 +49,15 @@
       const editRight = ref();
       const activeName = ref("form");
       const jsonCenter = ref();
-      let jsonEditor:any = null;
+      let jsonEditor: any = null;
       const isTransition = ref(true); // 默认有补间动画
+      const formcomponents = proxy.$formcomponents;
       const controlItems = computed(() => formStore.getControlItems());
       const curControl = computed(() => formStore.get("curControl"));
       const save = computed(() => formStore.get("save"));
       const currentIndex = computed(() => {
         return formStore.get("currentIndex");
       });
-      const viewAndJson = ref<any>("view");
       const handleEditBtn = () => {
         moduleIsHidden.value = !moduleIsHidden.value;
         if (moduleIsHidden.value) {
@@ -67,10 +65,6 @@
         } else {
           uiControl?.set("columnWidth", { right: 0 });
         }
-      };
-      const triggerViewJson = (type: string) => {
-        viewAndJson.value = type;
-        proxy.$EventBus.emit("changeViewAndJson", type);
       };
 
       // 鼠标落下
@@ -164,14 +158,46 @@
           jsonEditor?.set(initJsonData(allmainList.value));
         }
       }
-      watch(() => allmainList, () => {
-        initJsonCenter();
-      }, {
-        deep: true
-      });
+      watch(
+        () => allmainList,
+        () => {
+          initJsonCenter();
+        },
+        {
+          deep: true,
+        }
+      );
       function handleClick(tab: TabsPaneContext) {
         if (tab.props.name == "json") {
           initJsonCenter();
+        } else {
+          try {
+            const list = JSON.parse(jsonEditor.getText());
+            const fieldlist: string[] = [];
+            let newAllList: any = null;
+            newAllList = list.map((item: any) => {
+              if (!item.data || !item.controlItems) {
+                item = _.deepClone(item);
+                item.formConfig = formcomponents[item.ControlType].formConfig;
+                item.data = item.formConfig.data();
+                if (!item.data.fieldName) {
+                  item.data.fieldName = item.ControlType + "_" + _.generateMixed(6);
+                }
+                if (fieldlist.includes(item.data.fieldName)) {
+                  item.data.fieldName = item.ControlType + "_" + _.generateMixed(6);
+                } else {
+                  fieldlist.push(item.data.fieldName);
+                }
+                const controlItems = item.formConfig.morenConfig();
+                item.rules = _.controlFormRule(controlItems, item);
+                item.controlItems = controlItems;
+              }
+              return item;
+            });
+            formStore?.updateAllFormList(newAllList);
+          } catch (e) {
+            console.error(e);
+          }
         }
       }
       // watch(preview, async () => {
@@ -223,8 +249,6 @@
         ruleForm,
         show,
         currentIndex,
-        viewAndJson,
-        triggerViewJson,
       };
     },
   });
@@ -239,10 +263,10 @@
     // padding: 30px 0;
     z-index: 1;
     position: relative;
-    .json{
+    .json {
       padding: 10px;
       height: 100%;
-      >div{
+      > div {
         height: 90%;
       }
     }

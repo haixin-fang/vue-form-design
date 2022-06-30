@@ -1,7 +1,7 @@
 <template>
   <div class="editor_pages_center">
     <div class="canvasBox" ref="canvasBox" :class="editType == 1 ? 'formCanvasBox' : ''" :style="`transform: translateX(-50%) scale(${scale})`">
-      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable" v-show="viewAndJson == 'view'">
+      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable" >
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
@@ -76,7 +76,6 @@
       const currentIndex = computed(() => {
         return formStore.get("currentIndex");
       });
-      const viewAndJson = ref<any>("view");
 
       const handleCanvasScale = () => {
         // 处理页面的放大缩小
@@ -141,7 +140,6 @@
         allmainList,
         currentIndex,
         handleNoDraggable,
-        viewAndJson,
         editType,
         handlePaste,
         pasteShow,
