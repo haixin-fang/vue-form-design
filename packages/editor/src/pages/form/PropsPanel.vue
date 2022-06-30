@@ -120,7 +120,7 @@
                 id: _.generateMixed(8),
               });
             });
-            localStorage.setItem("formResult", JSON.stringify(result));
+            formStore.set('AllFormResult', result);
             formStore.handleDynamicForm();
           }
           if (!formSave) {
@@ -172,7 +172,7 @@
           initJsonCenter();
         } else {
           try {
-            const list = JSON.parse(jsonEditor.getText());
+            const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
             const fieldlist: string[] = [];
             let newAllList: any = null;
             newAllList = list.map((item: any) => {
@@ -181,15 +181,15 @@
                 item.formConfig = formcomponents[item.ControlType].formConfig;
                 item.data = item.formConfig.data();
                 if (!item.data.fieldName) {
-                  item.data.fieldName = item.ControlType + "_" + _.generateMixed(6);
+                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
                 }
                 if (fieldlist.includes(item.data.fieldName)) {
-                  item.data.fieldName = item.ControlType + "_" + _.generateMixed(6);
+                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
                 } else {
                   fieldlist.push(item.data.fieldName);
                 }
                 const controlItems = item.formConfig.morenConfig();
-                item.rules = _.controlFormRule(controlItems, item);
+                item.rules = proxy.$Flex.controlFormRule(controlItems, item);
                 item.controlItems = controlItems;
               }
               return item;

@@ -13,6 +13,10 @@ import flex from './utils/_'
 const app  = createApp(Editor);
 app.config.globalProperties.$EventBus = vm;
 app.config.globalProperties.$Flex = flex;
+// 如果想在方法中使用自定义的方法,可以挂载到window中
+window.VueContext = {
+    $Flex: flex
+}
 app.component('CustomDialog', CustomDialog);
 app.use(ElementPlus).use(StarfishForm);
 app.mount("#app");

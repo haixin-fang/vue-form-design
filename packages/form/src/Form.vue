@@ -30,7 +30,7 @@
             trigger: "blur",
           });
         }
-        rule = rule.concat(proxy.$Flex.tryParseJson(item.data.rule));
+        rule = rule.concat(item.data.rule);
         // 特殊的jsoneditor表单要单独处理
         if (item.data.json) {
           rule.push(...proxy.$Flex.getJsonValidate());

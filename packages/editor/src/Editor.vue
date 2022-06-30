@@ -8,7 +8,7 @@
       <component-list></component-list>
     </template>
     <template #workspace>
-      <workspace></workspace>
+      <workspace ref="workspace"></workspace>
     </template>
     <template #propsPanel>
       <props-panel></props-panel>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, provide } from "vue";
+  import { defineComponent, provide, ref, onMounted } from "vue";
   // import Editor from "@/pages/Editor/index.vue";
   import Framework from "@/layouts/Framework.vue";
   import NavList from "~editor/NavList.vue";
@@ -31,18 +31,24 @@
   import uiControl from "@/controller/ui";
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
   // 根据编辑器判断,走不同的快捷键逻辑
-  import formKeyconList from '@/utils/formKeycon';
+  import formKeyconList from "@/utils/formKeycon";
   import type { Controls } from "./type";
 
   export default defineComponent({
     name: "Editor",
     components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview },
     setup() {
+      const workspace = ref();
       const control: Controls = {
         uiControl,
       };
-      listenGlobalKeyDown(formKeyconList);
+      onMounted(() => {
+        listenGlobalKeyDown(formKeyconList, workspace.value.$el);
+      });
       provide("control", control);
+      return {
+        workspace,
+      };
     },
   });
 </script>

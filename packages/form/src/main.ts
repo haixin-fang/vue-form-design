@@ -10,13 +10,15 @@ import KeyValueConfig from "./components/KeyValueConfig/index.vue";
 import KeyValueConfigMult from "./components/KeyValueConfigMult/index.vue";
 import CheckBox from "./components/CheckBox/index.vue";
 import JsonEditor from "./components/JsonEditor/index.vue";
+import Rule from "./components/Rule/index.vue";
 import ColorSelect from "./components/ColorSelect/index.vue";
 import Date from "./components/Date/index.vue";
 import Time from "./components/Time/index.vue";
 import DateTime from "./components/DateTime/index.vue";
 import InputNumber from "./components/InputNumber/index.vue";
 import Slider from "./components/Slider/index.vue";
-import Selected from './components/Selected/index.vue'
+import Selected from "./components/Selected/index.vue";
+import Selecteds from "./components/Selecteds/index.vue";
 import Divider from "./components/Divider/index.vue";
 import RichText from "./components/RichText/index.vue";
 
@@ -37,8 +39,10 @@ export { default as STime } from "./components/Time/index.vue";
 export { default as SDateTime } from "./components/DateTime/index.vue";
 export { default as SInputNumber } from "./components/InputNumber/index.vue";
 export { default as SSlider } from "./components/Slider/index.vue";
-export {default as SSelected} from "./components/Selected/index.vue";
+export { default as SSelected } from "./components/Selected/index.vue";
+export { default as SSelecteds } from "./components/Selecteds/index.vue";
 export { default as SDivider } from "./components/Divider/index.vue";
+export { default as Rules } from "./components/Rule/index.vue";
 export { default as SRichText } from "./components/RichText/index.vue";
 
 const formcomponents: any = {};
@@ -56,7 +60,8 @@ formcomponents[Time.ControlType] = Time;
 formcomponents[DateTime.ControlType] = DateTime;
 formcomponents[InputNumber.ControlType] = InputNumber;
 formcomponents[Slider.ControlType] = Slider;
-formcomponents[Selected.ControlType] = Selected
+formcomponents[Selected.ControlType] = Selected;
+formcomponents[Selecteds.ControlType] = Selecteds;
 formcomponents[Divider.ControlType] = Divider;
 formcomponents[RichText.ControlType] = RichText;
 
@@ -77,6 +82,8 @@ const install = (app: App) => {
   app.component(InputNumber.ControlType, InputNumber);
   app.component(Slider.ControlType, Slider);
   app.component(Selected.ControlType, Selected);
+  app.component(Selecteds.ControlType, Selecteds);
+  app.component(Rule.ControlType, Rule);
   app.component(Divider.ControlType, Divider);
   app.component(RichText.ControlType, RichText);
 };

@@ -96,7 +96,7 @@ const afterBaseFormConfig: () => FormConfig[] = function () {
       },
     },
     {
-      ControlType: "JsonEditor",
+      ControlType: "Rule",
       data: {
         fieldName: "rule",
         tip: "",
@@ -174,9 +174,34 @@ const fieldsMap: any = {
     showRule: "{}",
     required: false,
     rule: "[]",
-    multiple: false,
     itemConfig: {
       value: "选项1",
+      items: [
+        {
+          label: "选项1",
+          value: "选项1",
+          select: true,
+          id: 1,
+        },
+        {
+          label: "选项2",
+          value: "选项2",
+          select: false,
+          id: 2,
+        },
+      ],
+    },
+  },
+  Selecteds: {
+    fieldName: "",
+    label: "标签名称",
+    tip: "",
+    placeholder: "",
+    showRule: "{}",
+    required: false,
+    rule: "[]",
+    itemConfig: {
+      value: ["选项1"],
       items: [
         {
           label: "选项1",

@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick, computed, getCurrentInstance, inject, onMounted } from "vue";
+  import { defineComponent, ref, nextTick, computed, getCurrentInstance, inject } from "vue";
   import draggable from "vuedraggable";
   import Shape from "~editor/Shape.vue";
   // import { formcomponents } from "@/pages/Editor";

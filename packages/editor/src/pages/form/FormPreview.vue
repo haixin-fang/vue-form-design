@@ -13,7 +13,7 @@
   </teleport>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, nextTick, ref, watch } from "vue";
+  import { computed, defineComponent, nextTick, ref, watch, getCurrentInstance } from "vue";
   // import dynamicform from "~editor/dynamicform/index.vue";
   import formStore from "@/store/form";
   import { Dynamicform } from "@starfish/form";
@@ -27,6 +27,7 @@
       const previewShow = computed(() => formStore.get("previewShow"));
       const allFormList = computed(() => formStore.get("AllFormResult"));
       const formResult = computed(() => formStore.get("formResult"));
+      const {proxy} = getCurrentInstance() as any;
       const dynamicform = ref();
       const previewDialog = ref<any>();
       let editor: any = null;
@@ -52,7 +53,7 @@
             search: false,
           };
           editor = new window.JSONEditor(JsonViewerDialog.value, options);
-          editor?.set(_.tryParseJson(JSON.stringify(formResult.value)));
+          editor?.set(proxy.$Flex.deepClone(formResult.value))
         }
       });
 
@@ -60,7 +61,7 @@
         () => formResult,
         () => {
           console.log(333);
-          editor?.set(_.tryParseJson(JSON.stringify(formResult.value)));
+          editor?.set(proxy.$Flex.deepClone(formResult.value))
         },
         {
           deep: true,

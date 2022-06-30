@@ -36,8 +36,6 @@ export default {
   },
   // 获取默认值和键名组成新对象
   handleDynamicForm() {
-    const formResult: any = localStorage.getItem("formResult");
-    state.AllFormResult = JSON.parse(formResult);
     const data: any = {};
     state.AllFormResult.forEach((item: any) => {
       if (item.data.itemConfig) {
