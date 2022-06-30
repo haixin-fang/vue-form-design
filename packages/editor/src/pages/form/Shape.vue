@@ -13,7 +13,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref,nextTick, watch, computed } from "vue";
-import {copy, paste, onDelete, cut, onTop, onBottom} from '@/utils/shortcutKey'
+import {copy, paste, onDelete, cut, onTop, onBottom} from '@/utils/formKeycon'
 import useStore from '@/store/form'
 export default defineComponent({
   props: {

@@ -6,18 +6,14 @@
     <div class="detailBtn">
       <el-button plain @click="handleFormSave" size="small">保存</el-button>
       <el-button plain @click="handleFormPre" size="small">预览</el-button>
+      <el-button plain @click="handleClear" size="small">清空</el-button>
     </div>
-    <!-- <el-button type="primary" plain @click="handleShortKey('copy')" >复制</el-button>
-        <el-button type="primary" plain @click="handleShortKey('paste')" >粘贴</el-button>
-        <el-button type="primary" plain @click="handleShortKey('cut')" >剪切</el-button>
-        <el-button type="primary" plain @click="handleShortKey('onDelete')" >删除</el-button>
-        <el-button type="primary" plain @click="handleShortKey('onTop')" >下移</el-button>
-        <el-button type="primary" plain @click="handleShortKey('onBottom')" >上移</el-button> -->
   </div>
 </template>
 <script lang="ts">
   import { defineComponent, computed, getCurrentInstance } from "vue";
   import formStorm from "@/store/form";
+  import { clearCanvas } from "@/utils/formKeycon";
   import _ from "@/utils/_";
   export default defineComponent({
     setup() {
@@ -34,21 +30,12 @@
         proxy.$EventBus.emit("openPreview");
       };
 
-      // let handleShortKey = (type: string) => {
-      //   let emue:any = {
-      //     cut,
-      //     paste,
-      //     onDelete,
-      //     onTop,
-      //     onBottom,
-      //     copy
-      //   }
-      //   emue[type]()
-      // }
       return {
         handleFormSave,
         handleFormPre,
-        // handleShortKey
+        handleClear: () => {
+          clearCanvas()
+        },
       };
     },
   });
@@ -62,7 +49,7 @@
     background-color: $editor-nav-background-color;
     border-bottom: 1px solid #d8dee8;
     padding: 0 15px;
-    .logo{
+    .logo {
       font-size: 20px;
       font-style: italic;
       color: #409eff;

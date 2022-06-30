@@ -21,7 +21,7 @@ export default {
   paste() {
     if (state.editType == 1 && state.copyContent) {
       const pasteControl = JSON.parse(JSON.stringify(state.copyContent));
-      pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed(3);
+      pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed(6);
       state.form.allFormList.push(pasteControl);
       state.form.formUpdate = true;
     }
@@ -31,6 +31,7 @@ export default {
       state.form.allFormList.splice(state.form.currentIndex, 1);
       state.form.curControl = {};
       state.form.formUpdate = true;
+      state.form.currentIndex = -1;
     }
   },
   onTop() {

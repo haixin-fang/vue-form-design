@@ -1,7 +1,7 @@
 <template>
   <div class="editor_pages_center">
     <div class="canvasBox" ref="canvasBox" :class="editType == 1 ? 'formCanvasBox' : ''" :style="`transform: translateX(-50%) scale(${scale})`">
-      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable" >
+      <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
@@ -19,14 +19,14 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick, computed, getCurrentInstance, inject } from "vue";
+  import { defineComponent, ref, nextTick, computed, getCurrentInstance, inject, onMounted } from "vue";
   import draggable from "vuedraggable";
   import Shape from "~editor/Shape.vue";
   // import { formcomponents } from "@/pages/Editor";
   import formStore from "@/store/form";
   import store from "@/store/index";
   import _ from "@/utils/_";
-  import { paste } from "@/utils/shortcutKey";
+  import { paste } from "@/utils/formKeycon";
   import type { Controls } from "@/type";
   export default defineComponent({
     components: {
@@ -48,6 +48,7 @@
       const editForm = ref();
       // 对store操作
       const editType = computed(() => store.get("editType"));
+
       const allmainList = computed<any>({
         get() {
           return formStore.get("allFormList");

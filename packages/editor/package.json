@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "element-plus": "1.1.0-beta.17",
     "gesto": "^1.9.0",
+    "keycon": "^1.1.2",
     "mitt": "^3.0.0",
     "vue": "^3.0.0",
     "vuedraggable": "^4.1.0",

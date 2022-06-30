@@ -29,19 +29,19 @@
   import PropsPanel from "~editor/PropsPanel.vue";
   import FormPreview from "~editor/FormPreview.vue";
   import uiControl from "@/controller/ui";
-
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
-
+  // 根据编辑器判断,走不同的快捷键逻辑
+  import formKeyconList from '@/utils/formKeycon';
   import type { Controls } from "./type";
 
   export default defineComponent({
-    name: "App",
+    name: "Editor",
     components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview },
     setup() {
       const control: Controls = {
         uiControl,
       };
-      listenGlobalKeyDown();
+      listenGlobalKeyDown(formKeyconList);
       provide("control", control);
     },
   });
