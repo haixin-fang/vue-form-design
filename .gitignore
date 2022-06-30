@@ -2,7 +2,7 @@
 node_modules
 /dist
 /github-website
-
+iconfont
 # local env files
 .env.local
 .env.*.local

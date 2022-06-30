@@ -8,10 +8,10 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-select v-model="item.data.itemConfig.value" :placeholder="item.data.placeholder" v-if="drag" >
+      <el-select v-model="item.data.itemConfig.value" :placeholder="item.data.placeholder" v-if="drag" size="small" >
         <el-option v-for="item in item.data.itemConfig.items" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
-      <el-select v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" >
+      <el-select v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" size="small">
         <el-option v-for="item in item.data.itemConfig.items" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </div>

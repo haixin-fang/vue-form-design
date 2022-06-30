@@ -16,7 +16,13 @@
           <div ref="jsonCenter"></div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="表单配置" name="global"> </el-tab-pane>
+      <el-tab-pane label="表单配置" name="global">
+        <el-scrollbar class="form_tab3">
+          <el-form-item  v-for="item in globalFormLists" :key="item.id">
+            <component :is="item.ControlType" :item="item" :data="globalDatas"></component>
+          </el-form-item>
+        </el-scrollbar>
+      </el-tab-pane>
     </el-tabs>
     <!-- 交互 -->
     <div class="editor_container" @mousedown="handleMouseDown">
@@ -30,6 +36,7 @@
 <script lang="ts">
   import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject } from "vue";
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
+  import { globalFormList } from "@/common/formJson";
   import formStore from "@/store/form";
   import type { Controls } from "@/type";
   // 可能是element-plus版本太低,后期升级
@@ -66,6 +73,12 @@
           uiControl?.set("columnWidth", { right: 0 });
         }
       };
+
+      /**
+       * 表单配置
+       */
+      const globalFormLists = ref(globalFormList);
+      const globalDatas = ref({});
 
       // 鼠标落下
       const handleMouseDown = async () => {
@@ -120,7 +133,7 @@
                 id: _.generateMixed(8),
               });
             });
-            formStore.set('AllFormResult', result);
+            formStore.set("AllFormResult", result);
             formStore.handleDynamicForm();
           }
           if (!formSave) {
@@ -167,6 +180,12 @@
           deep: true,
         }
       );
+
+      watch(() => globalDatas, (a) => {
+        console.log(a);
+      }, {
+        deep: true
+      })
       function handleClick(tab: TabsPaneContext) {
         if (tab.props.name == "json") {
           initJsonCenter();
@@ -236,6 +255,8 @@
       //   store.commit("initRuleForm", ruleForm);
       // });
       return {
+        globalFormLists,
+        globalDatas,
         jsonCenter,
         handleClick,
         activeName,
@@ -263,6 +284,12 @@
     // padding: 30px 0;
     z-index: 1;
     position: relative;
+    .form_tab3{
+      padding: 5px ;
+      .el-form-item__content{
+        line-height: 1;
+      }
+    }
     .json {
       padding: 10px;
       height: 100%;
