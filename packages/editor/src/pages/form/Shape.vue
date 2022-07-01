@@ -1,5 +1,5 @@
 <template>
-  <div class="shape" :class="[active ? 'shape_border' : '']" @contextmenu="handleShortCut" @click="handleMenu">
+  <div class="shape" :class="[active ? 'shape_border' : '']" @contextmenu="handleShortCut" @click="handleMenu" :style="{ display: inline ? 'inline-block' : 'block' }">
     <div class="editForm" v-show="isShow && active" ref="editForm">
       <span @click="handleActive('copy')">复制</span>
       <span @click="handleActive('cut')">剪切</span>
@@ -11,7 +11,7 @@
     <slot></slot>
     <div class="editbar" v-if="active">
       <span class="iconfont icon-xiangshang1" v-if="currentIndex != 0" @click="handleActive('top')"></span>
-      <span class="iconfont icon-xiangxia1"  v-if="currentIndex != len - 1" @click="handleActive('bottom')"></span>
+      <span class="iconfont icon-xiangxia1" v-if="currentIndex != len - 1" @click="handleActive('bottom')"></span>
       <span class="iconfont icon-fuzhi" @click="handleCopyAndPaste"></span>
       <span class="iconfont icon-shanchu1" @click="handleActive('delete')"></span>
     </div>
@@ -26,6 +26,8 @@
       active: Boolean,
       currentIndex: Number,
       len: Number,
+      inline: Boolean,
+      layout: String,
     },
     mounted() {
       console.log(this.currentIndex);
@@ -79,7 +81,7 @@
         copy();
         emit("paste");
         paste();
-      }
+      };
       return {
         isShow,
         handleShortCut,
@@ -100,6 +102,7 @@
     position: relative;
     cursor: move;
     border: 2px dotted #dfe2e2;
+    box-sizing: border-box;
     .editbar {
       position: absolute;
       bottom: 0;
@@ -113,7 +116,8 @@
         padding: 0 5px;
         font-weight: 500;
       }
-      span:first-child, span:nth-child(2){
+      span:first-child,
+      span:nth-child(2) {
         font-size: 14px;
       }
     }

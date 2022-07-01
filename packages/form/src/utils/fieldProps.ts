@@ -14,4 +14,24 @@ export default {
     required: true,
   },
   item: Object,
+  inline: {
+    type: Boolean,
+    default: false
+  },
+  labelalign: {
+    type: String,
+    default: 'top',
+  },
+  layout: {
+    type: String,
+    default: '1',
+  },
+  labelWidth: {
+    type: Number,
+    default: 400
+  },
+  suffix: {
+    type: String,
+    default: ':'
+  }
 };

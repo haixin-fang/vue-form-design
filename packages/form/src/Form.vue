@@ -30,13 +30,18 @@
             trigger: "blur",
           });
         }
-        rule = rule.concat(item.data.rule);
+        if (typeof item.data.rule == "string") {
+          rule = rule.concat(proxy.$Flex.tryParseJson(item.data.rule));
+        }else{
+          rule = rule.concat(item.data.rule);
+        }
         // 特殊的jsoneditor表单要单独处理
         if (item.data.json) {
           rule.push(...proxy.$Flex.getJsonValidate());
         }
         rules.value[item.data.fieldName] = rule;
       });
+      console.log(rules.value);
       const handleControlChange = () => {
         const allFormLists: any = allFormList;
         const formResults: any = formResult;

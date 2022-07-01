@@ -7,10 +7,8 @@
         </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentIndex == index" :currentIndex="index" :len="allmainList.length">
-              <div class="list-group-item">
-                <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
-              </div>
+            <Shape :active="currentIndex == index" :currentIndex="index" :len="allmainList.length" :inline="globalDatas.Inline" :layout="globalDatas.layout">
+              <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
             </Shape>
           </template>
         </draggable>
@@ -25,7 +23,6 @@
   // import { formcomponents } from "@/pages/Editor";
   import formStore from "@/store/form";
   import store from "@/store/index";
-  import _ from "@/utils/_";
   import { paste } from "@/utils/formKeycon";
   import type { Controls } from "@/type";
   export default defineComponent({
@@ -49,6 +46,8 @@
       // 对store操作
       const editType = computed(() => store.get("editType"));
 
+      const globalDatas = computed(() => formStore?.get("globalDatas"));
+
       const allmainList = computed<any>({
         get() {
           return formStore.get("allFormList");
@@ -57,14 +56,14 @@
           // 防止引用类型污染
           value = value.map((item: any) => {
             if (!item.data && !item.controlItems) {
-              item = _.deepClone(item);
+              item = proxy.$Flex.deepClone(item);
               item.formConfig = formcomponents[item.ControlType].formConfig;
               item.data = item.formConfig.data();
               if (!item.data.fieldName) {
-                item.data.fieldName = item.ControlType + "_" + _.generateMixed(6);
+                item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
               }
               const controlItems = item.formConfig.morenConfig();
-              item.rules = _.controlFormRule(controlItems, item);
+              item.rules = proxy.$Flex.controlFormRule(controlItems, item);
               item.controlItems = controlItems;
             }
             // delete item.formConfig;
@@ -83,7 +82,7 @@
         canvasBox.value.style.transform = `scale(${canvasSize.value})`;
       };
       const handleCanvasSize = (size: string) => {
-        if (_.clickCountLimit()) {
+        if (proxy.$Flex.clickCountLimit()) {
           // 限制放大缩小指定范围
           if (size === "add" && canvasSize.value < 1.5) {
             canvasSize.value = Number((canvasSize.value + 0.1).toFixed(2));
@@ -129,6 +128,7 @@
       };
       return {
         scale: computed(() => uiControl?.get<number>("scale")),
+        globalDatas,
         canvasBox,
         editForm,
         handleCanvasSize,
@@ -174,6 +174,7 @@
         width: 100%;
         min-height: $editor_canvas_min_height;
         z-index: 1;
+        text-align: left;
         .dragArea {
           width: 100%;
           height: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem" :class="drag ? 'formCover' : ''">
+  <div class="starfish-formitem" :class="{formCover: drag}">
     <div class="label">
       <label>{{ item.data.label }}</label>
       <span v-if="item.data.required" class="item_require">*</span>
@@ -29,7 +29,10 @@
     props: {
       ...fieldProps,
     },
-    setup(props) {
+    setup(props, ctx) {
+      if (props.drag) {
+        console.log(props);
+      }
       useWatch(props.data);
     },
   });

@@ -18,7 +18,6 @@
   import formStore from "@/store/form";
   import { Dynamicform } from "@starfish/form";
   import uiControl from "@/controller/ui";
-  import _ from "@/utils/_";
   export default defineComponent({
     components: {
       Dynamicform,

@@ -1,6 +1,3 @@
-/**
- * 属性面板全局表单配置
- */
 const globalFormList = [
   {
     ControlType: "Switch",
@@ -117,8 +114,10 @@ const globalFormList = [
   },
 ];
 
+const globalData = { Inline: false, layout: "1", labelAlign: "top", labelWidth: 400, suffix: ":" };
 
 
 export {
     globalFormList,
+    globalData
 }

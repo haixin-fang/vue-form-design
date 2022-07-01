@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, provide, ref, onMounted } from "vue";
+  import { defineComponent, provide, ref, onMounted, onUnmounted } from "vue";
   // import Editor from "@/pages/Editor/index.vue";
   import Framework from "@/layouts/Framework.vue";
   import NavList from "~editor/NavList.vue";
@@ -33,6 +33,7 @@
   // 根据编辑器判断,走不同的快捷键逻辑
   import formKeyconList from "@/utils/formKeycon";
   import type { Controls } from "./type";
+  import KeyController from "keycon";
 
   export default defineComponent({
     name: "Editor",
@@ -42,9 +43,13 @@
       const control: Controls = {
         uiControl,
       };
+      let keycons: KeyController ;
       onMounted(() => {
-        listenGlobalKeyDown(formKeyconList, workspace.value.$el);
+        keycons = listenGlobalKeyDown(formKeyconList, workspace.value.$el);
       });
+      onUnmounted(() => {
+        keycons.destroy();
+      })
       provide("control", control);
       return {
         workspace,

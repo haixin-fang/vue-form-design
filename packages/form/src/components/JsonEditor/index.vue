@@ -55,11 +55,11 @@
       /**
        * dialog 初始化jsoneditor对象
        */
-      const jsonEditorDialog = ref<jsonEditor>({});
+      let jsonEditorDialog:any = null;
       /**
        * jsoneditor对象
        */
-      const jsonEditors = ref<jsonEditor>();
+      let jsonEditors:any = null;
       /**
        * dialog dom
        */
@@ -76,14 +76,14 @@
           mode: "code",
           search: false,
           onChange() {
-            data[fieldName] = jsonEditors.value?.getText();
+            data[fieldName] = jsonEditors?.getText();
           },
         };
-        jsonEditors.value = new window.JSONEditor(container, options);
+        jsonEditors = new window.JSONEditor(container, options);
         if (props.drag) {
-          jsonEditors.value?.set(_.tryParseJson(item.data.default));
+          jsonEditors?.set(_.tryParseJson(item.data.default));
         } else {
-          jsonEditors.value?.set(_.tryParseJson(data[item.data.fieldName]));
+          jsonEditors?.set(_.tryParseJson(data[item.data.fieldName]));
         }
       }
       onMounted(() => {
@@ -93,11 +93,11 @@
         () => props.item,
         (newValue: any) => {
           if (props.drag) {
-            jsonEditors.value?.set(_.tryParseJson(newValue.data.default));
+            jsonEditors?.set(_.tryParseJson(newValue.data.default));
           } else {
             const data: any = props.data;
             const item: any = props.item;
-            jsonEditors.value?.set(_.tryParseJson(data[item.data.fieldName]));
+            jsonEditors?.set(_.tryParseJson(data[item.data.fieldName]));
           }
         }
       );
@@ -116,76 +116,22 @@
             mode: "code",
             search: false,
           };
-          jsonEditorDialog.value = new window.JSONEditor(container, options);
-          jsonEditorDialog.value?.set(_.tryParseJson(jsoneditor.value.getText()));
+          jsonEditorDialog = new window.JSONEditor(container, options);
+          jsonEditorDialog?.set(_.tryParseJson(jsoneditor.value.getText()));
         },
         closeDialog() {
           myDialog.value.close();
         },
         saveJson() {
-          jsonEditors.value?.set(_.tryParseJson(jsonEditorDialog.value.getText()));
+          jsonEditors?.set(_.tryParseJson(jsonEditorDialog.getText()));
           const data: any = props.data;
           const item: any = props.item;
           const fieldName = item.data.fieldName;
-          data[fieldName] = jsonEditors.value?.getText();
+          data[fieldName] = jsonEditors?.getText();
           myDialog.value.close();
         },
       };
     },
-    // methods: {
-    //   showCustomDialog() {
-    //     const myDialog: any = this.$refs.myDialog;
-    //     myDialog.show();
-    //     myDialog.init("JSON编辑", "icon-json-full");
-    //     this.$nextTick(() => {
-    //       const container = this.$refs.JsonViewerDialog;
-    //       const options = {
-    //         modes: ["text", "code", "view"],
-    //         mode: "code",
-    //         search: false,
-    //       };
-    //       this.jsonEditorDialog = new window.JSONEditor(container, options);
-    //       this.jsonEditorDialog.set(_.tryParseJson(this.jsonEditor.getText()));
-    //     });
-    //   },
-    // closeDialog() {
-    //   const myDialog: any = this.$refs.myDialog;
-    //   myDialog.close();
-    // },
-    // saveJson() {
-    //   this.jsonEditor.set(_.tryParseJson(this.jsonEditorDialog.getText()));
-    //   const data: any = this.data;
-    //   const item: any = this.item;
-    //   const fieldName = item.data.fieldName;
-    //   data[fieldName] = this.jsonEditor.getText();
-    //   const myDialog: any = this.$refs.myDialog;
-    //   myDialog.close();
-    // },
-    // initJson() {
-    //   const container = this.$refs.jsoneditor;
-    //   const data: any = this.data;
-    //   const item: any = this.item;
-    //   const fieldName = item.data.fieldName;
-    //   const that = this;
-    //   const options = {
-    //     modes: ["text", "code", "view"],
-    //     mode: "code",
-    //     search: false,
-    //     onChange() {
-    //       data[fieldName] = that.jsonEditor.getText();
-    //     },
-    //   };
-    //   this.jsonEditor = new window.JSONEditor(container, options);
-    //   if (this.drag) {
-    //     this.jsonEditor.set(_.tryParseJson(item.data.default));
-    //   } else {
-    //     this.jsonEditor.set(_.tryParseJson(data[item.data.fieldName]));
-    //   }
-    // },
-    // },
-    // mounted() {
-    //   this.initJson();
-    // },
   });
 </script>
 <style scoped lang="scss">

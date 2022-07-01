@@ -1,4 +1,5 @@
 import { reactive } from "vue";
+import {globalData} from '@/common/formJson'
 
 const state: any = reactive({
   allFormList: [], // 存储所有选择的表单控件
@@ -11,6 +12,7 @@ const state: any = reactive({
   formUpdate: false, // 判断表单是否更新
   AllFormResult: [], // 预览和存储到数据库最终结果
   formResult: {}, // 用户在动态表单输入的配置结果
+  globalDatas: globalData,
 });
 
 export { state };

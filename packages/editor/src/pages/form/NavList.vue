@@ -14,14 +14,24 @@
   import { defineComponent, computed, getCurrentInstance } from "vue";
   import formStorm from "@/store/form";
   import { clearCanvas } from "@/utils/formKeycon";
-  import _ from "@/utils/_";
+  /**
+   * 2022.7.1想到的优化点
+   * 新增json导入导出功能
+   */
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
       const formUpdate = computed(() => formStorm.get("formUpdate"));
       const handleFormSave = () => {
+        /**
+         * 2022.7.1想到的优化点
+         * 保存逻辑应该可以优化
+         * 1、可以重复保存,对程序来说无影响
+         * 2、可以自动保存,如1min保存一次(前提是编辑页有改变)
+         * 3、保存弹窗样式交互不行,需优化
+         */
         if (formStorm.get("save") && !formUpdate.value) {
-          _.open("已保存，请不要重复保存");
+          proxy.$Flex.open("已保存，请不要重复保存");
         } else {
           proxy.$EventBus.emit("setSave");
         }
@@ -34,7 +44,8 @@
         handleFormSave,
         handleFormPre,
         handleClear: () => {
-          clearCanvas()
+          clearCanvas();
+          formStorm.setFormCurrentIndex(-1);
         },
       };
     },

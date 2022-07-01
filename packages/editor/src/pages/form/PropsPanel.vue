@@ -17,10 +17,11 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="表单配置" name="global">
+        <!-- 该模块展示先不做,控制整个动态表单样式导致样式崩(如json,富文本编辑器与其他表单高度相差太大),意义不大 -->
         <el-scrollbar class="form_tab3">
-          <el-form-item  v-for="item in globalFormLists" :key="item.id">
+          <div v-for="item in globalFormLists" :key="item.id" class="form_tab3_list">
             <component :is="item.ControlType" :item="item" :data="globalDatas"></component>
-          </el-form-item>
+          </div>
         </el-scrollbar>
       </el-tab-pane>
     </el-tabs>
@@ -34,7 +35,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject } from "vue";
+  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw } from "vue";
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import { globalFormList } from "@/common/formJson";
   import formStore from "@/store/form";
@@ -62,9 +63,7 @@
       const controlItems = computed(() => formStore.getControlItems());
       const curControl = computed(() => formStore.get("curControl"));
       const save = computed(() => formStore.get("save"));
-      const currentIndex = computed(() => {
-        return formStore.get("currentIndex");
-      });
+      const currentIndex = computed(() => formStore.get("currentIndex"));
       const handleEditBtn = () => {
         moduleIsHidden.value = !moduleIsHidden.value;
         if (moduleIsHidden.value) {
@@ -78,7 +77,7 @@
        * 表单配置
        */
       const globalFormLists = ref(globalFormList);
-      const globalDatas = ref({});
+      const globalDatas = computed(() => formStore?.get('globalDatas'));
 
       // 鼠标落下
       const handleMouseDown = async () => {
@@ -92,7 +91,7 @@
         return new Promise((resolve) => {
           ruleForm.value.validate((valid: any) => {
             if (!valid) {
-              _.open(content, title);
+              proxy.$Flex.open(content, title);
               resolve(false);
             } else {
               resolve(true);
@@ -100,6 +99,9 @@
           });
         });
       };
+      /**
+       * 一个一个表单进行切换更新,比较耗费性能,需要优化
+       */
       const checkFormValidate = async () => {
         const len = allFormList.value.length;
         for (let i = 0; i < len; ++i) {
@@ -126,11 +128,11 @@
           formStore.setFormUpdate(false);
           if (preview) {
             const result: any[] = [];
-            allFormList.value.forEach((item: any) => {
+            toRaw(allFormList.value).forEach((item: any) => {
               result.push({
                 data: item.data,
                 ControlType: item.ControlType,
-                id: _.generateMixed(8),
+                id: proxy.$Flex.generateMixed(8),
               });
             });
             formStore.set("AllFormResult", result);
@@ -140,13 +142,13 @@
             formStore.set("previewShow", preview);
             formStore.set("preview", false);
           } else {
-            _.open("保存成功");
+            proxy.$Flex.open("保存成功");
           }
         }
       };
       const initJsonData = (formlist: any) => {
         const jsonData: any = [];
-        formlist.forEach((item: any) => {
+        toRaw(formlist).forEach((item: any) => {
           const obj = {
             ControlType: item.ControlType,
             nameCn: item.nameCn,
@@ -172,7 +174,7 @@
         }
       }
       watch(
-        () => allmainList,
+        () => [allmainList, curControl],
         () => {
           initJsonCenter();
         },
@@ -181,11 +183,18 @@
         }
       );
 
-      watch(() => globalDatas, (a) => {
-        console.log(a);
-      }, {
-        deep: true
-      })
+      /**
+       * 可以不监听,后期直接通过传如动态表单进行列表改变
+       */
+      watch(
+        () => globalDatas,
+        (a) => {
+          console.log(a);
+        },
+        {
+          deep: true,
+        }
+      );
       function handleClick(tab: TabsPaneContext) {
         if (tab.props.name == "json") {
           initJsonCenter();
@@ -194,7 +203,7 @@
             const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
             const fieldlist: string[] = [];
             let newAllList: any = null;
-            newAllList = list.map((item: any) => {
+            newAllList = toRaw(list).map((item: any) => {
               if (!item.data || !item.controlItems) {
                 item = _.deepClone(item);
                 item.formConfig = formcomponents[item.ControlType].formConfig;
@@ -284,10 +293,10 @@
     // padding: 30px 0;
     z-index: 1;
     position: relative;
-    .form_tab3{
-      padding: 5px ;
-      .el-form-item__content{
-        line-height: 1;
+    .form_tab3 {
+      padding: 5px;
+      .form_tab3_list{
+        margin-bottom: 15px;
       }
     }
     .json {
