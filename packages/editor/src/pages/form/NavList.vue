@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <div class="logo">
-      <!-- starfish-vue3-lowcode -->
+      starfish-vue3-lowcode
     </div>
     <div class="detailBtn">
       <el-button plain @click="handleFormSave" size="small">保存</el-button>

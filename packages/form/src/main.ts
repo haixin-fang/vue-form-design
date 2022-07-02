@@ -1,5 +1,4 @@
 import { App } from "vue";
-
 import "./styles/formedit.scss";
 
 import Text from "./components/Text/index.vue";

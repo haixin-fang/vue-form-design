@@ -16,7 +16,7 @@
   import { computed, defineComponent, nextTick, ref, watch, getCurrentInstance } from "vue";
   // import dynamicform from "~editor/dynamicform/index.vue";
   import formStore from "@/store/form";
-  import { Dynamicform } from "@starfish/form";
+  import { Dynamicform } from "starfish-form";
   import uiControl from "@/controller/ui";
   export default defineComponent({
     components: {

@@ -14,7 +14,7 @@ module.exports = {
             sass: {
                 // 全局sass变量	
                 //sass-loader 新版本
-                prependData: `@import "./src/styles/variables.scss";@import "./src/styles/iconfont.scss";@import "./src/styles/formedit.scss";`
+                prependData: `@import "./src/styles/variables.scss";`
             }
         }
     },
@@ -23,7 +23,8 @@ module.exports = {
         resolve: {
             alias: {
                 '@': path.resolve(__dirname, './src'),
-                '~editor': path.resolve(__dirname, './src/pages/Editor/components'),
+                '~editor': path.resolve(__dirname, './src/pages/form'),
+                'starfish-form': path.join(__dirname, "../../packages/form/src/main.ts")
             }
         },
         module: {

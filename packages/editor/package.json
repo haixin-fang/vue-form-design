@@ -1,21 +1,24 @@
 {
   "name": "starfish-editor",
-  "version": "1.0.0-alpha.1",
-  "private": true,
+  "version": "1.0.2",
+  "publish": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "dev": "vite",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vite build",
+    "lint": "vue-cli-service lint",
+    "webpack": "vue-cli-service build",
+    "preview": "npm run build && live-server preview"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",
     "core-js": "^3.6.5",
-    "element-plus": "1.1.0-beta.17",
+    "element-plus": "^2.2.8",
     "gesto": "^1.9.0",
     "keycon": "^1.1.2",
     "mitt": "^3.0.0",
-    "vue": "^3.0.0",
+    "starfish-form": "1.0.2",
+    "vue": "^3.2.37",
     "vuedraggable": "^4.1.0",
     "wangeditor": "^4.7.15"
   },
@@ -26,6 +29,7 @@
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
+    "live-server": "^1.2.2",
     "node-sass": "4.14.1",
     "sass": "^1.42.1",
     "sass-loader": "8.0.2",

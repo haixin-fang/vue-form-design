@@ -53,7 +53,7 @@ http://localhost:8888/
 
 使用monorepo架构
 该项目分为多个代码包,有
-@starfish/form,表单组件
+starfish-form,表单组件
 @starfish/editor,编辑页面
 
 

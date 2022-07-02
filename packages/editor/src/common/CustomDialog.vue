@@ -13,7 +13,7 @@
                 <em class="iconfont icon" :class="{ 'icon-suoxiao1': isFullScreen, 'icon-quanping': !isFullScreen }"></em>
               </el-button>
               <el-button class="my-toolbtn" @click="close">
-                <em class="el-icon-close icon"></em>
+                <em class="iconfont icon-guanbi"></em>
               </el-button>
             </div>
           </el-header>

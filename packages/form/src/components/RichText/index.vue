@@ -27,15 +27,7 @@
     props: {
       ...fieldProps,
     },
-    data() {
-      const editor: any = null;
-      return {
-        random: Math.ceil(Math.random() * 100),
-        editor: editor,
-      };
-    },
     setup(props) {
-      const random = ref(Math.ceil(Math.random() * 100));
       const richText = ref();
       let editor: any = null;
       useWatch(props.data);

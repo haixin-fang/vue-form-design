@@ -20,12 +20,12 @@ export { state };
 export default {
   updateAllFormList(allFormList: any) {
     state.allFormList = allFormList;
+    // 解决属性面板表单和jsontab切换后,数据不同步问题
+    if(state.currentIndex >= 0){
+      state.curControl = allFormList[state.currentIndex]
+    }
   },
   setFormCurrentIndex(index: any) {
-    // 查看表单的json格式时，点击编辑区域外时不清空
-    if (state.viewAndJson == "json") {
-      return;
-    }
     state.currentIndex = index;
     if (index >= 0) {
       state.curControl = state.allFormList[index] || {};

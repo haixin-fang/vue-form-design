@@ -41,7 +41,7 @@
   import formStore from "@/store/form";
   import type { Controls } from "@/type";
   // 可能是element-plus版本太低,后期升级
-  import type { TabsPaneContext } from "element-plus";
+  // import type { TabsPaneContext } from "element-plus";
   import _ from "@/utils/_";
   export default defineComponent({
     components: {
@@ -195,11 +195,12 @@
           deep: true,
         }
       );
-      function handleClick(tab: TabsPaneContext) {
+      function handleClick(tab:any) {
         if (tab.props.name == "json") {
           initJsonCenter();
-        } else {
+        } else if(tab.props.name == 'form'){
           try {
+            debugger
             const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
             const fieldlist: string[] = [];
             let newAllList: any = null;
@@ -207,7 +208,6 @@
               if (!item.data || !item.controlItems) {
                 item = _.deepClone(item);
                 item.formConfig = formcomponents[item.ControlType].formConfig;
-                item.data = item.formConfig.data();
                 if (!item.data.fieldName) {
                   item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
                 }

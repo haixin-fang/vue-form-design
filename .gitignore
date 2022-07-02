@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+dist
 /github-website
 # local env files
 .env.local

@@ -16,13 +16,13 @@
           <div class="inputItem">
             <span>文本：</span>
             <div>
-              <el-input v-model="items.label" size="mini" @input="getChangeValue(items)" />
+              <el-input v-model="items.label" size="small" @input="getChangeValue(items)" />
             </div>
           </div>
           <div class="inputItem">
             <span>值：</span>
             <div>
-              <el-input v-model="items.value" size="mini" @input="getChangeValue(items)" />
+              <el-input v-model="items.value" size="small" @input="getChangeValue(items)" />
             </div>
           </div>
         </div>
