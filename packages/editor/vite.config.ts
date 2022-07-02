@@ -56,7 +56,7 @@ export default defineConfig({
     //     drop_debugger: true, // 生产环境去除debugger
     //   },
     // },
-    outDir: "preview",
+    outDir: path.resolve(__dirname, "../../preview"),
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
