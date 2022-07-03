@@ -4,15 +4,18 @@
       starfish-vue3-lowcode
     </div>
     <div class="detailBtn">
-      <el-button plain @click="handleFormSave" size="small">保存</el-button>
-      <el-button plain @click="handleFormPre" size="small">预览</el-button>
-      <el-button plain @click="handleClear" size="small">清空</el-button>
+      <el-button plain @click="handleFormSave()" size="small" :disabled="clearIsDisable">保存</el-button>
+      <el-button plain @click="handleFormPre()" size="small" :disabled="clearIsDisable">预览</el-button>
+      <el-button plain @click="handleClear()" size="small" :disabled="clearIsDisable">清空</el-button>
+      <el-button plain @click="handleBack()" size="small" :disabled="historyIndex == -1">后退</el-button>
+      <el-button plain @click="handleForward()" size="small" :disabled="historyIndex == historyLen - 1">前进</el-button>
     </div>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, computed, getCurrentInstance } from "vue";
-  import formStorm from "@/store/form";
+  import { defineComponent, computed, getCurrentInstance, onMounted, onUnmounted, inject } from "vue";
+  import type {Controls} from '@/type'
+  import formStore from "@/store/form";
   import { clearCanvas } from "@/utils/formKeycon";
   /**
    * 2022.7.1想到的优化点
@@ -21,33 +24,59 @@
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
-      const formUpdate = computed(() => formStorm.get("formUpdate"));
-      const handleFormSave = () => {
-        /**
-         * 2022.7.1想到的优化点
-         * 保存逻辑应该可以优化
-         * 1、可以重复保存,对程序来说无影响
-         * 2、可以自动保存,如1min保存一次(前提是编辑页有改变)
-         * 3、保存弹窗样式交互不行,需优化
-         */
-        if (formStorm.get("save") && !formUpdate.value) {
-          proxy.$Flex.open("已保存，请不要重复保存");
+       const { hisContrl } = inject<Controls>("control") || {};
+      const formUpdate = computed(() => formStore?.get("formUpdate"));
+      const lastTime = computed(() => formStore?.get('saveTimetemp'));
+      const clearIsDisable = computed(() => formStore?.get('allFormList')?.length == 0)
+      const historyIndex = computed(() => hisContrl?.get('index'));
+      const historyLen = computed(() => hisContrl?.get<Array<any>>('historyList').length)
+      let timer:unknown = null;
+      const handleFormSave = (type?: string) => {
+        if (formStore.get("save") && !formUpdate.value && !type) {
+          proxy.$Flex.open("已保存，请不要重复保存",'Warning','warning');
         } else {
-          proxy.$EventBus.emit("setSave");
+          formStore.set('saveTimetemp', new Date().getTime())
+          proxy.$EventBus.emit("setSave", type);
         }
       };
       const handleFormPre = () => {
         proxy.$EventBus.emit("openPreview");
       };
 
+      const setTimeSave = () => {
+        timer = setInterval(() => {
+          const nowTime = new Date().getTime();
+          if(nowTime - lastTime.value > 5 * 60 * 1000){
+            handleFormSave('auto');
+          }
+        }, 20000)
+      }
+
+      // 每隔一分钟判断是否更改了内容,如果有更改则自动保存
+      onMounted(() => {
+        setTimeSave()
+      })
+      onUnmounted(() => {
+        clearInterval(timer as any);
+      })
+
       return {
         handleFormSave,
         handleFormPre,
+        historyIndex,
+        historyLen,
+        clearIsDisable,
         handleClear: () => {
           clearCanvas();
-          formStorm.setFormCurrentIndex(-1);
+          formStore.setFormCurrentIndex(-1);
         },
-      };
+        handleBack: () => {
+          hisContrl?.back();
+        },
+        handleForward: () => {
+          hisContrl?.go();
+        }
+      }; 
     },
   });
 </script>

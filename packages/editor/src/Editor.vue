@@ -1,6 +1,6 @@
 <template>
   <!-- <Editor></Editor> -->
-  <framework>
+  <framework >
     <template #nav>
       <nav-list></nav-list>
     </template>
@@ -29,6 +29,7 @@
   import PropsPanel from "~editor/PropsPanel.vue";
   import FormPreview from "~editor/FormPreview.vue";
   import uiControl from "@/controller/ui";
+  import hisContrl from '@/controller/history';
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
   // 根据编辑器判断,走不同的快捷键逻辑
   import formKeyconList from "@/utils/formKeycon";
@@ -42,10 +43,11 @@
       const workspace = ref();
       const control: Controls = {
         uiControl,
+        hisContrl
       };
       let keycons: KeyController ;
       onMounted(() => {
-        keycons = listenGlobalKeyDown(formKeyconList, workspace.value.$el);
+        keycons = listenGlobalKeyDown(formKeyconList, document.body);
       });
       onUnmounted(() => {
         keycons.destroy();

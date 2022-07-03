@@ -1,6 +1,7 @@
 <template>
   <el-scrollbar class="editor_pages_left">
-    <draggable class="dragArea list-group" :list="formcomponents" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
+    <el-input  placeholder="请输入关键词进行过滤" size='' v-model="filterContent"/>
+    <draggable class="dragArea list-group" :list="newcomponentlist" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
         <div class="list-group-item" :alt="element.nameCn">
           <div class="form-item">
@@ -44,8 +45,18 @@
       }
       return {
         formcomponents: lastFormComponents,
+        filterContent: '',
       };
     },
+    computed: {
+      newcomponentlist(){
+        return (this as any).formcomponents.filter((item:any) => {
+          if(item.nameCn.indexOf(this.filterContent) != -1){
+            return true;
+          }
+        });
+      }
+    }
   });
 </script>
 <style lang="scss" scoped>

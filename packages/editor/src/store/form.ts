@@ -1,13 +1,16 @@
 import { reactive } from "vue";
-import {globalData} from '@/common/formJson'
+import { globalData } from "@/common/formJson";
+import history from "@/controller/history";
+import {FormState} from '@/type'
 
-const state: any = reactive({
+const state = reactive<FormState>({
   allFormList: [], // 存储所有选择的表单控件
   curControl: {}, // 选中的表单控件
   currentIndex: -1, // 选中的控件的索引
   preview: false, // 开启预览进行表单验证
   previewShow: false, // 预览是否展示
   save: false, // 保存
+  saveTimetemp: new Date().getTime(), //上一次保存的时间戳
   // 下一次保存的时候判断表单是否变更了，而不用变更就改变vuex的save，但是我们监听了save会形成死循环
   formUpdate: false, // 判断表单是否更新
   AllFormResult: [], // 预览和存储到数据库最终结果
@@ -21,9 +24,16 @@ export default {
   updateAllFormList(allFormList: any) {
     state.allFormList = allFormList;
     // 解决属性面板表单和jsontab切换后,数据不同步问题
-    if(state.currentIndex >= 0){
-      state.curControl = allFormList[state.currentIndex]
+    if (state.currentIndex >= 0) {
+      state.curControl = allFormList[state.currentIndex];
     }
+  },
+  setHistory() {
+    history?.setValue({
+      allFormList: window.VueContext.$Flex.deepClone(state.allFormList),
+      currentIndex: state.currentIndex,
+      curControl: window.VueContext.$Flex.deepClone(state.allFormList[state.currentIndex])
+    });
   },
   setFormCurrentIndex(index: any) {
     state.currentIndex = index;

@@ -4,6 +4,7 @@
   "main": "dist/starfish-form.umd.js",
   "style": "dist/style.css",
   "module": "dist/starfish-form.es.js",
+  "types": "dist/types/starfish-form.d.ts",
   "exports": {
     ".": {
       "import": "./dist/starfish-form.es.js",

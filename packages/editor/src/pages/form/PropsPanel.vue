@@ -49,7 +49,7 @@
     },
     setup() {
       const { proxy } = getCurrentInstance() as any;
-      const { uiControl } = inject<Controls>("control") || {};
+      const { uiControl, hisContrl } = inject<Controls>("control") || {};
       // 该模块是否隐藏 默认显示
       const moduleIsHidden = ref(true);
       const show = ref(true);
@@ -62,6 +62,8 @@
       const formcomponents = proxy.$formcomponents;
       const controlItems = computed(() => formStore.getControlItems());
       const curControl = computed(() => formStore.get("curControl"));
+      const newCurControl = computed(() => proxy.$Flex.deepClone(formStore.get("curControl")))
+      const historyFlag = computed(() => hisContrl?.get('historyFlag'));
       const save = computed(() => formStore.get("save"));
       const currentIndex = computed(() => formStore.get("currentIndex"));
       const handleEditBtn = () => {
@@ -91,7 +93,7 @@
         return new Promise((resolve) => {
           ruleForm.value.validate((valid: any) => {
             if (!valid) {
-              proxy.$Flex.open(content, title);
+              proxy.$Flex.open(content, title, 'error');
               resolve(false);
             } else {
               resolve(true);
@@ -105,19 +107,29 @@
       const checkFormValidate = async () => {
         const len = allFormList.value.length;
         for (let i = 0; i < len; ++i) {
-          formStore.setFormCurrentIndex(i);
-          await nextTick();
-          const valid = await checkNowFormValidate("请检查动态表单输入格式问题", "表单验证失败");
-          if (!valid) {
-            return false;
+          let validate = true;
+          const curControl = allFormList.value[i];
+          curControl.controlItems.forEach((item:any) => {
+            if(item.data.required){
+              validate = !!curControl.data[item.data.fieldName]
+            }
+          })
+          if(!validate){
+            formStore.setFormCurrentIndex(i);
+            await nextTick();
+            const valid = await checkNowFormValidate("请检查动态表单输入格式问题", "表单验证失败");
+            if (!valid) {
+              return false;
+            }
           }
         }
         return true;
       };
-      const formUpdate = computed(() => formStore.get("formUpdate"));
-      const allmainList = computed(() => formStore.get("allFormList"));
+      const formUpdate = computed(() => formStore?.get("formUpdate"));
+      const allmainList = computed(() => formStore?.get("allFormList"));
+      const newAllmainlist = computed(() => proxy.$Flex.deepClone(formStore?.get("allFormList")));
 
-      const checkValidates = async (formSave?: boolean) => {
+      const checkValidates = async (formSave = false, type?:string) => {
         const curControlIndex = formStore.get("currentIndex");
         if (preview.value || save.value || formUpdate.value) {
           const preview = await checkFormValidate();
@@ -141,8 +153,8 @@
           if (!formSave) {
             formStore.set("previewShow", preview);
             formStore.set("preview", false);
-          } else {
-            proxy.$Flex.open("保存成功");
+          } else if(preview){
+            proxy.$Flex.open(type ? "已自动保存": "保存成功");
           }
         }
       };
@@ -173,28 +185,16 @@
           jsonEditor?.set(initJsonData(allmainList.value));
         }
       }
-      watch(
-        () => [allmainList, curControl],
-        () => {
-          initJsonCenter();
-        },
-        {
-          deep: true,
+      function complareControl (newControl:any, oldContrl:any){
+        if(newControl !== oldContrl)return false;
+        let same = true;
+        for(const key in newControl){
+          if(newControl[key] !== oldContrl[key]){
+            same = false;
+          }
         }
-      );
-
-      /**
-       * 可以不监听,后期直接通过传如动态表单进行列表改变
-       */
-      watch(
-        () => globalDatas,
-        (a) => {
-          console.log(a);
-        },
-        {
-          deep: true,
-        }
-      );
+        return same
+      }
       function handleClick(tab:any) {
         if (tab.props.name == "json") {
           initJsonCenter();
@@ -237,14 +237,38 @@
       proxy.$EventBus.on("openPreview", async () => {
         checkValidates();
       });
-      proxy.$EventBus.on("setSave", async () => {
-        checkValidates(true);
+      proxy.$EventBus.on("setSave", async (type?:string) => {
+        checkValidates(true, type);
       });
-      // watch(save, async () => {
-      //   if (formUpdate.value) {
-      //     checkValidates(true);
-      //   }
-      // });
+      watch(
+        () => [newAllmainlist.value, newCurControl.value?.data],
+        ([, b],[, d]) => {
+          initJsonCenter();
+          if(historyFlag.value){
+            hisContrl?.set('historyFlag', false);
+            return;
+          }
+          if(!complareControl(b, d)){
+            formStore?.setHistory();
+          }
+        },
+        {
+          deep: true,
+        }
+      );
+
+      /**
+       * 可以不监听,后期直接通过传如动态表单进行列表改变
+       */
+      watch(
+        () => globalDatas,
+        (a) => {
+          console.log(a);
+        },
+        {
+          deep: true,
+        }
+      );
       watch(
         () => curControl.value?.data,
         async () => {
