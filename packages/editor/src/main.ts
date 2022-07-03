@@ -3,12 +3,12 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 import Editor from "./Editor.vue";
-// 打包放开该注释
-import "starfish-form/dist/style.css"
+import "starfish-form/dist/style.css";
 import "@/styles/index.scss";
-import "@/assets/jsoneditor.min.css";
+import "jsoneditor/dist/jsoneditor.min.css"
 import CustomDialog from "@/common/CustomDialog.vue";
 import StarfishForm from "starfish-form";
+import JSONEditor from 'jsoneditor';
 import vm from "./utils/vm";
 import flex from "./utils/_";
 const app = createApp(Editor);
@@ -19,6 +19,7 @@ app.config.globalProperties.$Flex = flex;
 window.VueContext = {
   $Flex: flex,
 };
+window.JSONEditor = JSONEditor;
 app.component("CustomDialog", CustomDialog);
 app.use(StarfishForm).use(ElementPlus, {
   locale: zhCn,

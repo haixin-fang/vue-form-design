@@ -1,4 +1,4 @@
-import { ElMessageBox } from "element-plus";
+import {  ElNotification } from "element-plus";
 const chars: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 class Flex {
@@ -72,16 +72,17 @@ class Flex {
     try {
       return JSON.parse(json);
     } catch (E) {
+      if(json.startsWith('"[')){
+        return []
+      }
       return {};
     }
   }
-  open(message: string, title?: string) {
-    if (this.openTanc) return;
-    this.openTanc = true;
-    ElMessageBox.alert(message, title, {
-      confirmButtonText: "OK",
-    }).then(() => {
-      this.openTanc = false;
+  open(message: string, title = "Success", type:any =  "success") {
+    ElNotification({
+      title: title || "Success",
+      message: message,
+      type,
     });
   }
   getJsonValidate() {

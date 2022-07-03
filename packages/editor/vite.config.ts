@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
+import dts from 'vite-plugin-dts';
 import vue from "@vitejs/plugin-vue";
 import path from "path";
+const outDir = !process.env.dist?path.resolve(__dirname, 'dist'):path.resolve(__dirname, "../../preview");
 const alias: any = [
   {
     find: "@",
@@ -12,10 +14,19 @@ const alias: any = [
   },
 ];
 if (process.env.NODE_ENV != "production") {
-  alias.push({ find: /^starfish-form/, replacement: path.join(__dirname, "../form/src/main.ts") });
+  alias.push({ find: /^starfish-form$/, replacement: path.join(__dirname, "../form/src/main.ts") });
 }
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    dts({
+        outputDir: path.join(outDir, "types"),
+        include: ['src/**/*'],
+        staticImport: true,
+        insertTypesEntry: true,
+        logDiagnostics: true
+    }),
+    vue(),
+  ],
   resolve: {
     alias,
   },
@@ -56,7 +67,7 @@ export default defineConfig({
     //     drop_debugger: true, // 生产环境去除debugger
     //   },
     // },
-    outDir: path.resolve(__dirname, "../../preview"),
+    outDir,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
@@ -68,6 +79,8 @@ export default defineConfig({
           return "vue";
         } else if (id.includes("node_modules") && id.includes("wangeditor")) {
           return "vendor";
+        } else if (id.includes("node_modules") && id.includes("jsoneditor")) {
+          return "jsoneditor";
         } else if (id.includes("node_modules")) {
           return "vendor";
         }

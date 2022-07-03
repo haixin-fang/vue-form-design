@@ -7,7 +7,11 @@
     "serve": "pnpm --filter \"starfish-editor\" serve",
     "bootstrap": "pnpm i && cd editor && npm i",
     "lint-fix": "npx eslint . --fix --ext .vue,.js,.ts,.tsx",
+    "clean:top": "rimraf */**/dist */dist preview coverage dwt*",
+    "clean:modules": "rimraf node_modules **/node_modules **/**/node_modules",
+    "clean:all": "pnpm clean:top && pnpm clean:modules",
     "prepare": "husky install",
+    "build": "pnpm --filter \"starfish-*\" build",
     "commit": "git-cz"
   },
   "engines": {
