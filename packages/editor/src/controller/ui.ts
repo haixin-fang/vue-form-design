@@ -22,6 +22,7 @@ const state = reactive<UiState>({
   columnWidth: defaultColumnWidth,
   dialogWidth: DIALOG_WIDTH,
   scale,
+  isFullscreen: false,
 });
 
 class Ui {
@@ -29,17 +30,20 @@ class Ui {
     return (state as any)[name];
   }
   public set<T>(name: keyof typeof state, value: T) {
+    debugger;
     if (name === "columnWidth") {
       this.setColumnWidth(value);
-    }else if(name === 'scale'){
-      this.setScale(Number(value))
+    } else if (name === "scale") {
+      this.setScale(Number(value));
+    } else {
+      (state as any)[name] = value;
     }
   }
 
-  private setScale(size: number){
-    const range=[0.2, 1.5];
-    if(size >= range[0] && size <= range[1]){
-      state.scale = size
+  private setScale(size: number) {
+    const range = [0.2, 1.5];
+    if (size >= range[0] && size <= range[1]) {
+      state.scale = size;
     }
   }
 

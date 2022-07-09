@@ -19,6 +19,10 @@ export interface UiState {
    * 编辑器缩放比例
    */
   scale: number;
+  /**
+   * 编辑器是否全屏
+   */
+   isFullscreen: boolean;
 }
 
 export interface Controls {

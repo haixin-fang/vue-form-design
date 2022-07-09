@@ -1,6 +1,6 @@
 <template>
-  <div class="editor_pages_center">
-    <div class="canvasBox" ref="canvasBox" :class="editType == 1 ? 'formCanvasBox' : ''" :style="`transform: translateX(-50%) scale(${scale})`">
+  <div class="editor_pages_center" @click="onEditorCenter">
+    <div class="canvasBox" ref="canvasBox" :class="fullScreen?'fullScreenBox':''" :style="`transform: translateX(-50%) scale(${scale})`">
       <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
@@ -47,6 +47,8 @@
       const editType = computed(() => store.get("editType"));
 
       const globalDatas = computed(() => formStore?.get("globalDatas"));
+
+      const fullScreen = computed(() => uiControl?.get('isFullscreen'));
 
       const allmainList = computed<any>({
         get() {
@@ -144,6 +146,13 @@
         editType,
         handlePaste,
         pasteShow,
+        fullScreen,
+        onEditorCenter: (e: any) => {
+          if (e.path[0].className == "editor_pages_center") {
+            formStore.setFormCurrentIndex(-1);
+            pasteShow.value = false;
+          }
+        },
       };
     },
   });
@@ -155,7 +164,7 @@
     height: 100%;
     overflow-y: auto;
     .canvasBox {
-      width: 375px;
+      width: 500px;
       height: auto;
       min-height: $editor_canvas_min_height;
       position: absolute;
@@ -166,9 +175,10 @@
       transform-origin: 50% 0;
       box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
       transition: all 0.2s linear;
-      &.formCanvasBox {
-        width: 500px;
-        // margin-left: -470px;
+      &.fullScreenBox{
+        width: 100%;
+        top: 0;
+        height: 100%;
       }
       .draggable_container {
         width: 100%;

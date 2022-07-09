@@ -125,7 +125,7 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      z-index: 3;
+      z-index: 3333334;
       user-select: none;
       background-color: #fff;
       box-sizing: border-box;

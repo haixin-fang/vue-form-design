@@ -6,6 +6,7 @@
     <div class="detailBtn">
       <el-button plain @click="handleFormSave()" size="small" :disabled="clearIsDisable">保存</el-button>
       <el-button plain @click="handleFormPre()" size="small" :disabled="clearIsDisable">预览</el-button>
+      <el-button plain @click="handleFullScreen()" size="small" >全屏/非全屏</el-button>
       <el-button plain @click="handleClear()" size="small" :disabled="clearIsDisable">清空</el-button>
       <el-button plain @click="handleBack()" size="small" :disabled="historyIndex == -1">后退</el-button>
       <el-button plain @click="handleForward()" size="small" :disabled="historyIndex == historyLen - 1">前进</el-button>
@@ -24,7 +25,7 @@
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
-       const { hisContrl } = inject<Controls>("control") || {};
+       const { hisContrl, uiControl } = inject<Controls>("control") || {};
       const formUpdate = computed(() => formStore?.get("formUpdate"));
       const lastTime = computed(() => formStore?.get('saveTimetemp'));
       const clearIsDisable = computed(() => formStore?.get('allFormList')?.length == 0)
@@ -75,6 +76,10 @@
         },
         handleForward: () => {
           hisContrl?.go();
+        },
+        handleFullScreen: () => {
+          debugger
+          uiControl?.set('isFullscreen', !uiControl?.get('isFullscreen'));
         }
       }; 
     },
