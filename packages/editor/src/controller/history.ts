@@ -12,7 +12,6 @@ class History {
   public setValue(value: HistoryItem) {
     state.historyList.push(value);
     state.index = state.historyList.length - 1;
-    console.log(state.historyList);
   }
   public back() {
     if(state.index == -1)return;

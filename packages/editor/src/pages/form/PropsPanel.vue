@@ -1,6 +1,6 @@
 <template>
   <div class="editor_pages_right editor_pages_right_visible" ref="editRight">
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" type="border-card" style="height: 100%">
+    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="height: 100%">
       <el-tab-pane label="组件配置" name="form">
         <el-scrollbar class="dynamic">
           <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">

@@ -103,6 +103,18 @@
     cursor: move;
     border: 2px dotted #dfe2e2;
     box-sizing: border-box;
+    overflow: hidden;
+    &::before {
+      content: "";
+      height: 5px;
+      width: 100%;
+      background: #409eff;
+      position: absolute;
+      bottom: 0;
+      right: -100%;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+    }
     .editbar {
       position: absolute;
       bottom: 0;
@@ -151,5 +163,9 @@
   }
   .shape_border {
     border: 2px solid $blue;
+    background:#d1e4f6;
+    &::before{
+      right: 0;
+    }
   }
 </style>
