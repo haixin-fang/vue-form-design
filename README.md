@@ -18,6 +18,8 @@ https://haixin-fang.github.io/starfish-vue3-lowcode/preview/index.html
 - Vite
 - element-plus
 
+
+
 ## 代码规范
 - husky
 操作 git 钩子的工具
@@ -87,3 +89,8 @@ starfish-form,表单组件
 
 - 预览模式下自动保存导致动态表单不显示
 - 不能连续点击后退,做个限制
+- 是否全屏加入历史快照
+- 导入导出json
+- 预览功能优化,样式太丑
+- 增加表格
+- 布局增加卡片、栅格、标签页
