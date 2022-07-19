@@ -108,7 +108,7 @@ const afterBaseFormConfig: () => FormConfig[] = function () {
       },
     },
     {
-      ControlType: "JsonEditor",
+      ControlType: "ShowRule",
       data: {
         fieldName: "showRule",
         tip: "",

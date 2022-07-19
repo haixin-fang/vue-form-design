@@ -69,8 +69,8 @@
     z-index: 2000;
 
     .MyDialogBody {
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 90%;
       position: fixed;
       left: 50%;
       top: 50%;

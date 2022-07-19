@@ -22,7 +22,7 @@ const state = reactive<UiState>({
   columnWidth: defaultColumnWidth,
   dialogWidth: DIALOG_WIDTH,
   scale,
-  isFullscreen: false,
+  isFullscreen: true,
 });
 
 class Ui {

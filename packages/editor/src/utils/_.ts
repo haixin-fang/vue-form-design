@@ -72,7 +72,7 @@ class Flex {
     try {
       return JSON.parse(json);
     } catch (E) {
-      if(json.startsWith('"[')){
+      if(json && json.startsWith('"[')){
         return []
       }
       return {};

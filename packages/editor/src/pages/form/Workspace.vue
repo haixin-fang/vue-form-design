@@ -178,7 +178,7 @@
       &.fullScreenBox{
         width: 100%;
         top: 0;
-        height: 100%;
+        min-height: 100%;
       }
       .draggable_container {
         width: 100%;

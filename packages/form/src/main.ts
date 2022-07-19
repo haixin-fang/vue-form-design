@@ -20,6 +20,7 @@ import Selected from "./components/Selected/index.vue";
 import Selecteds from "./components/Selecteds/index.vue";
 import Divider from "./components/Divider/index.vue";
 import RichText from "./components/RichText/index.vue";
+import ShowRule from "./components/ShowRule/index.vue";
 
 export { default as Dynamicform } from "./Form.vue";
 
@@ -85,6 +86,7 @@ const install = (app: App) => {
   app.component(Rule.ControlType, Rule);
   app.component(Divider.ControlType, Divider);
   app.component(RichText.ControlType, RichText);
+  app.component(ShowRule.ControlType, ShowRule)
 };
 
 export default {
