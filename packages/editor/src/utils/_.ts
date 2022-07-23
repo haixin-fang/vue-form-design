@@ -1,4 +1,4 @@
-import {  ElNotification } from "element-plus";
+import { ElNotification } from "element-plus";
 const chars: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 class Flex {
@@ -36,7 +36,7 @@ class Flex {
     }
     return res;
   }
-  controlFormRule(controlItems: any[], items?: any): any {
+  controlFormRule(controlItems: any[]): any {
     const rules: any = {};
     controlItems.forEach((item: any) => {
       const rule: any[] = [];
@@ -54,17 +54,40 @@ class Flex {
     });
     return rules;
   }
-  deepClone(data: AnalyserOptions | any) {
-    if (!data || !(data instanceof Object) || typeof data == "function") {
-      return data || undefined;
-    }
-    const constructor: any = data.constructor;
-    const result = new constructor();
-    for (const key in data) {
-      if (Object.prototype.hasOwnProperty.call(data, key)) {
-        result[key] = this.deepClone(data[key]);
+  deepClone(target:any):any {
+    // 定义一个变量
+    let result;
+    // 如果当前需要深拷贝的是一个对象的话
+    if (typeof target === "object") {
+      // 如果是一个数组的话
+      if (Array.isArray(target)) {
+        result = []; // 将result赋值为一个数组，并且执行遍历
+        for (let i = 0; i < target.length; i++) {
+          // 递归克隆数组中的每一项
+          if (Object.prototype.hasOwnProperty.call(target, i)) {
+            result.push(this.deepClone(target[i]));
+          }
+        }
+        // 判断如果当前的值是null的话；直接赋值为null
+      } else if (target === null) {
+        result = null;
+        // 判断如果当前的值是一个RegExp对象的话，直接赋值
+      } else if (target.constructor === RegExp) {
+        result = target;
+      } else {
+        // 否则是普通对象，直接for in循环，递归赋值对象的所有值
+        result = {};
+        for (const i in target) {
+          if (Object.prototype.hasOwnProperty.call(target, i)) {
+            result[i] = this.deepClone(target[i]);
+          }
+        }
       }
+      // 如果不是对象的话，就是基本数据类型，那么直接赋值
+    } else {
+      result = target;
     }
+    // 返回最终结果
     return result;
   }
 
@@ -72,13 +95,13 @@ class Flex {
     try {
       return JSON.parse(json);
     } catch (E) {
-      if(json && json.startsWith('"[')){
-        return []
+      if (json && json.startsWith && json.startsWith('"[')) {
+        return [];
       }
       return {};
     }
   }
-  open(message: string, title = "Success", type:any =  "success") {
+  open(message: string, title = "Success", type: any = "success") {
     ElNotification({
       title: title || "Success",
       message: message,

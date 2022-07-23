@@ -59,7 +59,7 @@
     },
   });
 </script>
-<style scoped lang="scss">
+<style  lang="scss">
   .MyDialogFrame {
     position: fixed;
     width: 100%;

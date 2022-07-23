@@ -8,20 +8,20 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, ref, onMounted, getCurrentInstance } from "vue";
+  import { defineComponent, ref, onMounted, getCurrentInstance } from "vue";
   export default defineComponent({
     name: "Dynamicform",
     props: {
       allFormList: Array,
       formResult: Object,
     },
-    setup(props) {
+    setup(props:any) {
       const { proxy } = getCurrentInstance() as any;
-      const { allFormList, formResult } = reactive(props);
+      // const { allFormList, formResult } = props;
       const rules: any = ref({});
       const ruleForm = ref();
       const controlObj = ref();
-      allFormList?.forEach((item: any) => {
+      props.allFormList?.forEach((item: any) => {
         let rule: any[] = [];
         if (item.data.required) {
           rule.push({
@@ -32,7 +32,7 @@
         }
         if (typeof item.data.rule == "string") {
           rule = rule.concat(proxy.$Flex.tryParseJson(item.data.rule));
-        }else{
+        } else {
           rule = rule.concat(item.data.rule);
         }
         // 特殊的jsoneditor表单要单独处理
@@ -41,47 +41,64 @@
         }
         rules.value[item.data.fieldName] = rule;
       });
-      console.log(rules.value);
       const handleControlChange = () => {
-        const allFormLists: any = allFormList;
-        const formResults: any = formResult;
+        const allFormLists: any = props.allFormList;
         allFormLists.forEach((item: any) => {
           if (item.data.showRule === "{}") {
             item.show = true;
           } else {
-            let showRule;
             try {
-              showRule = JSON.parse(item.data.showRule);
-              for (const key in showRule) {
-                if (proxy.$Flex.getDataType(formResults[key]) == "Array") {
-                  let isHave = false; // 默认不显示
-                  // 配置数组就是或者的关系
-                  if (proxy.$Flex.getDataType(showRule[key]) == "Array") {
-                    showRule[key].forEach((rule: any) => {
-                      if (formResults[key].indexOf(String(rule)) > -1) {
-                        isHave = true;
-                      }
-                    });
-                  } else {
-                    if (formResults[key].indexOf(String(showRule[key])) > -1) {
-                      isHave = true;
-                    }
-                  }
-                  item.show = isHave;
-                } else {
-                  if (formResults[key] == showRule[key]) {
-                    item.show = true;
-                  } else {
-                    item.show = false;
-                  }
-                }
-              }
+              item.show = conditionChange(item.data.showRule);
             } catch (e) {
               item.show = true;
             }
           }
         });
       };
+      function conditionChange(data: any) {
+        if (data.type == "andgroup") {
+          const result = data.result
+            .map((item: any) => {
+              const r = conditionChange(item);
+              console.log(data.type, r);
+              return r;
+            })
+            .find((item: boolean) => {
+              return item == false;
+            });
+          return result === undefined ? true : result;
+        } else if (data.type == "orgroup") {
+          const result = data.result
+            .map((item: any) => {
+              const r = conditionChange(item);
+              return r;
+            })
+            .find((item: boolean) => {
+              return item == true;
+            });
+          return result === undefined ? false : result;
+        } else if (data.type == "data") {
+          const result = data.data;
+          const formResults: any = props.formResult;
+          const value = formResults[result.field];
+          let isShow = false;
+          switch (result.logic) {
+            case "=":
+              isShow = value == result.value;
+              break;
+            case "!=":
+              isShow = value != result.value;
+              break;
+            case "in":
+              isShow = result.value.includes(value);
+              break;
+            case "not in":
+              isShow = !result.value.includes(value);
+              break;
+          }
+          return isShow;
+        }
+      }
       onMounted(handleControlChange);
       return {
         rules,

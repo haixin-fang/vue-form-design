@@ -6,6 +6,9 @@ function useWatch(data: any) {
     () => data,
     () => {
       vm.emit("change");
+    },
+    {
+      deep: true,
     }
   );
 }
