@@ -3,12 +3,12 @@
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="height: 100%">
       <el-tab-pane label="组件配置" name="form">
         <el-scrollbar class="dynamic">
-          <el-form ref="ruleForm" :model="curControl.data || {}" :rules="curControl.rules" label-width="120px" :status-icon="true">
+          <el-form ref="ruleForm" :model="curControl && (curControl.data || {})" :rules="curControl && curControl.rules" label-width="120px" :status-icon="true">
             <el-form-item v-for="item in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
               <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
             </el-form-item>
           </el-form>
-          <el-empty :image-size="200" v-if="!curControl.data" description="没有选中表单控件"></el-empty>
+          <el-empty :image-size="200" v-if="!curControl || !curControl.data" description="没有选中表单控件"></el-empty>
         </el-scrollbar>
       </el-tab-pane>
       <el-tab-pane label="JSON配置" name="json">

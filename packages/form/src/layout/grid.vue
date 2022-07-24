@@ -2,7 +2,7 @@
   <div class="grid_box">
     <el-row :gutter="item.data.gutter">
       <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
-        <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
+        <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, index)" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
           <template #item="{ element }">
             <Shape v-if="element.data" :active="currentIndex == element.id" :currentIndex="element.id">
               <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-  import { defineComponent, inject, computed, getCurrentInstance } from "vue";
+  import { defineComponent, inject, computed, getCurrentInstance, nextTick } from "vue";
   import { getFormConfig } from "../utils/fieldConfig";
   import fieldProps from "../utils/fieldProps";
   import { useWatch } from "../utils/customHooks";
@@ -41,7 +41,7 @@
       const { formStore } = inject("control") || {};
       const formcomponents = proxy.$formcomponents;
       const chooseClick = (e, index) => {
-        formStore.setFormCurrentIndex(gridList.value[index].list[e.oldIndex].id);
+        formStore.setFormCurrentIndex(gridList.value[index].list[e.newIndex].id);
       };
       const currentIndex = computed(() => {
         return formStore.get("currentIndex");
@@ -51,12 +51,11 @@
         gridList,
         chooseClick,
         currentIndex,
-        changePos(e ,index) {
-          formStore.setFormCurrentIndex(gridList.value[index].list[e.oldIndex].id);
+        changePos(e, index) {
+          formStore.setFormCurrentIndex(gridList.value[index].list[e.newIndex].id);
         },
-        addControl() {
-        //   debugger;
-        //   console.log(23222)
+        async addControl(e, index) {
+          let id;
           gridList.value.forEach((colItem) => {
             colItem.list = colItem.list.map((item) => {
               if (!item.data && !item.controlItems) {
@@ -70,11 +69,17 @@
                 item.rules = proxy.$Flex.controlFormRule(controlItems, item);
                 item.controlItems = controlItems;
                 item.id = proxy.$Flex.generateMixed();
-                formStore.setFormCurrentIndex(item.id);
+                id = item.id;
               }
               return item;
             });
           });
+          await nextTick();
+          if (!id) {
+            formStore.setFormCurrentIndex(gridList.value[index].list[e.oldIndex].id);
+          } else {
+            formStore.setFormCurrentIndex(id);
+          }
         },
       };
     },

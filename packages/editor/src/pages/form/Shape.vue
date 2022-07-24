@@ -1,5 +1,4 @@
 <template>
-<!-- :class="[active ? 'shape_border' : '']" -->
   <div class="shape" :class="active?(layout?'shape_border shape_border_layout':'shape_border'):layout?'noactive_layout':''"  @contextmenu="handleShortCut" @click="handleMenu" :style="{ display: inline ? 'inline-block' : 'block' }">
     <div class="editForm" v-show="isShow && active" ref="editForm">
       <span @click="handleActive('copy')">复制</span>

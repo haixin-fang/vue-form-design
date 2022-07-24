@@ -106,7 +106,7 @@
 </script>
 <style lang="scss" scoped>
   .nav {
-    height: $editor_nav;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -116,6 +116,7 @@
     .detailBtn{
       span{
         padding: 0 5px;
+        font-size: 18px;
       }
       .noactive{
         color: #a1a7b0;
