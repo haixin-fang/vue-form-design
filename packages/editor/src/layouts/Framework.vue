@@ -10,6 +10,7 @@
       <!-- resizer组件 -->
       <resizer type="left"></resizer>
       <div class="starfish-editor-framework-center" :style="`width:${columnWidth?.center}px`">
+        <slot name="navlist"></slot>
         <slot name="workspace"></slot>
       </div>
       <resizer type="right"></resizer>

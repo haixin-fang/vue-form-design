@@ -1,7 +1,19 @@
 <template>
   <el-scrollbar class="editor_pages_left">
-    <el-input  placeholder="请输入关键词进行过滤" size='' v-model="filterContent"/>
+    <el-input placeholder="请输入关键词进行过滤" size="" v-model="filterContent" />
+    <el-button type="text">基础控件</el-button>
     <draggable class="dragArea list-group" :list="newcomponentlist" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
+      <template #item="{ element }">
+        <div class="list-group-item" :alt="element.nameCn">
+          <div class="form-item">
+            <span class="iconfont" :class="element.icon"></span>
+          </div>
+          <div class="item-text">{{ element.nameCn }}</div>
+        </div>
+      </template>
+    </draggable>
+    <el-button type="text">布局控件</el-button>
+    <draggable class="dragArea list-group" :list="layoutList" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
         <div class="list-group-item" :alt="element.nameCn">
           <div class="form-item">
@@ -34,6 +46,7 @@
         model.ControlType = item.ControlType;
         model.icon = item.icon;
         model.nameCn = item.nameCn;
+        model.layout = !!item.layout
         // 有json编辑器时，验证格式有固定的规则
         if (item.rule) {
           model.rule = item.rule;
@@ -43,20 +56,28 @@
         // model.controlItems = controlItems;
         lastFormComponents.push(model);
       }
+      console.log(lastFormComponents);
       return {
         formcomponents: lastFormComponents,
-        filterContent: '',
+        filterContent: "",
       };
     },
     computed: {
-      newcomponentlist(){
-        return (this as any).formcomponents.filter((item:any) => {
-          if(item.nameCn.indexOf(this.filterContent) != -1){
+      newcomponentlist() {
+        return (this as any).formcomponents.filter((item: any) => {
+          if (item.nameCn.indexOf(this.filterContent) != -1 && !item.layout) {
             return true;
           }
         });
+      },
+      layoutList(){
+        return (this as any).formcomponents.filter((item:any) => {
+          if(item.layout){
+            return true;
+          }
+        })
       }
-    }
+    },
   });
 </script>
 <style lang="scss" scoped>

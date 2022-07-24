@@ -144,7 +144,7 @@
               result.push({
                 data: item.data,
                 ControlType: item.ControlType,
-                id: proxy.$Flex.generateMixed(8),
+                id: proxy.$Flex.generateMixed(),
               });
             });
             formStore.set("AllFormResult", result);
@@ -200,7 +200,6 @@
           initJsonCenter();
         } else if(tab.props.name == 'form'){
           try {
-            debugger
             const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
             const fieldlist: string[] = [];
             let newAllList: any = null;
@@ -209,10 +208,10 @@
                 item = _.deepClone(item);
                 item.formConfig = formcomponents[item.ControlType].formConfig;
                 if (!item.data.fieldName) {
-                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
+                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
                 }
                 if (fieldlist.includes(item.data.fieldName)) {
-                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
+                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
                 } else {
                   fieldlist.push(item.data.fieldName);
                 }

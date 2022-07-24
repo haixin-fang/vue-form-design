@@ -9,10 +9,12 @@ import "jsoneditor/dist/jsoneditor.min.css";
 import CustomDialog from "@/common/CustomDialog.vue";
 import ConditionSelect from "@/common/ConditionSelect.vue";
 import HighConditionSelect from "@/common/ConditionSelect/ConditionModule.vue";
+import Shape from "~editor/Shape.vue";
 import StarfishForm from "starfish-form";
 import JSONEditor from "jsoneditor";
 import vm from "./utils/vm";
 import flex from "./utils/_";
+import draggable from "vuedraggable";
 const app = createApp(Editor);
 window.VApp = app;
 app.config.globalProperties.$EventBus = vm;
@@ -25,6 +27,8 @@ window.JSONEditor = JSONEditor;
 app.component("CustomDialog", CustomDialog);
 app.component("ConditionSelect", ConditionSelect);
 app.component("HighConditionSelect", HighConditionSelect);
+app.component('draggable', draggable)
+app.component('Shape', Shape)
 app.use(StarfishForm).use(ElementPlus, {
   locale: zhCn,
 });

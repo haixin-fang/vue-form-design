@@ -56,17 +56,15 @@
         }
       });
 
-      // watch(
-      //   () => formResult,
-      //   () => {
-      //     debugger
-      //     console.log(333, proxy.$Flex.deepClone(formResult.value));
-      //     editor?.set(proxy.$Flex.deepClone(formResult.value))
-      //   },
-      //   {
-      //     deep: true,
-      //   }
-      // );
+      watch(
+        () => formResult,
+        () => {
+          editor?.set(proxy.$Flex.deepClone(formResult.value))
+        },
+        {
+          deep: true,
+        }
+      );
 
       const JsonViewerDialog = ref();
       return {

@@ -30,7 +30,6 @@ class Ui {
     return (state as any)[name];
   }
   public set<T>(name: keyof typeof state, value: T) {
-    debugger;
     if (name === "columnWidth") {
       this.setColumnWidth(value);
     } else if (name === "scale") {

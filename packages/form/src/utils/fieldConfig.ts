@@ -166,6 +166,22 @@ const fieldsMap: any = {
     min: 0,
     max: 100,
   },
+  Grid: {
+    fieldName: "",
+    label: "标签名称",
+    gutter: "", // 栅格间隔
+    showRule: "{}",
+    columns: [
+      {
+        span: 12,
+        list: []
+      },
+      {
+        span: 12,
+        list: []
+      }
+    ],
+  },
   Selected: {
     fieldName: "",
     label: "标签名称",
@@ -364,7 +380,7 @@ const fieldsMap: any = {
     },
   },
 };
-type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "size" | "color" | "dividerColor" | "InputNumber" | "multiple";
+type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | 'columns' | "size" | "color" | "dividerColor" | "InputNumber" | "multiple" | "gutter";
 
 type morenFields = Record<fieldMap, FormConfig>;
 
@@ -552,6 +568,32 @@ function getMoren(fieldName: string, component: string): fields {
         size: "large",
       },
     },
+    gutter: {
+      ControlType: "InputNumber",
+      data: {
+        fieldName: "gutter",
+        label: "栅格间距",
+        tip: "",
+        placeholder: "",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+        default: 0,
+        type: 1,
+        size: "small",
+      },
+    },
+    columns: {
+      ControlType: "ListConfig",
+      data: {
+        fieldName: "columns",
+        label: "列配置项",
+        tip: "",
+        showRule: "{}",
+        required: false,
+        rule: "[]"
+      },
+    }
   };
   if (map[fieldName] && map[fieldName].ControlType == component) {
     return map[fieldName];
@@ -570,8 +612,14 @@ interface FormConfigReturn {
   data: () => fields;
   morenConfig: () => fields[];
 }
-
-function getFormConfig(componentName: string, config?: Config[]): FormConfigReturn {
+/**
+ * 
+ * @param componentName 
+ * @param config 
+ * @param filterField  过滤表单不要的配置
+ * @returns 
+ */
+function getFormConfig(componentName: string, config: Config[] = [],filterField: string[] = []): FormConfigReturn {
   const configList: any = [];
   if (config && config.length > 0) {
     config.forEach((item) => {
@@ -584,7 +632,12 @@ function getFormConfig(componentName: string, config?: Config[]): FormConfigRetu
       return JSON.parse(JSON.stringify(fieldsMap[componentName]));
     },
     morenConfig() {
-      return [...beforeBaseFormCofig(), ...configList, ...afterBaseFormConfig()];
+      const after = afterBaseFormConfig().filter(item => {
+        if(!filterField.includes(item.data.fieldName)){
+          return item;
+        }
+      });
+      return [...beforeBaseFormCofig(), ...configList, ...after];
     },
   };
 }

@@ -29,7 +29,6 @@ class History {
     }
   }
   public go() {
-    debugger
     if (state.index >= state.historyList.length -1) {
       return;
     }

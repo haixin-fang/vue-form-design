@@ -27,7 +27,8 @@ export interface UiState {
 
 export interface Controls {
   uiControl: UiControl;
-  hisContrl: hisContrl
+  hisContrl: hisContrl;
+  formStore: any;
 }
 
 export interface setColumnWidth {

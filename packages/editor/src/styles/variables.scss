@@ -1,5 +1,5 @@
 // 编辑页面头部的高度
-$editor_nav: 40px;
+$editor_nav: 50px;
 
 $editor-nav-background-color: white;
 // 画布的最小高度
@@ -10,6 +10,8 @@ $blue: #409eff;
 $resizer_background_color: #d8dee8;
 
 $resizer_hover_background_color: #ccc;
+
+$layout_color: #9867f7;
 @mixin scrollbar() {
   &::-webkit-scrollbar {
     width: 7px;

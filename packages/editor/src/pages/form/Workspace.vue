@@ -1,25 +1,26 @@
 <template>
   <div class="editor_pages_center" @click="onEditorCenter">
-    <div class="canvasBox" ref="canvasBox" :class="fullScreen?'fullScreenBox':''" :style="`transform: translateX(-50%) scale(${scale})`">
+    <div class="canvasBox" ref="canvasBox" :class="fullScreen ? 'fullScreenBox' : ''" :style="`transform: translateX(-50%) scale(${scale})`">
       <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentIndex == index" :currentIndex="index" :len="allmainList.length" :inline="globalDatas.Inline" :layout="globalDatas.layout">
+            <Shape :active="currentIndex == index" :currentIndex="index" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout">
               <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
             </Shape>
           </template>
         </draggable>
+        <div class="form-empty" v-if="allmainList.length == 0">从左侧拖拽来添加字段</div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
   import { defineComponent, ref, nextTick, computed, getCurrentInstance, inject } from "vue";
-  import draggable from "vuedraggable";
-  import Shape from "~editor/Shape.vue";
+  import NavList from "./NavList.vue";
+  // import Shape from "~editor/Shape.vue";
   // import { formcomponents } from "@/pages/Editor";
   import formStore from "@/store/form";
   import store from "@/store/index";
@@ -27,8 +28,8 @@
   import type { Controls } from "@/type";
   export default defineComponent({
     components: {
-      draggable,
-      Shape,
+      // Shape,
+      NavList,
     },
     setup() {
       const { proxy } = getCurrentInstance() as any;
@@ -48,7 +49,7 @@
 
       const globalDatas = computed(() => formStore?.get("globalDatas"));
 
-      const fullScreen = computed(() => uiControl?.get('isFullscreen'));
+      const fullScreen = computed(() => uiControl?.get("isFullscreen"));
 
       const allmainList = computed<any>({
         get() {
@@ -62,12 +63,14 @@
               item.formConfig = formcomponents[item.ControlType].formConfig;
               item.data = item.formConfig.data();
               if (!item.data.fieldName) {
-                item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed(6);
+                item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
               }
+              item.id = proxy.$Flex.generateMixed()
               const controlItems = item.formConfig.morenConfig();
               item.rules = proxy.$Flex.controlFormRule(controlItems, item);
               item.controlItems = controlItems;
             }
+            console.log('item', item)
             // delete item.formConfig;
             // delete item.icon;
             return item;
@@ -136,7 +139,6 @@
         handleCanvasSize,
         canvasSize,
         dragDom,
-        Shape,
         chooseClick,
         addControl,
         changePos,
@@ -163,6 +165,13 @@
     position: relative;
     height: 100%;
     overflow-y: auto;
+    .editor_nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 0 10px black;
+    }
     .canvasBox {
       width: 500px;
       height: auto;
@@ -175,7 +184,7 @@
       transform-origin: 50% 0;
       box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
       transition: all 0.2s linear;
-      &.fullScreenBox{
+      &.fullScreenBox {
         width: 100%;
         top: 0;
         min-height: 100%;
@@ -185,10 +194,20 @@
         min-height: $editor_canvas_min_height;
         z-index: 1;
         text-align: left;
+        position: relative;
         .dragArea {
           width: 100%;
           height: 100%;
           min-height: $editor_canvas_min_height;
+        }
+        .form-empty {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          font-size: 20px;
+          color: #ccc;
         }
       }
       .grid_controller {

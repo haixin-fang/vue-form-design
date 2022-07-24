@@ -21,7 +21,7 @@ export default {
   paste() {
     if (state.editType == 1 && state.copyContent) {
       const pasteControl = window.VueContext.$Flex.deepClone(state.copyContent); 
-      pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed(6);
+      pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed();
       state.form.allFormList.push(pasteControl);
       state.form.formUpdate = true;
     }

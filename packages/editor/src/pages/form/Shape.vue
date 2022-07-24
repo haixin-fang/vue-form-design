@@ -1,5 +1,6 @@
 <template>
-  <div class="shape" :class="[active ? 'shape_border' : '']" @contextmenu="handleShortCut" @click="handleMenu" :style="{ display: inline ? 'inline-block' : 'block' }">
+<!-- :class="[active ? 'shape_border' : '']" -->
+  <div class="shape" :class="active?(layout?'shape_border shape_border_layout':'shape_border'):layout?'noactive_layout':''"  @contextmenu="handleShortCut" @click="handleMenu" :style="{ display: inline ? 'inline-block' : 'block' }">
     <div class="editForm" v-show="isShow && active" ref="editForm">
       <span @click="handleActive('copy')">复制</span>
       <span @click="handleActive('cut')">剪切</span>
@@ -27,7 +28,7 @@
       currentIndex: Number,
       len: Number,
       inline: Boolean,
-      layout: String,
+      layout: Boolean,
     },
     mounted() {
       console.log(this.currentIndex);
@@ -103,15 +104,14 @@
     cursor: move;
     border: 2px dotted #dfe2e2;
     box-sizing: border-box;
-    overflow: hidden;
     &::before {
       content: "";
       height: 5px;
-      width: 100%;
-      background: #409eff;
+      width: 0;
+      background: $blue;
       position: absolute;
       bottom: 0;
-      right: -100%;
+      left: 100%;
       -webkit-transition: all 0.3s;
       transition: all 0.3s;
     }
@@ -165,7 +165,21 @@
     border: 2px solid $blue;
     background:#d1e4f6;
     &::before{
-      right: 0;
+      left: 0;
+      width: 100%;
     }
+  }
+  .shape_border_layout{
+    background: rgba(152, 103, 247, 0.24);
+    border: 2px solid $layout_color;
+    &::before{
+      background: $layout_color;
+    }
+    .editbar{
+      background: $layout_color;
+    }
+  }
+  .noactive_layout{
+    background: rgba(152, 103, 247, 0.1);
   }
 </style>

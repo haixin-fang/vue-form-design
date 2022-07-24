@@ -1,7 +1,10 @@
 <template>
   <!-- <Editor></Editor> -->
-  <framework >
+  <framework>
     <template #nav>
+      <Nav></Nav>
+    </template>
+    <template #navlist>
       <nav-list></nav-list>
     </template>
     <template #left>
@@ -24,12 +27,14 @@
   // import Editor from "@/pages/Editor/index.vue";
   import Framework from "@/layouts/Framework.vue";
   import NavList from "~editor/NavList.vue";
+  import Nav from "~editor/Nav.vue";
   import ComponentList from "~editor/ComponentList.vue";
   import Workspace from "~editor/Workspace.vue";
   import PropsPanel from "~editor/PropsPanel.vue";
   import FormPreview from "~editor/FormPreview.vue";
   import uiControl from "@/controller/ui";
-  import hisContrl from '@/controller/history';
+  import hisContrl from "@/controller/history";
+    import formStore from "@/store/form";
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
   // 根据编辑器判断,走不同的快捷键逻辑
   import formKeyconList from "@/utils/formKeycon";
@@ -38,20 +43,21 @@
 
   export default defineComponent({
     name: "Editor",
-    components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview },
+    components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview, Nav },
     setup() {
       const workspace = ref();
       const control: Controls = {
         uiControl,
-        hisContrl
+        hisContrl,
+        formStore
       };
-      let keycons: KeyController ;
+      let keycons: KeyController;
       onMounted(() => {
         keycons = listenGlobalKeyDown(formKeyconList, document.body);
       });
       onUnmounted(() => {
         keycons.destroy();
-      })
+      });
       provide("control", control);
       return {
         workspace,

@@ -22,6 +22,12 @@ import Divider from "./components/Divider/index.vue";
 import RichText from "./components/RichText/index.vue";
 import ShowRule from "./components/ShowRule/index.vue";
 
+// 布局
+import Grid from './layout/grid.vue';
+
+// 配置公共组件
+import ListConfig from './common/listConfig.vue';
+
 export { default as Dynamicform } from "./Form.vue";
 
 // 可以单个导入表单组件
@@ -64,6 +70,8 @@ formcomponents[Selected.ControlType] = Selected;
 formcomponents[Selecteds.ControlType] = Selecteds;
 formcomponents[Divider.ControlType] = Divider;
 formcomponents[RichText.ControlType] = RichText;
+// 布局
+formcomponents[Grid.ControlType] = Grid;
 
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = formcomponents;
@@ -86,7 +94,9 @@ const install = (app: App) => {
   app.component(Rule.ControlType, Rule);
   app.component(Divider.ControlType, Divider);
   app.component(RichText.ControlType, RichText);
-  app.component(ShowRule.ControlType, ShowRule)
+  app.component(ShowRule.ControlType, ShowRule);
+  app.component(Grid.ControlType, Grid);
+  app.component(ListConfig.ControlType, ListConfig);
 };
 
 export default {
