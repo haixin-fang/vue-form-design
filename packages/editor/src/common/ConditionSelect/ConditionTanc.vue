@@ -22,7 +22,7 @@
               </el-table-column>
               <el-table-column prop="type" label="值类型">
                 <template #default="scope">
-                  <el-select v-model="scope.row.type" placeholder="请选择">
+                  <el-select v-model="scope.row.type" placeholder="请选择" @change="handleType">
                     <el-option v-for="item in newtypeList" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                   </el-select>
                 </template>
@@ -38,7 +38,7 @@
                     <el-option :label="'未选择'" :value="''"></el-option>
                     <el-option v-for="(item, index) in getFiled()" :key="index" :label="item.label" :value="item.value"> </el-option>
                   </el-select>
-                   <el-switch v-model="scope.row.value" :active-icon="Check" :inactive-icon="Close" v-if="scope.row.type == '布尔'"/>
+                  <el-switch v-model="scope.row.value" :active-icon="Check" :inactive-icon="Close" v-if="scope.row.type == '布尔'" />
                 </template>
               </el-table-column>
               <el-table-column fixed="right" label="操作" width="200">
@@ -132,13 +132,13 @@
             },
           ];
         }
-        if(item && item.switch){
+        if (item && item.switch) {
           return [
             {
-              value: '布尔',
-              label: '布尔'
-            }
-          ]
+              value: "布尔",
+              label: "布尔",
+            },
+          ];
         }
         return this.typeList;
         // const newtypelist = this.typelist.map((item) => {
@@ -161,6 +161,11 @@
       },
     },
     methods: {
+      handleType(type) {
+        if(type == '布尔'){
+          this.table[0].value = true;
+        }
+      },
       getFiled() {
         if (!this.table[0] || !this.table[0].field) return [];
         const item = this.fieldList.find((item) => {
@@ -196,10 +201,13 @@
             { value: "not in", label: "不包含" },
           ];
         }
-        if(item && item.switch){
-          return [{
-            value: '=', label: '等于'
-          }]
+        if (item && item.switch) {
+          return [
+            {
+              value: "=",
+              label: "等于",
+            },
+          ];
         }
         return this.logicList;
       },

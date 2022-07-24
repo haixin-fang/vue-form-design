@@ -23,7 +23,7 @@
                 </el-table-column>
                 <el-table-column prop="type" label="值类型">
                   <template #default="scope">
-                    <el-select v-model="scope.row.type" placeholder="请选择">
+                    <el-select v-model="scope.row.type" placeholder="请选择" @change="handleType(scope.$index, index, scope.row.type)">
                       <el-option v-for="item in getNewTypeList(scope.$index, index)" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                     </el-select>
                   </template>
@@ -80,7 +80,7 @@
         },
       },
     },
-    setup(props) {
+    setup(props, { emit }) {
       const maxJsonDialog = ref();
       const formList = ref();
       const fieldList = computed(() => {
@@ -138,7 +138,12 @@
         fieldList,
         maxJsonDialog,
         formList,
-        getLogic(index,tableIndex) {
+        handleType(index, tableIndex, type) {
+          if (type == "布尔") {
+            data.andData[tableIndex][index].value = true;
+          }
+        },
+        getLogic(index, tableIndex) {
           const item = fieldList.value.find((item) => {
             if (data.andData[tableIndex][index]) {
               if (item.value == data.andData[tableIndex][index].field) {
@@ -229,30 +234,30 @@
           };
         },
         async onAddItem(index) {
-          console.log(fieldList.value);
-          let isValidated = true;
-          if (formList.value?.length > 0) {
-            for (let i = 0; i < formList.value.length; i++) {
-              const item = formList.value[i];
-              await item.validate((valid) => {
-                if (valid) {
-                  console.log("submit!");
-                } else {
-                  isValidated = false;
-                  console.log("error submit!");
-                  return false;
-                }
-              });
-            }
-          }
-          if (!isValidated) {
-            this.$message.error("条件校验失败,请补充完整!");
-            return;
-          }
-          if (formList.value?.length != data.andData[index].length && data.andData[index].length > 0) {
-            this.$message.error("内容补充完整再新增!");
-            return;
-          }
+          // console.log(fieldList.value);
+          // let isValidated = true;
+          // if (formList.value?.length > 0) {
+          //   for (let i = 0; i < formList.value.length; i++) {
+          //     const item = formList.value[i];
+          //     await item.validate((valid) => {
+          //       if (valid) {
+          //         console.log("submit!");
+          //       } else {
+          //         isValidated = false;
+          //         console.log("error submit!");
+          //         return false;
+          //       }
+          //     });
+          //   }
+          // }
+          // if (!isValidated) {
+          //   this.$message.error("条件校验失败,请补充完整!");
+          //   return;
+          // }
+          // if (formList.value?.length != data.andData[index].length && data.andData[index].length > 0) {
+          //   this.$message.error("内容补充完整再新增!");
+          //   return;
+          // }
           data.andData[index].push({
             field: "",
             logic: "",
@@ -286,7 +291,8 @@
             .filter((item) => {
               return !!item;
             });
-          props.data[props.item.data.fieldName] = andData;
+          // props.data[props.item.data.fieldName] = andData;
+          emit("change", andData);
           maxJsonDialog.value.close();
         },
       };

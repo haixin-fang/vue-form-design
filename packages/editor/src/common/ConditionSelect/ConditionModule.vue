@@ -129,7 +129,7 @@
         const field = fieldData.field;
         let value;
         if (fieldData.type == "选项") {
-          const rightField = fieldData.rightField;
+          const rightField = fieldData.value;
           value = `${JSON.stringify(rightField)}`;
         } else if (fieldData.type == "常量" || fieldData.type == "布尔") {
           value = fieldData.value;
@@ -141,7 +141,7 @@
       },
       saveJson() {
         this.$emit("change", this.result);
-        this.data[this.item.data.fieldName] = this.result;
+        // this.data[this.item.data.fieldName] = this.result;
         this.closeDialog();
       },
     },

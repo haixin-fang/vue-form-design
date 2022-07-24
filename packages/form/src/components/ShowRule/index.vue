@@ -12,7 +12,7 @@
     <div class="control">
       <el-button type="primary" @click="onConditionSet">普通设置</el-button>
       <el-button type="primary" @click="onHighConditionSet">高级设置</el-button>
-      <ConditionSelect ref="ConditionSelect" :data="data" :item="item"></ConditionSelect>
+      <ConditionSelect ref="ConditionSelect" :data="data" :item="item" @change="dataChange"></ConditionSelect>
       <HighConditionSelect ref="highSelect" :data="data" :item="item" @change="dataChange"></HighConditionSelect>
     </div>
   </div>
@@ -39,6 +39,9 @@
         onHighConditionSet() {
           highSelect.value?.show();
         },
+        dataChange(result:any){
+          (props.data as any)[props.item?.data.fieldName] = result;
+        }
       };
     },
   });

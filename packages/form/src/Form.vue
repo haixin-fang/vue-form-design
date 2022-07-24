@@ -8,14 +8,14 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onMounted, getCurrentInstance } from "vue";
+  import { defineComponent, ref, onMounted, getCurrentInstance, toRaw } from "vue";
   export default defineComponent({
     name: "Dynamicform",
     props: {
       allFormList: Array,
       formResult: Object,
     },
-    setup(props:any) {
+    setup(props: any) {
       const { proxy } = getCurrentInstance() as any;
       // const { allFormList, formResult } = props;
       const rules: any = ref({});
@@ -48,13 +48,37 @@
             item.show = true;
           } else {
             try {
-              item.show = conditionChange(item.data.showRule);
+              if (Array.isArray(item.data.showRule)) {
+                item.show = conditionChange(transformData(toRaw(item.data.showRule)));
+              } else {
+                item.show = conditionChange(toRaw(item.data.showRule));
+              }
             } catch (e) {
               item.show = true;
             }
           }
         });
       };
+      function transformData(data: any) {
+        /**普通模式转为高级模式的数据结构,方便复用 */
+        const r: any = [];
+        data.forEach((item: any) => {
+          r.push({
+            type: "andgroup",
+            result: item.map((d: any) => {
+              return {
+                type: "data",
+                data: d,
+              };
+            }),
+          });
+        });
+        const result = {
+          type: "orgroup",
+          result: r,
+        };
+        return result;
+      }
       function conditionChange(data: any) {
         if (data.type == "andgroup") {
           const result = data.result
