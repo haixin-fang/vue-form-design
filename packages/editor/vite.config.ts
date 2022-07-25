@@ -72,19 +72,19 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
-      manualChunks(id) {
-        if (id.includes("node_modules") && id.includes("element-plus")) {
-          return "element-plus";
-        } else if (id.includes("node_modules") && id.includes("vue")) {
-          return "vue";
-        } else if (id.includes("node_modules") && id.includes("wangeditor")) {
-          return "vendor";
-        } else if (id.includes("node_modules") && id.includes("jsoneditor")) {
-          return "jsoneditor";
-        } else if (id.includes("node_modules")) {
-          return "vendor";
-        }
-      },
+      // manualChunks(id) {
+      //   if (id.includes("node_modules") && id.includes("element-plus")) {
+      //     return "element-plus";
+      //   } else if (id.includes("node_modules") && id.includes("vue")) {
+      //     return "vue";
+      //   } else if (id.includes("node_modules") && id.includes("wangeditor")) {
+      //     return "vendor";
+      //   } else if (id.includes("node_modules") && id.includes("jsoneditor")) {
+      //     return "jsoneditor";
+      //   } else {
+      //     return "vendor";
+      //   }
+      // },
     },
   },
 });

@@ -7,11 +7,12 @@
     "serve": "pnpm --filter \"starfish-editor\" serve",
     "bootstrap": "pnpm i && pnpm prepare && cd editor && npm i",
     "lint-fix": "npx eslint . --fix --ext .vue,.js,.ts,.tsx",
-    "clean:top": "rimraf */**/dist */dist preview coverage dwt*",
+    "clean:top": "rimraf */**/dist */dist preview ",
     "clean:modules": "rimraf node_modules **/node_modules **/**/node_modules",
     "clean:all": "pnpm clean:top && pnpm clean:modules",
     "prepare": "husky install",
-    "build": "pnpm --filter \"starfish-*\" build",
+    "build": "pnpm clean:top && pnpm --filter \"starfish-*\" build",
+    "build:preview": "pnpm clean:top && pnpm --filter \"starfish-*\" build:preview",
     "commit": "git-cz"
   },
   "engines": {
@@ -41,6 +42,7 @@
     "babel-eslint": "^10.1.0",
     "commitizen": "^4.2.4",
     "commitlint": "^17.0.2",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",

@@ -27,9 +27,11 @@ window.JSONEditor = JSONEditor;
 app.component("CustomDialog", CustomDialog);
 app.component("ConditionSelect", ConditionSelect);
 app.component("HighConditionSelect", HighConditionSelect);
-app.component('draggable', draggable)
-app.component('Shape', Shape)
-app.use(StarfishForm).use(ElementPlus, {
-  locale: zhCn,
-});
+app.component("draggable", draggable);
+app.component("Shape", Shape);
+app
+  .use(ElementPlus, {
+    locale: zhCn,
+  })
+  .use(StarfishForm);
 app.mount("#app");

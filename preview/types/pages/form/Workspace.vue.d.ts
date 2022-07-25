@@ -1,0 +1,22 @@
+import type { DefineComponent, ComputedRef, Ref, WritableComputedRef, ComponentOptionsMixin, EmitsOptions, VNodeProps, AllowedComponentProps, ComponentCustomProps, ExtractPropTypes } from 'vue';
+declare const _sfc_main: DefineComponent<{}, {
+    scale: ComputedRef<number | undefined>;
+    globalDatas: ComputedRef<any>;
+    canvasBox: Ref<any>;
+    editForm: Ref<any>;
+    handleCanvasSize: (size: string) => void;
+    canvasSize: Ref<number>;
+    dragDom: Ref<any>;
+    chooseClick: (e: any) => void;
+    addControl: (e: any) => void;
+    changePos: (e: any) => void;
+    allmainList: WritableComputedRef<any>;
+    currentIndex: ComputedRef<any>;
+    handleNoDraggable: (e: any) => void;
+    editType: ComputedRef<any>;
+    handlePaste: () => void;
+    pasteShow: Ref<boolean>;
+    fullScreen: ComputedRef<unknown>;
+    onEditorCenter: (e: any) => void;
+}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, EmitsOptions, string, VNodeProps & AllowedComponentProps & ComponentCustomProps, Readonly<ExtractPropTypes<{}>>, {}>;
+export default _sfc_main;

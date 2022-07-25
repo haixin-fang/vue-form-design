@@ -7,11 +7,11 @@
       <el-tooltip class="box-item" effect="dark" content="预览" placement="top">
         <span class="iconfont icon-icon_yulan" :class="clearIsDisable?'noactive':''" @click="handleFormPre()"></span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="全屏" placement="top">
-        <span class="iconfont icon-quanping" @click="handleFullScreen()" v-if='!fullscreen'></span>
+      <el-tooltip class="box-item" effect="dark" content="全屏" placement="top" v-if='!fullscreen'>
+        <span class="iconfont icon-quanping" @click="handleFullScreen()" ></span>
       </el-tooltip>
-       <el-tooltip class="box-item" effect="dark" content="非全屏" placement="top">
-        <span class="iconfont icon-suoxiao1" @click="handleFullScreen()" v-if='fullscreen'></span>
+       <el-tooltip class="box-item" effect="dark" content="非全屏" placement="top" v-if='fullscreen'>
+        <span class="iconfont icon-suoxiao1" @click="handleFullScreen()" ></span>
       </el-tooltip>
        <el-tooltip class="box-item" effect="dark" content="清空" placement="top">
         <span class="iconfont icon-shanchu1" :class="clearIsDisable?'noactive':''" @click="handleClear()"> </span>
