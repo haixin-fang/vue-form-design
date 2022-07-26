@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar class="editor_pages_left">
     <el-input placeholder="请输入关键词进行过滤" size="" v-model="filterContent" />
-    <el-button type="text">基础控件</el-button>
+    <el-button type="text" v-if="newcomponentlist.length > 0">基础控件</el-button>
     <draggable class="dragArea list-group" :list="newcomponentlist" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
         <div class="list-group-item" :alt="element.nameCn">
@@ -12,7 +12,7 @@
         </div>
       </template>
     </draggable>
-    <el-button type="text">布局控件</el-button>
+    <el-button type="text" v-if='layoutList.length > 0'>布局控件</el-button>
     <draggable class="dragArea list-group" :list="layoutList" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
         <div class="list-group-item" :alt="element.nameCn">
