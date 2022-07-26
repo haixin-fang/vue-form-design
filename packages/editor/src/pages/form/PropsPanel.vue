@@ -62,8 +62,8 @@
       const formcomponents = proxy.$formcomponents;
       const controlItems = computed(() => formStore.getControlItems());
       const curControl = computed(() => formStore.get("curControl"));
-      const newCurControl = computed(() => proxy.$Flex.deepClone(formStore.get("curControl")))
-      const historyFlag = computed(() => hisContrl?.get('historyFlag'));
+      const newCurControl = computed(() => proxy.$Flex.deepClone(formStore.get("curControl")));
+      const historyFlag = computed(() => hisContrl?.get("historyFlag"));
       const save = computed(() => formStore.get("save"));
       const currentIndex = computed(() => formStore.get("currentIndex"));
       const handleEditBtn = () => {
@@ -79,11 +79,11 @@
        * 表单配置
        */
       const globalFormLists = ref(globalFormList);
-      const globalDatas = computed(() => formStore?.get('globalDatas'));
+      const globalDatas = computed(() => formStore?.get("globalDatas"));
 
       // 鼠标落下
       const handleMouseDown = async () => {
-        formStore.setFormCurrentIndex(-1);
+        formStore.setFormCurrentId("");
       };
 
       // 预览或保存时验证所有表单是否输入正确
@@ -93,7 +93,7 @@
         return new Promise((resolve) => {
           ruleForm.value.validate((valid: any) => {
             if (!valid) {
-              proxy.$Flex.open(content, title, 'error');
+              proxy.$Flex.open(content, title, "error");
               resolve(false);
             } else {
               resolve(true);
@@ -109,13 +109,13 @@
         for (let i = 0; i < len; ++i) {
           let validate = true;
           const curControl = allFormList.value[i];
-          curControl.controlItems.forEach((item:any) => {
-            if(item.data.required){
-              validate = !!curControl.data[item.data.fieldName]
+          curControl.controlItems.forEach((item: any) => {
+            if (item.data.required) {
+              validate = !!curControl.data[item.data.fieldName];
             }
-          })
-          if(!validate){
-            formStore.setFormCurrentIndex(i);
+          });
+          if (!validate) {
+            formStore.setFormCurrentId(curControl.id);
             await nextTick();
             const valid = await checkNowFormValidate("请检查动态表单输入格式问题", "表单验证失败");
             if (!valid) {
@@ -129,7 +129,7 @@
       const allmainList = computed(() => formStore?.get("allFormList"));
       const newAllmainlist = computed(() => proxy.$Flex.deepClone(formStore?.get("allFormList")));
 
-      const checkValidates = async (formSave = false, type?:string) => {
+      const checkValidates = async (formSave = false, type?: string) => {
         const curControlIndex = formStore.get("currentIndex");
         if (preview.value || save.value || formUpdate.value) {
           const preview = await checkFormValidate();
@@ -139,33 +139,52 @@
           formStore.setSave(preview);
           formStore.setFormUpdate(false);
           if (preview) {
-            const result: any[] = [];
-            toRaw(allFormList.value).forEach((item: any) => {
-              result.push({
-                data: item.data,
-                ControlType: item.ControlType,
-                id: proxy.$Flex.generateMixed(),
-              });
-            });
+            const result: any[] = initFormToJson(allFormList.value);
+            // toRaw(allFormList.value).forEach((item: any) => {
+            //   result.push({
+            //     data: item.data,
+            //     ControlType: item.ControlType,
+            //     id: proxy.$Flex.generateMixed(),
+            //   });
+            // });
             formStore.set("AllFormResult", result);
             formStore.handleDynamicForm();
           }
           if (!formSave) {
             formStore.set("previewShow", preview);
             formStore.set("preview", false);
-          } else if(preview){
-            proxy.$Flex.open(type ? "已自动保存": "保存成功");
+          } else if (preview) {
+            proxy.$Flex.open(type ? "已自动保存" : "保存成功");
           }
         }
       };
-      const initJsonData = (formlist: any) => {
+      const initFormToJson = (formlist: any) => {
         const jsonData: any = [];
         toRaw(formlist).forEach((item: any) => {
-          const obj = {
-            ControlType: item.ControlType,
-            nameCn: item.nameCn,
-            data: item.data,
-          };
+          let obj;
+          if (item.layout) {
+            if (item.data.columns && item.data.columns.length > 0) {
+              item.data.columns = item.data.columns.map((colItem: any) => {
+                colItem.list = initFormToJson(colItem.list);
+                return colItem;
+              });
+            }
+            obj = {
+              ControlType: item.ControlType,
+              nameCn: item.nameCn,
+              id: item.id,
+              layout: !!item.layout,
+              data: item.data,
+            };
+          } else {
+            obj = {
+              ControlType: item.ControlType,
+              nameCn: item.nameCn,
+              id: item.id,
+              layout: !!item.layout,
+              data: item.data,
+            };
+          }
           jsonData.push(obj);
         });
         return jsonData;
@@ -174,7 +193,7 @@
       function initJsonCenter() {
         const jsonDom = jsonCenter.value;
         if (jsonEditor) {
-          jsonEditor?.set(initJsonData(allmainList.value));
+          jsonEditor?.set(initFormToJson(allmainList.value));
         } else {
           const options = {
             modes: ["text", "code", "view"],
@@ -182,45 +201,58 @@
             search: false,
           };
           jsonEditor = new window.JSONEditor(jsonDom, options);
-          jsonEditor?.set(initJsonData(allmainList.value));
+          jsonEditor?.set(initFormToJson(allmainList.value));
         }
       }
-      function complareControl (newControl:any, oldContrl:any){
-        if(newControl !== oldContrl)return false;
+      function complareControl(newControl: any, oldContrl: any) {
+        if (newControl !== oldContrl) return false;
         let same = true;
-        for(const key in newControl){
-          if(newControl[key] !== oldContrl[key]){
+        for (const key in newControl) {
+          if (newControl[key] !== oldContrl[key]) {
             same = false;
           }
         }
-        return same
+        return same;
       }
-      function handleClick(tab:any) {
+
+      function initJsonToForm(list: any) {
+        const fieldlist: string[] = [];
+        return toRaw(list).map((item: any) => {
+          if (!item.data || !item.controlItems) {
+            item = _.deepClone(item);
+            item.formConfig = formcomponents[item.ControlType].formConfig;
+            if (!item.data.fieldName) {
+              item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
+            }
+            if (fieldlist.includes(item.data.fieldName)) {
+              item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
+            } else {
+              fieldlist.push(item.data.fieldName);
+            }
+            if (item.layout) {
+              if (item.data.columns && item.data.columns.length > 0) {
+                item.data.columns = item.data.columns.map((colItem: any) => {
+                  colItem.list = initJsonToForm(colItem.list);
+                  return colItem;
+                });
+              }
+            }
+            const controlItems = item.formConfig.morenConfig();
+            item.rules = proxy.$Flex.controlFormRule(controlItems, item);
+            item.controlItems = controlItems;
+          }
+          return item;
+        });
+      }
+
+      function handleClick(tab: any) {
         if (tab.props.name == "json") {
           initJsonCenter();
-        } else if(tab.props.name == 'form'){
+        } else if (tab.props.name == "form") {
           try {
             const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
-            const fieldlist: string[] = [];
             let newAllList: any = null;
-            newAllList = toRaw(list).map((item: any) => {
-              if (!item.data || !item.controlItems) {
-                item = _.deepClone(item);
-                item.formConfig = formcomponents[item.ControlType].formConfig;
-                if (!item.data.fieldName) {
-                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
-                }
-                if (fieldlist.includes(item.data.fieldName)) {
-                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
-                } else {
-                  fieldlist.push(item.data.fieldName);
-                }
-                const controlItems = item.formConfig.morenConfig();
-                item.rules = proxy.$Flex.controlFormRule(controlItems, item);
-                item.controlItems = controlItems;
-              }
-              return item;
-            });
+            newAllList = initJsonToForm(list);
             formStore?.updateAllFormList(newAllList);
           } catch (e) {
             console.error(e);
@@ -236,18 +268,20 @@
       proxy.$EventBus.on("openPreview", async () => {
         checkValidates();
       });
-      proxy.$EventBus.on("setSave", async (type?:string) => {
+      proxy.$EventBus.on("setSave", async (type?: string) => {
         checkValidates(true, type);
       });
       watch(
         () => [newAllmainlist.value, newCurControl.value?.data],
-        ([, b],[, d]) => {
-          initJsonCenter();
-          if(historyFlag.value){
-            hisContrl?.set('historyFlag', false);
+        ([, b], [, d]) => {
+          if (activeName.value == "json") {
+            initJsonCenter();
+          }
+          if (historyFlag.value) {
+            hisContrl?.set("historyFlag", false);
             return;
           }
-          if(!complareControl(b, d)){
+          if (!complareControl(b, d)) {
             formStore?.setHistory();
           }
         },
@@ -318,7 +352,7 @@
     position: relative;
     .form_tab3 {
       padding: 5px;
-      .form_tab3_list{
+      .form_tab3_list {
         margin-bottom: 15px;
       }
     }

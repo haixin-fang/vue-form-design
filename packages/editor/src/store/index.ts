@@ -10,45 +10,48 @@ const state = reactive({
   form: form,
   editType: 1, // 存储编辑器类型， 1 表单
   copyContent: null,
+  curList:[], // 当前操作在哪个选中区间中
 });
 
 export default {
-  copy() {
+  copy(list: any) {
     if (state.editType == 1 && state.form.currentIndex > -1) {
-      state.copyContent = state.form.allFormList[state.form.currentIndex];
+      state.copyContent = list[state.form.currentIndex];
     }
   },
-  paste() {
+  paste(list: any) {
     if (state.editType == 1 && state.copyContent) {
-      const pasteControl = window.VueContext.$Flex.deepClone(state.copyContent); 
+      const pasteControl = window.VueContext.$Flex.deepClone(state.copyContent);
       pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed();
-      state.form.allFormList.push(pasteControl);
+      pasteControl.id = _.generateMixed();
+      list.push(pasteControl);
       state.form.formUpdate = true;
     }
   },
-  delete() {
+  delete(list: any) {
     if (state.editType == 1) {
-      state.form.allFormList.splice(state.form.currentIndex, 1);
+      list.splice(state.form.currentIndex, 1);
       state.form.curControl = {};
       state.form.formUpdate = true;
       state.form.currentIndex = -1;
+      state.form.currentId = "";
     }
   },
-  onTop() {
+  onTop(list: any) {
     if (state.editType == 1) {
       if (state.form.currentIndex > 0) {
-        const temp = state.form.allFormList.splice(state.form.currentIndex, 1);
+        const temp = list.splice(state.form.currentIndex, 1);
         state.form.currentIndex -= 1;
-        state.form.allFormList.splice(state.form.currentIndex, 0, ...temp);
+        list.splice(state.form.currentIndex, 0, ...temp);
       }
     }
   },
-  onBottom() {
+  onBottom(list: any) {
     if (state.editType == 1) {
-      if (state.form.currentIndex < state.form.allFormList.length - 1) {
-        const temp = state.form.allFormList.splice(state.form.currentIndex, 1);
+      if (state.form.currentIndex < list.length - 1) {
+        const temp = list.splice(state.form.currentIndex, 1);
         state.form.currentIndex += 1;
-        state.form.allFormList.splice(state.form.currentIndex, 0, ...temp);
+        list.splice(state.form.currentIndex, 0, ...temp);
       }
     }
   },
@@ -63,20 +66,20 @@ export default {
       state.form.currentIndex -= 1;
     }
   },
-  moveBottom() {
-    if (state.form.currentIndex < state.form.allFormList.length - 1) {
+  moveBottom(list:any) {
+    if (state.form.currentIndex < list.length - 1) {
       state.form.currentIndex += 1;
     }
   },
-  set(name:any, value: any) {
+  set(name: any, value: any) {
     (state as any)[name] = value;
-    console.log('admin store set ', name, ' ', value);
+    console.log("admin store set ", name, " ", value);
   },
 
-  get(name: any){
+  get(name: any) {
     return (state as any)[name];
   },
-  commit(event: string){
-    this[event]();
-  }
+  commit(event: string) {
+    this[event](state.curList);
+  },
 };

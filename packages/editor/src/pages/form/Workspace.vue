@@ -6,10 +6,10 @@
           <span @click="handlePaste">粘贴</span>
         </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
-          <template #item="{ element }">
-              <Shape :active="currentIndex == element.id" :currentIndex="element.id" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout">
-                <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
-              </Shape>
+          <template #item="{ element, index }">
+            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout" :list="allmainList">
+              <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
+            </Shape>
           </template>
         </draggable>
         <div class="form-empty" v-if="allmainList.length == 0">从左侧拖拽来添加字段</div>
@@ -20,14 +20,14 @@
 <script lang="ts">
   import { defineComponent, ref, nextTick, computed, getCurrentInstance, inject } from "vue";
   // import { formcomponents } from "@/pages/Editor";
-  import formStore from "@/store/form";
-  import store from "@/store/index";
+  // import formStore from "@/store/form";
+  // import store from "@/store/index";
   import { paste } from "@/utils/formKeycon";
   import type { Controls } from "@/type";
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
-      const { uiControl } = inject<Controls>("control") || {};
+      const { uiControl, store, formStore } = inject<Controls>("control") || {};
       const formcomponents = proxy.$formcomponents;
       // 画布dom
       const canvasBox = ref();
@@ -59,12 +59,11 @@
               if (!item.data.fieldName) {
                 item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
               }
-              item.id = proxy.$Flex.generateMixed()
+              item.id = proxy.$Flex.generateMixed();
               const controlItems = item.formConfig.morenConfig();
               item.rules = proxy.$Flex.controlFormRule(controlItems, item);
               item.controlItems = controlItems;
             }
-            console.log("item", item);
             // delete item.formConfig;
             // delete item.icon;
             return item;
@@ -72,8 +71,8 @@
           formStore.updateAllFormList(value);
         },
       });
-      const currentIndex = computed(() => {
-        return formStore.get("currentIndex");
+      const currentId = computed(() => {
+        return formStore.get("currentId");
       });
 
       const handleCanvasScale = () => {
@@ -94,15 +93,19 @@
         }
       };
       const chooseClick = (e: any) => {
-
-        debugger
-        formStore.setFormCurrentIndex(allmainList.value[e.oldIndex]?.id);
+        formStore.setFormCurrentId(allmainList.value[e.oldIndex]?.id);
+        formStore.setFormCurrentIndex(e.oldIndex);
+        store.set("curList", allmainList.value);
       };
       const changePos = (e: any) => {
-        formStore.setFormCurrentIndex(allmainList.value[e.oldIndex]?.id);
+        formStore.setFormCurrentId(allmainList.value[e.newIndex]?.id);
+        formStore.setFormCurrentIndex(e.newIndex);
+        store.set("curList", allmainList.value);
       };
       const addControl = (e: any) => {
-        formStore.setFormCurrentIndex(allmainList.value[e.newIndex]?.id);
+        formStore.setFormCurrentId(allmainList.value[e.newIndex]?.id);
+        formStore.setFormCurrentIndex(e.newIndex);
+        store.set("curList", allmainList.value);
       };
       const handlePaste = () => {
         pasteShow.value = false;
@@ -139,7 +142,7 @@
         addControl,
         changePos,
         allmainList,
-        currentIndex,
+        currentId,
         handleNoDraggable,
         editType,
         handlePaste,
@@ -147,7 +150,7 @@
         fullScreen,
         onEditorCenter: (e: any) => {
           if (e.path[0].className == "editor_pages_center") {
-            formStore.setFormCurrentIndex(-1);
+            formStore.setFormCurrentId("");
             pasteShow.value = false;
           }
         },

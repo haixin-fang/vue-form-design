@@ -1,6 +1,6 @@
 <template>
   <!-- <Editor></Editor> -->
-  <framework>
+  <framework >
     <template #nav>
       <Nav></Nav>
     </template>
@@ -35,6 +35,7 @@
   import uiControl from "@/controller/ui";
   import hisContrl from "@/controller/history";
     import formStore from "@/store/form";
+    import store from '@/store/index';
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
   // 根据编辑器判断,走不同的快捷键逻辑
   import formKeyconList from "@/utils/formKeycon";
@@ -49,7 +50,8 @@
       const control: Controls = {
         uiControl,
         hisContrl,
-        formStore
+        formStore,
+        store
       };
       let keycons: KeyController;
       onMounted(() => {

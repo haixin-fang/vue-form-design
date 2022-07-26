@@ -89,7 +89,7 @@
         clearIsDisable,
         handleClear: () => {
           clearCanvas();
-          formStore.setFormCurrentIndex(-1);
+          formStore.setFormCurrentId('');
         },
         handleBack: () => {
           hisContrl?.back();

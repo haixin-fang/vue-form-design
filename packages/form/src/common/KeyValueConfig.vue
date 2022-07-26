@@ -46,9 +46,9 @@
 </template>
 <script lang="ts">
   import { defineComponent } from "vue";
-  import { getFormConfig } from "../../utils/fieldConfig";
-  import fieldProps from "../../utils/fieldProps";
-  import { useWatch } from "../../utils/customHooks";
+  import { getFormConfig } from "../utils/fieldConfig";
+  import fieldProps from "../utils/fieldProps";
+  import { useWatch } from "../utils/customHooks";
   export default defineComponent({
     ControlType: "KeyValueConfig", // 必须与文件名匹配
     nameCn: "键值对匹配",

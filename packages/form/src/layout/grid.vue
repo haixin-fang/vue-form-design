@@ -4,7 +4,7 @@
       <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
         <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, index)" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
           <template #item="{ element }">
-            <Shape v-if="element.data" :active="currentIndex == element.id" :currentIndex="element.id">
+            <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="element.id" :list="colItem.list">
               <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
             </Shape>
           </template>
@@ -38,21 +38,25 @@
       console.log(props);
       const gridList = computed(() => props.item.data.columns);
       const { proxy } = getCurrentInstance();
-      const { formStore } = inject("control") || {};
+      const { formStore, store } = inject("control") || {};
       const formcomponents = proxy.$formcomponents;
       const chooseClick = (e, index) => {
-        formStore.setFormCurrentIndex(gridList.value[index].list[e.newIndex].id);
+        formStore.setFormCurrentId(gridList.value[index].list[e.oldIndex]?.id);
+        formStore.setFormCurrentIndex(e.oldIndex);
+        store.set('curList', gridList.value[index].list);
       };
-      const currentIndex = computed(() => {
-        return formStore.get("currentIndex");
+      const currentId = computed(() => {
+        return formStore.get("currentId");
       });
       useWatch(props.data);
       return {
         gridList,
         chooseClick,
-        currentIndex,
+        currentId,
         changePos(e, index) {
-          formStore.setFormCurrentIndex(gridList.value[index].list[e.newIndex].id);
+          formStore.setFormCurrentId(gridList.value[index].list[e.newIndex]?.id);
+          formStore.setFormCurrentIndex(e.newIndex);
+          store.set('curList', gridList.value[index].list);
         },
         async addControl(e, index) {
           let id;
@@ -76,9 +80,13 @@
           });
           await nextTick();
           if (!id) {
-            formStore.setFormCurrentIndex(gridList.value[index].list[e.oldIndex].id);
+            formStore.setFormCurrentId(gridList.value[index].list[e.newIndex].id);
+            formStore.setFormCurrentIndex(e.newIndex);
+            store.set('curList', gridList.value[index].list);
           } else {
-            formStore.setFormCurrentIndex(id);
+            formStore.setFormCurrentId(id);
+            formStore.setFormCurrentIndex(e.newIndex);
+            store.set('curList', gridList.value[index].list);
           }
         },
       };

@@ -29,6 +29,7 @@ export interface Controls {
   uiControl: UiControl;
   hisContrl: hisContrl;
   formStore: any;
+  store: any;
 }
 
 export interface setColumnWidth {
@@ -75,6 +76,10 @@ export interface FormState {
    * 选中的表单控件
    */
   curControl: any, 
+  /**
+   * 选中的控件的id
+   */
+  currentId: string, 
   /**
    * 选中的控件的索引
    */

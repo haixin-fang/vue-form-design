@@ -7,6 +7,7 @@ const state = reactive<FormState>({
   allFormList: [], // 存储所有选择的表单控件
   curControl: {}, // 选中的表单控件
   currentIndex: -1, // 选中的控件的索引
+  currentId: "",
   preview: false, // 开启预览进行表单验证
   previewShow: false, // 预览是否展示
   save: false, // 保存
@@ -24,7 +25,7 @@ export default {
   updateAllFormList(allFormList: any) {
     state.allFormList = allFormList;
     // 解决属性面板表单和jsontab切换后,数据不同步问题
-    if ((state.currentIndex != -1)) {
+    if (state.currentIndex != -1) {
       state.curControl = allFormList[state.currentIndex];
     }
   },
@@ -35,27 +36,54 @@ export default {
       curControl: window.VueContext.$Flex.deepClone(state.allFormList[state.currentIndex]),
     });
   },
-  setFormCurrentIndex(index: any) {
+  setFormCurrentIndex(index: number) {
     state.currentIndex = index;
-    if (index && index != -1) {
-      let result;
-      state.allFormList.find((item) => {
-        if (item.id == index) {
-          result = item;
-          return true;
-        } else if (item.layout) {
-          const res = this.getGridCurCtrol(item, index);
-          if (res) {
-            result = res;
-            return true;
-          }
-        }
-      });
+  },
+  setFormCurrentId(id: string) {
+    if (id) {
+      state.currentId = id;
+      const result = this.getCurrentItem(id);
+      // state.allFormList.find((item) => {
+      //   if (item.id == id) {
+      //     result = item;
+      //     return true;
+      //   } else if (item.layout) {
+      //     const res = this.getGridCurCtrol(item, id);
+      //     if (res) {
+      //       result = res;
+      //       return true;
+      //     }
+      //   }
+      // });
       state.curControl = result || {};
     } else {
       state.curControl = {};
     }
   },
+  getCurrentItem(id: string) {
+    return state.allFormList.find((item) => {
+      if (item.id == id) {
+        return item;
+      } else if (item.layout) {
+        const res = this.getGridCurCtrol(item, id);
+        if (res) {
+          return item;
+        }
+      }
+    });
+  },
+  // getCurrentItemIndex(list, id: string) {
+  //   list.findIndex((item) => {
+  //     if (item.id == id) {
+  //       return item;
+  //     } else if (item.layout) {
+  //       const res = this.getGridCurCtrol(item, id);
+  //       if (res) {
+  //         return item;
+  //       }
+  //     }
+  //   });
+  // },
   getGridCurCtrol(item: any, id: string) {
     const columns = item.data.columns;
     let result;

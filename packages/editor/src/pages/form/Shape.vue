@@ -10,10 +10,10 @@
     </div>
     <slot></slot>
     <div class="editbar" v-if="active">
-      <span class="iconfont icon-xiangshang1" v-if="currentIndex != 0" @click="handleActive('top')"></span>
-      <span class="iconfont icon-xiangxia1" v-if="currentIndex != len - 1" @click="handleActive('bottom')"></span>
-      <span class="iconfont icon-fuzhi" @click="handleCopyAndPaste"></span>
-      <span class="iconfont icon-shanchu1" @click="handleActive('delete')"></span>
+      <span class="iconfont icon-xiangshang1" v-if="currentIndex != 0" @click.stop="handleActive('top')"></span>
+      <span class="iconfont icon-xiangxia1" v-if="currentIndex != len - 1" @click.stop="handleActive('bottom')"></span>
+      <span class="iconfont icon-fuzhi" @click.stop="handleCopyAndPaste"></span>
+      <span class="iconfont icon-shanchu1" @click.stop="handleActive('delete')"></span>
     </div>
   </div>
 </template>
@@ -28,10 +28,8 @@
       len: Number,
       inline: Boolean,
       layout: Boolean,
-    },
-    mounted() {
-      console.log(this.currentIndex);
-      console.log(this.len);
+      currentId: String,
+      list: Object
     },
     setup(props, context) {
       const isShow = ref(false);

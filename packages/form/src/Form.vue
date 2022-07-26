@@ -114,10 +114,29 @@
               isShow = value != result.value;
               break;
             case "in":
-              isShow = result.value.includes(value);
+              if (Array.isArray(value)) {
+                value.find((item) => {
+                  if (result.value.include(item)) {
+                    isShow = result.value.includes(item);
+                    return item;
+                  }
+                });
+              } else {
+                isShow = result.value.includes(value);
+              }
               break;
             case "not in":
               isShow = !result.value.includes(value);
+              if (Array.isArray(value)) {
+                value.find((item) => {
+                  if (!result.value.include(item)) {
+                    isShow = !result.value.includes(item);
+                    return item;
+                  }
+                });
+              } else {
+                isShow = !result.value.includes(value);
+              }
               break;
           }
           return isShow;
