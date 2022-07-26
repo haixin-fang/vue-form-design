@@ -1,5 +1,5 @@
 <template>
-  <CustomDialog ref="maxJsonDialog" class="maxJsonDialogss">
+  <CustomDialog ref="maxJsonDialog">
     <el-main style="padding: 0">
       <el-container style="height: 100%">
         <el-main class="my-pageMain">
@@ -62,6 +62,7 @@
         deep: true,
       },
     },
+    emits: ["change"],
     methods: {
       async show() {
         this.$refs.maxJsonDialog.init("可用条件", "icon-bianji");
@@ -100,7 +101,7 @@
               label: item?.data?.label + "-" + item?.data?.fieldName,
             };
           });
-        this.result = typeof this.data[this.item.data.fieldName] == 'string'?JSON.parse(this.data[this.item.data.fieldName]): this.data[this.item.data.fieldName];
+        this.result = typeof this.data[this.item.data.fieldName] == "string" ? JSON.parse(this.data[this.item.data.fieldName]) : this.data[this.item.data.fieldName];
         console.log(fieldList);
         this.leftField = fieldList;
         //   this.rightField = list.fields;
@@ -148,8 +149,7 @@
   };
 </script>
 <style lang="scss">
-  .maxJsonDialogss {
-    .my-pageMain {
+ .my-pageMain {
       .el-alert {
         margin-bottom: 15px;
       }
@@ -258,5 +258,4 @@
       //   background: #E6A23C;
       // }
     }
-  }
 </style>

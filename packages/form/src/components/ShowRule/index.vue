@@ -7,8 +7,8 @@
         <span class="tip iconfont icon-tishi"></span>
       </el-tooltip>
     </div>
-    <el-button type="text" v-if="data.showRule != '{}'">已设置</el-button>
-    <el-button type="text" v-else>未设置</el-button>
+    <el-button text type="primary" v-if="data.showRule != '{}'">已设置</el-button>
+    <el-button text type="primary" v-else>未设置</el-button>
     <div class="control">
       <el-button type="primary" @click="onConditionSet">普通设置</el-button>
       <el-button type="primary" @click="onHighConditionSet">高级设置</el-button>

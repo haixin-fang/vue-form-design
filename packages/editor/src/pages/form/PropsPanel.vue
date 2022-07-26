@@ -19,7 +19,7 @@
       <el-tab-pane label="表单配置" name="global">
         <!-- 该模块展示先不做,控制整个动态表单样式导致样式崩(如json,富文本编辑器与其他表单高度相差太大),意义不大 -->
         <el-scrollbar class="form_tab3">
-          <div v-for="item in globalFormLists" :key="item.id" class="form_tab3_list">
+          <div v-for="(item, index) in globalFormLists" :key="index" class="form_tab3_list">
             <component :is="item.ControlType" :item="item" :data="globalDatas"></component>
           </div>
         </el-scrollbar>
@@ -216,32 +216,8 @@
       }
 
       function initJsonToForm(list: any) {
-        const fieldlist: string[] = [];
         return toRaw(list).map((item: any) => {
-          if (!item.data || !item.controlItems) {
-            item = _.deepClone(item);
-            item.formConfig = formcomponents[item.ControlType].formConfig;
-            if (!item.data.fieldName) {
-              item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
-            }
-            if (fieldlist.includes(item.data.fieldName)) {
-              item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
-            } else {
-              fieldlist.push(item.data.fieldName);
-            }
-            if (item.layout) {
-              if (item.data.columns && item.data.columns.length > 0) {
-                item.data.columns = item.data.columns.map((colItem: any) => {
-                  colItem.list = initJsonToForm(colItem.list);
-                  return colItem;
-                });
-              }
-            }
-            const controlItems = item.formConfig.morenConfig();
-            item.rules = proxy.$Flex.controlFormRule(controlItems, item);
-            item.controlItems = controlItems;
-          }
-          return item;
+          return proxy.$Flex.jsonToForm(item);;
         });
       }
 

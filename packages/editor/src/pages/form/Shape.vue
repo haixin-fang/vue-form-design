@@ -25,11 +25,13 @@
     props: {
       active: Boolean,
       currentIndex: Number,
-      len: Number,
+      len: {
+        type: Number,
+        default: 0
+      },
       inline: Boolean,
       layout: Boolean,
       currentId: String,
-      list: Object
     },
     setup(props, context) {
       const isShow = ref(false);

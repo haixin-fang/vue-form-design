@@ -12,8 +12,18 @@
   export default defineComponent({
     name: "Dynamicform",
     props: {
-      allFormList: Array,
-      formResult: Object,
+      allFormList: {
+        type: Array,
+        default(){
+          return []
+        }
+      },
+      formResult: {
+        type: Object,
+        default(){
+          return {}
+        }
+      },
     },
     setup(props: any) {
       const { proxy } = getCurrentInstance() as any;

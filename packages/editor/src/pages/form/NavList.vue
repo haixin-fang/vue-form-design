@@ -22,12 +22,12 @@
       <el-tooltip class="box-item" effect="dark" content="重做" placement="top">
         <span class="iconfont icon-24gl-redo3" :class="historyIndex == historyLen - 1?'noactive':''" @click="handleForward()"></span>
       </el-tooltip>
-      <!-- <el-button plain @click="handleFormSave()" size="small" :disabled="clearIsDisable">保存</el-button>
-      <el-button plain @click="handleFormPre()" size="small" :disabled="clearIsDisable">预览</el-button>
-      <el-button plain @click="handleFullScreen()" size="small">全屏/非全屏</el-button>
-      <el-button plain @click="handleClear()" size="small" :disabled="clearIsDisable">清空</el-button>
-      <el-button plain @click="handleBack()" size="small" :disabled="historyIndex == -1">后退</el-button>
-      <el-button plain @click="handleForward()" size="small" :disabled="historyIndex == historyLen - 1">前进</el-button> -->
+      <!-- <el-button text @click="handleFormSave()" size="small" :disabled="clearIsDisable">保存</el-button>
+      <el-button text @click="handleFormPre()" size="small" :disabled="clearIsDisable">预览</el-button>
+      <el-button text @click="handleFullScreen()" size="small">全屏/非全屏</el-button>
+      <el-button text @click="handleClear()" size="small" :disabled="clearIsDisable">清空</el-button>
+      <el-button text @click="handleBack()" size="small" :disabled="historyIndex == -1">后退</el-button>
+      <el-button text @click="handleForward()" size="small" :disabled="historyIndex == historyLen - 1">前进</el-button> -->
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@
       const lastTime = computed(() => formStore?.get("saveTimetemp"));
       const clearIsDisable = computed(() => formStore?.get("allFormList")?.length == 0);
       const historyIndex = computed(() => hisContrl?.get("index"));
-      const historyLen = computed(() => hisContrl?.get<Array<any>>("historyList").length);
+      const historyLen = computed(() => hisContrl?.get<Array<any>>("historyList").length || 0);
       const fullscreen = computed(() => uiControl?.get('isFullscreen'));
       let timer: unknown = null;
       const handleFormSave = (type?: string) => {

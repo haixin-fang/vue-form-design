@@ -13,7 +13,7 @@
     </el-row>
   </div>
 </template>
-<script>
+<script lang="ts">
   import { defineComponent, inject, computed, getCurrentInstance, nextTick } from "vue";
   import { getFormConfig } from "../utils/fieldConfig";
   import fieldProps from "../utils/fieldProps";
@@ -37,10 +37,9 @@
     setup(props) {
       console.log(props);
       const gridList = computed(() => props.item.data.columns);
-      const { proxy } = getCurrentInstance();
+      const { proxy } = getCurrentInstance() as any;
       const { formStore, store } = inject("control") || {};
-      const formcomponents = proxy.$formcomponents;
-      const chooseClick = (e, index) => {
+      const chooseClick = (e: any, index:number) => {
         formStore.setFormCurrentId(gridList.value[index].list[e.oldIndex]?.id);
         formStore.setFormCurrentIndex(e.oldIndex);
         store.set('curList', gridList.value[index].list);
@@ -53,29 +52,16 @@
         gridList,
         chooseClick,
         currentId,
-        changePos(e, index) {
+        changePos(e: any, index: number) {
           formStore.setFormCurrentId(gridList.value[index].list[e.newIndex]?.id);
           formStore.setFormCurrentIndex(e.newIndex);
           store.set('curList', gridList.value[index].list);
         },
-        async addControl(e, index) {
+        async addControl(e: any, index: number) {
           let id;
-          gridList.value.forEach((colItem) => {
-            colItem.list = colItem.list.map((item) => {
-              if (!item.data && !item.controlItems) {
-                item = proxy.$Flex.deepClone(item);
-                item.formConfig = formcomponents[item.ControlType].formConfig;
-                item.data = item.formConfig.data();
-                if (!item.data.fieldName) {
-                  item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
-                }
-                const controlItems = item.formConfig.morenConfig();
-                item.rules = proxy.$Flex.controlFormRule(controlItems, item);
-                item.controlItems = controlItems;
-                item.id = proxy.$Flex.generateMixed();
-                id = item.id;
-              }
-              return item;
+          gridList.value.forEach((colItem:any) => {
+            colItem.list = colItem.list.map((item:any) => {
+              return proxy.$Flex.jsonToForm(item);
             });
           });
           await nextTick();

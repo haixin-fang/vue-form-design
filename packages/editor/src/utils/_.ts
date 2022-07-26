@@ -1,6 +1,6 @@
 import { ElNotification } from "element-plus";
-import {nanoid} from 'nanoid';
-
+import { nanoid } from "nanoid";
+const fieldlist: string[] = [];
 class Flex {
   lastClickTime: number;
   openTanc: boolean;
@@ -54,7 +54,7 @@ class Flex {
     });
     return rules;
   }
-  deepClone(target:any):any {
+  deepClone(target: any): any {
     // 定义一个变量
     let result;
     // 如果当前需要深拷贝的是一个对象的话
@@ -129,6 +129,41 @@ class Flex {
     const str: any = Object.prototype.toString.call(data);
     const reg = /\[object (.*)\]/;
     return str.match(reg)[1];
+  }
+  /**
+   * json转标准数据格式进行收口
+   * @param item 
+   * @returns 
+   */
+  jsonToForm(item: any) {
+    if (!item.data || !item.controlItems) {
+      item = this.deepClone(item);
+      item.formConfig = window.VApp.$formcomponents[item.ControlType].formConfig;
+      if(!item.data){
+        item.data = item.formConfig.data();
+      }
+      if (!item.data.fieldName) {
+        item.data.fieldName = item.ControlType + "_" + this.generateMixed();
+      }
+      if (fieldlist.includes(item.data.fieldName)) {
+        item.data.fieldName = item.ControlType + "_" + this.generateMixed();
+      } else {
+        fieldlist.push(item.data.fieldName);
+      }
+      if (item.layout) {
+        if (item.data.columns && item.data.columns.length > 0) {
+          item.data.columns = item.data.columns.map((colItem: any) => {
+            colItem.list = this.jsonToForm(colItem.list);
+            return colItem;
+          });
+        }
+      }
+      item.id = this.generateMixed();
+      const controlItems = item.formConfig.morenConfig();
+      item.rules = this.controlFormRule(controlItems);
+      item.controlItems = controlItems;
+    }
+    return item;
   }
 }
 

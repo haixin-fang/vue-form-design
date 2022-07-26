@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-editor-resizer" @mousedown="handleLine" ref="target"></div>
+  <div class="starfish-editor-resizer" ref="target"></div>
 </template>
 <script lang="ts">
   import { defineComponent, inject, ref, onMounted, toRaw, onUnmounted } from "vue";

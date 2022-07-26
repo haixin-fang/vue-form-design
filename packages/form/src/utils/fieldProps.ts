@@ -1,7 +1,7 @@
 import { PropType } from "vue";
 
 interface FormConfig {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 export default {
@@ -12,8 +12,16 @@ export default {
   data: {
     type: Object as PropType<FormConfig>,
     required: true,
+    default(){
+      return {}
+    }
   },
-  item: Object,
+  item: {
+    type: Object,
+    default(){
+      return {}
+    }
+  },
   inline: {
     type: Boolean,
     default: false

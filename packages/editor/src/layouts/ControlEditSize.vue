@@ -1,7 +1,7 @@
 <template>
   <div class="controller_edit_size" ref="controllerSize">
     <span @click="handleCanvasSize(0.1)"><i class="iconfont icon-jiahao"></i></span>
-    <span>{{ parseInt(size * 100) }}%</span>
+    <span>{{ parseInt(String(size * 100)) }}%</span>
     <span @click="handleCanvasSize(-0.1)"><i class="iconfont icon-jianhao"></i></span>
     <span @mouseover="handleShortcutShow" @mouseleave="handleShortCutHidden">
       <i class="iconfont icon-jianpan_o"></i>
@@ -26,7 +26,7 @@
       const { uiControl } = inject<Controls>("control") || {};
       const controllerSize = ref();
       const shortCutShow = ref(false);
-      const handleCanvasSize = (size: number) => {
+      const handleCanvasSize = (size?: number) => {
         if (!size) {
           uiControl?.set<number>("scale", 1);
         } else {
@@ -40,7 +40,7 @@
         shortCutShow.value = true;
       };
       return {
-        size: computed(() => uiControl?.get<number>("scale")),
+        size: computed(() => uiControl?.get<number>("scale")  || 1 ),
         handleCanvasSize,
         controllerSize,
         shortCutShow,

@@ -14,7 +14,7 @@
           </el-button>
         </el-col>
       </el-row>
-      <el-button type="text" @click="onAdd">添加</el-button>
+      <el-button plain @click="onAdd">添加</el-button>
     </div>
   </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
   <teleport to="body">
-    <CustomDialog ref="maxJsonDialog" class="maxJsonDialog">
+    <CustomDialog ref="maxJsonDialog">
       <el-main style="padding: 0">
         <el-container style="height: 100%">
           <el-main class="my-pageMain">
             <div class="tipContent">满足以下所有条件时,此组件可用</div>
             <div class="tableContainer" v-for="(table, index) in andData" :key="index">
-              <el-table :data="table" style="width: 100%">
+              <el-table :data="table" style="width: 100%" border>
                 <el-table-column prop="field" label="字段">
                   <template #default="scope">
                     <el-select v-model="scope.row.field" placeholder="请选择">
@@ -32,14 +32,14 @@
                   <template #default="scope">
                     <el-form :model="scope.row" :rules="getRules(scope.row.type)" v-if="getTypeIsChange(scope.$index, index) && scope.row.type == '常量'" ref="formList">
                       <el-form-item prop="value">
-                        <el-input type="text" v-model="scope.row.value" />
+                        <el-input text v-model="scope.row.value" />
                       </el-form-item>
                     </el-form>
                     <el-select v-model="scope.row.rightField" filterable placeholder="请选择" v-if="scope.row.type == '选项'" :multiple="getMultiple(scope.$index, index)">
                       <el-option :label="'未选择'" :value="''"></el-option>
-                      <el-option v-for="(item, index) in getFiled(scope.$index, index)" :key="index" :label="item.label" :value="item.value"> </el-option>
+                      <el-option v-for="(item, rightIndex) in getFiled(scope.$index, index)" :key="rightIndex" :label="item.label" :value="item.value"> </el-option>
                     </el-select>
-                    <el-switch v-model="scope.row.value" :active-icon="Check" :inactive-icon="Close" v-if="scope.row.type == '布尔'" />
+                    <el-switch v-model="scope.row.value" v-if="scope.row.type == '布尔'" />
                   </template>
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="100">
@@ -48,9 +48,9 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-button class="mt-4" style="width: 100%" type="text" @click="onAddItem(index)">+并条件</el-button>
+              <el-button class="mt-4" style="width: 100%" text @click="onAddItem(index)">+并条件</el-button>
             </div>
-            <el-button class="mt-4" type="text" @click="onOrItem">+或条件</el-button>
+            <el-button class="mt-4" text @click="onOrItem">+或条件</el-button>
           </el-main>
 
           <el-footer class="my-Footer" style="height: 60px; padding-top: 10px; text-align: right">
@@ -62,7 +62,7 @@
     </CustomDialog>
   </teleport>
 </template>
-<script>
+<script lang="ts">
   import { defineComponent, reactive, toRefs, ref, toRaw, computed } from "vue";
   import formStore from "@/store/form";
   export default defineComponent({
@@ -80,18 +80,19 @@
         },
       },
     },
+    emits: ["change"],
     setup(props, { emit }) {
       const maxJsonDialog = ref();
       const formList = ref();
       const fieldList = computed(() => {
         const allFormList = formStore?.get("allFormList");
         const fieldList = toRaw(allFormList)
-          ?.filter((item) => {
+          ?.filter((item: any) => {
             if (item.data.fieldName !== props.data.fieldName) {
               return item;
             }
           })
-          .map((item) => {
+          .map((item: any) => {
             if (item.nameCn == "开关") {
               return {
                 value: item?.data?.fieldName,
@@ -119,7 +120,17 @@
           });
         return fieldList;
       });
-      const data = reactive({
+      interface logicItem {
+        value: string;
+        label: string;
+        rule?: any[];
+      }
+      interface ConditionSelect {
+        andData: Array<Array<any>>;
+        logicList: Array<logicItem>;
+        typeList: Array<logicItem>;
+      }
+      const data = reactive<ConditionSelect>({
         andData: [[]],
         logicList: [
           { value: "=", label: "等于" },
@@ -138,13 +149,13 @@
         fieldList,
         maxJsonDialog,
         formList,
-        handleType(index, tableIndex, type) {
+        handleType(index: number, tableIndex: number, type: string) {
           if (type == "布尔") {
             data.andData[tableIndex][index].value = true;
           }
         },
-        getLogic(index, tableIndex) {
-          const item = fieldList.value.find((item) => {
+        getLogic(index: number, tableIndex: number) {
+          const item = fieldList.value.find((item: any) => {
             if (data.andData[tableIndex][index]) {
               if (item.value == data.andData[tableIndex][index].field) {
                 return item;
@@ -167,9 +178,9 @@
           }
           return data.logicList;
         },
-        getFiled(index, tableIndex) {
-          if (!data.andData[tableIndex][index] || !data.andData[tableIndex][index].field) return [];
-          const item = this.fieldList.find((item) => {
+        getFiled(index: number, tableIndex: number) {
+          if (!data.andData[tableIndex][index] || !(data.andData[tableIndex][index] as any).field) return [];
+          const item = fieldList.value.find((item: any) => {
             if (data.andData[tableIndex][index]) {
               if (item.value == data.andData[tableIndex][index].field) {
                 return item;
@@ -182,8 +193,8 @@
           maxJsonDialog.value.init("可用条件", "icon-bianji");
           maxJsonDialog.value.show();
         },
-        getMultiple(index, tableIndex) {
-          const item = fieldList.value.find((item) => {
+        getMultiple(index: number, tableIndex: number) {
+          const item = fieldList.value.find((item: any) => {
             if (data.andData[tableIndex][index]) {
               if (item.value == data.andData[tableIndex][index].field) {
                 return item;
@@ -192,8 +203,8 @@
           });
           return !!item.multiple;
         },
-        getNewTypeList(index, tableIndex) {
-          const item = fieldList.value.find((item) => {
+        getNewTypeList(index: number, tableIndex: number) {
+          const item = fieldList.value.find((item: any) => {
             if (data.andData[tableIndex][index]) {
               if (item.value == data.andData[tableIndex][index].field) {
                 return item;
@@ -217,23 +228,23 @@
               },
             ];
           }
-          return this.typeList;
+          return data.typeList;
         },
-        deleteRow(index, tableIndex) {
+        deleteRow(index: number, tableIndex: number) {
           data.andData[tableIndex].splice(index, 1);
         },
-        getTypeIsChange(index, tableIndex) {
+        getTypeIsChange(index: number, tableIndex: number) {
           const nowRow = data.andData[tableIndex][index];
           return !!nowRow.type;
         },
-        getRules(value) {
+        getRules(value: any) {
           return {
             value: data.typeList.find((item) => {
               return item.value == value;
             })?.rule,
           };
         },
-        async onAddItem(index) {
+        async onAddItem(index: number) {
           // console.log(fieldList.value);
           // let isValidated = true;
           // if (formList.value?.length > 0) {
@@ -279,13 +290,13 @@
               }
             })
             .map((tabData) => {
-              const data = tabData.filter((item) => {
+              const newTabData = tabData.filter((item) => {
                 if (item.field) {
                   return item;
                 }
               });
-              if (data.length > 0) {
-                return data;
+              if (newTabData.length > 0) {
+                return newTabData;
               }
             })
             .filter((item) => {
@@ -300,33 +311,28 @@
   });
 </script>
 <style scoped lang="scss">
-  .maxJsonDialog {
-    :deep(.MyDialogBody) {
-      height: 70% !important;
+  .my-pageMain {
+    .tipContent {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: rgb(118, 116, 116);
     }
-    .my-pageMain {
-      .tipContent {
-        margin-bottom: 20px;
-        font-size: 14px;
-        color: rgb(118, 116, 116);
-      }
-      padding: 20px 50px !important;
-      .tableContainer {
-        border: 1px solid #dfe6ec;
-        margin-bottom: 15px;
-      }
-      :deep(.el-form) {
-        padding-bottom: 0px !important;
-        .el-form-item__content {
-          display: flex;
-          flex-wrap: nowrap;
-          justify-content: center;
-          align-items: center;
-          margin-bottom: 0 !important;
-          .el-form-item__error {
-            white-space: nowrap;
-            position: static;
-          }
+    padding: 20px 50px !important;
+    .tableContainer {
+      border: 1px solid #dfe6ec;
+      margin-bottom: 15px;
+    }
+    :deep(.el-form) {
+      padding-bottom: 0px !important;
+      .el-form-item__content {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0 !important;
+        .el-form-item__error {
+          white-space: nowrap;
+          position: static;
         }
       }
     }

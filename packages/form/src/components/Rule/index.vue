@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, watch, ref, nextTick, onMounted, toRaw } from "vue";
+  import { defineComponent, watch, ref, nextTick, onMounted, toRaw, getCurrentInstance } from "vue";
   import fieldProps from "../../utils/fieldProps";
   import { useWatch } from "../../utils/customHooks";
   import ruleList from "./rules";
@@ -45,7 +45,7 @@
       ...fieldProps,
     },
     setup(props) {
-      const proxy = window.VApp.config.globalProperties;
+      const {proxy} = getCurrentInstance() as any;
       /**
        * json dom
        */

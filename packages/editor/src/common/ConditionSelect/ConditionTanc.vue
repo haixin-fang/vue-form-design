@@ -31,7 +31,7 @@
                 <template #default="scope">
                   <el-form :model="scope.row" :rules="getRules(scope.row.type)" v-if="getTypeIsChange(scope.$index, index)" ref="formList">
                     <el-form-item prop="value">
-                      <el-input type="text" v-model="scope.row.value" />
+                      <el-input text v-model="scope.row.value" />
                     </el-form-item>
                   </el-form>
                   <el-select v-model="scope.row.value" filterable placeholder="请选择" v-if="scope.row.type == '选项'" :multiple="getMultiple()">
@@ -47,7 +47,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            <el-button class="mt-4" type="text" @click="onAddItem" v-if="table.length == 0" style="width: 100%">+条件</el-button>
+            <el-button class="mt-4" text @click="onAddItem" v-if="table.length == 0" style="width: 100%">+条件</el-button>
           </el-main>
           <el-footer class="my-Footer" style="height: 60px; padding-top: 10px">
             <el-button type="primary" @click="saveJson">保存</el-button>
@@ -58,7 +58,7 @@
     </CustomDialog>
   </teleport>
 </template>
-<script>
+<script >
   export default {
     props: {
       fieldList: {

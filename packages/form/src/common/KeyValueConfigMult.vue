@@ -16,13 +16,13 @@
           <div class="inputItem">
             <span>文本：</span>
             <div>
-              <el-input v-model="items.label" size="small" @input="getChangeValue(items)" />
+              <el-input v-model="items.label" size="small" @input="getChangeValue()" />
             </div>
           </div>
           <div class="inputItem">
             <span>值：</span>
             <div>
-              <el-input v-model="items.value" size="small" @input="getChangeValue(items)" />
+              <el-input v-model="items.value" size="small" @input="getChangeValue()" />
             </div>
           </div>
         </div>
@@ -54,6 +54,9 @@
     nameCn: "多选键值对匹配",
     icon: "icon-danxuankuang",
     isHide: true,
+    props: {
+      ...fieldProps,
+    },
     getFormConfig: getFormConfig("KeyValueConfigMult"),
     setup(props) {
       useWatch(props.data);
@@ -133,9 +136,6 @@
           });
         },
       };
-    },
-    props: {
-      ...fieldProps,
     },
   });
 </script>

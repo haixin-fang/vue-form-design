@@ -31,8 +31,9 @@
     },
     setup() {
       const { uiControl } = inject<Controls>("control") || {};
+      const columnWidth:any = computed(() => uiControl?.get("columnWidth") || {});
       return {
-        columnWidth: computed(() => uiControl?.get("columnWidth")),
+        columnWidth,
       };
     },
   });
