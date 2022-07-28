@@ -4,9 +4,9 @@
       <label>{{ item.data.label }}</label>
     </div>
     <div class="control">
-      <el-row v-for="(item, index) in data[item.data.fieldName]" :key="index" gutter="10">
+      <el-row v-for="(items, index) in data[item.data.fieldName]" :key="index" gutter="10">
         <el-col :span="9">
-          <el-input-number v-model="item.span" :min="0" size="small" controls-position="right" />
+          <el-input-number v-model="items.span" :min="0" size="small" controls-position="right" />
        </el-col>
         <el-col :span="8">
           <el-button type="danger" circle size="small" @click="onDelete(index)">
@@ -14,7 +14,7 @@
           </el-button>
         </el-col>
       </el-row>
-      <el-button plain @click="onAdd">添加</el-button>
+      <el-button plain @click="onAdd" size="small">添加</el-button>
     </div>
   </div>
 </template>

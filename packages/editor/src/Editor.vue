@@ -47,6 +47,14 @@
     components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview, Nav },
     setup() {
       const workspace = ref();
+      let dom: HTMLDivElement;
+      const mouseenterHandler = () => {
+        dom?.focus();
+      };
+
+      const mouseleaveHandler = () => {
+        dom?.blur();
+      };
       const control: Controls = {
         uiControl,
         hisContrl,
@@ -55,9 +63,14 @@
       };
       let keycons: KeyController;
       onMounted(() => {
-        keycons = listenGlobalKeyDown(formKeyconList, document.body);
+        dom = workspace.value?.$el;
+        dom.addEventListener("mouseenter", mouseenterHandler);
+        dom.addEventListener("mouseleave", mouseleaveHandler);
+        keycons = listenGlobalKeyDown(formKeyconList, dom);
       });
       onUnmounted(() => {
+        dom.removeEventListener("mouseenter", mouseenterHandler);
+        dom.removeEventListener("mouseleave", mouseleaveHandler);
         keycons.destroy();
       });
       provide("control", control);

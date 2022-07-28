@@ -33,6 +33,7 @@ export default {
     history?.setValue({
       allFormList: window.VueContext.$Flex.deepClone(state.allFormList),
       currentIndex: state.currentIndex,
+      currentId: state.currentId,
       curControl: window.VueContext.$Flex.deepClone(state.allFormList[state.currentIndex]),
     });
   },
@@ -40,63 +41,77 @@ export default {
     state.currentIndex = index;
   },
   setFormCurrentId(id: string) {
+    state.currentId = id;
     if (id) {
-      state.currentId = id;
       const result = this.getCurrentItem(id);
-      // state.allFormList.find((item) => {
-      //   if (item.id == id) {
-      //     result = item;
-      //     return true;
-      //   } else if (item.layout) {
-      //     const res = this.getGridCurCtrol(item, id);
-      //     if (res) {
-      //       result = res;
-      //       return true;
-      //     }
-      //   }
-      // });
       state.curControl = result || {};
     } else {
       state.curControl = {};
     }
   },
   getCurrentItem(id: string) {
-    return state.allFormList.find((item) => {
+    let result;
+    state.allFormList.find((item) => {
       if (item.id == id) {
+        result = item;
         return item;
       } else if (item.layout) {
-        const res = this.getGridCurCtrol(item, id);
+        const res = this.getLayoutCurCtrol(item, id);
         if (res) {
+          result = res;
           return item;
         }
       }
     });
+    return result;
   },
   // getCurrentItemIndex(list, id: string) {
   //   list.findIndex((item) => {
   //     if (item.id == id) {
   //       return item;
   //     } else if (item.layout) {
-  //       const res = this.getGridCurCtrol(item, id);
+  //       const res = this.getLayoutCurCtrol(item, id);
   //       if (res) {
   //         return item;
   //       }
   //     }
   //   });
   // },
-  getGridCurCtrol(item: any, id: string) {
-    const columns = item.data.columns;
+  getLayoutCurCtrol(item: any, id: string) {
     let result;
-    if (columns && columns.length > 0) {
-      columns.find((colItem: any) => {
-        return colItem.list.find((listItem: any) => {
-          if (listItem.layout) {
-            result = this.getGridCurCtrol(listItem, id);
-          } else if (listItem.id == id) {
-            result = listItem;
-          }
+    if(item.ControlType == "TableLayout"){
+      const trs = item.data.trs;
+      if(trs && trs.length > 0){
+        trs.find((trItem: any) => {
+          return trItem.tds.find((tdItem:any) => {
+            return tdItem.list.find((listItem:any) => {
+              if(listItem.layout){
+                result = this.getLayoutCurCtrol(listItem, id);
+                return result;
+              }else if(listItem.id == id){
+                debugger
+                result = listItem;
+                return result;
+              }
+            })
+          })
+        })
+      }
+    }else if(item.ControlType == 'Grid'){
+      const columns = item.data.columns;
+      if (columns && columns.length > 0) {
+        columns.find((colItem: any) => {
+          return colItem.list.find((listItem: any) => {
+            if (listItem.layout) {
+              result = this.getLayoutCurCtrol(listItem, id);
+              return result;
+            } else if (listItem.id == id) {
+              result = listItem;
+              return result;
+            }
+          });
         });
-      });
+      }
     }
     return result;
   },

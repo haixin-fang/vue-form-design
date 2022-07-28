@@ -138,7 +138,7 @@ class Flex {
   jsonToForm(item: any) {
     if (!item.data || !item.controlItems) {
       item = this.deepClone(item);
-      item.formConfig = window.VApp.$formcomponents[item.ControlType].formConfig;
+      item.formConfig = window.VApp.$formcomponents[item.ControlType]?.formConfig || {};
       if(!item.data){
         item.data = item.formConfig.data();
       }
@@ -153,7 +153,9 @@ class Flex {
       if (item.layout) {
         if (item.data.columns && item.data.columns.length > 0) {
           item.data.columns = item.data.columns.map((colItem: any) => {
-            colItem.list = this.jsonToForm(colItem.list);
+            if(colItem.list && colItem.list.length > 0){
+              colItem.list = this.jsonToForm(colItem.list);
+            }
             return colItem;
           });
         }

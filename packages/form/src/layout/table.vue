@@ -21,7 +21,7 @@
   export default defineComponent({
     ControlType: "TableLayout",
     nameCn: "表格布局",
-    icon: "icon-wenbenkuang",
+    icon: "icon-biaoge1",
     layout: true,
     props: {
       ...fieldProps,

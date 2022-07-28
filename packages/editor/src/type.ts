@@ -63,6 +63,7 @@ export interface HistoryState {
 export interface HistoryItem {
   allFormList: any[],
   currentIndex: number;
+  currentId: string;
   curControl: any;
 }
 

@@ -57,9 +57,8 @@
     align-items: center;
     z-index: 3;
     width: 38px;
-    line-height: 30px;
+    line-height: 50px;
     background: white;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     color: #4a4a4a;
     span {
@@ -81,7 +80,7 @@
   .slide-fade-enter,
   .slide-fade-leave-to {
     opacity: 0;
-    transform: translateX(-105%) scale(0.5);
+    transform: translateX(-80%) scale(0.5);
     // transform-origin: center bottom;
     // transform: translateX(5px);
     // opacity: 0;

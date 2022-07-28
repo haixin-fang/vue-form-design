@@ -21,11 +21,13 @@ class History {
       formStore?.set("allFormList", state.historyList[state.index].allFormList);
       formStore?.set("currentIndex", state.historyList[state.index].currentIndex);
       formStore?.set("curControl", state.historyList[state.index].curControl);
+      formStore?.set("currentId", state.historyList[state.index].currentId);
     }else{
       state.historyFlag = true;
       formStore?.set("allFormList", []);
       formStore?.set("currentIndex", -1);
       formStore?.set("curControl", {});
+      formStore?.set("currentId", '');
     }
   }
   public go() {

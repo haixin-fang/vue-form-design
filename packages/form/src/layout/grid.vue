@@ -21,7 +21,7 @@
   export default defineComponent({
     ControlType: "Grid", // 必须与文件名匹配
     nameCn: "栅格布局",
-    icon: "icon-wenbenkuang",
+    icon: "icon-35zhage",
     layout: true,
     formConfig: getFormConfig(
       "Grid",

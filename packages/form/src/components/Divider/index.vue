@@ -14,7 +14,7 @@
   export default defineComponent({
     ControlType: "Divider", // 必须与文件名匹配
     nameCn: "分割标题",
-    icon: "icon-fengexian",
+    icon: "icon-fengexian1",
     formConfig: getFormConfig("Divider", [
       { fieldName: "default", component: "Text" },
       { fieldName: "color", component: "ColorSelect" },

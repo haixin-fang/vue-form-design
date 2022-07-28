@@ -1,19 +1,19 @@
 <template>
   <div class="dynamicform">
     <el-form ref="ruleForm" :model="formResult" :rules="rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
-      <el-form-item v-for="item in allFormList" :key="item.id" :prop="item.data.fieldName">
+      <el-form-item v-for="item in allFormList" :key="(item as any).id" :prop="item.data.fieldName">
         <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" :item="item" :data="formResult || '{}'" :drag="false" v-if="item.show"></component>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onMounted, getCurrentInstance, toRaw } from "vue";
+  import { defineComponent, ref, onMounted, getCurrentInstance, toRaw, PropType } from "vue";
   export default defineComponent({
     name: "Dynamicform",
     props: {
       allFormList: {
-        type: Array,
+        type: Array as PropType<any>,
         default(){
           return []
         }
@@ -94,7 +94,6 @@
           const result = data.result
             .map((item: any) => {
               const r = conditionChange(item);
-              console.log(data.type, r);
               return r;
             })
             .find((item: boolean) => {
@@ -136,7 +135,6 @@
               }
               break;
             case "not in":
-              isShow = !result.value.includes(value);
               if (Array.isArray(value)) {
                 value.find((item) => {
                   if (!result.value.include(item)) {
