@@ -102,23 +102,32 @@
         });
       };
 
-      function checkLayoutForm(curControl:any):boolean {
-        if(curControl.ControlType == 'TableLayout'){
+      function checkLayoutForm(curControl: any): boolean {
+        if (curControl.ControlType == "TableLayout") {
           const trs = curControl.data.trs;
-          for(let i = 0;i<trs.length;i++){
+          for (let i = 0; i < trs.length; i++) {
             const tds = trs[i].tds;
-            for(let j = 0;j<tds.length;j++){
-                const state = checkFormValidate(tds[j].list);
-                if(!state){
-                  return state;
-                }
+            for (let j = 0; j < tds.length; j++) {
+              const state = checkFormValidate(tds[j].list);
+              if (!state) {
+                return state;
+              }
+            }
+          }
+        } else if (curControl.ControlType == "Grid") {
+          const columns = curControl.data.columns;
+          for (let i = 0; i < columns.length; i++) {
+            const list = columns[i].list;
+            const state = checkFormValidate(list);
+            if (!state) {
+              return state;
             }
           }
         }
         return true;
       }
 
-      const checkFormValidate = async (list:any) => {
+      const checkFormValidate = async (list: any) => {
         const len = list.length;
         for (let i = 0; i < len; ++i) {
           let validate = true;
@@ -128,12 +137,12 @@
               validate = !!curControl.data[item.data.fieldName];
             }
           });
-          if(validate && curControl.layout){
+          if (validate && curControl.layout) {
             validate = checkLayoutForm(curControl);
           }
           if (!validate) {
             formStore.setFormCurrentId(curControl.id);
-            activeName.value = 'form'
+            activeName.value = "form";
             await nextTick();
             const valid = await checkNowFormValidate("请检查动态表单输入格式问题", "表单验证失败");
             if (!valid) {
@@ -179,7 +188,6 @@
       const initFormToJson = (formlist: any) => {
         const jsonData: any = [];
         toRaw(formlist).forEach((item: any) => {
-          let obj;
           if (item.layout) {
             if (item.data.columns && item.data.columns.length > 0) {
               item.data.columns = item.data.columns.map((colItem: any) => {
@@ -187,22 +195,14 @@
                 return colItem;
               });
             }
-            obj = {
-              ControlType: item.ControlType,
-              nameCn: item.nameCn,
-              id: item.id,
-              layout: !!item.layout,
-              data: item.data,
-            };
-          } else {
-            obj = {
-              ControlType: item.ControlType,
-              nameCn: item.nameCn,
-              id: item.id,
-              layout: !!item.layout,
-              data: item.data,
-            };
           }
+          const obj = {
+            ControlType: item.ControlType,
+            nameCn: item.nameCn,
+            id: item.id,
+            layout: !!item.layout,
+            data: item.data,
+          };
           jsonData.push(obj);
         });
         return jsonData;
@@ -253,12 +253,7 @@
           }
         }
       }
-      // watch(preview, async () => {
-      //   // 每次预览成功弹窗后，preview会变成false，如果不加该判断，又会执行一遍这个方法
-      //   if (preview.value) {
-      //     checkValidates();
-      //   }
-      // });
+
       proxy.$EventBus.on("openPreview", async () => {
         checkValidates();
       });
@@ -303,17 +298,10 @@
             // store.commit("setFormUpdate", true);
             formStore.setFormUpdate(true);
           }
-          // 表单更新保存的状态都要变化
-          // show.value = false;
-          // await nextTick();
-          // show.value = true;
         },
         { deep: true }
       );
-      // 当保存和预览的时候要验证表单是否通过，所以通过vuex进行状态管理
-      // onMounted(() => {
-      //   store.commit("initRuleForm", ruleForm);
-      // });
+ 
       return {
         globalFormLists,
         globalDatas,
@@ -378,7 +366,7 @@
       padding-top: 30px;
       height: 100%;
       border-right: 1px solid $resizer_background_color;
-      margin-right:5px;
+      margin-right: 5px;
     }
     .controlLine {
       position: absolute;

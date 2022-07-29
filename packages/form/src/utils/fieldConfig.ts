@@ -135,6 +135,19 @@ const fieldsMap: any = {
     rule: "[]",
     default: "",
   },
+  Info: {
+    fieldName: "",
+    label: "标签名称",
+    title: "标题",
+    desc: "文字描述",
+    labelShow: false,
+    closable: true,
+    showIcon: true,
+    effect: "light",
+    infotype: "success",
+    showRule: "{}",
+    rule: "[]",
+  },
   TextArea: {
     fieldName: "",
     label: "标签名称",
@@ -415,11 +428,11 @@ const fieldsMap: any = {
     },
   },
 };
-type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "columns" | "size" | "color" | "dividerColor" | "InputNumber" | "multiple" | "gutter";
+type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "columns" |"infotype" | 'effect' | "size" | "color" | "dividerColor" | "InputNumber" | "multiple" | "gutter";
 
 type morenFields = Record<fieldMap, FormConfig>;
 
-function getMoren(fieldName: string, component: string): fields {
+function getMoren(fieldName: string, component: string, label?: string): FormConfig {
   const map: morenFields = {
     default: {
       ControlType: "Text",
@@ -515,6 +528,78 @@ function getMoren(fieldName: string, component: string): fields {
             {
               label: "右边",
               value: "2",
+              select: false,
+              id: 2,
+            },
+          ],
+        },
+      },
+    },
+    infotype: {
+      ControlType: "Selected",
+      data: {
+        fieldName: "infotype",
+        tip: "",
+        label: "风格类型",
+        placeholder: "",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+        itemConfig: {
+          value: 'success',
+          id: 1,
+          items: [
+            {
+              label: "success",
+              value: "success",
+              select: true,
+              id: 1,
+            },
+            {
+              label: "info",
+              value: "info",
+              select: false,
+              id: 2,
+            },
+            {
+              label: "warning",
+              value: "warning",
+              select: false,
+              id: 3,
+            },
+            {
+              label: "error",
+              value: "error",
+              select: false,
+              id: 4,
+            },
+          ],
+        },
+      },
+    },
+    effect: {
+      ControlType: "Selected",
+      data: {
+        fieldName: "effect",
+        tip: "",
+        label: "风格类型",
+        placeholder: "",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+        itemConfig: {
+          value: 'light',
+          id: 1,
+          items: [
+            {
+              label: "light",
+              value: "light",
+              select: true,
+              id: 1,
+            },
+            {
+              label: "dark",
+              value: "dark",
               select: false,
               id: 2,
             },
@@ -632,6 +717,19 @@ function getMoren(fieldName: string, component: string): fields {
   };
   if (map[fieldName] && map[fieldName].ControlType == component) {
     return map[fieldName];
+  } else if (!map[fieldName]) {
+    return {
+      ControlType: component,
+      data: {
+        fieldName,
+        tip: "",
+        label: label ? label : "输入占位文字",
+        placeholder: "请输入占位文字",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+      },
+    };
   } else {
     map[fieldName].ControlType = component;
     return map[fieldName];
@@ -641,6 +739,7 @@ function getMoren(fieldName: string, component: string): fields {
 interface Config {
   fieldName: string;
   component: string;
+  label?: string;
 }
 
 interface FormConfigReturn {
@@ -668,7 +767,7 @@ function getFormConfig(componentName: string, config: Config[] = [], filterField
   const configList: any = [];
   if (config && config.length > 0) {
     config.forEach((item) => {
-      configList.push(getMoren(item.fieldName, item.component));
+      configList.push(getMoren(item.fieldName, item.component, item.label));
     });
   }
 

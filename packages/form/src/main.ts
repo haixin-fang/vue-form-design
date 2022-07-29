@@ -25,6 +25,7 @@ import ShowRule from "./components/ShowRule/index.vue";
 // 布局
 import Grid from './layout/grid.vue';
 import TableLayout from './layout/table.vue';
+import Info from './layout/Info.vue';
 
 // 配置公共组件
 import ListConfig from './common/listConfig.vue';
@@ -74,6 +75,7 @@ formcomponents[RichText.ControlType] = RichText;
 // 布局
 formcomponents[Grid.ControlType] = Grid;
 formcomponents[TableLayout.ControlType] = TableLayout;
+formcomponents[Info.ControlType] = Info;
 
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = formcomponents;
@@ -100,6 +102,7 @@ const install = (app: App) => {
   app.component(Grid.ControlType, Grid);
   app.component(ListConfig.ControlType, ListConfig);
   app.component(TableLayout.ControlType, TableLayout);
+  app.component(Info.ControlType, Info);
 };
 
 export default {
