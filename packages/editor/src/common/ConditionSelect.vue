@@ -35,7 +35,7 @@
                         <el-input text v-model="scope.row.value" />
                       </el-form-item>
                     </el-form>
-                    <el-select v-model="scope.row.rightField" filterable placeholder="请选择" v-if="scope.row.type == '选项'" :multiple="getMultiple(scope.$index, index)">
+                    <el-select v-model="scope.row.value" filterable placeholder="请选择" v-if="scope.row.type == '选项'" :multiple="getMultiple(scope.$index, index)">
                       <el-option :label="'未选择'" :value="''"></el-option>
                       <el-option v-for="(item, rightIndex) in getFiled(scope.$index, index)" :key="rightIndex" :label="item.label" :value="item.value"> </el-option>
                     </el-select>
