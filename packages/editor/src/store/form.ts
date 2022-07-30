@@ -79,6 +79,7 @@ export default {
   // },
   getLayoutCurCtrol(item: any, id: string) {
     let result;
+    debugger
     if(item.ControlType == "TableLayout"){
       const trs = item.data.trs;
       if(trs && trs.length > 0){
@@ -86,10 +87,13 @@ export default {
           return trItem.tds.find((tdItem:any) => {
             return tdItem.list.find((listItem:any) => {
               if(listItem.layout){
-                result = this.getLayoutCurCtrol(listItem, id);
+                if(listItem.id == id){
+                  result = listItem;
+                }else{
+                  result = this.getLayoutCurCtrol(listItem, id);
+                }
                 return result;
               }else if(listItem.id == id){
-                debugger
                 result = listItem;
                 return result;
               }
@@ -103,7 +107,11 @@ export default {
         columns.find((colItem: any) => {
           return colItem.list.find((listItem: any) => {
             if (listItem.layout) {
-              result = this.getLayoutCurCtrol(listItem, id);
+              if(listItem.id == id){
+                result = listItem;
+              }else{
+                result = this.getLayoutCurCtrol(listItem, id);
+              }
               return result;
             } else if (listItem.id == id) {
               result = listItem;
@@ -118,7 +126,11 @@ export default {
         items.find((colItem: any) => {
           return colItem.list.find((listItem:any) => {
             if(listItem.layout){
-              result = this.getLayoutCurCtrol(listItem, id);
+              if(listItem.id == id){
+                result = listItem;
+              }else{
+                result = this.getLayoutCurCtrol(listItem, id);
+              }
               return result;
             }else if(listItem.id == id){
               result = listItem;

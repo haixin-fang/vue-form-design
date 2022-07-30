@@ -63,8 +63,9 @@
   </teleport>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, toRefs, ref, toRaw, computed } from "vue";
+  import { defineComponent, reactive, toRefs, ref, toRaw, computed, onMounted } from "vue";
   import formStore from "@/store/form";
+  import { list } from "_postcss@8.4.14@postcss";
   export default defineComponent({
     props: {
       data: {
@@ -143,7 +144,6 @@
           },
         ],
       });
-
       return {
         ...toRefs(data),
         fieldList,
@@ -192,6 +192,12 @@
         show() {
           maxJsonDialog.value.init("可用条件", "icon-bianji");
           maxJsonDialog.value.show();
+          console.log(props.data);
+          if (typeof props.data.showRule != "string" && Array.isArray(props.data.showRule)) {
+            data.andData = props.data.showRule;
+          } else {
+            data.andData = [[]];
+          }
         },
         getMultiple(index: number, tableIndex: number) {
           const item = fieldList.value.find((item: any) => {
