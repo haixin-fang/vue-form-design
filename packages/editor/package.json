@@ -20,7 +20,7 @@
     "keycon": "^1.1.2",
     "mitt": "^3.0.0",
     "nanoid": "^4.0.0",
-    "starfish-form": "^1.1.0",
+    "starfish-form": "^1.1.1",
     "vue": "^3.2.37",
     "vuedraggable": "^4.1.0",
     "wangeditor": "^4.7.15"

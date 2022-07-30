@@ -9,7 +9,9 @@ declare const _sfc_main: DefineComponent<{
 }, {
     newcomponentlist(): any;
     layoutList(): any;
-}, {}, ComponentOptionsMixin, ComponentOptionsMixin, EmitsOptions, string, VNodeProps & AllowedComponentProps & ComponentCustomProps, Readonly<{
+}, {
+    clickAddControl(item: any): void;
+}, ComponentOptionsMixin, ComponentOptionsMixin, EmitsOptions, string, VNodeProps & AllowedComponentProps & ComponentCustomProps, Readonly<{
     [x: string & `on${string}`]: ((...args: any[]) => any) | undefined;
 }> | Readonly<{
     [x: string & `on${string}`]: ((...args: never) => any) | undefined;

@@ -1,6 +1,7 @@
 declare const state: {
     allFormList: any[];
     curControl: any;
+    currentId: string;
     currentIndex: number;
     preview: boolean;
     previewShow: boolean;
@@ -15,8 +16,10 @@ export { state };
 declare const _default: {
     updateAllFormList(allFormList: any): void;
     setHistory(): void;
-    setFormCurrentIndex(index: any): void;
-    getGridCurCtrol(item: any, id: string): undefined;
+    setFormCurrentIndex(index: number): void;
+    setFormCurrentId(id: string): void;
+    getCurrentItem(id: string): undefined;
+    getLayoutCurCtrol(item: any, id: string): undefined;
     setPreviewShow(type: any): void;
     handleDynamicForm(): void;
     openPreview(preview: any): void;
@@ -24,6 +27,7 @@ declare const _default: {
     setFormUpdate(type: any): void;
     getControlItems(): any;
     getAllFormList(): any[];
+    setAllFormList(item: any): void;
     set(name: any, value: any): void;
     get(name: any): any;
 };

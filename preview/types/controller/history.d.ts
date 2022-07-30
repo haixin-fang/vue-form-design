@@ -3,6 +3,7 @@ declare const state: {
     historyList: {
         allFormList: any[];
         currentIndex: number;
+        currentId: string;
         curControl: any;
     }[];
     index: number;

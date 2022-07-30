@@ -1,40 +1,49 @@
 import type { DefineComponent, ComponentPropsOptions, ComputedRef, Ref, ComponentOptionsMixin, VNodeProps, AllowedComponentProps, ComponentCustomProps, ExtractPropTypes, ComponentObjectPropsOptions } from 'vue';
-export default _sfc_main;
 declare const _sfc_main: DefineComponent<Readonly<ComponentPropsOptions<{
     [x: string]: unknown;
 }>>, {
     fieldList: ComputedRef<any>;
     maxJsonDialog: Ref<any>;
     formList: Ref<any>;
-    handleType(index: any, tableIndex: any, type: any): void;
-    getLogic(index: any, tableIndex: any): {
+    handleType(index: number, tableIndex: number, type: string): void;
+    getLogic(index: number, tableIndex: number): {
         value: string;
         label: string;
+        rule?: any[] | undefined;
     }[];
-    getFiled(index: any, tableIndex: any): any;
+    getFiled(index: number, tableIndex: number): any;
     show(): void;
-    getMultiple(index: any, tableIndex: any): boolean;
-    getNewTypeList(index: any, tableIndex: any): any;
-    deleteRow(index: any, tableIndex: any): void;
-    getTypeIsChange(index: any, tableIndex: any): boolean;
+    getMultiple(index: number, tableIndex: number): boolean;
+    getNewTypeList(index: number, tableIndex: number): {
+        value: string;
+        label: string;
+        rule?: any[] | undefined;
+    }[];
+    deleteRow(index: number, tableIndex: number): void;
+    getTypeIsChange(index: number, tableIndex: number): boolean;
     getRules(value: any): {
-        value: any;
+        value: any[] | undefined;
     };
-    onAddItem(index: any): Promise<void>;
+    onAddItem(index: number): Promise<void>;
     onOrItem(): void;
     closeDialog(): void;
     saveJson(): void;
-    andData: Ref<never[][]>;
+    andData: Ref<any[][]>;
     logicList: Ref<{
         value: string;
         label: string;
+        rule?: any[] | undefined;
     }[]>;
     typeList: Ref<{
         value: string;
         label: string;
+        rule?: any[] | undefined;
     }[]>;
-}, any, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, Record<string, any>, string, VNodeProps & AllowedComponentProps & ComponentCustomProps, readonly string[] | Readonly<ExtractPropTypes<Readonly<ComponentObjectPropsOptions<{
+}, unknown, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, "change"[], "change", VNodeProps & AllowedComponentProps & ComponentCustomProps, Readonly<readonly string[] | ExtractPropTypes<Readonly<ComponentObjectPropsOptions<{
     [x: string]: unknown;
-}>>>>, {
+}>>>> & {
+    onChange?: ((...args: any[]) => any) | undefined;
+}, {
     [x: number]: string;
 } | {}>;
+export default _sfc_main;

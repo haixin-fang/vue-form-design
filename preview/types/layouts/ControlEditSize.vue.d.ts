@@ -1,7 +1,7 @@
 import type { DefineComponent, ComputedRef, Ref, ComponentOptionsMixin, EmitsOptions, VNodeProps, AllowedComponentProps, ComponentCustomProps, ExtractPropTypes } from 'vue';
 declare const _sfc_main: DefineComponent<{}, {
-    size: ComputedRef<number | undefined>;
-    handleCanvasSize: (size: number) => void;
+    size: ComputedRef<number>;
+    handleCanvasSize: (size?: number | undefined) => void;
     controllerSize: Ref<any>;
     shortCutShow: Ref<boolean>;
     handleShortCutHidden: () => void;

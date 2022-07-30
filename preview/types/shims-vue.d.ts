@@ -12,7 +12,7 @@ declare module "jsoneditor";
 /**
  * 在d.ts文件中定义类型,就相当于global,不需要再declare global
  */
-declare interface Window {
+interface Window {
   VueContext: {
     $Flex: any;
   };

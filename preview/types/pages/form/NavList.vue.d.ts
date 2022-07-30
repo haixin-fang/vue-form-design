@@ -7,7 +7,7 @@ declare const _sfc_main: DefineComponent<{}, {
     handleFormSave: (type?: string | undefined) => void;
     handleFormPre: () => void;
     historyIndex: ComputedRef<unknown>;
-    historyLen: ComputedRef<number | undefined>;
+    historyLen: ComputedRef<number>;
     fullscreen: ComputedRef<unknown>;
     clearIsDisable: ComputedRef<boolean>;
     handleClear: () => void;

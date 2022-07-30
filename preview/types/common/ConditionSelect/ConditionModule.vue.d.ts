@@ -41,6 +41,7 @@ declare namespace _sfc_main {
             const deep: boolean;
         }
     }
+    const emits: string[];
     namespace methods {
         function show(): Promise<void>;
         function show(): Promise<void>;

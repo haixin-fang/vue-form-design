@@ -11,7 +11,7 @@ declare const _sfc_main: DefineComponent<{}, {
     addControl: (e: any) => void;
     changePos: (e: any) => void;
     allmainList: WritableComputedRef<any>;
-    currentIndex: ComputedRef<any>;
+    currentId: ComputedRef<any>;
     handleNoDraggable: (e: any) => void;
     editType: ComputedRef<any>;
     handlePaste: () => void;

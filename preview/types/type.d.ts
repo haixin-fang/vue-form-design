@@ -27,6 +27,7 @@ export interface Controls {
     uiControl: UiControl;
     hisContrl: hisContrl;
     formStore: any;
+    store: any;
 }
 export interface setColumnWidth {
     left?: number;
@@ -55,6 +56,7 @@ export interface HistoryState {
 export interface HistoryItem {
     allFormList: any[];
     currentIndex: number;
+    currentId: string;
     curControl: any;
 }
 export interface FormState {
@@ -66,6 +68,10 @@ export interface FormState {
      * 选中的表单控件
      */
     curControl: any;
+    /**
+     * 选中的控件的id
+     */
+    currentId: string;
     /**
      * 选中的控件的索引
      */
