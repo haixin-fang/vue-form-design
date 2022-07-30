@@ -1,5 +1,5 @@
 <template>
-  <div class="shape" :class="active?(layout?'shape_border shape_border_layout':'shape_border'):layout?'noactive_layout':''"  @contextmenu="handleShortCut" @click="handleMenu" :style="{ display: inline ? 'inline-block' : 'block' }">
+  <div class="shape" :class="active ? (layout ? 'shape_border shape_border_layout' : 'shape_border') : layout ? 'noactive_layout' : ''" @contextmenu="handleShortCut" @click="handleMenu" :style="{ display: inline ? 'inline-block' : 'block' }">
     <div class="editForm" v-show="isShow && active" ref="editForm">
       <span @click="handleActive('copy')">复制</span>
       <span @click="handleActive('cut')">剪切</span>
@@ -12,6 +12,8 @@
     <div class="editbar" v-if="active">
       <span class="iconfont icon-xiangshang1" v-if="currentIndex != 0" @click.stop="handleActive('top')"></span>
       <span class="iconfont icon-xiangxia1" v-if="currentIndex != len - 1" @click.stop="handleActive('bottom')"></span>
+      <span class="iconfont icon--charulie" v-if="item && item.ControlType == 'TableLayout'" @click="handleRow"></span>
+      <span class="iconfont icon--charuhang" v-if="item && item.ControlType == 'TableLayout'" @click="handleColumn"></span>
       <span class="iconfont icon-fuzhi" @click.stop="handleCopyAndPaste"></span>
       <span class="iconfont icon-shanchu1" @click.stop="handleActive('delete')"></span>
     </div>
@@ -27,11 +29,12 @@
       currentIndex: Number,
       len: {
         type: Number,
-        default: 0
+        default: 0,
       },
       inline: Boolean,
       layout: Boolean,
       currentId: String,
+      item: Object,
     },
     setup(props, context) {
       const isShow = ref(false);
@@ -82,6 +85,34 @@
         emit("paste");
         paste();
       };
+
+      const handleColumn = () => {
+        const td = {
+          tds: [
+            {
+              colspan: 1,
+              rowspan: 1,
+              list: [],
+            },
+            {
+              colspan: 1,
+              rowspan: 1,
+              list: [],
+            },
+          ],
+        };
+        props.item?.data.trs.push(td);
+      };
+      const handleRow = () => {
+        props.item?.data.trs.forEach((trs: any) => {
+          trs.tds.push({
+            colspan: 1,
+            rowspan: 1,
+            list: [],
+          });
+        });
+      };
+
       return {
         isShow,
         handleShortCut,
@@ -90,6 +121,8 @@
         handleActive,
         handleCopyAndPaste,
         copyContent,
+        handleColumn,
+        handleRow,
       };
     },
   });
@@ -123,6 +156,7 @@
       color: white;
       padding: 1px 5px;
       z-index: 3333333;
+      cursor: pointer;
       span {
         padding: 0 5px;
         font-weight: 500;
@@ -162,23 +196,23 @@
   }
   .shape_border {
     border: 2px solid $blue;
-    background:#d1e4f6;
-    &::before{
+    background: #d1e4f6;
+    &::before {
       left: 0;
       width: 100%;
     }
   }
-  .shape_border_layout{
+  .shape_border_layout {
     background: rgba(152, 103, 247, 0.24);
     border: 2px solid $layout_color;
-    &::before{
+    &::before {
       background: $layout_color;
     }
-    .editbar{
+    .editbar {
       background: $layout_color;
     }
   }
-  .noactive_layout{
+  .noactive_layout {
     background: rgba(152, 103, 247, 0.1);
   }
 </style>

@@ -151,13 +151,33 @@ class Flex {
         fieldlist.push(item.data.fieldName);
       }
       if (item.layout) {
-        if (item.data.columns && item.data.columns.length > 0) {
+        if (item.ControlType == 'Grid' && item.data.columns && item.data.columns.length > 0) {
           item.data.columns = item.data.columns.map((colItem: any) => {
             if(colItem.list && colItem.list.length > 0){
               colItem.list = this.jsonToForm(colItem.list);
             }
             return colItem;
           });
+        }else if(item.ControlType == 'TableLayout' && item.data.trs && item.data.trs.length > 0){
+          /**
+           * 需要自测一下
+           */
+          item.data.trs = item.data.trs.map((trItem:any) => {
+              trItem.tds.forEach((tdItem:any) => {
+                if(tdItem.list && tdItem.list.length > 0){
+                  tdItem.list = this.jsonToForm(tdItem.list);
+                }
+                return tdItem;
+              })
+              return trItem;
+          })
+        }else if((item.ControlType == 'Collapse' || item.ControlType == 'Tabs') && item.data.items && item.data.items.length > 0){
+          item.data.items = item.data.items.map((colItem:any) => {
+            if(colItem.list && colItem.list.length > 0){
+              colItem.list = this.jsonToForm(colItem.list);
+            }
+            return colItem;
+          })
         }
       }
       item.id = this.generateMixed();
@@ -167,6 +187,7 @@ class Flex {
     }
     return item;
   }
+  
 }
 
 export default new Flex();

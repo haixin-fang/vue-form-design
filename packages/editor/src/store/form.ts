@@ -112,6 +112,21 @@ export default {
           });
         });
       }
+    }else if(item.ControlType == 'Collapse' || item.ControlType == 'Tabs'){
+      const items = item.data.items;
+      if(items && items.length > 0){
+        items.find((colItem: any) => {
+          return colItem.list.find((listItem:any) => {
+            if(listItem.layout){
+              result = this.getLayoutCurCtrol(listItem, id);
+              return result;
+            }else if(listItem.id == id){
+              result = listItem;
+              return result;
+            }
+          })
+        })
+      }
     }
     return result;
   },
@@ -149,6 +164,9 @@ export default {
   },
   getAllFormList() {
     return state.allFormList;
+  },
+  setAllFormList(item:any){
+    state.allFormList.push(item);
   },
   set(name: any, value: any) {
     (state as any)[name] = value;

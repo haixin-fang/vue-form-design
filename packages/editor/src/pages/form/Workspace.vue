@@ -7,7 +7,7 @@
         </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout" >
+            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout" >
               <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
             </Shape>
           </template>
@@ -180,9 +180,10 @@
       top: 50px;
       // margin-left: -350px;
       background: white;
-      transform-origin: 50% 0;
+      transform-origin: 50% 50%;
       box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
       transition: all 0.2s linear;
+    
       &.fullScreenBox {
         width: 100%;
         top: 0;

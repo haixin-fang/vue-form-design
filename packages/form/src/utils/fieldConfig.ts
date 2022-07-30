@@ -182,7 +182,7 @@ const fieldsMap: any = {
   Grid: {
     fieldName: "",
     label: "标签名称",
-    gutter: "", // 栅格间隔
+    gutter: 0, // 栅格间隔
     showRule: "{}",
     columns: [
       {
@@ -199,6 +199,8 @@ const fieldsMap: any = {
     fieldName: "",
     label: "标签名称",
     showRule: "{}",
+    borderShow: false,
+    borderWidth: 1,
     trs: [
       {
         tds: [
@@ -229,6 +231,29 @@ const fieldsMap: any = {
         ],
       },
     ],
+  },
+  Collapse: {
+    fieldName: "",
+    label: "标签名称",
+    accordion: false,
+    name: '折叠面板',
+    items: [
+      {
+        name: 'Collapse',
+        list: []
+      },
+    ]
+  },
+  Tabs: {
+    fieldName: "",
+    label: "标签名称",
+    name: '标签',
+    items: [
+      {
+        name: 'tab',
+        list: []
+      },
+    ]
   },
   Selected: {
     fieldName: "",
@@ -649,30 +674,6 @@ function getMoren(fieldName: string, component: string, label?: string): FormCon
         },
       },
     },
-    color: {
-      ControlType: "ColorSelect",
-      data: {
-        fieldName: "color",
-        tip: "",
-        label: "颜色设置",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-      },
-    },
-    dividerColor: {
-      ControlType: "ColorSelect",
-      data: {
-        fieldName: "dividerColor",
-        tip: "",
-        label: "颜色设置",
-        placeholder: "",
-        showRule: "{}",
-        required: false,
-        rule: "[]",
-      },
-    },
     InputNumber: {
       ControlType: "InputNumber",
       data: {
@@ -776,12 +777,17 @@ function getFormConfig(componentName: string, config: Config[] = [], filterField
       return JSON.parse(JSON.stringify(fieldsMap[componentName]));
     },
     morenConfig() {
+      const before = beforeBaseFormCofig().filter(item => {
+        if(!filterField.includes(item.data.fieldName)){
+          return item;
+        }
+      })
       const after = afterBaseFormConfig().filter((item) => {
         if (!filterField.includes(item.data.fieldName)) {
           return item;
         }
       });
-      return [...beforeBaseFormCofig(), ...configList, ...after];
+      return [...before, ...configList, ...after];
     },
   };
 }

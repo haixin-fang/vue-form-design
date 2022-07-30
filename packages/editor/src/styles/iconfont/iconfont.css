@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2838003 */
-  src: url('iconfont.woff2?t=1659008644521') format('woff2'),
-       url('iconfont.woff?t=1659008644521') format('woff'),
-       url('iconfont.ttf?t=1659008644521') format('truetype');
+  src: url('iconfont.woff2?t=1659155442032') format('woff2'),
+       url('iconfont.woff?t=1659155442032') format('woff'),
+       url('iconfont.ttf?t=1659155442032') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhediemianban:before {
+  content: "\e703";
+}
+
+.icon-bars:before {
+  content: "\e626";
+}
+
+.icon--charulie:before {
+  content: "\e6d1";
+}
+
+.icon--charuhang:before {
+  content: "\e6d2";
 }
 
 .icon-jinggao:before {

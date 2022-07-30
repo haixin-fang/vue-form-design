@@ -1,5 +1,4 @@
 <template>
-  <!-- <Editor></Editor> -->
   <framework>
     <template #nav>
       <Nav></Nav>
@@ -24,7 +23,6 @@
 
 <script lang="ts">
   import { defineComponent, provide, ref, onMounted, onUnmounted } from "vue";
-  // import Editor from "@/pages/Editor/index.vue";
   import Framework from "@/layouts/Framework.vue";
   import NavList from "~editor/NavList.vue";
   import Nav from "~editor/Nav.vue";

@@ -1,11 +1,11 @@
 <template>
   <div class="table_box">
-    <table class="table_layout">
+    <table class="table_layout" :class="item.data.borderShow ? 'table_layout_border' : ''">
       <tr v-for="(trItem, index) in item.data.trs" :key="index">
         <td v-for="(tdItem, tdIndex) in trItem.tds" :key="tdIndex">
-          <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="tdItem.list" @add="addControl($event, tdItem.list, index, tdIndex)" group="starfish-form" @choose="chooseClick($event, tdItem.list, tdIndex)" item-key="id" @update="changePos($event, tdItem.list)">
-            <template #item="{ element }">
-              <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="element.id"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
+          <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="tdItem.list" @add="addControl($event, tdItem.list, index, tdIndex)" group="starfish-form" @choose="chooseClick($event, tdItem.list)" item-key="id" @update="changePos($event, tdItem.list)">
+            <template #item="{ element, index }">
+              <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="tdItem.list.length" :item="element"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
             </template>
           </draggable>
         </td>
@@ -26,7 +26,14 @@
     props: {
       ...fieldProps,
     },
-    formConfig: getFormConfig("TableLayout", [], ["required", "rule", "tip"]),
+    formConfig: getFormConfig(
+      "TableLayout",
+      [
+        // { fieldName: "borderShow", component: "Switch", label: "是否显示边框" },
+        // {fieldName: 'borderWidth', component: 'InputNumber', label: "边框宽度"}
+      ],
+      ["required", "rule", "tip"]
+    ),
     setup(props) {
       const { proxy } = getCurrentInstance() as any;
       const { formStore, store } = inject("control") || {};
@@ -36,8 +43,8 @@
       useWatch(props.data);
       return {
         currentId,
-        chooseClick(e: any, list: any[], tdIndex: number) {
-          formStore.setFormCurrentId(list[tdIndex].id);
+        chooseClick(e: any, list: any[]) {
+          formStore.setFormCurrentId(list[e.oldIndex].id);
           formStore.setFormCurrentIndex(e.oldIndex);
           store.set("curList", list);
         },
@@ -47,19 +54,12 @@
           store.set("curList", list);
         },
         addControl(e: any, list: any[], trIndex: number, tdIndex: number) {
-          let id;
           props.item.data.trs[trIndex].tds[tdIndex].list = list.map((item: any) => {
             return proxy.$Flex.jsonToForm(item);
           });
-          if (!id) {
-            formStore.setFormCurrentId(props.item.data.trs[trIndex].tds[tdIndex].list[e.newIndex].id);
-            formStore.setFormCurrentIndex(e.newIndex);
-            store.set("curList", props.item.data.trs[trIndex].tds[tdIndex].list);
-          } else {
-            formStore.setFormCurrentId(id);
-            formStore.setFormCurrentIndex(e.newIndex);
-            store.set("curList", props.item.data.trs[trIndex].tds[tdIndex].list);
-          }
+          formStore.setFormCurrentId(props.item.data.trs[trIndex].tds[tdIndex].list[e.newIndex].id);
+          formStore.setFormCurrentIndex(e.newIndex);
+          store.set("curList", props.item.data.trs[trIndex].tds[tdIndex].list);
         },
       };
     },
@@ -69,6 +69,9 @@
   .table_box {
     .table_layout {
       width: 100%;
+      &.table_layout_border {
+        border: 1px solid #ccc;
+      }
       td {
         vertical-align: top;
       }
@@ -78,6 +81,7 @@
         border: 1px #ccc dashed;
         box-sizing: border-box;
         min-width: 50px;
+        height: 100%;
       }
     }
   }

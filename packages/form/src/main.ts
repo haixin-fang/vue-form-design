@@ -18,7 +18,6 @@ import InputNumber from "./components/InputNumber/index.vue";
 import Slider from "./components/Slider/index.vue";
 import Selected from "./components/Selected/index.vue";
 import Selecteds from "./components/Selecteds/index.vue";
-import Divider from "./components/Divider/index.vue";
 import RichText from "./components/RichText/index.vue";
 import ShowRule from "./components/ShowRule/index.vue";
 
@@ -26,9 +25,13 @@ import ShowRule from "./components/ShowRule/index.vue";
 import Grid from './layout/grid.vue';
 import TableLayout from './layout/table.vue';
 import Info from './layout/Info.vue';
+import Divider from "./layout/Divider.vue";
+import Collapse from './layout/collapse.vue';
+import Tabs from './layout/Tabs.vue';
 
 // 配置公共组件
 import ListConfig from './common/listConfig.vue';
+import Panel from './common/panel.vue';
 
 export { default as Dynamicform } from "./Form.vue";
 
@@ -49,7 +52,7 @@ export { default as SInputNumber } from "./components/InputNumber/index.vue";
 export { default as SSlider } from "./components/Slider/index.vue";
 export { default as SSelected } from "./components/Selected/index.vue";
 export { default as SSelecteds } from "./components/Selecteds/index.vue";
-export { default as SDivider } from "./components/Divider/index.vue";
+export { default as SDivider } from "./layout/Divider.vue";
 export { default as Rules } from "./components/Rule/index.vue";
 export { default as SRichText } from "./components/RichText/index.vue";
 
@@ -70,39 +73,54 @@ formcomponents[InputNumber.ControlType] = InputNumber;
 formcomponents[Slider.ControlType] = Slider;
 formcomponents[Selected.ControlType] = Selected;
 formcomponents[Selecteds.ControlType] = Selecteds;
-formcomponents[Divider.ControlType] = Divider;
 formcomponents[RichText.ControlType] = RichText;
 // 布局
 formcomponents[Grid.ControlType] = Grid;
 formcomponents[TableLayout.ControlType] = TableLayout;
+formcomponents[Collapse.ControlType] = Collapse;
+formcomponents[Tabs.ControlType] = Tabs;
+formcomponents[Divider.ControlType] = Divider;
 formcomponents[Info.ControlType] = Info;
+
+// 公共
+formcomponents[ListConfig.ControlType] = ListConfig;
+formcomponents[Panel.ControlType] = Panel;
+formcomponents[Rule.ControlType] = Rule;
+formcomponents[ShowRule.ControlType] = ShowRule;
 
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = formcomponents;
-  app.component(Text.ControlType, Text);
-  app.component(TextArea.ControlType, TextArea);
-  app.component(Switch.ControlType, Switch);
-  app.component(Radio.ControlType, Radio);
-  app.component(KeyValueConfig.ControlType, KeyValueConfig);
-  app.component(KeyValueConfigMult.ControlType, KeyValueConfigMult);
-  app.component(CheckBox.ControlType, CheckBox);
-  app.component(JsonEditor.ControlType, JsonEditor);
-  app.component(ColorSelect.ControlType, ColorSelect);
-  app.component(Date.ControlType, Date);
-  app.component(Time.ControlType, Time);
-  app.component(DateTime.ControlType, DateTime);
-  app.component(InputNumber.ControlType, InputNumber);
-  app.component(Slider.ControlType, Slider);
-  app.component(Selected.ControlType, Selected);
-  app.component(Selecteds.ControlType, Selecteds);
-  app.component(Rule.ControlType, Rule);
-  app.component(Divider.ControlType, Divider);
-  app.component(RichText.ControlType, RichText);
-  app.component(ShowRule.ControlType, ShowRule);
-  app.component(Grid.ControlType, Grid);
-  app.component(ListConfig.ControlType, ListConfig);
-  app.component(TableLayout.ControlType, TableLayout);
-  app.component(Info.ControlType, Info);
+  // formcomponents.forEach((item:any) => {
+  //   app.component(item.ControlType, item);
+  // })
+  for(const key in formcomponents){
+    app.component(key, formcomponents[key]);
+  }
+  // app.component(Text.ControlType, Text);
+  // app.component(TextArea.ControlType, TextArea);
+  // app.component(Switch.ControlType, Switch);
+  // app.component(Radio.ControlType, Radio);
+  // app.component(KeyValueConfig.ControlType, KeyValueConfig);
+  // app.component(KeyValueConfigMult.ControlType, KeyValueConfigMult);
+  // app.component(CheckBox.ControlType, CheckBox);
+  // app.component(JsonEditor.ControlType, JsonEditor);
+  // app.component(ColorSelect.ControlType, ColorSelect);
+  // app.component(Date.ControlType, Date);
+  // app.component(Time.ControlType, Time);
+  // app.component(DateTime.ControlType, DateTime);
+  // app.component(InputNumber.ControlType, InputNumber);
+  // app.component(Slider.ControlType, Slider);
+  // app.component(Selected.ControlType, Selected);
+  // app.component(Selecteds.ControlType, Selecteds);
+  // app.component(Rule.ControlType, Rule);
+  // app.component(RichText.ControlType, RichText);
+  // app.component(ShowRule.ControlType, ShowRule);
+  // app.component(Grid.ControlType, Grid);
+  // app.component(ListConfig.ControlType, ListConfig);
+  // app.component(TableLayout.ControlType, TableLayout);
+  // app.component(Info.ControlType, Info);
+  // app.component(Divider.ControlType, Divider);
+  // app.component(Panel.ControlType, Panel)
 };
 
 export default {

@@ -4,7 +4,7 @@
     <el-button text v-if="newcomponentlist.length > 0">基础控件</el-button>
     <draggable class="dragArea list-group" :list="newcomponentlist" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
-        <div class="list-group-item" :alt="element.nameCn">
+        <div class="list-group-item" :alt="element.nameCn" @click.stop="clickAddControl(element)">
           <div class="form-item">
             <span class="iconfont" :class="element.icon"></span>
           </div>
@@ -15,7 +15,7 @@
     <el-button text v-if='layoutList.length > 0'>布局控件</el-button>
     <draggable class="dragArea list-group" :list="layoutList" :group="{ name: 'starfish-form', pull: 'clone', put: false }" :sort="false" item-key="id">
       <template #item="{ element }">
-        <div class="list-group-item" :alt="element.nameCn">
+        <div class="list-group-item" :alt="element.nameCn" @click.stop="clickAddControl(element)">
           <div class="form-item">
             <span class="iconfont" :class="element.icon"></span>
           </div>
@@ -28,7 +28,7 @@
 <script lang="ts">
   import { defineComponent } from "vue";
   import draggable from "vuedraggable";
-
+  import formStore from '@/store/form';
   export default defineComponent({
     components: {
       draggable,
@@ -42,7 +42,6 @@
           continue;
         }
         const model: any = {};
-        // model.data = item.formConfig.data();
         model.ControlType = item.ControlType;
         model.icon = item.icon;
         model.nameCn = item.nameCn;
@@ -51,9 +50,6 @@
         if (item.rule) {
           model.rule = item.rule;
         }
-        // let defaultConfig = myMixin.initControlItems();
-        // let controlItems = defaultConfig[0].concat(item.formConfig.morenConfig()).concat(defaultConfig[1]);
-        // model.controlItems = controlItems;
         lastFormComponents.push(model);
       }
       console.log(lastFormComponents);
@@ -65,19 +61,24 @@
     computed: {
       newcomponentlist() {
         return (this as any).formcomponents.filter((item: any) => {
-          if (item.nameCn.indexOf(this.filterContent) != -1 && !item.layout) {
+          if (item.nameCn && item.nameCn.indexOf(this.filterContent) != -1 && !item.layout) {
             return true;
           }
         });
       },
       layoutList(){
         return (this as any).formcomponents.filter((item:any) => {
-          if(item.layout){
+          if(item.nameCn && item.nameCn.indexOf(this.filterContent) != -1 && item.layout){
             return true;
           }
         })
       }
     },
+    methods: {
+      clickAddControl(item:any){
+       formStore.setAllFormList((this as any).$Flex.jsonToForm(item));
+      }
+    }
   });
 </script>
 <style lang="scss" scoped>

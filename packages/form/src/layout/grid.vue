@@ -1,6 +1,6 @@
 <template>
   <div class="grid_box">
-    <el-row :gutter="item.data.gutter">
+    <el-row :gutter="item.data.gutter ">
       <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
         <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, index)" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
           <template #item="{ element }">
@@ -58,22 +58,15 @@
           store.set('curList', gridList.value[index].list);
         },
         async addControl(e: any, index: number) {
-          let id;
           gridList.value.forEach((colItem:any) => {
             colItem.list = colItem.list.map((item:any) => {
               return proxy.$Flex.jsonToForm(item);
             });
           });
           await nextTick();
-          if (!id) {
-            formStore.setFormCurrentId(gridList.value[index].list[e.newIndex].id);
+          formStore.setFormCurrentId(gridList.value[index].list[e.newIndex].id);
             formStore.setFormCurrentIndex(e.newIndex);
             store.set('curList', gridList.value[index].list);
-          } else {
-            formStore.setFormCurrentId(id);
-            formStore.setFormCurrentIndex(e.newIndex);
-            store.set('curList', gridList.value[index].list);
-          }
         },
       };
     },

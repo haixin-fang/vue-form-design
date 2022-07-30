@@ -4,7 +4,7 @@
       <label>{{ item.data.label }}</label>
     </div>
     <div class="control">
-      <el-row v-for="(items, index) in data[item.data.fieldName]" :key="index" gutter="10">
+      <el-row v-for="(items, index) in data[item.data.fieldName]" :key="index" :gutter="10">
         <el-col :span="9">
           <el-input-number v-model="items.span" :min="0" size="small" controls-position="right" />
        </el-col>
@@ -21,10 +21,11 @@
 <script lang="ts">
   import { defineComponent } from "vue";
   import fieldProps from "../utils/fieldProps";
-  import { useWatch } from "../utils/customHooks";
   import { Delete } from "@element-plus/icons-vue";
   export default defineComponent({
     ControlType: "ListConfig", // 必须与文件名匹配
+    nameCn: "栅格列表配置",
+    isHide: true,
     props: {
       ...fieldProps,
     },
@@ -32,7 +33,6 @@
       Delete,
     },
     setup(props: any) {
-      useWatch(props.data);
       return {
         onAdd() {
           props.data[props.item.data.fieldName].push({

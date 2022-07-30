@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17544342",
+      "name": "折叠面板",
+      "font_class": "zhediemianban",
+      "unicode": "e703",
+      "unicode_decimal": 59139
+    },
+    {
+      "icon_id": "14678836",
+      "name": "bars",
+      "font_class": "bars",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "13015642",
+      "name": "29-插入列",
+      "font_class": "-charulie",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "13015644",
+      "name": "28-插入行",
+      "font_class": "-charuhang",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
       "icon_id": "1929149",
       "name": "警告",
       "font_class": "jinggao",
