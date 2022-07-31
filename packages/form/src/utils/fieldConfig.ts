@@ -239,7 +239,7 @@ const fieldsMap: any = {
     name: '折叠面板',
     items: [
       {
-        name: 'Collapse',
+        name: '折叠面板',
         list: []
       },
     ]

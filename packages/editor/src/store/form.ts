@@ -79,7 +79,6 @@ export default {
   // },
   getLayoutCurCtrol(item: any, id: string) {
     let result;
-    debugger
     if(item.ControlType == "TableLayout"){
       const trs = item.data.trs;
       if(trs && trs.length > 0){

@@ -23,6 +23,10 @@ export interface UiState {
    * 编辑器是否全屏
    */
    isFullscreen: boolean;
+   /**
+    * 页面类型
+    */
+   pageType: string;
 }
 
 export interface Controls {

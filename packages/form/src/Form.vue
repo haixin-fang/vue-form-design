@@ -14,15 +14,15 @@
     props: {
       allFormList: {
         type: Array as PropType<any>,
-        default(){
-          return []
-        }
+        default() {
+          return [];
+        },
       },
       formResult: {
         type: Object,
-        default(){
-          return {}
-        }
+        default() {
+          return {};
+        },
       },
     },
     setup(props: any) {
@@ -150,12 +150,24 @@
           return isShow;
         }
       }
+      function reset() {
+        ruleForm.value.resetFields();
+      }
+      function getValidate() {
+        return new Promise((resolve) => {
+          ruleForm.value.validate((valide: boolean) => {
+            resolve(valide);
+          });
+        });
+      }
       onMounted(handleControlChange);
       return {
         rules,
         ruleForm,
         controlObj,
         handleControlChange,
+        reset,
+        getValidate,
       };
     },
   });

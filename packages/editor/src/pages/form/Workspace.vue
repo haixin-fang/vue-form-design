@@ -1,13 +1,13 @@
 <template>
   <div class="editor_pages_center" @click="onEditorCenter">
-    <div class="canvasBox" ref="canvasBox" :class="fullScreen ? 'fullScreenBox' : ''" :style="`transform: translateX(-50%) scale(${scale})`">
+    <div class="canvasBox" ref="canvasBox" :class="[fullScreen ? 'fullScreenBox' : '', pageType + '_layout']" :style="`transform: translateX(-50%) scale(${scale})`">
       <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
         <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout" >
+            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout">
               <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
             </Shape>
           </template>
@@ -44,6 +44,8 @@
       const globalDatas = computed(() => formStore?.get("globalDatas"));
 
       const fullScreen = computed(() => uiControl?.get("isFullscreen"));
+
+      const pageType = computed(() => uiControl?.get("pageType"));
 
       const allmainList = computed<any>({
         get() {
@@ -136,6 +138,7 @@
         canvasBox,
         editForm,
         handleCanvasSize,
+        pageType,
         canvasSize,
         dragDom,
         chooseClick,
@@ -183,11 +186,27 @@
       transform-origin: 50% 50%;
       box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
       transition: all 0.2s linear;
-    
+      overflow: hidden;
+      box-sizing: border-box;
       &.fullScreenBox {
         width: 100%;
         top: 0;
         min-height: 100%;
+      }
+      &.PC_layout{
+        width: 100%;
+      }
+      &.Pad_layout {
+        width: 800px;
+        border-radius: 15px;
+        // box-shadow: 0 0 1px 10px #495060;
+        border: 10px solid #495060;
+      }
+      &.H5_layout {
+        width: 443px;
+        border-radius: 15px;
+        // box-shadow: 0 0 1px 10px #495060;
+        border: 10px solid #495060;
       }
       .draggable_container {
         width: 100%;

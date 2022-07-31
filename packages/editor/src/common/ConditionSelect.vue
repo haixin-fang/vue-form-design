@@ -63,9 +63,8 @@
   </teleport>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, toRefs, ref, toRaw, computed, onMounted } from "vue";
+  import { defineComponent, reactive, toRefs, ref, toRaw, computed } from "vue";
   import formStore from "@/store/form";
-  import { list } from "_postcss@8.4.14@postcss";
   export default defineComponent({
     props: {
       data: {

@@ -15,6 +15,8 @@ import JSONEditor from "jsoneditor";
 import vm from "./utils/vm";
 import flex from "./utils/_";
 import draggable from "vuedraggable";
+import { basicSetup } from "codemirror";
+import VueCodemirror from "vue-codemirror";
 const app = createApp(Editor);
 app.config.globalProperties.$EventBus = vm;
 app.config.globalProperties.$Flex = flex;
@@ -34,4 +36,15 @@ app
     locale: zhCn,
   })
   .use(StarfishForm);
+
+app.use(VueCodemirror, {
+  // optional default global options
+  autofocus: true,
+  disabled: false,
+  indentWithTab: true,
+  tabSize: 2,
+  placeholder: "Code goes here...",
+  extensions: [basicSetup],
+  // ...
+});
 app.mount("#app");

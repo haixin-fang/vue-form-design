@@ -187,6 +187,44 @@ class Flex {
     }
     return item;
   }
+
+  initFormToJson(formlist: any) {
+    const jsonData: any = [];
+    formlist.forEach((item: any) => {
+      if (item.layout) {
+        if (item.ControlType == "Grid" && item.data.columns && item.data.columns.length > 0) {
+          item.data.columns = item.data.columns.map((colItem: any) => {
+            colItem.list = this.initFormToJson(colItem.list);
+            return colItem;
+          });
+        } else if (item.ControlType == "TableLayout" && item.data.trs && item.data.trs.length > 0) {
+          item.data.trs = item.data.trs.map((trItem: any) => {
+            trItem.tds.forEach((tdItem: any) => {
+              if (tdItem.list && tdItem.list.length > 0) {
+                tdItem.list = this.initFormToJson(tdItem.list);
+              }
+              return tdItem;
+            });
+            return trItem;
+          });
+        } else if ((item.ControlType == "Collapse" || item.ControlType == "Tabs") && item.data.items && item.data.items.length > 0) {
+          item.data.items = item.data.items.map((colItem: any) => {
+            colItem.list = this.initFormToJson(colItem.list);
+            return colItem;
+          });
+        }
+      }
+      const obj = {
+        ControlType: item.ControlType,
+        nameCn: item.nameCn,
+        id: item.id,
+        layout: !!item.layout,
+        data: item.data,
+      };
+      jsonData.push(obj);
+    });
+    return jsonData;
+  }
   
 }
 

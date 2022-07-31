@@ -64,7 +64,13 @@
   });
 </script>
 <style scoped>
-.draggable-box{
+  .draggable-box {
     min-height: 50px;
-}
+    background: white;
+    border: 1px #ccc dashed;
+    box-sizing: border-box;
+  }
+  :deep(.el-collapse-item__content){
+    padding-bottom: 5px;
+  }
 </style>

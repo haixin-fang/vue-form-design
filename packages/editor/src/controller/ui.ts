@@ -23,7 +23,9 @@ const state = reactive<UiState>({
   dialogWidth: DIALOG_WIDTH,
   scale,
   isFullscreen: true,
+  pageType: 'PC'
 });
+
 
 class Ui {
   public get<T>(name: keyof typeof state): T {
@@ -34,7 +36,7 @@ class Ui {
       this.setColumnWidth(value);
     } else if (name === "scale") {
       this.setScale(Number(value));
-    } else {
+    }else{
       (state as any)[name] = value;
     }
   }
