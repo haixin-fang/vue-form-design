@@ -69,49 +69,17 @@
         this.$refs.maxJsonDialog.show();
         await this.$nextTick();
         const allFormList = formStore?.get("allFormList");
-        const fieldList = toRaw(allFormList)
-          ?.filter((item) => {
-            if (item.data.fieldName !== this.data.fieldName) {
-              return item;
-            }
-          })
-          .map((item) => {
-            if (item.nameCn == "开关") {
-              return {
-                value: item?.data?.fieldName,
-                label: item?.data?.label + "-" + item?.data?.fieldName,
-                switch: true,
-              };
-            }
-            if (item.data.itemConfig) {
-              let multiple = false;
-              if (Array.isArray(item.data.itemConfig.value)) {
-                multiple = true;
-              }
-              const options = item.data.itemConfig.items;
-              return {
-                value: item?.data?.fieldName,
-                label: item?.data?.label + "-" + item?.data?.fieldName,
-                multiple,
-                options,
-              };
-            }
-            return {
-              value: item?.data?.fieldName,
-              label: item?.data?.label + "-" + item?.data?.fieldName,
-            };
-          });
+        const fieldResult = [];
+        toRaw(allFormList)?.forEach((item) => {
+          window.VueContext.$Flex.getFormDataList(item, fieldResult, this.data.fieldName);
+        });
         this.result = typeof this.data[this.item.data.fieldName] == "string" ? JSON.parse(this.data[this.item.data.fieldName]) : this.data[this.item.data.fieldName];
-        console.log(fieldList);
-        this.leftField = fieldList;
-        //   this.rightField = list.fields;
-        //   this.request = list.request;
-        // this.typelist = list.typeList;
+        console.log(fieldResult);
+        this.leftField = fieldResult;
       },
       handleUpdateForce() {
         this.$forceUpdate();
         this.stringLink = this.filterCondition(this.result);
-        console.log(this.stringLink);
       },
       filterCondition(result) {
         if (result.type == "andgroup" || result.type == "orgroup") {
@@ -149,113 +117,113 @@
   };
 </script>
 <style lang="scss">
- .my-pageMain {
-      .el-alert {
-        margin-bottom: 15px;
-      }
-      .tipContent {
-        color: rgb(85, 83, 83);
-      }
-      padding: 20px 50px !important;
-      .conditionContainer {
-        display: flex;
-        padding-left: 20px;
-        .stringlist {
-          flex: 1;
-          .kh,
-          .and,
-          .or {
-            display: block;
-            margin-left: 20px;
-            line-height: 20px;
-          }
-          .data {
-            color: #409eff;
-          }
-          .orgroup {
-            color: red;
-          }
-          .andgroup {
-            color: green;
-          }
-          .or {
-            color: rgb(91, 6, 248);
-          }
-          .and {
-            color: black;
-          }
-        }
-      }
-      .conditionSelect {
-        display: inline-block;
-        margin-top: 20px;
+  .my-pageMain {
+    .el-alert {
+      margin-bottom: 15px;
+    }
+    .tipContent {
+      color: rgb(85, 83, 83);
+    }
+    padding: 20px 50px !important;
+    .conditionContainer {
+      display: flex;
+      padding-left: 20px;
+      .stringlist {
         flex: 1;
-        position: relative;
-        .selectList {
-          margin: 0 0 0 20px;
-        }
-      }
-      .moreCondition {
-        position: relative;
-        //   margin-top: 20px;
-        .line {
-          content: "";
+        .kh,
+        .and,
+        .or {
           display: block;
-          height: calc(100% - 20px);
-          width: 1px;
-          // background-color: red;
-          border: 1px dashed red;
-          border-right: none;
-          position: absolute;
-          top: 20px;
-          left: 0;
-          &::after {
-            display: block;
-            content: "";
-            width: 15px;
-            position: absolute;
-            top: -1px;
-            border-top: 1px dashed red;
-            left: 1px;
-          }
-          &::before {
-            display: block;
-            content: "";
-            width: 15px;
-            height: 0px;
-            position: absolute;
-            bottom: -1px;
-            border-top: 1px dashed red;
-            left: 1px;
-          }
+          margin-left: 20px;
+          line-height: 20px;
         }
-        .andgroup {
-          border-color: green;
-          &::after {
-            border-color: green;
-          }
-          &::before {
-            border-color: green;
-          }
+        .data {
+          color: #409eff;
         }
         .orgroup {
-          border-color: red;
-          &::after {
-            border-color: red;
-          }
-          &::before {
-            border-color: red;
-          }
+          color: red;
+        }
+        .andgroup {
+          color: green;
+        }
+        .or {
+          color: rgb(91, 6, 248);
+        }
+        .and {
+          color: black;
         }
       }
-      // .andgroup{
-      //   background: #409EFF;
-      // }
-      // .orgroup{
-      //   background: #67C23A;
-      // }
-      // .data{
-      //   background: #E6A23C;
-      // }
     }
+    .conditionSelect {
+      display: inline-block;
+      margin-top: 20px;
+      flex: 1;
+      position: relative;
+      .selectList {
+        margin: 0 0 0 20px;
+      }
+    }
+    .moreCondition {
+      position: relative;
+      //   margin-top: 20px;
+      .line {
+        content: "";
+        display: block;
+        height: calc(100% - 20px);
+        width: 1px;
+        // background-color: red;
+        border: 1px dashed red;
+        border-right: none;
+        position: absolute;
+        top: 20px;
+        left: 0;
+        &::after {
+          display: block;
+          content: "";
+          width: 15px;
+          position: absolute;
+          top: -1px;
+          border-top: 1px dashed red;
+          left: 1px;
+        }
+        &::before {
+          display: block;
+          content: "";
+          width: 15px;
+          height: 0px;
+          position: absolute;
+          bottom: -1px;
+          border-top: 1px dashed red;
+          left: 1px;
+        }
+      }
+      .andgroup {
+        border-color: green;
+        &::after {
+          border-color: green;
+        }
+        &::before {
+          border-color: green;
+        }
+      }
+      .orgroup {
+        border-color: red;
+        &::after {
+          border-color: red;
+        }
+        &::before {
+          border-color: red;
+        }
+      }
+    }
+    // .andgroup{
+    //   background: #409EFF;
+    // }
+    // .orgroup{
+    //   background: #67C23A;
+    // }
+    // .data{
+    //   background: #E6A23C;
+    // }
+  }
 </style>

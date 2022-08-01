@@ -13,10 +13,10 @@
           <template v-else>
             <template v-for="listItem in tdItem.list" :key="listItem.id">
               <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
-                <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+                <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
               </el-form-item>
               <template v-else>
-                <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+                <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
               </template>
             </template>
           </template>

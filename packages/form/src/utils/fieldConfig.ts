@@ -455,7 +455,7 @@ const fieldsMap: any = {
 };
 type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "columns" |"infotype" | 'effect' | "size" | "color" | "dividerColor" | "InputNumber" | "multiple" | "gutter";
 
-type morenFields = Record<fieldMap, FormConfig>;
+type morenFields = Partial<Record<fieldMap, FormConfig>>;
 
 function getMoren(fieldName: string, component: string, label?: string): FormConfig {
   const map: morenFields = {

@@ -63,7 +63,7 @@
   </teleport>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, toRefs, ref, toRaw, computed } from "vue";
+  import { defineComponent, reactive, toRefs, ref, toRaw } from "vue";
   import formStore from "@/store/form";
   export default defineComponent({
     props: {
@@ -84,42 +84,15 @@
     setup(props, { emit }) {
       const maxJsonDialog = ref();
       const formList = ref();
-      const fieldList = computed(() => {
+      const fieldList:any = ref();
+      function initFieldList() {
         const allFormList = formStore?.get("allFormList");
-        const fieldList = toRaw(allFormList)
-          ?.filter((item: any) => {
-            if (item.data.fieldName !== props.data.fieldName) {
-              return item;
-            }
-          })
-          .map((item: any) => {
-            if (item.nameCn == "开关") {
-              return {
-                value: item?.data?.fieldName,
-                label: item?.data?.label + "-" + item?.data?.fieldName,
-                switch: true,
-              };
-            }
-            if (item.data.itemConfig) {
-              let multiple = false;
-              if (Array.isArray(item.data.itemConfig.value)) {
-                multiple = true;
-              }
-              const options = item.data.itemConfig.items;
-              return {
-                value: item?.data?.fieldName,
-                label: item?.data?.label + "-" + item?.data?.fieldName,
-                multiple,
-                options,
-              };
-            }
-            return {
-              value: item?.data?.fieldName,
-              label: item?.data?.label + "-" + item?.data?.fieldName,
-            };
-          });
-        return fieldList;
-      });
+        const fieldResult: any[] = [];
+        toRaw(allFormList)?.forEach((item: any) => {
+          window.VueContext.$Flex.getFormDataList(item, fieldResult, props.data.fieldName);
+        });
+        fieldList.value = fieldResult;
+      }
       interface logicItem {
         value: string;
         label: string;
@@ -197,6 +170,7 @@
           } else {
             data.andData = [[]];
           }
+          initFieldList();
         },
         getMultiple(index: number, tableIndex: number) {
           const item = fieldList.value.find((item: any) => {
@@ -250,30 +224,6 @@
           };
         },
         async onAddItem(index: number) {
-          // console.log(fieldList.value);
-          // let isValidated = true;
-          // if (formList.value?.length > 0) {
-          //   for (let i = 0; i < formList.value.length; i++) {
-          //     const item = formList.value[i];
-          //     await item.validate((valid) => {
-          //       if (valid) {
-          //         console.log("submit!");
-          //       } else {
-          //         isValidated = false;
-          //         console.log("error submit!");
-          //         return false;
-          //       }
-          //     });
-          //   }
-          // }
-          // if (!isValidated) {
-          //   this.$message.error("条件校验失败,请补充完整!");
-          //   return;
-          // }
-          // if (formList.value?.length != data.andData[index].length && data.andData[index].length > 0) {
-          //   this.$message.error("内容补充完整再新增!");
-          //   return;
-          // }
           data.andData[index].push({
             field: "",
             logic: "",

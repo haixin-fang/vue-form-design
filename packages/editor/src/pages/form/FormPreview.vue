@@ -17,11 +17,11 @@
     </el-footer>
     <custom-dialog ref="codeDialog" dialogclass="codeDialog" width="1000">
       <div class="custom_code">
-        <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2"  />
+        <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
       </div>
       <el-footer class="my-Footer" style="text-align: center">
-        <el-button type="primary" @click="resetForm">复制json</el-button>
-        <el-button type="primary" @click="getData">保存为文件</el-button>
+        <el-button type="primary" @click="copyJson" class="copy_btn">复制json</el-button>
+        <el-button type="primary" @click="saveFile">保存为文件</el-button>
         <el-button @click="closeCodeDialog">关闭</el-button>
       </el-footer>
     </custom-dialog>
@@ -89,13 +89,41 @@
               code.value = JSON.stringify(formResult?.value || {}, null, 4);
               codeDialog.value.show();
               codeDialog.value.init("表单数据", "icon-biaodan");
-            }else{
-              window.VApp.$message.error('校验失败')
+            } else {
+              window.VApp.$message.error("校验失败");
             }
           });
         },
         closeCodeDialog() {
           codeDialog.value.close();
+        },
+        copyJson() {
+          const clipboard:any = new window.Clipboard(".copy_btn");
+          clipboard.on("success", () => {
+            window.VApp.$message.success("复制成功");
+          });
+          clipboard.on("error", () => {
+            window.VApp.$message.error("复制失败");
+          });
+          setTimeout(() => {
+            // 销毁实例
+            clipboard.destroy();
+          }, 122);
+        },
+        saveFile(fileName = "demo.json") {
+          let content = "data:application/json;charset=utf-8,";
+          try {
+            const result = code.value;
+            content += result;
+            const encodedUri = encodeURI(content);
+            const actions = document.createElement("a");
+            actions.setAttribute("href", encodedUri);
+            actions.setAttribute("download", fileName);
+            actions.click();
+            window.VApp.$message.success("文件保存成功");
+          } catch (e) {
+            window.VApp.$message.error("文件保存失败");
+          }
         },
       };
     },
