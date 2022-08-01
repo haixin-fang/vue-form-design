@@ -79,36 +79,36 @@ export default {
   // },
   getLayoutCurCtrol(item: any, id: string) {
     let result;
-    if(item.ControlType == "TableLayout"){
+    if (item.ControlType == "TableLayout") {
       const trs = item.data.trs;
-      if(trs && trs.length > 0){
+      if (trs && trs.length > 0) {
         trs.find((trItem: any) => {
-          return trItem.tds.find((tdItem:any) => {
-            return tdItem.list.find((listItem:any) => {
-              if(listItem.layout){
-                if(listItem.id == id){
+          return trItem.tds.find((tdItem: any) => {
+            return tdItem.list.find((listItem: any) => {
+              if (listItem.layout) {
+                if (listItem.id == id) {
                   result = listItem;
-                }else{
+                } else {
                   result = this.getLayoutCurCtrol(listItem, id);
                 }
                 return result;
-              }else if(listItem.id == id){
+              } else if (listItem.id == id) {
                 result = listItem;
                 return result;
               }
-            })
-          })
-        })
+            });
+          });
+        });
       }
-    }else if(item.ControlType == 'Grid'){
+    } else if (item.ControlType == "Grid") {
       const columns = item.data.columns;
       if (columns && columns.length > 0) {
         columns.find((colItem: any) => {
           return colItem.list.find((listItem: any) => {
             if (listItem.layout) {
-              if(listItem.id == id){
+              if (listItem.id == id) {
                 result = listItem;
-              }else{
+              } else {
                 result = this.getLayoutCurCtrol(listItem, id);
               }
               return result;
@@ -119,24 +119,24 @@ export default {
           });
         });
       }
-    }else if(item.ControlType == 'Collapse' || item.ControlType == 'Tabs'){
+    } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
       const items = item.data.items;
-      if(items && items.length > 0){
+      if (items && items.length > 0) {
         items.find((colItem: any) => {
-          return colItem.list.find((listItem:any) => {
-            if(listItem.layout){
-              if(listItem.id == id){
+          return colItem.list.find((listItem: any) => {
+            if (listItem.layout) {
+              if (listItem.id == id) {
                 result = listItem;
-              }else{
+              } else {
                 result = this.getLayoutCurCtrol(listItem, id);
               }
               return result;
-            }else if(listItem.id == id){
+            } else if (listItem.id == id) {
               result = listItem;
               return result;
             }
-          })
-        })
+          });
+        });
       }
     }
     return result;
@@ -146,20 +146,46 @@ export default {
   },
   // 获取默认值和键名组成新对象
   handleDynamicForm() {
+    state.formResult = this.getDynamicForm(state.AllFormResult);
+    console.log("formResult", state.formResult);
+  },
+  getDynamicForm(list: any) {
     const data: any = {};
-    state.AllFormResult.forEach((item: any) => {
-      if (item.data.itemConfig) {
-        if (typeof item.data.itemConfig.value == "string") {
-          data[item.data.fieldName] = item.data.itemConfig.value;
-        } else {
-          // 防止对数据进行劫持监听
-          data[item.data.fieldName] = [...item.data.itemConfig.value];
+    list.forEach((item: any) => {
+      if (item.layout) {
+        if (item.ControlType == "Grid") {
+          item.data.columns.forEach((colItem: any) => {
+            Object.assign(data, this.getDynamicForm(colItem.list));
+          });
+        } else if (item.ControlType == "TableLayout") {
+          const trs = item.data.trs;
+          if (trs && trs.length > 0) {
+            trs.forEach((trItem: any) => {
+              trItem.tds.forEach((tdItem: any) => {
+                Object.assign(data, this.getDynamicForm(tdItem.list));
+              });
+            });
+          }
+        } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
+          const items = item.data.items;
+          items.forEach((colItem: any) => {
+            Object.assign(data, this.getDynamicForm(colItem.list));
+          });
         }
-      } else {
-        data[item.data.fieldName] = item.data.default;
+      } else if (!item.layout) {
+        if (item.data.itemConfig) {
+          if (typeof item.data.itemConfig.value == "string") {
+            data[item.data.fieldName] = item.data.itemConfig.value;
+          } else {
+            // 防止对数据进行劫持监听
+            data[item.data.fieldName] = [...item.data.itemConfig.value];
+          }
+        } else {
+          data[item.data.fieldName] = item.data.default;
+        }
       }
     });
-    state.formResult = data;
+    return data;
   },
   openPreview(preview: any) {
     state.preview = preview;
@@ -176,7 +202,7 @@ export default {
   getAllFormList() {
     return state.allFormList;
   },
-  setAllFormList(item:any){
+  setAllFormList(item: any) {
     state.allFormList.push(item);
   },
   set(name: any, value: any) {

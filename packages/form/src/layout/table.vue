@@ -3,11 +3,23 @@
     <table class="table_layout" :class="item.data.borderShow ? 'table_layout_border' : ''">
       <tr v-for="(trItem, index) in item.data.trs" :key="index">
         <td v-for="(tdItem, tdIndex) in trItem.tds" :key="tdIndex">
-          <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="tdItem.list" @add="addControl($event, tdItem.list, index, tdIndex)" group="starfish-form" @choose="chooseClick($event, tdItem.list)" item-key="id" @update="changePos($event, tdItem.list)">
-            <template #item="{ element, index }">
-              <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="tdItem.list.length" :item="element"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
+          <template v-if="drag">
+            <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="tdItem.list" @add="addControl($event, tdItem.list, index, tdIndex)" group="starfish-form" @choose="chooseClick($event, tdItem.list)" item-key="id" @update="changePos($event, tdItem.list)">
+              <template #item="{ element, index }">
+                <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="tdItem.list.length" :item="element"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
+              </template>
+            </draggable>
+          </template>
+          <template v-else>
+            <template v-for="listItem in tdItem.list" :key="listItem.id">
+              <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+                <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+              </el-form-item>
+              <template v-else>
+                <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+              </template>
             </template>
-          </draggable>
+          </template>
         </td>
       </tr>
     </table>

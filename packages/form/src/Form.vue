@@ -1,9 +1,14 @@
 <template>
   <div class="dynamicform">
     <el-form ref="ruleForm" :model="formResult" :rules="rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
-      <el-form-item v-for="item in allFormList" :key="(item as any).id" :prop="item.data.fieldName">
-        <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" :item="item" :data="formResult || '{}'" :drag="false" v-if="item.show"></component>
-      </el-form-item>
+      <template v-for="item in allFormList" :key="item.id">
+        <el-form-item :prop="item.data.fieldName" v-if="!item.layout">
+          <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" :item="item" :data="formResult || '{}'" :drag="false" v-if="item.show"></component>
+        </el-form-item>
+        <template v-else>
+          <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" :item="item" :data="formResult || '{}'" :drag="false" v-if="item.show"></component>
+        </template>
+      </template>
     </el-form>
   </div>
 </template>
@@ -32,25 +37,56 @@
       const ruleForm = ref();
       const controlObj = ref();
       props.allFormList?.forEach((item: any) => {
-        let rule: any[] = [];
-        if (item.data.required) {
-          rule.push({
-            required: true,
-            message: "请输入" + item.data.label,
-            trigger: "blur",
-          });
-        }
-        if (typeof item.data.rule == "string") {
-          rule = rule.concat(proxy.$Flex.tryParseJson(item.data.rule));
-        } else {
-          rule = rule.concat(item.data.rule);
-        }
-        // 特殊的jsoneditor表单要单独处理
-        if (item.data.json) {
-          rule.push(...proxy.$Flex.getJsonValidate());
-        }
-        rules.value[item.data.fieldName] = rule;
+        getRules(item);
       });
+
+      function getRules(item: any) {
+        if (!item.layout) {
+          let rule: any[] = [];
+          if (item.data.required) {
+            rule.push({
+              required: true,
+              message: "请输入" + item.data.label,
+              trigger: "blur",
+            });
+          }
+          if (typeof item.data.rule == "string") {
+            rule = rule.concat(proxy.$Flex.tryParseJson(item.data.rule));
+          } else {
+            rule = rule.concat(item.data.rule);
+          }
+          // 特殊的jsoneditor表单要单独处理
+          if (item.data.json) {
+            rule.push(...proxy.$Flex.getJsonValidate());
+          }
+          rules.value[item.data.fieldName] = rule;
+        } else if (item.layout) {
+          if (item.ControlType == "Grid") {
+            item.data.columns.forEach((colItem: any) => {
+              colItem.list.forEach((listItem: any) => {
+                getRules(listItem);
+              });
+            });
+          } else if (item.ControlType == "TableLayout") {
+            const trs = item.data.trs;
+            trs.forEach((trItem: any) => {
+              trItem.tds.forEach((tdItem: any) => {
+                tdItem.list.forEach((listItem: any) => {
+                  getRules(listItem);
+                });
+              });
+            });
+          } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
+            const items = item.data.items;
+            items.forEach((colItem: any) => {
+              colItem.list.forEach((listItem: any) => {
+                getRules(listItem);
+              });
+            });
+          }
+        }
+      }
+
       const handleControlChange = () => {
         const allFormLists: any = props.allFormList;
         allFormLists.forEach((item: any) => {

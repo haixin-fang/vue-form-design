@@ -1,15 +1,29 @@
 <template>
   <div class="grid_box">
-    <el-row :gutter="item.data.gutter ">
-      <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
-        <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, index)" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
-          <template #item="{ element }">
-            <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="element.id" :list="colItem.list">
-              <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
-            </Shape>
+    <el-row :gutter="item.data.gutter">
+      <template v-if="drag">
+        <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
+          <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, index)" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
+            <template #item="{ element }">
+              <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="element.id" :list="colItem.list">
+                <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
+              </Shape>
+            </template>
+          </draggable>
+        </el-col>
+      </template>
+      <template v-else>
+        <el-col class="grid-col" v-for="(colItem, index) in item.data.columns" :key="index" :span="colItem.span">
+          <template v-for="listItem in colItem.list" :key="listItem.id">
+            <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+              <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+            </el-form-item>
+            <template v-else>
+              <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+            </template>
           </template>
-        </draggable>
-      </el-col>
+        </el-col>
+      </template>
     </el-row>
   </div>
 </template>
@@ -39,10 +53,10 @@
       const gridList = computed(() => props.item.data.columns);
       const { proxy } = getCurrentInstance() as any;
       const { formStore, store } = inject("control") || {};
-      const chooseClick = (e: any, index:number) => {
+      const chooseClick = (e: any, index: number) => {
         formStore.setFormCurrentId(gridList.value[index].list[e.oldIndex]?.id);
         formStore.setFormCurrentIndex(e.oldIndex);
-        store.set('curList', gridList.value[index].list);
+        store.set("curList", gridList.value[index].list);
       };
       const currentId = computed(() => {
         return formStore.get("currentId");
@@ -55,18 +69,18 @@
         changePos(e: any, index: number) {
           formStore.setFormCurrentId(gridList.value[index].list[e.newIndex]?.id);
           formStore.setFormCurrentIndex(e.newIndex);
-          store.set('curList', gridList.value[index].list);
+          store.set("curList", gridList.value[index].list);
         },
         async addControl(e: any, index: number) {
-          gridList.value.forEach((colItem:any) => {
-            colItem.list = colItem.list.map((item:any) => {
+          gridList.value.forEach((colItem: any) => {
+            colItem.list = colItem.list.map((item: any) => {
               return proxy.$Flex.jsonToForm(item);
             });
           });
           await nextTick();
           formStore.setFormCurrentId(gridList.value[index].list[e.newIndex].id);
-            formStore.setFormCurrentIndex(e.newIndex);
-            store.set('curList', gridList.value[index].list);
+          formStore.setFormCurrentIndex(e.newIndex);
+          store.set("curList", gridList.value[index].list);
         },
       };
     },

@@ -47,7 +47,7 @@
         <el-tree :data="tree" :props="propsData" ref="treeRef" default-expand-all :filter-node-method="filterNode" @node-click="myClick" style="margin-top: 20px" />
       </div>
     </el-drawer>
-    <custom-dialog ref="jsonDialog" width="800" dialogclass="codeDialog">
+    <custom-dialog ref="jsonDialog" :width="800" dialogclass="codeDialog">
       <div class="custom_code">
         <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '600px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
         <el-upload accept="application/json" class="upload-demo" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" :on-change="handleChange">
@@ -67,10 +67,6 @@
   import type { Controls } from "@/type";
   import { clearCanvas } from "@/utils/formKeycon";
 
-  /**
-   * 2022.7.1想到的优化点
-   * 新增json导入导出功能
-   */
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
@@ -197,7 +193,7 @@
           const formList = result.map((item: any) => {
             return window.VueContext.$Flex.jsonToForm(item);
           });
-          code.value = JSON.stringify(formList.value, null, 4)
+          code.value = JSON.stringify(formList, null, 4);
         } catch (e) {
           console.error(e);
           window.VApp.$message.error("导入失败，数据格式不对");
@@ -274,11 +270,12 @@
           jsonDialog.value.close();
         },
         saveJson() {
-          console.log(1)
+          formStore.updateAllFormList(JSON.parse(code.value));
+          jsonDialog.value.close();
         },
         exportJson(fileName = `demo.json`) {
           let content = "data:application/json;charset=utf-8,";
-          try{
+          try {
             const result = JSON.stringify(window.VueContext.$Flex.initFormToJson(allFormList.value));
             content += result;
             const encodedUri = encodeURI(content);
@@ -286,11 +283,10 @@
             actions.setAttribute("href", encodedUri);
             actions.setAttribute("download", fileName);
             actions.click();
-            window.VApp.$message.success('导出成功');
-          }catch(e){
-            window.VApp.$message.error('导出失败,数据格式不对')
+            window.VApp.$message.success("导出成功");
+          } catch (e) {
+            window.VApp.$message.error("导出失败,数据格式不对");
           }
- 
         },
       };
     },

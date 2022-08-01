@@ -3,11 +3,24 @@
     <div class="control">
       <el-collapse v-model="activeName" :accordion="item.data.accordion">
         <el-collapse-item :title="colItem.name" :name="colItem.name" v-for="(colItem, index) in item.data.items" :key="index">
-          <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, colItem.list, index)" group="starfish-form" @choose="chooseClick($event, colItem.list)" item-key="id" @update="changePos($event, colItem.list)">
-            <template #item="{ element, index }">
-              <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="colItem.list.length" :item="element"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
+          <tempate v-if="drag">
+            <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, colItem.list, index)" group="starfish-form" @choose="chooseClick($event, colItem.list)" item-key="id" @update="changePos($event, colItem.list)">
+              <template #item="{ element, index }">
+                <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="colItem.list.length" :item="element"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
+              </template>
+            </draggable>
+          </tempate>
+          <template v-else>
+            <template v-for="listItem in colItem.list" :key="listItem.id">
+              <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+              <!-- v-if="listItem.show" -->
+                <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+              </el-form-item>
+              <template v-else>
+                <component ref="controlObj" @change="handleControlChange" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+              </template>
             </template>
-          </draggable>
+          </template>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -70,7 +83,7 @@
     border: 1px #ccc dashed;
     box-sizing: border-box;
   }
-  :deep(.el-collapse-item__content){
+  :deep(.el-collapse-item__content) {
     padding-bottom: 5px;
   }
 </style>
