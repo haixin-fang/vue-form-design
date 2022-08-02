@@ -12,7 +12,7 @@
           </draggable>
         </el-col>
       </template>
-      <template v-else>
+      <template v-else-if="!drag && item.data.columns.length > 0">
         <el-col class="grid-col" v-for="(colItem, index) in item.data.columns" :key="index" :span="colItem.span">
           <template v-for="listItem in colItem.list" :key="listItem.id">
             <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">

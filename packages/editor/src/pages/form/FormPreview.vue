@@ -20,7 +20,8 @@
         <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
       </div>
       <el-footer class="my-Footer" style="text-align: center">
-        <el-button type="primary" @click="copyJson" class="copy_btn">复制json</el-button>
+        <el-button type="primary" @click="copyJson" class="copy_btn" data-clipboard-action="copy"
+        :data-clipboard-text="code">复制json</el-button>
         <el-button type="primary" @click="saveFile">保存为文件</el-button>
         <el-button @click="closeCodeDialog">关闭</el-button>
       </el-footer>
@@ -32,6 +33,7 @@
   import formStore from "@/store/form";
   import { Dynamicform } from "starfish-form";
   import uiControl from "@/controller/ui";
+  import Clipboard from 'clipboard'
   // import { Codemirror } from "vue-codemirror";
   // import { json } from "@codemirror/lang-json";
   export default defineComponent({
@@ -98,17 +100,19 @@
           codeDialog.value.close();
         },
         copyJson() {
-          const clipboard:any = new window.Clipboard(".copy_btn");
+          debugger
+          const clipboard:any = new Clipboard(".copy_btn");
           clipboard.on("success", () => {
             window.VApp.$message.success("复制成功");
           });
-          clipboard.on("error", () => {
+          clipboard.on("error", (e) => {
+            console.error(e)
             window.VApp.$message.error("复制失败");
           });
           setTimeout(() => {
             // 销毁实例
             clipboard.destroy();
-          }, 122);
+          }, 20000);
         },
         saveFile(fileName = "demo.json") {
           let content = "data:application/json;charset=utf-8,";

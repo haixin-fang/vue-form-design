@@ -132,7 +132,7 @@
         for (let i = 0; i < len; ++i) {
           let validate = true;
           const curControl = list[i];
-          curControl.controlItems.forEach((item: any) => {
+          curControl.controlItems?.forEach((item: any) => {
             if (item.data.required) {
               validate = !!curControl.data[item.data.fieldName];
             }

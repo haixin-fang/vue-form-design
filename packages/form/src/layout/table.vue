@@ -10,7 +10,7 @@
               </template>
             </draggable>
           </template>
-          <template v-else>
+          <template v-else-if="!drag && tdItem.list.length > 0">
             <template v-for="listItem in tdItem.list" :key="listItem.id">
               <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
                 <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
