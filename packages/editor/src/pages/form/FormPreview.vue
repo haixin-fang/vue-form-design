@@ -100,13 +100,11 @@
           codeDialog.value.close();
         },
         copyJson() {
-          debugger
           const clipboard:any = new Clipboard(".copy_btn");
           clipboard.on("success", () => {
             window.VApp.$message.success("复制成功");
           });
-          clipboard.on("error", (e) => {
-            console.error(e)
+          clipboard.on("error", () => {
             window.VApp.$message.error("复制失败");
           });
           setTimeout(() => {
@@ -176,6 +174,7 @@
   }
   .custom_code {
     padding: 15px;
+    min-height: 400px;
   }
   .my-Footer {
     text-align: center;

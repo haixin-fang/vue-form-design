@@ -1,11 +1,11 @@
 <template>
-  <div class="editor_pages_center" @click="onEditorCenter">
+  <div class="editor_pages_center" @click="onEditorCenter" tabindex="1">
     <div class="canvasBox" ref="canvasBox" :class="[fullScreen ? 'fullScreenBox' : '', pageType + '_layout']" :style="`transform: translateX(-50%) scale(${scale})`">
       <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
-        <draggable class="dragArea list-group" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
+        <draggable class="dragArea" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
             <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout">
               <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
