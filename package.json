@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm --filter \"starfish-editor\" dev",
     "serve": "pnpm --filter \"starfish-editor\" serve",
+    "playground": "pnpm --filter \"starfish-playground\" dev", 
     "bootstrap": "pnpm i && pnpm prepare && cd editor && npm i",
     "lint-fix": "npx eslint . --fix --ext .vue,.js,.ts,.tsx",
     "clean:top": "rimraf */**/dist */dist preview ",

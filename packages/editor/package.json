@@ -1,7 +1,22 @@
 {
   "name": "starfish-editor",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "publish": false,
+  "main": "dist/starfish-editor.umd.js",
+  "style": "dist/style.css",
+  "module": "dist/starfish-editor.es.js",
+  "types": "dist/types/starfish-editor.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/starfish-editor.es.js",
+      "require": "./dist/starfish-editor.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    },
+    "./*": "./*"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "dev": "vite",
@@ -25,7 +40,7 @@
     "keycon": "^1.1.2",
     "mitt": "^3.0.0",
     "nanoid": "^4.0.0",
-    "starfish-form": "^1.1.1",
+    "starfish-form": "^1.1.2",
     "vue": "^3.2.37",
     "vue-codemirror": "^6.0.2",
     "vuedraggable": "^4.1.0",

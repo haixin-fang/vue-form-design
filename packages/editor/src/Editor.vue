@@ -41,7 +41,7 @@
   import KeyController from "keycon";
 
   export default defineComponent({
-    name: "Editor",
+    name: "StarfishEditor",
     components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview, Nav },
     setup() {
       const workspace = ref();

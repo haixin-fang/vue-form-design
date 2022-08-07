@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { App } from "vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
@@ -17,34 +17,38 @@ import flex from "./utils/_";
 import draggable from "vuedraggable";
 import { basicSetup } from "codemirror";
 import VueCodemirror from "vue-codemirror";
-const app = createApp(Editor);
-app.config.globalProperties.$EventBus = vm;
-app.config.globalProperties.$Flex = flex;
-window.VApp = app.config.globalProperties;
-// 如果想在方法中使用自定义的方法,可以挂载到window中
-window.VueContext = {
-  $Flex: flex,
-};
-window.JSONEditor = JSONEditor;
-app.component("CustomDialog", CustomDialog);
-app.component("ConditionSelect", ConditionSelect);
-app.component("HighConditionSelect", HighConditionSelect);
-app.component("draggable", draggable);
-app.component("Shape", Shape);
-app
-  .use(ElementPlus, {
-    locale: zhCn,
-  })
-  .use(StarfishForm);
+export default {
+  install: (app: App) => {
+    // const app = createApp(Editor);
+    app.config.globalProperties.$EventBus = vm;
+    app.config.globalProperties.$Flex = flex;
+    window.VApp = app.config.globalProperties;
+    // 如果想在方法中使用自定义的方法,可以挂载到window中
+    window.VueContext = {
+      $Flex: flex,
+    };
+    window.JSONEditor = JSONEditor;
+    app.use(ElementPlus, {
+      locale: zhCn,
+    }).use(StarfishForm);
 
-app.use(VueCodemirror, {
-  // optional default global options
-  autofocus: true,
-  disabled: false,
-  indentWithTab: true,
-  tabSize: 2,
-  placeholder: "Code goes here...",
-  extensions: [basicSetup],
-  // ...
-});
-app.mount("#app");
+    app.use(VueCodemirror, {
+      // optional default global options
+      autofocus: true,
+      disabled: false,
+      indentWithTab: true,
+      tabSize: 2,
+      placeholder: "Code goes here...",
+      extensions: [basicSetup],
+      // ...
+    });
+    app.component("CustomDialog", CustomDialog);
+    app.component("ConditionSelect", ConditionSelect);
+    app.component("HighConditionSelect", HighConditionSelect);
+    app.component("draggable", draggable);
+    app.component("Shape", Shape);
+
+    app.component("StarfishEditor", Editor);
+  },
+};
+// app.mount("#app");

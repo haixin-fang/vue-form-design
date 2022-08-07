@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import dts from 'vite-plugin-dts';
 import vue from "@vitejs/plugin-vue";
 import path from "path";
+import pkg from './package.json';
 const outDir = !process.env.dist?path.resolve(__dirname, 'dist'):path.resolve(__dirname, "../../preview");
 const alias: any = [
   {
@@ -67,11 +68,16 @@ export default defineConfig({
     //     drop_debugger: true, // 生产环境去除debugger
     //   },
     // },
+    lib: {
+      entry: "src/main.ts",
+      name: "StarfishEditor",
+      fileName: "starfish-editor",
+    },
     outDir,
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, "index.html"),
-      },
+      // input: {
+      //   main: path.resolve(__dirname, "index.html"),
+      // },
       // manualChunks(id) {
       //   if (id.includes("node_modules") && id.includes("element-plus")) {
       //     return "element-plus";
@@ -85,6 +91,9 @@ export default defineConfig({
       //     return "vendor";
       //   }
       // },
+      external(id: string) {
+        return Object.keys(pkg.dependencies).some((k) => new RegExp(`^${k}`).test(id));
+      },
     },
   },
 });

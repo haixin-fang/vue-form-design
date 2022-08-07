@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
+    "resolveJsonModule":true,
     "baseUrl": ".",
     "types": [
       "node",
@@ -21,7 +22,7 @@
       ],
       "@starfish/*": [
         "packages/*/src"
-      ]
+      ],
     },
     "lib": [
       "esnext",

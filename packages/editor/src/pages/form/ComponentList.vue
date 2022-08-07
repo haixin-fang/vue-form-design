@@ -27,12 +27,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from "vue";
-  import draggable from "vuedraggable";
   import formStore from '@/store/form';
   export default defineComponent({
-    components: {
-      draggable,
-    },
     data() {
       const formcomponents: any = this.$formcomponents;
       const lastFormComponents = [];
