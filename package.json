@@ -30,8 +30,16 @@
   "keywords": [
     "Vite",
     "Vue3",
-    "TypeScript",
-    "LowCode"
+    "lowcode",
+    "vue",
+    "editor",
+    "drag",
+    "resize",
+    "typescript",
+    "element-plus",
+    "表单",
+    "动态表单",
+    "低代码"
   ],
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",

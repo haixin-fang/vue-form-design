@@ -29,11 +29,12 @@ export function onBottom() {
   store.commit("onBottom");
 }
 
+
 export default {
     copy,
     paste,
     cut,
     delete: onDelete,
     onTop,
-    onBottom
+    onBottom,
 }

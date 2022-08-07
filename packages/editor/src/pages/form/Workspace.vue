@@ -165,8 +165,9 @@
   .editor_pages_center {
     background: #f0f2f5;
     position: relative;
-    height: 100%;
+    height: calc(100% - 40px);
     overflow-y: auto;
+    outline: 0;
     .editor_nav {
       position: absolute;
       top: 0;

@@ -8,9 +8,9 @@
     <el-select v-model="result.type" placeholder="请选择" @change="onChange">
       <el-option v-for="item in groupSelect" :key="item.value" :label="item.label" :value="item.value"> </el-option>
     </el-select>
-    <el-button type="primary" @click="onAddItem" size="mini" :disabled="!result.type || result.type == 'data'">增加条件</el-button>
-    <el-button type="danger" @click="onDeleteItem" size="mini">删除</el-button>
-    <el-button type="primary" v-if="result.type == 'data'" @click="onEditData" size="mini">编辑</el-button>
+    <el-button type="primary" @click="onAddItem" size="small" :disabled="!result.type || result.type == 'data'">增加条件</el-button>
+    <el-button type="danger" @click="onDeleteItem" size="small">删除</el-button>
+    <el-button type="primary" v-if="result.type == 'data'" @click="onEditData" size="small">编辑</el-button>
     <Transition>
       <div v-show="result.type && result.type !== 'data' && result.control" class="moreCondition">
         <div v-for="(item, index) in result.result" :key="index" class="selectList">

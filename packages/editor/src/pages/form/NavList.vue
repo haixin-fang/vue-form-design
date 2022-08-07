@@ -305,6 +305,7 @@
     align-items: center;
     justify-content: space-between;
     background-color: $editor-nav-background-color;
+    box-sizing: border-box;
     border-bottom: 2px solid #d8dee8;
     padding: 0 15px;
     .detailBtn {

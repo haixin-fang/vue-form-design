@@ -4,8 +4,8 @@
       <template v-if="drag">
         <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
           <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, index)" group="starfish-form" @choose="chooseClick($event, index)" item-key="id" @update="changePos($event, index)">
-            <template #item="{ element }">
-              <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="element.id" :list="colItem.list">
+            <template #item="{ element, index }">
+              <Shape v-if="element.data" :active="currentId == element.id" :currentId="element.id" :currentIndex="index" :list="colItem.list">
                 <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component>
               </Shape>
             </template>

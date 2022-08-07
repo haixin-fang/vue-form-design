@@ -36,6 +36,12 @@ class Ui {
       this.setColumnWidth(value);
     } else if (name === "scale") {
       this.setScale(Number(value));
+    }else if(name == 'isFullscreen'){
+      (state as any)[name] = value;
+      state.pageType = '';
+    }else if(name == 'pageType'){
+      (state as any)[name] = value;
+      state.isFullscreen = true;
     }else{
       (state as any)[name] = value;
     }

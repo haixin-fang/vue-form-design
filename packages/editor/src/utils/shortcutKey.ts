@@ -1,4 +1,5 @@
 import KeyController from "keycon";
+import history from "@/controller/history";
 export function listenGlobalKeyDown(list: any, dom: HTMLDivElement | any) {
   const keycons:KeyController = new KeyController(dom);
   const isMac = /mac os x/.test(navigator.userAgent.toLowerCase());
@@ -16,9 +17,17 @@ export function listenGlobalKeyDown(list: any, dom: HTMLDivElement | any) {
       e.inputEvent.preventDefault();
       list.copy();
     })
+    .keydown([ctrl, "e"], (e) => {
+      e.inputEvent.preventDefault();
+      list.clearCanvas();
+    })
     .keydown([ctrl, "v"], (e) => {
       e.inputEvent.preventDefault();
       list.paste();
+    })
+    .keydown([ctrl, "z"], (e) => {
+      e.inputEvent.preventDefault();
+      history?.back();
     })
     .keydown([ctrl, "x"], (e) => {
       e.inputEvent.preventDefault();
@@ -26,11 +35,11 @@ export function listenGlobalKeyDown(list: any, dom: HTMLDivElement | any) {
     })
     .keydown([ctrl, "up"], (e) => {
       e.inputEvent.preventDefault();
-      list.toTop();
+      list.onTop();
     })
     .keydown([ctrl, "down"], (e) => {
       e.inputEvent.preventDefault();
-      list.toBottom();
+      list.onBottom();
     });
   return keycons;
 }

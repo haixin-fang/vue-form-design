@@ -20,7 +20,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "element-plus": "^2.2.8",
+    "element-plus": "^2.2.12",
     "jsoneditor": "^9.9.0",
     "vue": "^3.2.25",
     "wangeditor": "^4.7.15"
