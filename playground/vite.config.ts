@@ -16,6 +16,8 @@ if (process.env.NODE_ENV != "production") {
   alias.push({ find: /^starfish-editor$/, replacement: path.join(__dirname, "../packages/editor/src/main.ts") });
   alias.push({ find: /^starfish-form$/, replacement: path.join(__dirname, "../packages/form/src/main.ts") });
   alias.push({ find: /^element-plus$/, replacement: path.join(__dirname, 'node_modules/element-plus/es/index.mjs') },)
+  alias.push({ find: /^starfish-form\//, replacement: path.join(__dirname, 'node_modules/starfish-form/') },)
+  alias.push({ find: /^@element-plus\/icons-vue/, replacement: path.join(__dirname, 'node_modules/@element-plus/icons-vue/dist/index.js') },)
 }
 export default defineConfig({
   plugins: [vue()],
