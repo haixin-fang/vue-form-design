@@ -9,7 +9,7 @@ Starfish 可视化动态表单平台及h5页面搭建平台。
 https://haixin-fang.github.io/starfish-vue3-lowcode/preview/index.html
 
 ## 图片
-[![j3pVnH.png](https://s1.ax1x.com/2022/07/02/j3pVnH.png)](https://imgtu.com/i/j3pVnH)
+[![vlt3PU.gif](https://s1.ax1x.com/2022/08/09/vlt3PU.gif)](https://imgtu.com/i/vlt3PU)
 
 ## 技术栈
 
@@ -104,3 +104,25 @@ starfish-form,表单组件
 
 # 可用库
 - nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。
+
+
+## 文档
+需要的基础组件
+:basic-fields="['Text', 'textarea']"
+需要的布局组件
+:layout-fields="['grid']"
+
+shortcut-disabled=true
+
+保存回调
+@save
+
+自定义获取json
+getJson
+
+设置json
+setJson
+
+是否禁用快捷键
+
+navlist 每个按钮可配,并且是否可隐藏

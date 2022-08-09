@@ -7,13 +7,13 @@
       <nav-list></nav-list>
     </template>
     <template #left>
-      <component-list></component-list>
+      <component-list :basic-fields="basicFields" :layout-fields="layoutFields"></component-list>
     </template>
     <template #workspace>
       <workspace ref="workspace"></workspace>
     </template>
     <template #propsPanel>
-      <props-panel></props-panel>
+      <props-panel @save="onSave"></props-panel>
     </template>
     <template #other>
       <form-preview></form-preview>
@@ -43,7 +43,34 @@
   export default defineComponent({
     name: "StarfishEditor",
     components: { Framework, NavList, ComponentList, Workspace, PropsPanel, FormPreview, Nav },
-    setup() {
+    props: {
+      /**
+       * 基础控件
+       */
+      basicFields: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      /**
+       * 布局控件
+       */
+      layoutFields: {
+        type: Array,
+        default() {
+          return [];
+        },
+      },
+      /**
+       * 是否禁用快捷键
+       */
+      shortcutDisabled: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    setup(props, { emit }) {
       const workspace = ref();
       let dom: HTMLDivElement;
       const mouseenterHandler = () => {
@@ -62,18 +89,31 @@
       let keycons: KeyController;
       onMounted(() => {
         dom = workspace.value?.$el;
-        dom.addEventListener("mouseenter", mouseenterHandler);
-        dom.addEventListener("mouseleave", mouseleaveHandler);
-        keycons = listenGlobalKeyDown(formKeyconList, dom);
+        if (!props.shortcutDisabled) {
+          dom.addEventListener("mouseenter", mouseenterHandler);
+          dom.addEventListener("mouseleave", mouseleaveHandler);
+          keycons = listenGlobalKeyDown(formKeyconList, dom);
+        }
       });
       onUnmounted(() => {
-        dom.removeEventListener("mouseenter", mouseenterHandler);
-        dom.removeEventListener("mouseleave", mouseleaveHandler);
-        keycons.destroy();
+        if (!props.shortcutDisabled) {
+          dom.removeEventListener("mouseenter", mouseenterHandler);
+          dom.removeEventListener("mouseleave", mouseleaveHandler);
+          keycons.destroy();
+        }
       });
       provide("control", control);
       return {
         workspace,
+        onSave() {
+          emit("save", formStore?.get("allFormList"));
+        },
+        getJson() {
+          window.VApp.$EventBus.emit("setSave");
+        },
+        setJson(json: any) {
+          formStore?.set("allFormList", json);
+        },
       };
     },
   });

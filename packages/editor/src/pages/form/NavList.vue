@@ -167,12 +167,7 @@
         return data.label.includes(value);
       };
       const handleFormSave = (type?: string) => {
-        if (formStore.get("save") && !formUpdate.value && !type) {
-          proxy.$Flex.open("已保存，请不要重复保存", "Warning", "warning");
-        } else {
-          formStore.set("saveTimetemp", new Date().getTime());
-          proxy.$EventBus.emit("setSave", type);
-        }
+        proxy.$EventBus.emit("setSave", type);
       };
       const handleFormPre = () => {
         proxy.$EventBus.emit("openPreview");

@@ -47,7 +47,7 @@
     components: {
       ControllEditSize,
     },
-    setup() {
+    setup(props:any, {emit}) {
       const { proxy } = getCurrentInstance() as any;
       const { uiControl, hisContrl, formStore } = inject<Controls>("control") || {};
       // 该模块是否隐藏 默认显示
@@ -174,8 +174,10 @@
             //     id: proxy.$Flex.generateMixed(),
             //   });
             // });
+            debugger
             formStore.set("AllFormResult", result);
             formStore.handleDynamicForm();
+            emit('save');
           }
           if (!formSave) {
             formStore.set("previewShow", preview);
@@ -314,6 +316,7 @@
     z-index: 1;
     position: relative;
     display: flex;
+    overflow: hidden;
     .demo-tabs {
       flex: 1;
     }
@@ -345,6 +348,7 @@
       // left: 0;
       // top: 0;
       padding-top: 30px;
+      box-sizing: border-box;
       height: 100%;
       border-right: 1px solid $resizer_background_color;
       margin-right: 5px;

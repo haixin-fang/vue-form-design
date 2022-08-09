@@ -29,6 +29,20 @@
   import { defineComponent } from "vue";
   import formStore from '@/store/form';
   export default defineComponent({
+    props: {
+      basicFields: {
+        type: Array,
+        default(){
+          return [];
+        }
+      },
+      layoutFields: {
+        type: Array,
+        default(){
+          return []
+        }
+      }
+    },
     data() {
       const formcomponents: any = this.$formcomponents;
       const lastFormComponents = [];
@@ -58,14 +72,36 @@
       newcomponentlist() {
         return (this as any).formcomponents.filter((item: any) => {
           if (item.nameCn && item.nameCn.indexOf(this.filterContent) != -1 && !item.layout) {
-            return true;
+            if(this.basicFields.length == 0){
+              return true;
+            }else if(this.basicFields.length > 0){
+              let isHave = false;
+              this.basicFields.find((fieldItem: any) => {
+                if(fieldItem.toLocaleLowerCase() == item.ControlType.toLocaleLowerCase()){
+                  isHave = true;
+                  return fieldItem;
+                }
+              })
+              return isHave;
+            }
           }
         });
       },
       layoutList(){
         return (this as any).formcomponents.filter((item:any) => {
           if(item.nameCn && item.nameCn.indexOf(this.filterContent) != -1 && item.layout){
-            return true;
+            if(this.layoutFields.length == 0){
+              return true;
+            }else if(this.layoutFields.length > 0){
+              let isHave = false;
+              this.layoutFields.find((fieldItem: any) => {
+                if(fieldItem.toLocaleLowerCase() == item.ControlType.toLocaleLowerCase()){
+                  isHave = true;
+                  return fieldItem;
+                }
+              })
+              return isHave;
+            }
           }
         })
       }
