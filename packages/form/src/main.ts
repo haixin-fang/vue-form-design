@@ -33,7 +33,7 @@ import Tabs from './layout/Tabs.vue';
 import ListConfig from './common/listConfig.vue';
 import Panel from './common/panel.vue';
 
-export { default as Dynamicform } from "./Form.vue";
+export { default as Dynamicform } from "./starfish-form.vue";
 
 // 可以单个导入表单组件
 export { default as SText } from "./components/Text/index.vue";
@@ -55,6 +55,10 @@ export { default as SSelecteds } from "./components/Selecteds/index.vue";
 export { default as SDivider } from "./layout/Divider.vue";
 export { default as Rules } from "./components/Rule/index.vue";
 export { default as SRichText } from "./components/RichText/index.vue";
+
+
+export type {FormConfig} from './utils/fieldConfig';
+export type {fields} from './utils/fieldConfig'
 
 const formcomponents: any = {};
 formcomponents[Text.ControlType] = Text;
@@ -90,38 +94,11 @@ formcomponents[ShowRule.ControlType] = ShowRule;
 
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = formcomponents;
-  // formcomponents.forEach((item:any) => {
-  //   app.component(item.ControlType, item);
-  // })
   for(const key in formcomponents){
     app.component(key, formcomponents[key]);
   }
-  // app.component(Text.ControlType, Text);
-  // app.component(TextArea.ControlType, TextArea);
-  // app.component(Switch.ControlType, Switch);
-  // app.component(Radio.ControlType, Radio);
-  // app.component(KeyValueConfig.ControlType, KeyValueConfig);
-  // app.component(KeyValueConfigMult.ControlType, KeyValueConfigMult);
-  // app.component(CheckBox.ControlType, CheckBox);
-  // app.component(JsonEditor.ControlType, JsonEditor);
-  // app.component(ColorSelect.ControlType, ColorSelect);
-  // app.component(Date.ControlType, Date);
-  // app.component(Time.ControlType, Time);
-  // app.component(DateTime.ControlType, DateTime);
-  // app.component(InputNumber.ControlType, InputNumber);
-  // app.component(Slider.ControlType, Slider);
-  // app.component(Selected.ControlType, Selected);
-  // app.component(Selecteds.ControlType, Selecteds);
-  // app.component(Rule.ControlType, Rule);
-  // app.component(RichText.ControlType, RichText);
-  // app.component(ShowRule.ControlType, ShowRule);
-  // app.component(Grid.ControlType, Grid);
-  // app.component(ListConfig.ControlType, ListConfig);
-  // app.component(TableLayout.ControlType, TableLayout);
-  // app.component(Info.ControlType, Info);
-  // app.component(Divider.ControlType, Divider);
-  // app.component(Panel.ControlType, Panel)
 };
+
 
 export default {
   install,

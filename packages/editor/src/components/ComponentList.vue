@@ -27,7 +27,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from "vue";
-  import formStore from '@/store/form';
+  import formStore from '@/controller/form';
+  import {BaseComponentItem} from '@/type';
   export default defineComponent({
     props: {
       basicFields: {
@@ -44,14 +45,14 @@
       }
     },
     data() {
-      const formcomponents: any = this.$formcomponents;
+      const formcomponents: typeof this.$formcomponents = this.$formcomponents;
       const lastFormComponents = [];
       for (const key in formcomponents) {
         const item = formcomponents[key];
         if (item.isHide) {
           continue;
         }
-        const model: any = {};
+        const model: BaseComponentItem | Record<string, any> = {};
         model.ControlType = item.ControlType;
         model.icon = item.icon;
         model.nameCn = item.nameCn;
@@ -69,14 +70,14 @@
     },
     computed: {
       newcomponentlist() {
-        return (this as any).formcomponents.filter((item: any) => {
+        return (this as any).formcomponents.filter((item: BaseComponentItem) => {
           if (item.nameCn && item.nameCn.indexOf(this.filterContent) != -1 && !item.layout) {
             if(this.basicFields.length == 0){
               return true;
             }else if(this.basicFields.length > 0){
               let isHave = false;
               this.basicFields.find((fieldItem: any) => {
-                if(fieldItem.toLocaleLowerCase() == item.ControlType.toLocaleLowerCase()){
+                if(fieldItem.toLocaleLowerCase() == (item.ControlType as string).toLocaleLowerCase()){
                   isHave = true;
                   return fieldItem;
                 }

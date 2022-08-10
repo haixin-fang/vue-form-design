@@ -2,7 +2,7 @@ import { App } from "vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
-import Editor from "./Editor.vue";
+import Editor from "./starfish-editor.vue";
 import "starfish-form/dist/style.css";
 import "@/styles/index.scss";
 import "jsoneditor/dist/jsoneditor.min.css";
@@ -19,7 +19,6 @@ import { basicSetup } from "codemirror";
 import VueCodemirror from "vue-codemirror";
 export default {
   install: (app: App) => {
-    // const app = createApp(Editor);
     app.config.globalProperties.$EventBus = vm;
     app.config.globalProperties.$Flex = flex;
     window.VApp = app.config.globalProperties;

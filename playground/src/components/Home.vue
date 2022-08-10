@@ -1,7 +1,7 @@
 <template>
   <!-- <starfish-editor style="height: 700px" :basic-fields="['Text']" :layout-fields="['grid']"> </starfish-editor> -->
   <div class="container">
-    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" :shortcut-disabled="true" :header-show="true" :menu="menu"> </starfish-editor>
+    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" :shortcut-disabled="false" :header-show="false" :menu="menu"> </starfish-editor>
     <div class="btnlist">
       <el-button @click="goSave" type="primary">保存</el-button>
       <el-button @click="setJson" type="primary">自定义json</el-button>
@@ -14,7 +14,7 @@
   import Store from "../Server";
   export default defineComponent({
     name: "App",
-    setup(props, ctx) {
+    setup() {
       const starfishRef = ref();
       const { proxy } = getCurrentInstance() as ComponentInternalInstance;
       const menu = ref({
@@ -29,8 +29,6 @@
           proxy?.$router.push("/about");
         },
         onSave(res: any[]) {
-          console.log(proxy);
-          //   localStorage.setItem('starfish-form', JSON.stringify(res));
           Store.set("allFormList", res);
         },
         goSave() {

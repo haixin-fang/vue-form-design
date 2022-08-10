@@ -23,7 +23,7 @@
 </template>
 <script>
   import ConditionGroup from "./ConditionGroup.vue";
-  import formStore from "@/store/form";
+  import formStore from "@/controller/form";
   import { toRaw } from "vue";
   export default {
     components: {

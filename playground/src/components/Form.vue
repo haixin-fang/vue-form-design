@@ -1,6 +1,6 @@
 <template>
   <CustomDialog dialogclass="preview" ref="previewDialog" @close="handleDialogClose">
-    <Dynamicform v-model:formResult="formResult" :allFormList="list" ref="dynamicform" style="height: 100%"></Dynamicform>
+    <Dynamicform v-model:formResult="formResult" :allFormList="list" @change="handleFormUpdate" ref="dynamicform" style="height: 100%;overflow: auto;"></Dynamicform>
     <el-footer class="my-Footer" style="text-align: center">
       <el-button @click="goBack" type="primary">关闭</el-button>
       <el-button type="primary" @click="resetForm">重置表单</el-button>
@@ -34,7 +34,7 @@ import { defineComponent, ref, Ref, getCurrentInstance, ComponentInternalInstanc
           proxy?.$router.go(-1);
         },
         getData() {
-          console.log(formResult.value);
+          (window as any).VApp.$alert(formResult.value);
         },
         handleDialogClose() {
           (proxy as any).goBack();
@@ -44,6 +44,9 @@ import { defineComponent, ref, Ref, getCurrentInstance, ComponentInternalInstanc
         },
         goValidate(){
             dynamicform.value.getValidate();
+        },
+        handleFormUpdate(){
+          console.log('表单更新回调');
         }
       };
     },

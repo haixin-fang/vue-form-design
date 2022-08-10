@@ -39,10 +39,7 @@
   import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw } from "vue";
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import { globalFormList } from "@/common/formJson";
-  // import formStore from "@/store/form";
-  import type { Controls } from "@/type";
-  // 可能是element-plus版本太低,后期升级
-  // import type { TabsPaneContext } from "element-plus";
+  import type { Controls, AllFormItem } from "@/type";
   export default defineComponent({
     props: {
       column: {
@@ -65,12 +62,12 @@
       const jsonCenter = ref();
       let jsonEditor: any = null;
       const isTransition = ref(true); // 默认有补间动画
-      const controlItems = computed(() => formStore.getControlItems());
-      const curControl = computed(() => formStore.get("curControl"));
-      const newCurControl = computed(() => proxy.$Flex.deepClone(formStore.get("curControl")));
+      const controlItems = computed(() => formStore?.getControlItems());
+      const curControl = computed(() => formStore?.get("curControl"));
+      const newCurControl = computed(() => proxy.$Flex.deepClone(formStore?.get("curControl")));
       const historyFlag = computed(() => hisContrl?.get("historyFlag"));
-      const save = computed(() => formStore.get("save"));
-      const currentIndex = computed(() => formStore.get("currentIndex"));
+      const save = computed(() => formStore?.get("save"));
+      const currentIndex = computed(() => formStore?.get("currentIndex"));
       const handleEditBtn = () => {
         moduleIsHidden.value = !moduleIsHidden.value;
         if (moduleIsHidden.value) {
@@ -88,19 +85,20 @@
 
       // 鼠标落下
       const handleMouseDown = async () => {
-        formStore.setFormCurrentId("");
-        formStore.setFormCurrentIndex(-1);
+        formStore?.setFormCurrentId("");
+        formStore?.setFormCurrentIndex(-1);
       };
 
       // 预览或保存时验证所有表单是否输入正确
-      const preview = computed(() => formStore.get("preview"));
-      const allFormList = computed(() => formStore.getAllFormList());
-      const checkNowFormValidate = function (content: string, title: string) {
+      const preview = computed(() => formStore?.get("preview"));
+      const allFormList = computed(() => formStore?.getAllFormList());
+      const checkNowFormValidate = function (content: string) {
         return new Promise((resolve) => {
           ruleForm.value.validate((valid: any) => {
             if (!valid) {
-              // proxy.$Flex.open(content, title, "error");
-              window.VApp.$message.error(content);
+              window.VApp.$notify.error({
+                title: content
+              });
               resolve(false);
             } else {
               resolve(true);
@@ -148,10 +146,10 @@
             validate = checkLayoutForm(curControl);
           }
           if (!validate) {
-            formStore.setFormCurrentId(curControl.id);
+            formStore?.setFormCurrentId(curControl.id);
             activeName.value = "form";
             await nextTick();
-            const valid = await checkNowFormValidate("请检查动态表单输入格式问题", "表单验证失败");
+            const valid = await checkNowFormValidate("请检查动态表单输入格式问题");
             if (!valid) {
               return false;
             }
@@ -164,14 +162,14 @@
       const newAllmainlist = computed(() => proxy.$Flex.deepClone(formStore?.get("allFormList")));
 
       const checkValidates = async (formSave = false, type?: string) => {
-        const curControlIndex = formStore.get("currentIndex");
+        const curControlIndex = formStore?.get("currentIndex");
         if (preview.value || save.value || formUpdate.value) {
           const preview = await checkFormValidate(allFormList.value);
           if (preview) {
-            formStore.setFormCurrentIndex(curControlIndex);
+            formStore?.setFormCurrentIndex(curControlIndex);
           }
-          formStore.setSave(preview);
-          formStore.setFormUpdate(false);
+          formStore?.setSave(preview);
+          formStore?.setFormUpdate(false);
           if (preview) {
             const result: any[] = initFormToJson(allFormList.value);
             // toRaw(allFormList.value).forEach((item: any) => {
@@ -181,15 +179,17 @@
             //     id: proxy.$Flex.generateMixed(),
             //   });
             // });
-            formStore.set("AllFormResult", result);
-            formStore.handleDynamicForm();
+            formStore?.set("AllFormResult", result);
+            formStore?.handleDynamicForm();
             emit("save");
           }
           if (!formSave) {
-            formStore.set("previewShow", preview);
-            formStore.set("preview", false);
+            formStore?.set("previewShow", preview);
+            formStore?.set("preview", false);
           } else if (preview) {
-            window.VApp.$message.success(type ? "已自动保存" : "保存成功");
+            window.VApp.$notify.success({
+              title: type ? "已自动保存" : "保存成功"
+            });
           }
         }
       };
@@ -285,7 +285,7 @@
         async () => {
           if (!formUpdate.value) {
             // store.commit("setFormUpdate", true);
-            formStore.setFormUpdate(true);
+            formStore?.setFormUpdate(true);
           }
         },
         { deep: true }

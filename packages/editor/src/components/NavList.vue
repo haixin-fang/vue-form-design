@@ -64,7 +64,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, computed, getCurrentInstance, onMounted, onUnmounted, inject, ref, toRaw, watch, PropType } from "vue";
-  import type { Controls, MenuBarData, MenuItem } from "@/type";
+  import type { Controls, MenuBarData, MenuItem, AllFormItem,BaseComponentItem } from "@/type";
   import { clearCanvas } from "@/utils/formKeycon";
 
   export default defineComponent({
@@ -119,8 +119,8 @@
         } else {
           let children;
           if (item.ControlType == "Grid") {
-            children = item.data.columns.map((colItem: any) => {
-              const children = colItem.list.map((listItem: any) => {
+            children = item.data.columns.map((colItem: {list: AllFormItem[]}) => {
+              const children = colItem.list.map((listItem: AllFormItem) => {
                 return toTree(listItem);
               });
               return {
@@ -132,7 +132,7 @@
           } else if (item.ControlType == "TableLayout") {
             children = item.data.trs.map((trItem: any) => {
               const children = trItem.tds.map((tdItem: any) => {
-                const children = tdItem.list.map((listItem: any) => {
+                const children = tdItem.list.map((listItem: AllFormItem) => {
                   return toTree(listItem);
                 });
                 return {
@@ -149,7 +149,7 @@
             });
           } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
             children = item.data.items.map((colItem: any) => {
-              const children = colItem.list.map((listItem: any) => {
+              const children = colItem.list.map((listItem: AllFormItem) => {
                 return toTree(listItem);
               });
               return {
@@ -191,7 +191,7 @@
       const handleImportJson = () => {
         try {
           const result = JSON.parse(code.value);
-          const formList = result.map((item: any) => {
+          const formList = result.map((item: BaseComponentItem) => {
             return window.VueContext.$Flex.jsonToForm(item);
           });
           code.value = JSON.stringify(formList, null, 4);
@@ -240,7 +240,7 @@
         },
         handleClear: () => {
           clearCanvas();
-          formStore.setFormCurrentId("");
+          formStore?.setFormCurrentId("");
         },
         handleBack: () => {
           hisContrl?.back();
@@ -259,7 +259,7 @@
           dialog.value = false;
         },
         myClick(currentNode: any) {
-          formStore.setFormCurrentId(currentNode.id);
+          formStore?.setFormCurrentId(currentNode.id);
         },
         ImportJson() {
           jsonDialog.value.show();
@@ -277,7 +277,7 @@
           jsonDialog.value.close();
         },
         saveJson() {
-          formStore.updateAllFormList(JSON.parse(code.value));
+          formStore?.updateAllFormList(JSON.parse(code.value));
           jsonDialog.value.close();
         },
         exportJson(fileName = `demo.json`) {

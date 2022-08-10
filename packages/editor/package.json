@@ -18,12 +18,9 @@
     "./*": "./*"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
     "dev": "vite",
     "build": "vite build",
     "build:preview": "cross-env --dist=true vite build",
-    "lint": "vue-cli-service lint",
-    "webpack": "vue-cli-service build",
     "preview": "npm run build && live-server preview"
   },
   "dependencies": {

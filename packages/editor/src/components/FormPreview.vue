@@ -20,8 +20,7 @@
         <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
       </div>
       <el-footer class="my-Footer" style="text-align: center">
-        <el-button type="primary" @click="copyJson" class="copy_btn" data-clipboard-action="copy"
-        :data-clipboard-text="code">复制json</el-button>
+        <el-button type="primary" @click="copyJson" class="copy_btn" data-clipboard-action="copy" :data-clipboard-text="code">复制json</el-button>
         <el-button type="primary" @click="saveFile">保存为文件</el-button>
         <el-button @click="closeCodeDialog">关闭</el-button>
       </el-footer>
@@ -30,10 +29,10 @@
 </template>
 <script lang="ts">
   import { computed, defineComponent, ref, watch } from "vue";
-  import formStore from "@/store/form";
+  import formStore from "@/controller/form";
   import { Dynamicform } from "starfish-form";
   import uiControl from "@/controller/ui";
-  import Clipboard from 'clipboard'
+  import Clipboard from "clipboard";
   // import { Codemirror } from "vue-codemirror";
   // import { json } from "@codemirror/lang-json";
   export default defineComponent({
@@ -48,6 +47,7 @@
       const pageType = computed(() => uiControl?.get("pageType"));
       const codeDialog = ref();
       const code = ref();
+      let clipboard: Clipboard;
       // const extensions = [json()];
       const dynamicform = ref();
       const previewDialog = ref<any>();
@@ -100,7 +100,9 @@
           codeDialog.value.close();
         },
         copyJson() {
-          const clipboard:any = new Clipboard(".copy_btn");
+          if (!clipboard) {
+            clipboard = new Clipboard(".copy_btn");
+          }
           clipboard.on("success", () => {
             window.VApp.$message.success("复制成功");
           });

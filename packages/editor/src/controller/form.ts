@@ -1,8 +1,7 @@
 import { reactive } from "vue";
 import { globalData } from "@/common/formJson";
 import history from "@/controller/history";
-import { FormState } from "@/type";
-
+import { AllFormItem, FormState } from "@/type";
 const state = reactive<FormState>({
   allFormList: [], // 存储所有选择的表单控件
   curControl: {}, // 选中的表单控件
@@ -21,14 +20,15 @@ const state = reactive<FormState>({
 
 export { state };
 
-export default {
-  updateAllFormList(allFormList: any) {
+class Form {
+  updateAllFormList(allFormList: AllFormItem[]) {
+    console.log("allForm", allFormList);
     state.allFormList = allFormList;
     // 解决属性面板表单和jsontab切换后,数据不同步问题
     if (state.currentIndex != -1) {
       state.curControl = allFormList[state.currentIndex];
     }
-  },
+  }
   setHistory() {
     history?.setValue({
       allFormList: window.VueContext.$Flex.deepClone(state.allFormList),
@@ -36,10 +36,10 @@ export default {
       currentId: state.currentId,
       curControl: window.VueContext.$Flex.deepClone(state.allFormList[state.currentIndex]),
     });
-  },
+  }
   setFormCurrentIndex(index: number) {
     state.currentIndex = index;
-  },
+  }
   setFormCurrentId(id: string) {
     state.currentId = id;
     if (id) {
@@ -48,7 +48,7 @@ export default {
     } else {
       state.curControl = {};
     }
-  },
+  }
   getCurrentItem(id: string) {
     let result;
     state.allFormList.find((item) => {
@@ -64,20 +64,8 @@ export default {
       }
     });
     return result;
-  },
-  // getCurrentItemIndex(list, id: string) {
-  //   list.findIndex((item) => {
-  //     if (item.id == id) {
-  //       return item;
-  //     } else if (item.layout) {
-  //       const res = this.getLayoutCurCtrol(item, id);
-  //       if (res) {
-  //         return item;
-  //       }
-  //     }
-  //   });
-  // },
-  getLayoutCurCtrol(item: any, id: string) {
+  }
+  getLayoutCurCtrol(item: AllFormItem, id: string): AllFormItem | undefined {
     let result;
     if (item.ControlType == "TableLayout") {
       const trs = item.data.trs;
@@ -140,35 +128,32 @@ export default {
       }
     }
     return result;
-  },
-  setPreviewShow(type: any) {
-    state.previewShow = type;
-  },
+  }
   // 获取默认值和键名组成新对象
   handleDynamicForm() {
     state.formResult = this.getDynamicForm(state.AllFormResult);
     console.log("formResult", state.formResult);
-  },
-  getDynamicForm(list: any) {
-    const data: any = {};
+  }
+  getDynamicForm(list: AllFormItem[]) {
+    const data: Record<string, any> = {};
     list.forEach((item: any) => {
       if (item.layout) {
         if (item.ControlType == "Grid") {
-          item.data.columns.forEach((colItem: any) => {
+          item.data.columns.forEach((colItem: { list: AllFormItem[] }) => {
             Object.assign(data, this.getDynamicForm(colItem.list));
           });
         } else if (item.ControlType == "TableLayout") {
           const trs = item.data.trs;
           if (trs && trs.length > 0) {
             trs.forEach((trItem: any) => {
-              trItem.tds.forEach((tdItem: any) => {
+              trItem.tds.forEach((tdItem: { list: AllFormItem[] }) => {
                 Object.assign(data, this.getDynamicForm(tdItem.list));
               });
             });
           }
         } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
           const items = item.data.items;
-          items.forEach((colItem: any) => {
+          items.forEach((colItem: { list: AllFormItem[] }) => {
             Object.assign(data, this.getDynamicForm(colItem.list));
           });
         }
@@ -186,31 +171,35 @@ export default {
       }
     });
     return data;
-  },
-  openPreview(preview: any) {
+  }
+  openPreview(preview: boolean) {
     state.preview = preview;
-  },
-  setSave(type: any) {
+  }
+  setSave(type: boolean) {
     state.save = type;
-  },
-  setFormUpdate(type: any) {
+  }
+  setFormUpdate(type: boolean) {
     state.formUpdate = type;
-  },
-  getControlItems() {
+  }
+  getControlItems(): AllFormItem[] {
     return state.curControl && state.curControl.controlItems;
-  },
-  getAllFormList() {
+  }
+  getAllFormList(): AllFormItem[] {
     return state.allFormList;
-  },
-  setAllFormList(item: any) {
+  }
+  setAllFormList(item: AllFormItem): void {
     state.allFormList.push(item);
-  },
-  set(name: any, value: any) {
+  }
+  set(name: keyof typeof state, value: any) {
     (state as any)[name] = value;
-    console.log("admin store set ", name, " ", value);
-  },
+  }
 
-  get(name: any) {
+  get(name: keyof typeof state) {
     return (state as any)[name];
-  },
-};
+  }
+}
+
+
+export type formContrl = Form;
+
+export default new Form();

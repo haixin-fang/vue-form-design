@@ -9,3 +9,4 @@ declare module '*.vue' {
 interface Window {
   JSONEditor: any;
 }
+

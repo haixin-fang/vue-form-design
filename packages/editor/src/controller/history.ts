@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 import { HistoryState, HistoryItem } from "@/type";
-import formStore from "@/store/form";
+import formStore from "./form";
 
 const state = reactive<HistoryState>({
   historyList: [],
@@ -40,7 +40,7 @@ class History {
     formStore?.set("currentIndex", state.historyList[state.index].currentIndex);
     formStore?.set("curControl", state.historyList[state.index].curControl);
   }
-  public get<T>(name: keyof typeof state): T {
+  public get<T>(name: keyof typeof state):T {
     return (state as any)[name];
   }
   public set(name: keyof typeof state, value: any) {

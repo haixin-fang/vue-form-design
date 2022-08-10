@@ -1,5 +1,13 @@
 import type { UiControl } from "./controller/ui";
 import type { hisContrl } from "./controller/history";
+import type { formContrl } from "./controller/form";
+import type { shortCut } from "./controller/shortcut";
+import type { FormConfig, fields } from "starfish-form/src/main";
+/**
+ * 组件名称枚举
+ */
+type ComponentListEnum = keyof typeof window.VApp.$formcomponents;
+
 interface ColumnWidth {
   left: number;
   center: number;
@@ -32,8 +40,8 @@ export interface UiState {
 export interface Controls {
   uiControl: UiControl;
   hisContrl: hisContrl;
-  formStore: any;
-  store: any;
+  formStore: formContrl;
+  store: shortCut;
 }
 
 export interface setColumnWidth {
@@ -63,29 +71,35 @@ export interface HistoryState {
   historyFlag: boolean;
 }
 
+export interface ShortCutState {
+  form: FormState;
+  copyContent: AllFormItem | Record<string, any>;
+  curList: AllFormItem[];
+}
+
 export interface HistoryItem {
-  allFormList: any[];
+  allFormList: AllFormItem[];
   currentIndex: number;
   currentId: string;
-  curControl: any;
+  curControl: AllFormItem | Record<string, any>;
 }
 
 export type MenuItem = "delete" | "undo" | "redo" | "tree" | "save" | "preview" | "fullscreen" | "viewport" | "json-export" | "json-import";
-export type MenuRight = 'viewport' | 'json-export' | 'json-import';
+export type MenuRight = "viewport" | "json-export" | "json-import";
 export type MenuBarData = {
-  left: MenuItem[],
-  rigth: MenuRight[],
-  column: boolean
+  left: MenuItem[];
+  rigth: MenuRight[];
+  column: boolean;
 };
 export interface FormState {
   /**
    * 存储所有选择的表单控件
    */
-  allFormList: any[];
+  allFormList: AllFormItem[];
   /**
    * 选中的表单控件
    */
-  curControl: any;
+  curControl: AllFormItem | Record<string, any>;
   /**
    * 选中的控件的id
    */
@@ -127,4 +141,73 @@ export interface FormState {
    * 表单全局配置
    */
   globalDatas: Record<string, any>;
+}
+
+interface FormRule {
+  fieldName: any[];
+  label: any[];
+}
+export interface AllFormItem {
+  /**
+   * 组件渲染唯一标识
+   */
+  ControlType: ComponentListEnum;
+  /**
+   * 表单配置所需的表单配置列表
+   */
+  controlItems: FormConfig[];
+  /**
+   * 表单配置
+   */
+  data: fields;
+  /**
+   * 获取配置列表和配置方法列表
+   */
+  FormConfig: {
+    data: () => fields;
+    morenConfig: () => FormConfig[];
+  };
+  /**
+   * 组件icon图标
+   */
+  icon: string;
+  /**
+   * 组件唯一id
+   */
+  id: string;
+  /**
+   * 组件名称
+   */
+  nameCn: string;
+  /**
+   * 是否是布局表单
+   */
+  layout: boolean;
+  /**
+   * 规则
+   */
+  rules: FormRule;
+}
+
+export interface BaseComponentItem {
+  /**
+   * 组件渲染唯一标识
+   */
+  ControlType: ComponentListEnum;
+  /**
+   * 组件icon图标
+   */
+  icon: string;
+  /**
+   * 组件名称
+   */
+  nameCn: string;
+  /**
+   * 是否是布局表单
+   */
+  layout: boolean;
+  /**
+   * 规则
+   */
+  rules?: FormRule;
 }

@@ -64,7 +64,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, reactive, toRefs, ref, toRaw } from "vue";
-  import formStore from "@/store/form";
+  import formStore from "@/controller/form";
   export default defineComponent({
     props: {
       data: {

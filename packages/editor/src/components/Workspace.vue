@@ -38,8 +38,6 @@
       // 粘贴模块是否显示
       const pasteShow = ref(false);
       const editForm = ref();
-      // 对store操作
-      const editType = computed(() => store.get("editType"));
 
       const globalDatas = computed(() => formStore?.get("globalDatas"));
 
@@ -47,9 +45,9 @@
 
       const pageType = computed(() => uiControl?.get("pageType"));
 
-      const allmainList = computed<any>({
+      const allmainList = computed({
         get() {
-          return formStore.get("allFormList");
+          return formStore?.get("allFormList");
         },
         set(value) {
           // 防止引用类型污染
@@ -70,11 +68,11 @@
             // delete item.icon;
             return item;
           });
-          formStore.updateAllFormList(value);
+          formStore?.updateAllFormList(value);
         },
       });
       const currentId = computed(() => {
-        return formStore.get("currentId");
+        return formStore?.get("currentId");
       });
 
       const handleCanvasScale = () => {
@@ -95,19 +93,19 @@
         }
       };
       const chooseClick = (e: any) => {
-        formStore.setFormCurrentId(allmainList.value[e.oldIndex]?.id);
-        formStore.setFormCurrentIndex(e.oldIndex);
-        store.set("curList", allmainList.value);
+        formStore?.setFormCurrentId(allmainList.value[e.oldIndex]?.id);
+        formStore?.setFormCurrentIndex(e.oldIndex);
+        store?.set("curList", allmainList.value);
       };
       const changePos = (e: any) => {
-        formStore.setFormCurrentId(allmainList.value[e.newIndex]?.id);
-        formStore.setFormCurrentIndex(e.newIndex);
-        store.set("curList", allmainList.value);
+        formStore?.setFormCurrentId(allmainList.value[e.newIndex]?.id);
+        formStore?.setFormCurrentIndex(e.newIndex);
+        store?.set("curList", allmainList.value);
       };
       const addControl = (e: any) => {
-        formStore.setFormCurrentId(allmainList.value[e.newIndex]?.id);
-        formStore.setFormCurrentIndex(e.newIndex);
-        store.set("curList", allmainList.value);
+        formStore?.setFormCurrentId(allmainList.value[e.newIndex]?.id);
+        formStore?.setFormCurrentIndex(e.newIndex);
+        store?.set("curList", allmainList.value);
       };
       const handlePaste = () => {
         pasteShow.value = false;
@@ -147,13 +145,12 @@
         allmainList,
         currentId,
         handleNoDraggable,
-        editType,
         handlePaste,
         pasteShow,
         fullScreen,
         onEditorCenter: (e: any) => {
           if (e.path[0].className == "editor_pages_center") {
-            formStore.setFormCurrentId("");
+            formStore?.setFormCurrentId("");
             pasteShow.value = false;
           }
         },

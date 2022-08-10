@@ -11,7 +11,7 @@ const alias: any = [
   },
   {
     find: "~editor",
-    replacement: path.resolve(__dirname, "./src/pages/form"),
+    replacement: path.resolve(__dirname, "./src/components"),
   },
 ];
 if (process.env.NODE_ENV != "production") {

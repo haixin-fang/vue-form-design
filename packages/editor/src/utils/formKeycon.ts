@@ -1,4 +1,4 @@
-import store from "@/store/index";
+import store from "@/controller/shortcut";
 
 export function clearCanvas() {
   store.commit("clear");

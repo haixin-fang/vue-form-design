@@ -1,3 +1,4 @@
+import { AllFormItem } from "../../../editor/src/type"
 export interface fields {
   /**
    * 字段名称
@@ -34,8 +35,26 @@ export interface fields {
   type?: number;
   size?: string | number;
   itemConfig?: any;
+  trs?: fieldsTrs[];
+  columns?:Columns[];
+  items?: Columns[];
 }
-interface FormConfig {
+
+interface Columns {
+  list: AllFormItem[];
+  span: number;
+}
+
+interface fieldsTrs {
+  tds: fieldTds[];
+}
+
+interface fieldTds {
+  colspan: number;
+  rowspan: number;
+  list: AllFormItem[];
+}
+export interface FormConfig {
   ControlType: string;
   data: fields;
 }
@@ -236,24 +255,24 @@ const fieldsMap: any = {
     fieldName: "",
     label: "标签名称",
     accordion: false,
-    name: '折叠面板',
+    name: "折叠面板",
     items: [
       {
-        name: '折叠面板',
-        list: []
+        name: "折叠面板",
+        list: [],
       },
-    ]
+    ],
   },
   Tabs: {
     fieldName: "",
     label: "标签名称",
-    name: '标签',
+    name: "标签",
     items: [
       {
-        name: 'tab',
-        list: []
+        name: "tab",
+        list: [],
       },
-    ]
+    ],
   },
   Selected: {
     fieldName: "",
@@ -453,7 +472,7 @@ const fieldsMap: any = {
     },
   },
 };
-type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "columns" |"infotype" | 'effect' | "size" | "color" | "dividerColor" | "InputNumber" | "multiple" | "gutter";
+type fieldMap = "default" | "placeholder" | "min" | "max" | "itemConfig" | "type" | "columns" | "infotype" | "effect" | "size" | "color" | "dividerColor" | "InputNumber" | "multiple" | "gutter";
 
 type morenFields = Partial<Record<fieldMap, FormConfig>>;
 
@@ -571,7 +590,7 @@ function getMoren(fieldName: string, component: string, label?: string): FormCon
         required: false,
         rule: "[]",
         itemConfig: {
-          value: 'success',
+          value: "success",
           id: 1,
           items: [
             {
@@ -613,7 +632,7 @@ function getMoren(fieldName: string, component: string, label?: string): FormCon
         required: false,
         rule: "[]",
         itemConfig: {
-          value: 'light',
+          value: "light",
           id: 1,
           items: [
             {
@@ -777,11 +796,11 @@ function getFormConfig(componentName: string, config: Config[] = [], filterField
       return JSON.parse(JSON.stringify(fieldsMap[componentName]));
     },
     morenConfig() {
-      const before = beforeBaseFormCofig().filter(item => {
-        if(!filterField.includes(item.data.fieldName)){
+      const before = beforeBaseFormCofig().filter((item) => {
+        if (!filterField.includes(item.data.fieldName)) {
           return item;
         }
-      })
+      });
       const after = afterBaseFormConfig().filter((item) => {
         if (!filterField.includes(item.data.fieldName)) {
           return item;

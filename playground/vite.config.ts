@@ -9,7 +9,7 @@ const alias: any = [
   },
   {
     find: "~editor",
-    replacement: path.resolve(__dirname, "../packages/editor/src/pages/form"),
+    replacement: path.resolve(__dirname, "../packages/editor/src/components"),
   },
 ];
 if (process.env.NODE_ENV != "production") {

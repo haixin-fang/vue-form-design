@@ -20,9 +20,9 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, nextTick, watch, computed } from "vue";
+  import { defineComponent, ref, nextTick, watch, computed, inject } from "vue";
   import { copy, paste, onDelete, cut, onTop, onBottom } from "@/utils/formKeycon";
-  import useStore from "@/store/form";
+  import type { Controls } from "@/type";
   export default defineComponent({
     props: {
       active: Boolean,
@@ -39,8 +39,9 @@
     setup(props, context) {
       const isShow = ref(false);
       const editForm = ref();
+      const { store } = inject<Controls>("control") || {};
       const { emit } = context;
-      const copyContent = computed(() => useStore.get("copyContent"));
+      const copyContent = computed(() => store?.get("copyContent"));
       const handleShortCut = (e: any) => {
         if (props.active) {
           e.preventDefault();
