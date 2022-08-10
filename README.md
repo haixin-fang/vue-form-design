@@ -50,12 +50,12 @@ $ pnpm bootstrap
 执行命令
 
 ```bash
-$ pnpm dev
+$ pnpm pg
 ```
 
 最后在浏览器中打开
 
-http://localhost:8888/
+http://localhost:1100/
 
 即可得到一个动态表单项目
 
