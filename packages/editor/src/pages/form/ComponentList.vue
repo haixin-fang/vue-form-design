@@ -62,7 +62,6 @@
         }
         lastFormComponents.push(model);
       }
-      console.log(lastFormComponents);
       return {
         formcomponents: lastFormComponents,
         filterContent: "",

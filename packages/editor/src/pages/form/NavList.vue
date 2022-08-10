@@ -1,28 +1,28 @@
 <template>
   <div class="nav">
     <div class="detailBtn">
-      <el-tooltip class="box-item" effect="dark" content="保存" placement="top">
+      <el-tooltip class="box-item" effect="dark" content="保存" placement="top" v-if="btnIsShow('left', 'save')">
         <span class="iconfont icon-baocun" :class="clearIsDisable ? 'noactive' : ''" @click="handleFormSave()"></span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="预览" placement="top">
+      <el-tooltip class="box-item" effect="dark" content="预览" placement="top" v-if="btnIsShow('left', 'preview')">
         <span class="iconfont icon-icon_yulan" :class="clearIsDisable ? 'noactive' : ''" @click="handleFormPre()"></span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="全屏" placement="top" v-if="!fullscreen">
+      <el-tooltip class="box-item" effect="dark" content="全屏" placement="top" v-if="!fullscreen && btnIsShow('left', 'fullscreen')">
         <span class="iconfont icon-quanping" @click="handleFullScreen()"></span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="非全屏" placement="top" v-if="fullscreen">
+      <el-tooltip class="box-item" effect="dark" content="非全屏" placement="top" v-if="fullscreen && btnIsShow('left', 'fullscreen')">
         <span class="iconfont icon-suoxiao1" @click="handleFullScreen()"></span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="清空" placement="top">
+      <el-tooltip class="box-item" effect="dark" content="清空" placement="top" v-if="btnIsShow('left', 'delete')">
         <span class="iconfont icon-shanchu1" :class="clearIsDisable ? 'noactive' : ''" @click="handleClear()"> </span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="组件结构树" placement="top">
+      <el-tooltip class="box-item" effect="dark" content="组件结构树" placement="top" v-if="btnIsShow('left', 'tree')">
         <span class="iconfont icon-tree" @click="handleTree()"> </span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="撤销" placement="top">
+      <el-tooltip class="box-item" effect="dark" content="撤销" placement="top" v-if="btnIsShow('left', 'undo')">
         <span class="iconfont icon-24gl-undo3" :class="historyIndex == -1 ? 'noactive' : ''" @click="handleBack()"></span>
       </el-tooltip>
-      <el-tooltip class="box-item" effect="dark" content="重做" placement="top">
+      <el-tooltip class="box-item" effect="dark" content="重做" placement="top" v-if="btnIsShow('left', 'redo')">
         <span class="iconfont icon-24gl-redo3" :class="historyIndex == historyLen - 1 ? 'noactive' : ''" @click="handleForward()"></span>
       </el-tooltip>
       <!-- <el-button text @click="handleFormSave()" size="small" :disabled="clearIsDisable">保存</el-button>
@@ -33,13 +33,13 @@
       <el-button text @click="handleForward()" size="small" :disabled="historyIndex == historyLen - 1">前进</el-button> -->
     </div>
     <div class="pageBtn">
-      <div class="el-button-group">
+      <div class="el-button-group" v-if="btnIsShow('right', 'viewport')">
         <el-button :type="pageType == 'PC' ? 'info' : ''" @click="updatePageType('PC')">PC</el-button>
         <el-button :type="pageType == 'Pad' ? 'info' : ''" @click="updatePageType('Pad')">Pad</el-button>
         <el-button :type="pageType == 'H5' ? 'info' : ''" @click="updatePageType('H5')">H5</el-button>
       </div>
-      <el-button type="text" plain @click="ImportJson">导入json</el-button>
-      <el-button type="text" plain @click="exportJson">导出json</el-button>
+      <el-button type="text" plain @click="ImportJson" v-if="btnIsShow('right', 'json-import')">导入json</el-button>
+      <el-button type="text" plain @click="exportJson" v-if="btnIsShow('right', 'json-export')">导出json</el-button>
     </div>
     <el-drawer ref="drawerRef" v-model="dialog" title="表单结构树" :before-close="handleClose" direction="ltr" custom-class="demo-drawer">
       <div class="demo-drawer__content">
@@ -63,15 +63,21 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, computed, getCurrentInstance, onMounted, onUnmounted, inject, ref, toRaw, watch } from "vue";
-  import type { Controls } from "@/type";
+  import { defineComponent, computed, getCurrentInstance, onMounted, onUnmounted, inject, ref, toRaw, watch, PropType } from "vue";
+  import type { Controls, MenuBarData, MenuItem } from "@/type";
   import { clearCanvas } from "@/utils/formKeycon";
 
   export default defineComponent({
-    setup() {
+    props: {
+      /** 顶部工具栏配置 */
+      menu: {
+        type: Object as PropType<MenuBarData>,
+        default: () => ({ left: [], right: [], column: true }),
+      },
+    },
+    setup(props) {
       const { proxy } = getCurrentInstance() as any;
       const { hisContrl, uiControl, formStore } = inject<Controls>("control") || {};
-      const formUpdate = computed(() => formStore?.get("formUpdate"));
       const lastTime = computed(() => formStore?.get("saveTimetemp"));
       const clearIsDisable = computed(() => formStore?.get("allFormList")?.length == 0);
       const historyIndex = computed(() => hisContrl?.get("index"));
@@ -223,6 +229,12 @@
         tree,
         treeRef,
         filterNode,
+        btnIsShow(type:'left' | 'right', btn: MenuItem){
+          if(props.menu[type].length == 0){
+            return true;
+          }
+          return props.menu[type].includes(btn)
+        },
         updatePageType(type: string) {
           uiControl?.set("pageType", type);
         },

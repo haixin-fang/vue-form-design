@@ -28,9 +28,11 @@ export default {
       $Flex: flex,
     };
     window.JSONEditor = JSONEditor;
-    app.use(ElementPlus, {
-      locale: zhCn,
-    }).use(StarfishForm);
+    app
+      .use(ElementPlus, {
+        locale: zhCn,
+      })
+      .use(StarfishForm);
 
     app.use(VueCodemirror, {
       // optional default global options

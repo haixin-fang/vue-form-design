@@ -8,7 +8,7 @@
         </div> -->
     <!-- </div> -->
     <div class="page_box" :class="pageType + '_layout'">
-      <dynamicform :formResult="formResult" :allFormList="allFormList" ref="dynamicform" />
+      <dynamicform v-model:formResult="formResult" :allFormList="allFormList" ref="dynamicform" />
     </div>
     <el-footer class="my-Footer" style="text-align: center">
       <el-button type="primary" @click="resetForm">重置表单</el-button>

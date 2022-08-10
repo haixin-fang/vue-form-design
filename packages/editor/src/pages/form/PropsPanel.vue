@@ -1,7 +1,7 @@
 <template>
   <div class="editor_pages_right editor_pages_right_visible" ref="editRight">
     <!-- 交互 -->
-    <div class="editor_container" @mousedown="handleMouseDown">
+    <div class="editor_container" @mousedown="handleMouseDown" v-if="column">
       <ControllEditSize />
     </div>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="height: 100%">
@@ -21,7 +21,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="表单配置" name="global">
-        <!-- 该模块展示先不做,控制整个动态表单样式导致样式崩(如json,富文本编辑器与其他表单高度相差太大),意义不大 -->
+        <!-- 该模块暂时先不做,控制整个动态表单样式导致样式崩(如json,富文本编辑器与其他表单高度相差太大),意义不大 -->
         <el-scrollbar class="form_tab3">
           <div v-for="(item, index) in globalFormLists" :key="index" class="form_tab3_list">
             <component :is="item.ControlType" :item="item" :data="globalDatas"></component>
@@ -44,10 +44,16 @@
   // 可能是element-plus版本太低,后期升级
   // import type { TabsPaneContext } from "element-plus";
   export default defineComponent({
+    props: {
+      column: {
+        type: Boolean,
+        default: true,
+      },
+    },
     components: {
       ControllEditSize,
     },
-    setup(props:any, {emit}) {
+    setup(props: any, { emit }) {
       const { proxy } = getCurrentInstance() as any;
       const { uiControl, hisContrl, formStore } = inject<Controls>("control") || {};
       // 该模块是否隐藏 默认显示
@@ -93,7 +99,8 @@
         return new Promise((resolve) => {
           ruleForm.value.validate((valid: any) => {
             if (!valid) {
-              proxy.$Flex.open(content, title, "error");
+              // proxy.$Flex.open(content, title, "error");
+              window.VApp.$message.error(content);
               resolve(false);
             } else {
               resolve(true);
@@ -174,21 +181,20 @@
             //     id: proxy.$Flex.generateMixed(),
             //   });
             // });
-            debugger
             formStore.set("AllFormResult", result);
             formStore.handleDynamicForm();
-            emit('save');
+            emit("save");
           }
           if (!formSave) {
             formStore.set("previewShow", preview);
             formStore.set("preview", false);
           } else if (preview) {
-            proxy.$Flex.open(type ? "已自动保存" : "保存成功");
+            window.VApp.$message.success(type ? "已自动保存" : "保存成功");
           }
         }
       };
       const initFormToJson = (formlist: any) => {
-        return window.VueContext.$Flex.initFormToJson(toRaw(formlist))
+        return window.VueContext.$Flex.initFormToJson(toRaw(formlist));
       };
 
       function initJsonCenter() {

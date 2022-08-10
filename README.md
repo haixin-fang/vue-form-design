@@ -112,17 +112,27 @@ starfish-form,表单组件
 需要的布局组件
 :layout-fields="['grid']"
 
+是否禁用快捷键
 shortcut-disabled=true
 
 保存回调
 @save
 
-自定义获取json
+获取json
 getJson
 
 设置json
 setJson
 
-是否禁用快捷键
 
 navlist 每个按钮可配,并且是否可隐藏
+
+header头是否展示
+header-show 默认true
+
+
+menu: {
+    left: ['delete', 'undo', 'redo', 'tree', 'save', 'preview', 'fullscreen'],
+    right: ['viewport', 'json-export', 'json-import'],
+    column: true
+},

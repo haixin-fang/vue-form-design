@@ -1,5 +1,5 @@
 import type { UiControl } from "./controller/ui";
-import type {hisContrl} from './controller/history';
+import type { hisContrl } from "./controller/history";
 interface ColumnWidth {
   left: number;
   center: number;
@@ -22,11 +22,11 @@ export interface UiState {
   /**
    * 编辑器是否全屏
    */
-   isFullscreen: boolean;
-   /**
-    * 页面类型
-    */
-   pageType: string;
+  isFullscreen: boolean;
+  /**
+   * 页面类型
+   */
+  pageType: string;
 }
 
 export interface Controls {
@@ -48,12 +48,11 @@ export interface GetColumnWidth {
   right: number;
 }
 
-
 export interface HistoryState {
   /**
    * 存储的所有历史行为
    */
-  historyList: HistoryItem[],
+  historyList: HistoryItem[];
   /**
    * 当前所在的历史行为
    */
@@ -65,62 +64,67 @@ export interface HistoryState {
 }
 
 export interface HistoryItem {
-  allFormList: any[],
+  allFormList: any[];
   currentIndex: number;
   currentId: string;
   curControl: any;
 }
 
-
+export type MenuItem = "delete" | "undo" | "redo" | "tree" | "save" | "preview" | "fullscreen" | "viewport" | "json-export" | "json-import";
+export type MenuRight = 'viewport' | 'json-export' | 'json-import';
+export type MenuBarData = {
+  left: MenuItem[],
+  rigth: MenuRight[],
+  column: boolean
+};
 export interface FormState {
   /**
    * 存储所有选择的表单控件
    */
-  allFormList: any[], 
+  allFormList: any[];
   /**
    * 选中的表单控件
    */
-  curControl: any, 
+  curControl: any;
   /**
    * 选中的控件的id
    */
-  currentId: string, 
+  currentId: string;
   /**
    * 选中的控件的索引
    */
-  currentIndex: number, 
+  currentIndex: number;
   /**
    * 开启预览进行表单验证
    */
-  preview: boolean,
+  preview: boolean;
   /**
    * 预览是否展示
    */
-  previewShow: boolean,
+  previewShow: boolean;
   /**
    * 保存
    */
-  save: boolean, 
+  save: boolean;
   /**
    * 上一次保存的时间戳
    */
-  saveTimetemp: number,
+  saveTimetemp: number;
   /**
    * 下一次保存的时候判断表单是否变更了，而不用变更就改变save，但是我们监听了save会形成死循环
    * 判断表单是否更新
    */
-  formUpdate: boolean,  
+  formUpdate: boolean;
   /**
    * 预览和存储到数据库最终结果
    */
-  AllFormResult: any[],
+  AllFormResult: any[];
   /**
    * 用户在动态表单输入的配置结果
    */
-  formResult: Record<string, any>, 
+  formResult: Record<string, any>;
   /**
    * 表单全局配置
    */
-  globalDatas: Record<string, any>,
+  globalDatas: Record<string, any>;
 }
-

@@ -3,7 +3,7 @@
     <div class="starfish-editor-nav">
       <slot name="nav"></slot>
     </div>
-    <div class="starfish-editor-content">
+    <div class="starfish-editor-content" :class="!headerShow?'starfish-editor-content-page':''">
       <div class="starfish-editor-framework-left" :style="`width:${columnWidth?.left}px`">
         <slot name="left"></slot>
       </div>
@@ -26,6 +26,12 @@
   import Resizer from "./Resizer.vue";
   import type { Controls } from "@/type";
   export default defineComponent({
+    props: {
+      headerShow: {
+        type: Boolean,
+        default: true,
+      }
+    },
     components: {
       Resizer,
     },
@@ -46,6 +52,9 @@
     &-content {
       display: flex;
       height: calc(100% - #{$editor_nav});
+      &-page{
+        height: 100%;
+      }
     }
     &-framework {
       &-left {

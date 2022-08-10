@@ -82,8 +82,6 @@ class Ui {
     }
 
     state.columnWidth = columnWidth;
-    console.log(1, defaultColumnWidth);
-    console.log(2, columnWidth);
   }
 }
 

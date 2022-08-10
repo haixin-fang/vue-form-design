@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "pnpm --filter \"starfish-editor\" dev",
     "serve": "pnpm --filter \"starfish-editor\" serve",
-    "playground": "pnpm --filter \"starfish-playground\" dev", 
+    "pg": "cd playground && npm run dev",
     "bootstrap": "pnpm i && pnpm prepare && cd playground && cnpm i",
     "lint-fix": "npx eslint . --fix --ext .vue,.js,.ts,.tsx",
     "clean:top": "rimraf */**/dist */dist preview ",
@@ -44,6 +44,7 @@
   ],
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
+    "@types/node": "^18.6.5",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/eslint-config-prettier": "^6.0.0",
