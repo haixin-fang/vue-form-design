@@ -32,15 +32,15 @@ jobs:
         run: rm -rf dist
 
       - name: mkdir dist
-        run: mkdir dist &&  mkdir dist/playground
+        run: mkdir dist &&  mkdir dist/preview
 
       - name: move to dist
-        run: mv playground/dist/* dist/playground
+        run: mv playground/dist/* dist/preview
 
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
-          target_branch: preview-pages
+          target_branch: gh-pages
           build_dir: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
