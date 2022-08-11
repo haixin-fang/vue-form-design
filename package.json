@@ -12,7 +12,7 @@
     "clean:modules": "rimraf node_modules **/node_modules **/**/node_modules",
     "clean:all": "pnpm clean:top && pnpm clean:modules",
     "prepare": "husky install",
-    "build": "pnpm clean:top && pnpm --filter \"starfish-*\" build",
+    "build": "pnpm clean:top && cd playground && npm run build",
     "build:preview": "pnpm clean:top && pnpm --filter \"starfish-*\" build:preview",
     "commit": "git-cz"
   },
@@ -68,15 +68,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "peerDependencyRules": {
-    "pnpm": {
-      "peerDependencyRules": {
-        "ignoreMissing": [
-          "eslint-plugin-vue"
-        ]
-      }
     }
   }
 }

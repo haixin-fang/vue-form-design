@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import * as path from 'path';
-const outDir = path.resolve(__dirname, "../preview");
+// const outDir = path.resolve(__dirname, "../preview");
 const alias: any = [
   {
     find: "@",
@@ -53,6 +53,7 @@ export default defineConfig({
       ],
     },
   },
+  base: '/starfish-vue3-lowcode/playground',
   build: {
     cssCodeSplit: false, // 如果设置为false，整个项目中的所有 CSS 将被提取到一个 CSS 文件中
     sourcemap: false, // 构建后是否生成 source map 文件。如果为 true，将会创建一个独立的 source map 文件
@@ -64,7 +65,7 @@ export default defineConfig({
     //     drop_debugger: true, // 生产环境去除debugger
     //   },
     // },
-    outDir,
+    // outDir,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
