@@ -98,6 +98,7 @@ starfish-form,表单组件
 - 表单新增提示,间距,html
 - 组件层级结构树
 - 容器组件的显示条件优化
+- github自动构建
 
 
 - 快捷键tabindex的重要性
