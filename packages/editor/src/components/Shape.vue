@@ -22,7 +22,7 @@
 <script lang="ts">
   import { defineComponent, ref, nextTick, watch, computed, inject } from "vue";
   import { copy, paste, onDelete, cut, onTop, onBottom } from "@/utils/formKeycon";
-  import type { Controls } from "@/type";
+  import type { Controls, AllFormItem } from "@/type";
   export default defineComponent({
     props: {
       active: Boolean,
@@ -42,7 +42,7 @@
       const { store } = inject<Controls>("control") || {};
       const { emit } = context;
       const copyContent = computed(() => store?.get("copyContent"));
-      const handleShortCut = (e: any) => {
+      const handleShortCut = (e: MouseEvent) => {
         if (props.active) {
           e.preventDefault();
           isShow.value = true;
@@ -105,7 +105,7 @@
         props.item?.data.trs.push(td);
       };
       const handleRow = () => {
-        props.item?.data.trs.forEach((trs: any) => {
+        props.item?.data.trs.forEach((trs: {tds: any[]}) => {
           trs.tds.push({
             colspan: 1,
             rowspan: 1,

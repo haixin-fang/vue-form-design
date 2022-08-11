@@ -23,7 +23,7 @@
   // import formStore from "@/store/form";
   // import store from "@/store/index";
   import { paste } from "@/utils/formKeycon";
-  import type { Controls } from "@/type";
+  import type { Controls, AllFormItem } from "@/type";
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
@@ -51,10 +51,10 @@
         },
         set(value) {
           // 防止引用类型污染
-          value = value.map((item: any) => {
+          value = value.map((item: AllFormItem) => {
             if (!item.data && !item.controlItems) {
               item = proxy.$Flex.deepClone(item);
-              item.formConfig = formcomponents[item.ControlType].formConfig;
+              item.formConfig = formcomponents[item.ControlType as any].formConfig;
               item.data = item.formConfig.data();
               if (!item.data.fieldName) {
                 item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
@@ -92,7 +92,7 @@
           handleCanvasScale();
         }
       };
-      const chooseClick = (e: any) => {
+      const chooseClick = (e:any) => {
         formStore?.setFormCurrentId(allmainList.value[e.oldIndex]?.id);
         formStore?.setFormCurrentIndex(e.oldIndex);
         store?.set("curList", allmainList.value);
@@ -111,7 +111,7 @@
         pasteShow.value = false;
         paste();
       };
-      const handleNoDraggable = (e: any) => {
+      const handleNoDraggable = (e:any) => {
         if (pasteShow.value) {
           pasteShow.value = false;
         }

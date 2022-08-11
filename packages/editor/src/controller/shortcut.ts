@@ -1,4 +1,3 @@
-import _ from "@/utils/_";
 // import { createStore } from "vuex";
 import { reactive } from "vue";
 import { state as form } from "./form";
@@ -22,8 +21,8 @@ class ShortCut {
   paste(list: AllFormItem[]) {
     if (state.copyContent) {
       const pasteControl = window.VueContext.$Flex.deepClone(state.copyContent);
-      pasteControl.data.fieldName = pasteControl.ControlType + "_" + _.generateMixed();
-      pasteControl.id = _.generateMixed();
+      pasteControl.data.fieldName = pasteControl.ControlType + "_" + window.VueContext.$Flex.generateMixed();
+      pasteControl.id = window.VueContext.$Flex.generateMixed();
       list.push(pasteControl);
       state.form.formUpdate = true;
     }

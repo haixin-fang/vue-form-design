@@ -29,12 +29,14 @@ export function onBottom() {
   store.commit("onBottom");
 }
 
-
-export default {
-    copy,
-    paste,
-    cut,
-    delete: onDelete,
-    onTop,
-    onBottom,
+const result =  {
+  copy,
+  paste,
+  cut,
+  delete: onDelete,
+  onTop,
+  onBottom,
+  clearCanvas
 }
+export type shortCutType = typeof result;
+export default result

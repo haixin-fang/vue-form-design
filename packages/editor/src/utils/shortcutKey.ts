@@ -1,6 +1,7 @@
 import KeyController from "keycon";
 import history from "@/controller/history";
-export function listenGlobalKeyDown(list: any, dom: HTMLDivElement | any) {
+import type {shortCutType} from './formKeycon'
+export function listenGlobalKeyDown(list: shortCutType, dom: HTMLDivElement | any) {
   const keycons:KeyController = new KeyController(dom);
   const isMac = /mac os x/.test(navigator.userAgent.toLowerCase());
   const ctrl = isMac ? "meta" : "ctrl";

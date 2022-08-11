@@ -1,5 +1,6 @@
 import { ElNotification } from "element-plus";
 import { nanoid } from "nanoid";
+import { AllFormItem, BaseComponentItem, PartialKey } from "@/type";
 const fieldlist: string[] = [];
 class Flex {
   lastClickTime: number;
@@ -133,10 +134,10 @@ class Flex {
   /**
    * json转标准数据格式进行收口
    */
-  public jsonToForm(item: any) {
+  public jsonToForm(item: AllFormItem) {
     if (!item.data || !item.controlItems) {
       item = this.deepClone(item);
-      item.formConfig = window.VApp.$formcomponents[item.ControlType]?.formConfig || {};
+      item.formConfig = window.VApp.$formcomponents[item.ControlType as any]?.formConfig || {};
       if (!item.data) {
         item.data = item.formConfig.data();
       }
@@ -189,9 +190,9 @@ class Flex {
   /**
    * 完整的表单列表数据进行删减,方便展示
    */
-  public initFormToJson(formlist: any) {
-    const jsonData: any = [];
-    formlist.forEach((item: any) => {
+  public initFormToJson(formlist: AllFormItem[]) {
+    const jsonData: PartialKey<BaseComponentItem, 'icon'>[] = [];
+    formlist.forEach((item: AllFormItem) => {
       if (item.layout) {
         if (item.ControlType == "Grid" && item.data.columns && item.data.columns.length > 0) {
           item.data.columns = item.data.columns.map((colItem: any) => {
@@ -233,7 +234,7 @@ class Flex {
    * result 最终的结果
    * fieldName 过滤当前选中表单的字段(显示规则不能根据自身的值进行展示)
    */
-  public getFormDataList(item: any, result: any = [], fieldName: string) {
+  public getFormDataList(item: AllFormItem, result: any = [], fieldName: string) {
     if (!item.layout) {
       if (item.data.fieldName != fieldName) {
         if (item.nameCn == "开关") {
@@ -270,23 +271,23 @@ class Flex {
           value: item?.data?.fieldName,
           label: item?.data?.label + "-" + item?.data?.fieldName,
         });
-        if (item.ControlType == "Grid") {
+        if (item.ControlType == "Grid" && item.data.columns) {
           item.data.columns.forEach((colItem: any) => {
-            colItem.list.forEach((listItem: any) => {
+            colItem.list.forEach((listItem: AllFormItem) => {
               this.getFormDataList(listItem, result, fieldName);
             });
           });
-        } else if (item.ControlType == "TableLayout") {
+        } else if (item.ControlType == "TableLayout" && item.data.trs) {
           item.data.trs.forEach((trItem: any) => {
             trItem.tds.forEach((tdItem: any) => {
-              tdItem.list.forEach((listItem: any) => {
+              tdItem.list.forEach((listItem: AllFormItem) => {
                 this.getFormDataList(listItem, result, fieldName);
               });
             });
           });
-        } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
+        } else if ((item.ControlType == "Collapse" || item.ControlType == "Tabs") && item.data.items) {
           item.data.items.forEach((colItem: any) => {
-            colItem.list.forEach((listItem: any) => {
+            colItem.list.forEach((listItem: AllFormItem) => {
               this.getFormDataList(listItem, result, fieldName);
             });
           });

@@ -2,6 +2,7 @@ import { reactive } from "vue";
 import { globalData } from "@/common/formJson";
 import history from "@/controller/history";
 import { AllFormItem, FormState } from "@/type";
+import type {fieldTds, fieldsTrs} from 'starfish-form/src/utils/fieldConfig';
 const state = reactive<FormState>({
   allFormList: [], // 存储所有选择的表单控件
   curControl: {}, // 选中的表单控件
@@ -70,9 +71,9 @@ class Form {
     if (item.ControlType == "TableLayout") {
       const trs = item.data.trs;
       if (trs && trs.length > 0) {
-        trs.find((trItem: any) => {
-          return trItem.tds.find((tdItem: any) => {
-            return tdItem.list.find((listItem: any) => {
+        trs.find((trItem: fieldsTrs) => {
+          return trItem.tds.find((tdItem: fieldTds) => {
+            return tdItem.list.find((listItem: AllFormItem) => {
               if (listItem.layout) {
                 if (listItem.id == id) {
                   result = listItem;
@@ -136,9 +137,9 @@ class Form {
   }
   getDynamicForm(list: AllFormItem[]) {
     const data: Record<string, any> = {};
-    list.forEach((item: any) => {
+    list.forEach((item: AllFormItem) => {
       if (item.layout) {
-        if (item.ControlType == "Grid") {
+        if (item.ControlType == "Grid" && item.data.columns) {
           item.data.columns.forEach((colItem: { list: AllFormItem[] }) => {
             Object.assign(data, this.getDynamicForm(colItem.list));
           });
@@ -153,9 +154,11 @@ class Form {
           }
         } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
           const items = item.data.items;
-          items.forEach((colItem: { list: AllFormItem[] }) => {
-            Object.assign(data, this.getDynamicForm(colItem.list));
-          });
+          if(items){
+            items.forEach((colItem: { list: AllFormItem[] }) => {
+              Object.assign(data, this.getDynamicForm(colItem.list));
+            });
+          }
         }
       } else if (!item.layout) {
         if (item.data.itemConfig) {

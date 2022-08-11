@@ -45,11 +45,11 @@ interface Columns {
   span: number;
 }
 
-interface fieldsTrs {
+export interface fieldsTrs {
   tds: fieldTds[];
 }
 
-interface fieldTds {
+export interface fieldTds {
   colspan: number;
   rowspan: number;
   list: AllFormItem[];

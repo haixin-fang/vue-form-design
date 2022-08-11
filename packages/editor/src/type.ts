@@ -6,7 +6,7 @@ import type { FormConfig, fields } from "starfish-form/src/main";
 /**
  * 组件名称枚举
  */
-type ComponentListEnum = keyof typeof window.VApp.$formcomponents;
+type ComponentListEnum = Omit<keyof typeof window.VApp.$formcomponents, 'symbol'>;
 
 interface ColumnWidth {
   left: number;
@@ -163,7 +163,7 @@ export interface AllFormItem {
   /**
    * 获取配置列表和配置方法列表
    */
-  FormConfig: {
+   formConfig: {
     data: () => fields;
     morenConfig: () => FormConfig[];
   };
@@ -211,3 +211,14 @@ export interface BaseComponentItem {
    */
   rules?: FormRule;
 }
+
+
+export type RequiredKey<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?:T[P]
+} 
+
+export type PartialKey<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]?:T[P]
+} 
+
+export type BaseFormConfig = FormConfig;

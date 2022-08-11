@@ -36,10 +36,11 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw } from "vue";
+  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw ,ComputedRef} from "vue";
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import { globalFormList } from "@/common/formJson";
-  import type { Controls, AllFormItem } from "@/type";
+  import type { Controls, AllFormItem,BaseComponentItem, BaseFormConfig } from "@/type";
+  import type { TabPaneInstance } from "element-plus";
   export default defineComponent({
     props: {
       column: {
@@ -50,7 +51,7 @@
     components: {
       ControllEditSize,
     },
-    setup(props: any, { emit }) {
+    setup(props, { emit }) {
       const { proxy } = getCurrentInstance() as any;
       const { uiControl, hisContrl, formStore } = inject<Controls>("control") || {};
       // 该模块是否隐藏 默认显示
@@ -60,7 +61,7 @@
       const editRight = ref();
       const activeName = ref("form");
       const jsonCenter = ref();
-      let jsonEditor: any = null;
+      let jsonEditor:any = null;
       const isTransition = ref(true); // 默认有补间动画
       const controlItems = computed(() => formStore?.getControlItems());
       const curControl = computed(() => formStore?.get("curControl"));
@@ -91,10 +92,10 @@
 
       // 预览或保存时验证所有表单是否输入正确
       const preview = computed(() => formStore?.get("preview"));
-      const allFormList = computed(() => formStore?.getAllFormList());
+      const allFormList:ComputedRef<AllFormItem[] | undefined> = computed(() => formStore?.getAllFormList());
       const checkNowFormValidate = function (content: string) {
         return new Promise((resolve) => {
-          ruleForm.value.validate((valid: any) => {
+          ruleForm.value.validate((valid: boolean) => {
             if (!valid) {
               window.VApp.$notify.error({
                 title: content
@@ -107,9 +108,9 @@
         });
       };
 
-      function checkLayoutForm(curControl: any): boolean {
+      function checkLayoutForm(curControl: AllFormItem): boolean {
         if (curControl.ControlType == "TableLayout") {
-          const trs = curControl.data.trs;
+          const trs = curControl.data.trs || [];
           for (let i = 0; i < trs.length; i++) {
             const tds = trs[i].tds;
             for (let j = 0; j < tds.length; j++) {
@@ -120,7 +121,7 @@
             }
           }
         } else if (curControl.ControlType == "Grid") {
-          const columns = curControl.data.columns;
+          const columns = curControl.data.columns || [];
           for (let i = 0; i < columns.length; i++) {
             const list = columns[i].list;
             const state = checkFormValidate(list);
@@ -132,12 +133,13 @@
         return true;
       }
 
-      const checkFormValidate = async (list: any) => {
+      const checkFormValidate = async (list: AllFormItem[] | undefined) => {
+        if(!list)return;
         const len = list.length;
         for (let i = 0; i < len; ++i) {
           let validate = true;
           const curControl = list[i];
-          curControl.controlItems?.forEach((item: any) => {
+          curControl.controlItems?.forEach((item: BaseFormConfig) => {
             if (item.data.required) {
               validate = !!curControl.data[item.data.fieldName];
             }
@@ -168,10 +170,10 @@
           if (preview) {
             formStore?.setFormCurrentIndex(curControlIndex);
           }
-          formStore?.setSave(preview);
+          formStore?.setSave(preview as boolean);
           formStore?.setFormUpdate(false);
           if (preview) {
-            const result: any[] = initFormToJson(allFormList.value);
+            const result: BaseComponentItem[] = initFormToJson(allFormList.value);
             // toRaw(allFormList.value).forEach((item: any) => {
             //   result.push({
             //     data: item.data,
@@ -193,7 +195,7 @@
           }
         }
       };
-      const initFormToJson = (formlist: any) => {
+      const initFormToJson = (formlist: AllFormItem[] | undefined) => {
         return window.VueContext.$Flex.initFormToJson(toRaw(formlist));
       };
 
@@ -211,7 +213,7 @@
           jsonEditor?.set(initFormToJson(allmainList.value));
         }
       }
-      function complareControl(newControl: any, oldContrl: any) {
+      function complareControl(newControl: AllFormItem, oldContrl: AllFormItem) {
         if (newControl !== oldContrl) return false;
         let same = true;
         for (const key in newControl) {
@@ -222,19 +224,19 @@
         return same;
       }
 
-      function initJsonToForm(list: any) {
-        return toRaw(list).map((item: any) => {
+      function initJsonToForm(list: BaseComponentItem[]) {
+        return toRaw(list).map((item: BaseComponentItem) => {
           return proxy.$Flex.jsonToForm(item);
         });
       }
 
-      function handleClick(tab: any) {
+      function handleClick(tab: TabPaneInstance) {
         if (tab.props.name == "json") {
           initJsonCenter();
         } else if (tab.props.name == "form" && jsonEditor) {
           try {
             const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
-            let newAllList: any = null;
+            let newAllList: AllFormItem[] = [];
             newAllList = initJsonToForm(list);
             formStore?.updateAllFormList(newAllList);
           } catch (e) {
