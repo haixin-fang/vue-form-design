@@ -1,6 +1,6 @@
 {
   "name": "starfish-editor",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "publish": false,
   "main": "dist/starfish-editor.umd.js",
   "style": "dist/style.css",
@@ -19,9 +19,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:preview": "cross-env --dist=true vite build",
-    "preview": "npm run build && live-server preview"
+    "build": "vite build"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",

@@ -44,28 +44,3 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  .starfish-editor {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    &-content {
-      display: flex;
-      height: calc(100% - #{$editor_nav});
-      &-page{
-        height: 100%;
-      }
-    }
-    &-framework {
-      &-left {
-        width: 300px;
-      }
-      &-center {
-        flex: 1;
-      }
-      &-right {
-        width: 378px;
-      }
-    }
-  }
-</style>

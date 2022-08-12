@@ -33,11 +33,11 @@ export default defineConfig({
   },
   css: {
     //css预处理
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@import "../packages/editor/src/styles/variables.scss";',
-      },
-    },
+    // preprocessorOptions: {
+    //   scss: {
+    //     additionalData: '@import "../packages/editor/src/styles/variables.scss";',
+    //   },
+    // },
     postcss: {
       plugins: [
         {

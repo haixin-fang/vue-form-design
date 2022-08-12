@@ -6,15 +6,14 @@
   "scripts": {
     "dev": "pnpm --filter \"starfish-editor\" dev",
     "serve": "pnpm --filter \"starfish-editor\" serve",
-    "pg": "cd playground && npm run dev",
-    "bootstrap": "pnpm i && pnpm prepare && cd playground && npm i",
+    "pg": "pnpm --filter \"starfish-playground\" dev",
+    "bootstrap": "pnpm i && pnpm prepare",
     "lint-fix": "npx eslint . --fix --ext .vue,.js,.ts,.tsx",
-    "clean:top": "rimraf */**/dist */dist preview ",
+    "clean:top": "rimraf */**/dist */dist ",
     "clean:modules": "rimraf node_modules **/node_modules **/**/node_modules",
     "clean:all": "pnpm clean:top && pnpm clean:modules",
     "prepare": "husky install",
-    "build": "pnpm clean:top && cd playground && npm run build",
-    "build:preview": "pnpm clean:top && pnpm --filter \"starfish-*\" build:preview",
+    "build": "pnpm clean:top && pnpm --filter \"starfish-*\" build",
     "commit": "git-cz"
   },
   "engines": {

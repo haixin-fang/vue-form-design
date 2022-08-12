@@ -92,7 +92,7 @@
           handleCanvasScale();
         }
       };
-      const chooseClick = (e:any) => {
+      const chooseClick = (e: any) => {
         formStore?.setFormCurrentId(allmainList.value[e.oldIndex]?.id);
         formStore?.setFormCurrentIndex(e.oldIndex);
         store?.set("curList", allmainList.value);
@@ -111,7 +111,7 @@
         pasteShow.value = false;
         paste();
       };
-      const handleNoDraggable = (e:any) => {
+      const handleNoDraggable = (e: any) => {
         if (pasteShow.value) {
           pasteShow.value = false;
         }
@@ -158,138 +158,3 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  .editor_pages_center {
-    background: #f0f2f5;
-    position: relative;
-    height: calc(100% - 40px);
-    overflow-y: auto;
-    outline: 0;
-    .editor_nav {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      box-shadow: 0 0 10px black;
-    }
-    .canvasBox {
-      width: 500px;
-      height: auto;
-      min-height: $editor_canvas_min_height;
-      position: absolute;
-      left: 50%;
-      top: 50px;
-      // margin-left: -350px;
-      background: white;
-      transform-origin: 50% 50%;
-      box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
-      transition: all 0.2s linear;
-      overflow: hidden;
-      box-sizing: border-box;
-      &.fullScreenBox {
-        width: 100%;
-        top: 0;
-        min-height: 100%;
-      }
-      &.PC_layout{
-        width: 100%;
-      }
-      &.Pad_layout {
-        width: 800px;
-        border-radius: 15px;
-        // box-shadow: 0 0 1px 10px #495060;
-        border: 10px solid #495060;
-      }
-      &.H5_layout {
-        width: 443px;
-        border-radius: 15px;
-        // box-shadow: 0 0 1px 10px #495060;
-        border: 10px solid #495060;
-      }
-      .draggable_container {
-        width: 100%;
-        min-height: $editor_canvas_min_height;
-        z-index: 1;
-        text-align: left;
-        position: relative;
-        .dragArea {
-          width: 100%;
-          height: 100%;
-          min-height: $editor_canvas_min_height;
-        }
-        .form-empty {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          font-size: 20px;
-          color: #ccc;
-        }
-      }
-      .grid_controller {
-        position: absolute;
-        top: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 25px;
-        line-height: 25px;
-        display: flex;
-        background: white;
-        span {
-          font-size: 14px;
-          padding: 0 10px;
-          border: 1px solid #d9d9d9;
-          box-sizing: border-box;
-        }
-        .grid_check {
-          color: #40a9ff;
-          border-color: #40a9ff;
-        }
-        .grid_check_none2 {
-          border-left: transparent;
-        }
-        .grid_check_none1 {
-          border-right: transparent;
-        }
-      }
-    }
-  }
-  .jsonCanvas {
-    width: 600px;
-    height: 666px !important;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    > div {
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .editForm {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    z-index: 3;
-    user-select: none;
-    background-color: #fff;
-    box-sizing: border-box;
-    box-shadow: 0 10px 20px rgb(0 0 0 / 30%), 0 0 0 1px #eee;
-    padding: 5px 0;
-    min-width: 180px;
-    span {
-      padding: 6px 12px;
-      display: flex;
-      text-align: left;
-      white-space: nowrap;
-      color: #333;
-      position: relative;
-      &:hover {
-        background: #409eff;
-        color: white;
-      }
-    }
-  }
-</style>

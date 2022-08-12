@@ -134,18 +134,4 @@
     },
   });
 </script>
-<style scoped lang="scss">
-  #jsoneditor {
-    position: relative;
-    z-index: 1;
-    .fullScreen {
-      position: absolute;
-      right: 10px;
-      line-height: 1;
-      z-index: 2;
-      top: 10px;
-      color: white;
-      font-size: 18px;
-    }
-  }
-</style>
+

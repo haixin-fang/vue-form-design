@@ -1,7 +1,7 @@
 <template>
   <!-- <starfish-editor style="height: 700px" :basic-fields="['Text']" :layout-fields="['grid']"> </starfish-editor> -->
   <div class="container">
-    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" :shortcut-disabled="false" :header-show="false" :menu="menu"> </starfish-editor>
+    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" :shortcut-disabled="false" :header-show="true" :menu="menu"> </starfish-editor>
     <div class="btnlist">
       <el-button @click="goSave" type="primary">保存</el-button>
       <el-button @click="setJson" type="primary">自定义json</el-button>
@@ -63,9 +63,9 @@
     width: 100%;
     height: 100%;
     position: relative;
-    .starfish-editor {
-      border: 1px solid rgb(190, 186, 186);
-    }
+    // .starfish-editor {
+    //   border: 1px solid rgb(190, 186, 186);
+    // }
     .btnlist {
       position: absolute;
       bottom: 0;

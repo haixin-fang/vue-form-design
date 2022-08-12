@@ -1,3 +1,18 @@
-@import "./normalize.css";
+@import "./common/normalize.css";
+@import "./variables.scss";
 // @import "./iconfont.scss";
 @import "./iconfont/iconfont.css";
+
+@import "./component-list.scss";
+@import "./condition-select.scss";
+@import "./control_edit_size.scss";
+@import "./custom-dialog.scss";
+@import "./form-preview.scss";
+@import "./framework.scss";
+@import "./nav-list.scss";
+@import "./nav.scss";
+@import "./props-panel.scss";
+@import "./resizer.scss";
+@import "./shape.scss";
+@import "./shortcutkey.scss";
+@import "./work-space.scss";

@@ -1,5 +1,5 @@
 <template>
-  <CustomDialog ref="previewDialog" :showDialog="previewShow" @close="handlePreviewShow">
+  <CustomDialog ref="previewDialog" :showDialog="previewShow" @close="handlePreviewShow" dialogclass="previewDialog">
     <!-- <div class="previewList">
         <div> -->
     <!-- </div> -->
@@ -133,67 +133,3 @@
     },
   });
 </script>
-<style lang="scss">
-  .previewList {
-    // display: flex;
-    // justify-content: space-between;
-    // height: 100%;
-    background: #f0f2f5;
-    // >div:first-child {
-    //   width: 30%;
-    //   height: 100%;
-    //   background: white;
-    //   overflow: auto;
-    // }
-    // >div:nth-child(2){
-    //   width: 70%;
-    //   height: 100%;
-    //   display: flex;
-    //   justify-content: center;
-    //   >div{
-    //     width: 60%;
-    //   }
-    // }
-  }
-  .page_box {
-    height: 85%;
-    margin: 0 auto;
-    overflow-y: auto;
-    &.PC_layout {
-      width: 100%;
-      border: 10px solid transparent;
-    }
-    &.Pad_layout {
-      width: 800px;
-      border-radius: 15px;
-      border: 10px solid #495060;
-    }
-    &.H5_layout {
-      width: 443px;
-      border-radius: 15px;
-      border: 10px solid #495060;
-    }
-  }
-  .custom_code {
-    padding: 15px;
-    min-height: 400px;
-  }
-  .my-Footer {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .codeDialog {
-    height: auto !important;
-  }
-
-  .formconfig {
-    height: 100%;
-    overflow: scroll;
-    @include scrollbar();
-    .el-form {
-      padding-bottom: 0;
-    }
-  }
-</style>

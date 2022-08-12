@@ -120,9 +120,9 @@
       },
       onDeleteItem() {
         if (this.index == 0) {
-          delete this.result.data
+          delete this.result.data;
           delete this.result.result;
-          delete this.result.type
+          delete this.result.type;
           this.handleUpdateForce();
         } else {
           this.$emit("delete", this.index);
@@ -167,23 +167,3 @@
     },
   };
 </script>
-<style scoped lang="scss">
-  .control {
-    display: inline-block;
-    position: absolute;
-    left: -16px;
-    top: 10px;
-    font-size: 8px;
-    width: 14px;
-    height: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed #b4bccc;
-    box-sizing: border-box;
-    color: #b4bccc;
-  }
-  .el-button {
-    margin-left: 10px;
-  }
-</style>

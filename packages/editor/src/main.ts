@@ -3,7 +3,6 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import Editor from "./starfish-editor.vue";
-import "starfish-form/dist/style.css";
 import "@/styles/index.scss";
 import "jsoneditor/dist/jsoneditor.min.css";
 import CustomDialog from "@/common/CustomDialog.vue";

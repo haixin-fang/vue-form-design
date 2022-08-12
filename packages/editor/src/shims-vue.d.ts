@@ -6,7 +6,7 @@ declare module "*.vue" {
 }
 
 
-// declare module 'starfish-form'
+declare module 'starfish-form'
 
 declare module "jsoneditor";
 

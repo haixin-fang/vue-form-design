@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <CustomDialog ref="maxJsonDialog" class="maxJsonDialog">
+    <CustomDialog ref="maxJsonDialog" dialogclass="maxJsonDialog">
       <el-main style="padding: 0">
         <el-container style="height: 100%">
           <el-main class="my-pageMain">
@@ -277,24 +277,6 @@
   };
 </script>
 <style scoped lang="scss">
-  .my-pageMain {
-    padding: 20px 50px !important;
-  }
-  :deep(.el-form) {
-    .el-form-item {
-      margin-bottom: 0;
-    }
-    padding-bottom: 0px !important;
-    .el-form-item__content {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 0 !important;
-      .el-form-item__error {
-        white-space: nowrap;
-        position: static;
-      }
-    }
-  }
+
+ 
 </style>

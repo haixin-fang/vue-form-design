@@ -3,7 +3,6 @@ import dts from 'vite-plugin-dts';
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import pkg from './package.json';
-const outDir = !process.env.dist?path.resolve(__dirname, 'dist'):path.resolve(__dirname, "../../preview");
 const alias: any = [
   {
     find: "@",
@@ -20,7 +19,7 @@ if (process.env.NODE_ENV != "production") {
 export default defineConfig({
   plugins: [
     dts({
-        outputDir: path.join(outDir, "types"),
+        outputDir: path.join(path.resolve(__dirname, 'dist'), "types"),
         include: ['src/**/*'],
         staticImport: true,
         insertTypesEntry: true,
@@ -73,7 +72,6 @@ export default defineConfig({
       name: "StarfishEditor",
       fileName: "starfish-editor",
     },
-    outDir,
     rollupOptions: {
       // input: {
       //   main: path.resolve(__dirname, "index.html"),

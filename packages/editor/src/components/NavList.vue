@@ -1,5 +1,5 @@
 <template>
-  <div class="nav">
+  <div class="nav_list">
     <div class="detailBtn">
       <el-tooltip class="box-item" effect="dark" content="保存" placement="top" v-if="btnIsShow('left', 'save')">
         <span class="iconfont icon-baocun" :class="clearIsDisable ? 'noactive' : ''" @click="handleFormSave()"></span>
@@ -299,36 +299,3 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  :deep(.demo-drawer) {
-    width: 20% !important;
-  }
-  .codeDialog {
-    height: auto;
-  }
-  .nav {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: $editor-nav-background-color;
-    box-sizing: border-box;
-    border-bottom: 2px solid #d8dee8;
-    padding: 0 15px;
-    .detailBtn {
-      span {
-        padding: 0 5px;
-        font-size: 18px;
-      }
-      .noactive {
-        color: #a1a7b0;
-        cursor: no-drop;
-      }
-    }
-    .pageBtn {
-      > div {
-        margin: 0 5px;
-      }
-    }
-  }
-</style>

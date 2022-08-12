@@ -1,0 +1,31 @@
+.nav_list {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $editor-nav-background-color;
+  box-sizing: border-box;
+  border-bottom: 2px solid #d8dee8;
+  padding: 0 15px;
+  .detailBtn {
+    span {
+      padding: 0 5px;
+      font-size: 18px;
+    }
+    .noactive {
+      color: #a1a7b0;
+      cursor: no-drop;
+    }
+  }
+  .pageBtn {
+    > div {
+      margin: 0 5px;
+    }
+  }
+  :deep(.demo-drawer) {
+    width: 20% !important;
+  }
+  .codeDialog {
+    height: auto;
+  }
+}

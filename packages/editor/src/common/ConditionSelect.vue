@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <CustomDialog ref="maxJsonDialog">
+    <CustomDialog ref="maxJsonDialog" dialogclass="conditionSelectNormal">
       <el-main style="padding: 0">
         <el-container style="height: 100%">
           <el-main class="my-pageMain">
@@ -84,7 +84,7 @@
     setup(props, { emit }) {
       const maxJsonDialog = ref();
       const formList = ref();
-      const fieldList:any = ref();
+      const fieldList: any = ref();
       function initFieldList() {
         const allFormList = formStore?.get("allFormList");
         const fieldResult: any[] = [];
@@ -265,31 +265,4 @@
     },
   });
 </script>
-<style scoped lang="scss">
-  .my-pageMain {
-    .tipContent {
-      margin-bottom: 20px;
-      font-size: 14px;
-      color: rgb(118, 116, 116);
-    }
-    padding: 20px 50px !important;
-    .tableContainer {
-      border: 1px solid #dfe6ec;
-      margin-bottom: 15px;
-    }
-    :deep(.el-form) {
-      padding-bottom: 0px !important;
-      .el-form-item__content {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 0 !important;
-        .el-form-item__error {
-          white-space: nowrap;
-          position: static;
-        }
-      }
-    }
-  }
-</style>
+
