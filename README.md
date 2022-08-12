@@ -6,7 +6,7 @@ Starfish 可视化动态表单平台及h5页面搭建平台。
 
 # 在线体验
 
-https://haixin-fang.github.io/starfish-vue3-lowcode/preview/index.html
+https://haixin-fang.github.io/starfish-vue3-lowcode/playground/index.html
 
 ## 图片
 [![vlt3PU.gif](https://s1.ax1x.com/2022/08/09/vlt3PU.gif)](https://imgtu.com/i/vlt3PU)
