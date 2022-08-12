@@ -139,8 +139,8 @@ importers:
       codemirror: ^6.0.1
       element-plus: ^2.2.12
       sass: ^1.54.3
-      starfish-editor: workspace:^1.0.6
-      starfish-form: workspace:^1.1.2
+      starfish-editor: ^1.0.6
+      starfish-form: ^1.1.2
       typescript: ^4.6.4
       vite: ^3.0.0
       vue: ^3.2.37

@@ -32,10 +32,10 @@ jobs:
         run: rm -rf dist
 
       - name: mkdir dist
-        run: mkdir dist &&  mkdir dist/preview
+        run: mkdir dist &&  mkdir dist/playground
 
       - name: move to dist
-        run: mv playground/dist/* dist/preview
+        run: mv playground/dist/* dist/playground
 
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
