@@ -8,7 +8,7 @@
         </div> -->
     <!-- </div> -->
     <div class="page_box" :class="pageType + '_layout'">
-      <dynamicform v-model:formResult="formResult" :allFormList="allFormList" ref="dynamicform" />
+      <dynamicform v-model:formResult="formResult" :allFormList="allFormList" :globalConfig="globalDatas" ref="dynamicform" />
     </div>
     <el-footer class="my-Footer" style="text-align: center">
       <el-button type="primary" @click="resetForm">重置表单</el-button>
@@ -45,6 +45,7 @@
       const previewShow = computed(() => formStore.get("previewShow"));
       const allFormList = computed(() => formStore.get("AllFormResult"));
       const formResult = computed(() => formStore.get("formResult"));
+      const globalDatas = computed(() => formStore?.get("globalDatas"));
       const pageType = computed(() => uiControl?.get("pageType"));
       const extensions = [json()];
       const codeDialog = ref();
@@ -72,6 +73,7 @@
         code,
         pageType,
         codeDialog,
+        globalDatas,
         dialogWidth: computed(() => uiControl?.get("dialogWidth")),
         previewShow,
         previewDialog,

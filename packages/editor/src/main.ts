@@ -17,6 +17,7 @@ import draggable from "vuedraggable";
 import { basicSetup } from "codemirror";
 import VueCodemirror from "vue-codemirror";
 import FormStyle from '@/common/formStyle.vue';
+import 'starfish-form/src/styles/index.scss';
 // import { javascript } from '@codemirror/lang-javascript'
 // import { json } from '@codemirror/lang-json'
 // import { css } from '@codemirror/lang-css'

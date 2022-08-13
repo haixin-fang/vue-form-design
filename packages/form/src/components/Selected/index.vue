@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top'}">
+  <div class="starfish-formitem" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top', [item.data.csslist?.join(' ')]: !!item.data.csslist}">
     <div class="label" :class="'label_' + labelalign" :style="{width: labelWidth + 'px'}">
       <label>{{ item.data.label }}{{suffix}}</label>
       <span v-if="item.data.required" class="item_require">*</span>

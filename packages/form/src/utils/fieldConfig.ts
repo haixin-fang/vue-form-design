@@ -153,7 +153,6 @@ const fieldsMap: any = {
     placeholder: "",
     showRule: "{}",
     required: false,
-    class: '',
     rule: "[]",
     default: "",
   },
