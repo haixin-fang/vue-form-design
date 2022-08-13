@@ -69,6 +69,10 @@ export interface HistoryState {
    * 是否正在执行后退或前进,是则阻止进入历史快走中
    */
   historyFlag: boolean;
+  /**
+   * 历史回退最大步数
+   */
+  maxStep: number;
 }
 
 export interface ShortCutState {

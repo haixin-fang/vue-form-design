@@ -25,7 +25,10 @@
   :deep(.demo-drawer) {
     width: 20% !important;
   }
-  .codeDialog {
-    height: auto;
+}
+.codeDialog {
+  height: auto;
+  .custom_code {
+    height: 100%;
   }
 }

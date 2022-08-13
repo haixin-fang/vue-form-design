@@ -11,7 +11,7 @@ export interface fields {
   /**
    * 提示信息
    */
-  tip: string;
+  tip?: string;
   /**
    * 占位内容
    */
@@ -23,7 +23,7 @@ export interface fields {
   /**
    * 是否必填
    */
-  required: boolean;
+  required?: boolean;
   /**
    * 校验规则
    */
@@ -57,6 +57,7 @@ export interface fieldTds {
 export interface FormConfig {
   ControlType: string;
   data: fields;
+  layout?: boolean;
 }
 const beforeBaseFormCofig: () => FormConfig[] = function () {
   return [

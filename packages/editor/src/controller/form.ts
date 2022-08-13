@@ -1,7 +1,6 @@
 import { reactive } from "vue";
-import { globalData } from "@/common/formJson";
 import history from "@/controller/history";
-import { AllFormItem, FormState } from "@/type";
+import { AllFormItem, FormState, BaseFormConfig } from "@/type";
 import type {fieldTds, fieldsTrs} from 'starfish-form/src/utils/fieldConfig';
 const state = reactive<FormState>({
   allFormList: [], // 存储所有选择的表单控件
@@ -16,7 +15,7 @@ const state = reactive<FormState>({
   formUpdate: false, // 判断表单是否更新
   AllFormResult: [], // 预览和存储到数据库最终结果
   formResult: {}, // 用户在动态表单输入的配置结果
-  globalDatas: globalData,
+  globalDatas: {},
 });
 
 export { state };
@@ -135,19 +134,19 @@ class Form {
     state.formResult = this.getDynamicForm(state.AllFormResult);
     console.log("formResult", state.formResult);
   }
-  getDynamicForm(list: AllFormItem[]) {
+  getDynamicForm(list: BaseFormConfig[]) {
     const data: Record<string, any> = {};
-    list.forEach((item: AllFormItem) => {
+    list.forEach((item: BaseFormConfig) => {
       if (item.layout) {
         if (item.ControlType == "Grid" && item.data.columns) {
-          item.data.columns.forEach((colItem: { list: AllFormItem[] }) => {
+          item.data.columns.forEach((colItem: { list: any }) => {
             Object.assign(data, this.getDynamicForm(colItem.list));
           });
         } else if (item.ControlType == "TableLayout") {
           const trs = item.data.trs;
           if (trs && trs.length > 0) {
             trs.forEach((trItem: any) => {
-              trItem.tds.forEach((tdItem: { list: AllFormItem[] }) => {
+              trItem.tds.forEach((tdItem: { list: BaseFormConfig[] }) => {
                 Object.assign(data, this.getDynamicForm(tdItem.list));
               });
             });
@@ -155,7 +154,7 @@ class Form {
         } else if (item.ControlType == "Collapse" || item.ControlType == "Tabs") {
           const items = item.data.items;
           if(items){
-            items.forEach((colItem: { list: AllFormItem[] }) => {
+            items.forEach((colItem: { list: any }) => {
               Object.assign(data, this.getDynamicForm(colItem.list));
             });
           }

@@ -1,57 +1,7 @@
+import formStore from "@/controller/form";
 const globalFormList = [
   {
-    ControlType: "Switch",
-    nameCn: "开关",
-    data: {
-      fieldName: "Inline",
-      label: "Inline布局",
-      tip: "",
-      value: "",
-      showRule: "{}",
-      required: false,
-      rule: "[]",
-      default: false,
-    },
-  },
-  {
-    ControlType: "Selected",
-    nameCn: "选择器",
-    data: {
-      fieldName: "layout",
-      label: "布局",
-      tip: "",
-      placeholder: "",
-      showRule: "{}",
-      required: false,
-      rule: "[]",
-      itemConfig: {
-        value: "3",
-        items: [
-          {
-            label: "一行一列",
-            value: "1",
-            select: true,
-            id: 1,
-          },
-          {
-            label: "一行二列",
-            value: "2",
-            select: false,
-            id: 2,
-          },
-          {
-            label: "一行三列",
-            value: "3",
-            select: false,
-            id: 3,
-          },
-        ],
-        id: 3,
-      },
-    },
-  },
-  {
-    ControlType: "Selected",
+    ControlType: "RadioGroup",
     nameCn: "选择器",
     data: {
       fieldName: "labelAlign",
@@ -84,8 +34,41 @@ const globalFormList = [
     },
   },
   {
-    ControlType: "Slider",
-    nameCn: "滑块",
+    ControlType: "RadioGroup",
+    nameCn: "选择器",
+    data: {
+      fieldName: "size",
+      label: "组件尺寸",
+      showRule: "{}",
+      rule: "[]",
+      itemConfig: {
+        value: "small",
+        items: [
+          {
+            label: "large",
+            value: "large",
+            select: false,
+            id: 1,
+          },
+          {
+            label: "default",
+            value: "default",
+            select: false,
+            id: 2,
+          },
+          {
+            label: "small",
+            value: "small",
+            select: true,
+            id: 3,
+          },
+        ],
+        id: 3,
+      },
+    },
+  },
+  {
+    ControlType: "InputNumber",
     data: {
       fieldName: "labelWidth",
       label: "标签宽度",
@@ -93,9 +76,7 @@ const globalFormList = [
       showRule: "{}",
       required: false,
       rule: "[]",
-      default: 0,
-      min: 0,
-      max: "400",
+      default: 100,
     },
   },
   {
@@ -112,12 +93,42 @@ const globalFormList = [
       default: ":",
     },
   },
+  {
+    ControlType: "FormStyle",
+    nameCn: "文本框",
+    data: {
+      fieldName: "styles",
+      label: "表单样式表",
+      tip: "",
+      placeholder: "",
+      showRule: "{}",
+      required: false,
+      rule: "[]",
+      default: "",
+    },
+  },
+  {
+    ControlType: "Selecteds",
+    nameCn: "文本框",
+    data: {
+      fieldName: "csslist",
+      label: "自定义Class",
+      tip: "",
+      placeholder: "",
+      showRule: "{}",
+      required: false,
+      rule: "[]",
+      itemConfig: {
+        value: [],
+        items: [
+         
+        ],
+      },
+    },
+  },
 ];
 
-const globalData = { Inline: false, layout: "1", labelAlign: "top", labelWidth: 400, suffix: ":" };
-
-
-export {
-    globalFormList,
-    globalData
-}
+const globalData = formStore?.getDynamicForm(globalFormList);
+console.log('globalData', globalData);
+formStore?.set("globalDatas", globalData);
+export { globalFormList, globalData };

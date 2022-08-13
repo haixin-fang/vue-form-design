@@ -1,12 +1,12 @@
 <template>
   <!-- <starfish-editor style="height: 700px" :basic-fields="['Text']" :layout-fields="['grid']"> </starfish-editor> -->
   <div class="container">
-    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" :shortcut-disabled="false" :header-show="true" :menu="menu"> </starfish-editor>
-    <div class="btnlist">
+    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" > </starfish-editor>
+    <!-- <div class="btnlist">
       <el-button @click="goSave" type="primary">保存</el-button>
       <el-button @click="setJson" type="primary">自定义json</el-button>
       <el-button @click="goPreview" type="primary"> 表单预览 </el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts">
@@ -20,7 +20,7 @@
       const menu = ref({
         left: [],
         right: [],
-        column: false,
+        column: true,
       });
       return {
         starfishRef,
@@ -75,6 +75,8 @@
       background: white;
       padding: 10px 0;
       z-index: 1;
+      display: flex;
+      justify-content: center;
     }
   }
 </style>

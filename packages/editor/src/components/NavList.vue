@@ -49,7 +49,7 @@
     </el-drawer>
     <custom-dialog ref="jsonDialog" :width="800" dialogclass="codeDialog">
       <div class="custom_code">
-        <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '600px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
+        <codemirror v-model="code" placeholder="json导入" mode="text/json" :style="{ height: '400px' }" :extensions="extensions" />
         <el-upload accept="application/json" class="upload-demo" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" :on-change="handleChange">
           <el-button type="primary">导入json文件</el-button>
         </el-upload>
@@ -64,9 +64,9 @@
 </template>
 <script lang="ts">
   import { defineComponent, computed, getCurrentInstance, onMounted, onUnmounted, inject, ref, toRaw, watch, PropType } from "vue";
-  import type { Controls, MenuBarData, MenuItem, AllFormItem,BaseComponentItem } from "@/type";
+  import type { Controls, MenuBarData, MenuItem, AllFormItem, BaseComponentItem } from "@/type";
   import { clearCanvas } from "@/utils/formKeycon";
-
+  import { json } from "@codemirror/lang-json";
   export default defineComponent({
     props: {
       /** 顶部工具栏配置 */
@@ -85,6 +85,7 @@
       const fullscreen = computed(() => uiControl?.get("isFullscreen"));
       const allFormList = computed(() => formStore?.get("allFormList"));
       const pageType = computed(() => uiControl?.get("pageType"));
+      const extensions = [json()];
       const jsonDialog = ref();
       const tree = ref();
       const treeRef = ref();
@@ -119,7 +120,7 @@
         } else {
           let children;
           if (item.ControlType == "Grid") {
-            children = item.data.columns.map((colItem: {list: AllFormItem[]}) => {
+            children = item.data.columns.map((colItem: { list: AllFormItem[] }) => {
               const children = colItem.list.map((listItem: AllFormItem) => {
                 return toTree(listItem);
               });
@@ -196,6 +197,7 @@
           });
           code.value = JSON.stringify(formList, null, 4);
         } catch (e) {
+          code.value = JSON.stringify({});
           console.error(e);
           window.VApp.$message.error("导入失败，数据格式不对");
         }
@@ -214,6 +216,7 @@
       });
 
       return {
+        extensions,
         code,
         handleFormSave,
         handleFormPre,
@@ -229,11 +232,11 @@
         tree,
         treeRef,
         filterNode,
-        btnIsShow(type:'left' | 'right', btn: MenuItem){
-          if(props.menu[type].length == 0){
+        btnIsShow(type: "left" | "right", btn: MenuItem) {
+          if (props.menu[type].length == 0) {
             return true;
           }
-          return props.menu[type].includes(btn)
+          return props.menu[type].includes(btn);
         },
         updatePageType(type: string) {
           uiControl?.set("pageType", type);

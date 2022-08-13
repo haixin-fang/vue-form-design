@@ -32,6 +32,7 @@ import Tabs from './layout/Tabs.vue';
 // 配置公共组件
 import ListConfig from './common/listConfig.vue';
 import Panel from './common/panel.vue';
+import RadioGroup from './common/radiogroup.vue';
 
 export { default as Dynamicform } from "./starfish-form.vue";
 
@@ -91,7 +92,7 @@ formcomponents[ListConfig.ControlType] = ListConfig;
 formcomponents[Panel.ControlType] = Panel;
 formcomponents[Rule.ControlType] = Rule;
 formcomponents[ShowRule.ControlType] = ShowRule;
-
+formcomponents[RadioGroup.ControlType]= RadioGroup;
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = formcomponents;
   for(const key in formcomponents){

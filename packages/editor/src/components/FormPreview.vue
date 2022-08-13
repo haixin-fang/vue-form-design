@@ -17,7 +17,7 @@
     </el-footer>
     <custom-dialog ref="codeDialog" dialogclass="codeDialog" width="1000">
       <div class="custom_code">
-        <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
+        <codemirror v-model="code" placeholder="Code goes here..." mode="text/json" :style="{ height: '400px' }" :extensions="extensions" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
       </div>
       <el-footer class="my-Footer" style="text-align: center">
         <el-button type="primary" @click="copyJson" class="copy_btn" data-clipboard-action="copy" :data-clipboard-text="code">复制json</el-button>
@@ -33,6 +33,7 @@
   import { Dynamicform } from "starfish-form";
   import uiControl from "@/controller/ui";
   import Clipboard from "clipboard";
+  import { json } from "@codemirror/lang-json";
   // import { Codemirror } from "vue-codemirror";
   // import { json } from "@codemirror/lang-json";
   export default defineComponent({
@@ -45,6 +46,7 @@
       const allFormList = computed(() => formStore.get("AllFormResult"));
       const formResult = computed(() => formStore.get("formResult"));
       const pageType = computed(() => uiControl?.get("pageType"));
+      const extensions = [json()];
       const codeDialog = ref();
       const code = ref();
       let clipboard: Clipboard;
@@ -66,7 +68,7 @@
       });
       const JsonViewerDialog = ref();
       return {
-        // extensions,
+        extensions,
         code,
         pageType,
         codeDialog,

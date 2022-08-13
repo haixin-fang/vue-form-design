@@ -51,6 +51,7 @@ importers:
   packages/editor:
     specifiers:
       '@babel/core': ^7.18.5
+      '@codemirror/lang-css': ^6.0.0
       '@codemirror/lang-html': ^6.1.0
       '@codemirror/lang-javascript': ^6.0.2
       '@codemirror/lang-json': ^6.0.0
@@ -78,6 +79,7 @@ importers:
       wangeditor: ^4.7.15
     dependencies:
       '@babel/core': 7.18.10
+      '@codemirror/lang-css': 6.0.0
       '@codemirror/lang-html': 6.1.0
       '@codemirror/lang-javascript': 6.0.2
       '@codemirror/lang-json': 6.0.0

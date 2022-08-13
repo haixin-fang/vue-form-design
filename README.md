@@ -55,7 +55,7 @@ $ pnpm pg
 
 最后在浏览器中打开
 
-http://localhost:1100/
+http://10.181.112.141:1100/starfish-vue3-lowcode/playground/#/
 
 即可得到一个动态表单项目
 
@@ -100,39 +100,36 @@ starfish-form,表单组件
 - 容器组件的显示条件优化
 - github自动构建
 - 抽离样式,统一修改,解决安装依赖库必须打包问题(打包后才有dist文件和唯一的样式文件),解决全局样式变量必须给每个组件打包同一份样式问题
+- 本地运行的产物和打包后的产物不同,所以打包后样式需要手动导入
+- 调试交互事件JavaScript代码
+- 自定义CSS样式
+- 嵌套表格
 
 
 - 快捷键tabindex的重要性
+- 表单联动,通过onChange方法进行表单数据操作
 
 # 可用库
 - nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。
 
 
 ## 文档
-需要的基础组件
+- 需要的基础组件
 :basic-fields="['Text', 'textarea']"
-需要的布局组件
+- 需要的布局组件
 :layout-fields="['grid']"
-
-是否禁用快捷键
+- 是否禁用快捷键
 shortcut-disabled=true
-
-保存回调
+- 保存回调
 @save
-
-获取json
+- 获取json
 getJson
-
-设置json
+- 设置json
 setJson
-
-
-navlist 每个按钮可配,并且是否可隐藏
-
-header头是否展示
+- navlist 每个按钮可配,并且是否可隐藏
+- header头是否展示
 header-show 默认true
-
-
+- 菜单按钮自定义
 menu: {
     left: ['delete', 'undo', 'redo', 'tree', 'save', 'preview', 'fullscreen'],
     right: ['viewport', 'json-export', 'json-import'],

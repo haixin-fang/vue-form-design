@@ -5,12 +5,16 @@ import formStore from "./form";
 const state = reactive<HistoryState>({
   historyList: [],
   index: -1,
+  maxStep: 20,
   historyFlag: false,
 });
 
 class History {
   public setValue(value: HistoryItem) {
     state.historyList.push(value);
+    if(state.historyList.length > state.maxStep){
+      state.historyList = state.historyList.slice(state.historyList.length - state.maxStep);
+    }
     state.index = state.historyList.length - 1;
   }
   public back() {

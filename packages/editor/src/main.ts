@@ -16,6 +16,10 @@ import flex from "./utils/_";
 import draggable from "vuedraggable";
 import { basicSetup } from "codemirror";
 import VueCodemirror from "vue-codemirror";
+import FormStyle from '@/common/formStyle.vue';
+// import { javascript } from '@codemirror/lang-javascript'
+// import { json } from '@codemirror/lang-json'
+// import { css } from '@codemirror/lang-css'
 export default {
   install: (app: App) => {
     app.config.globalProperties.$EventBus = vm;
@@ -47,6 +51,7 @@ export default {
     app.component("HighConditionSelect", HighConditionSelect);
     app.component("draggable", draggable);
     app.component("Shape", Shape);
+    app.component('FormStyle', FormStyle);
 
     app.component("StarfishEditor", Editor);
   },

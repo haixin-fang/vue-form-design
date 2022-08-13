@@ -1,15 +1,15 @@
 <template>
-  <div class="starfish-formitem" :class="drag ? 'formCover' : ''">
-    <div class="label">
-      <label>{{ item.data.label }}</label>
+  <div class="starfish-formitem" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top'}">
+    <div class="label" :class="'label_' + labelalign" :style="{width: labelWidth + 'px'}">
+      <label>{{ item.data.label }}{{suffix}}</label>
       <span v-if="item.data.required" class="item_require">*</span>
       <el-tooltip v-if="item.data.tip" class="item" effect="dark" :content="item.data.tip" placement="top">
         <span class="tip iconfont icon-tishi"></span>
       </el-tooltip>
     </div>
-    <div class="control">
-      <el-time-select v-model="item.data.default" start="08:30" step="00:15" end="18:30" :placeholder="item.data.placeholder" v-if="drag"></el-time-select>
-      <el-time-select v-model="data[item.data.fieldName]" start="08:30" step="00:15" end="18:30" :placeholder="item.data.placeholder" v-if="!drag"></el-time-select>
+    <div class="control" :style="{marginLeft: labelalign != 'top'?labelWidth + 'px': ''}">
+      <el-time-select v-model="item.data.default" start="08:30" step="00:15" end="18:30" :size="size" :placeholder="item.data.placeholder" v-if="drag"></el-time-select>
+      <el-time-select v-model="data[item.data.fieldName]" start="08:30" step="00:15" end="18:30" :size="size" :placeholder="item.data.placeholder" v-if="!drag"></el-time-select>
     </div>
   </div>
 </template>

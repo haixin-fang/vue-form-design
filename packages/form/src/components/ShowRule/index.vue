@@ -29,7 +29,6 @@
     setup(props) {
       const ConditionSelect = ref();
       const highSelect = ref();
-      console.log('进来了吗')
       useWatch(props.data);
       return {
         ConditionSelect,

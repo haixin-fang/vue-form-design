@@ -7,8 +7,8 @@
         </div>
         <draggable class="dragArea" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" :inline="globalDatas.Inline" :layout="!!element.layout">
-              <component :is="element.ControlType" :drag="true" :item="element" :data="{}" :inline="globalDatas.Inline" :layout="globalDatas.layout" :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix"></component>
+            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" >
+              <component :is="element.ControlType" :drag="true" :item="element" :data="{}"  :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix" :size="globalDatas.size"></component>
             </Shape>
           </template>
         </draggable>
