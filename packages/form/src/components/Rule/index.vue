@@ -1,16 +1,18 @@
 <template>
-  <div class="starfish-formitem">
-    <div class="label">
+  <div class="starfish-formitem" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top' }">
+    <div class="label" :class="'label_' + labelalign" :style="{ width: labelWidth + 'px' }">
       <label>{{ item.data.label }}</label>
     </div>
-    <el-select v-model="selectList" :placeholder="item.data.placeholder" multiple @change="onSelectChange" size="small">
-      <!-- value只能是label,value为函数,会导致要么全选中,要么全不选中 -->
-      <el-option v-for="(item, index) in selectOptions" :key="index" :label="item.label" :value="item.label" />
-    </el-select>
-    <div class="control" v-show="customShow">
-      <div id="jsoneditor" ref="jsoneditor">
-        <div class="fullScreen" @click="showCustomDialog">
-          <i class="iconfont icon-quanping"></i>
+    <div class="control" :style="{marginLeft: labelalign != 'top'?labelWidth + 'px': ''}">
+      <el-select v-model="selectList" :placeholder="item.data.placeholder" multiple @change="onSelectChange" size="small">
+        <!-- value只能是label,value为函数,会导致要么全选中,要么全不选中 -->
+        <el-option v-for="(item, index) in selectOptions" :key="index" :label="item.label" :value="item.label" />
+      </el-select>
+      <div v-show="customShow">
+        <div id="jsoneditor" ref="jsoneditor">
+          <div class="fullScreen" @click="showCustomDialog">
+            <i class="iconfont icon-quanping"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -45,7 +47,7 @@
       ...fieldProps,
     },
     setup(props) {
-      const {proxy} = getCurrentInstance() as any;
+      const { proxy } = getCurrentInstance() as any;
       /**
        * json dom
        */
@@ -68,7 +70,7 @@
       const selectOptions = ref<any>([]);
       const selectList = ref<any>([]);
       const selectResult = ref<any>([]);
-      const newRuleList:any = ruleList.map((item) => {
+      const newRuleList: any = ruleList.map((item) => {
         return {
           label: item.label,
           value: { validator: item.validator, trigger: "blur" },
@@ -191,4 +193,3 @@
     },
   });
 </script>
-

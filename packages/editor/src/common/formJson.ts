@@ -4,7 +4,7 @@ const globalFormList = [
     ControlType: "RadioGroup",
     nameCn: "选择器",
     data: {
-      fieldName: "labelAlign",
+      fieldName: "labelalign",
       label: "标签对齐方式",
       showRule: "{}",
       rule: "[]",
@@ -110,6 +110,7 @@ const globalFormList = [
   {
     ControlType: "Selecteds",
     nameCn: "文本框",
+    dynamic: true,
     data: {
       fieldName: "csslist",
       label: "自定义Class",
@@ -128,7 +129,5 @@ const globalFormList = [
   },
 ];
 
-const globalData = formStore?.getDynamicForm(globalFormList);
-console.log('globalData', globalData);
-formStore?.set("globalDatas", globalData);
-export { globalFormList, globalData };
+
+export { globalFormList };

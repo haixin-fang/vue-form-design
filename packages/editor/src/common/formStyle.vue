@@ -8,10 +8,10 @@
       </el-tooltip>
     </div>
     <div class="control">
-      <el-button style="width: 100%" @click="onStyleSet">设置</el-button>
+      <el-button style="width: 100%" @click="onStyleSet" :type="code?'primary':''">{{code?'已设置':'设置'}}</el-button>
       <custom-dialog ref="codeDialog" dialogclass="codeDialog" width="1000">
         <div class="custom_code">
-          <codemirror v-model="code" placeholder="Code goes here..." :style="{ height: '400px' }" :autofocus="true" :extensions="extensions" :indent-with-tab="true" :tab-size="2" />
+          <codemirror v-model="code" placeholder=".starfish-form-css{}" :style="{ height: '400px' }" :autofocus="true" :extensions="extensions" :indent-with-tab="true" :tab-size="2" />
         </div>
         <el-footer class="my-Footer" style="text-align: center">
           <el-button type="primary" @click="saveCssStyle">确定</el-button>

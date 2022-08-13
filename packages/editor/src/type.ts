@@ -145,6 +145,10 @@ export interface FormState {
    * 表单全局配置
    */
   globalDatas: Record<string, any>;
+  /**
+   * 全局表单配置列表
+   */
+  globalFormList: BaseFormConfig[];
 }
 
 interface FormRule {

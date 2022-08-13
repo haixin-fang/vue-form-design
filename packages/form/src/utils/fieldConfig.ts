@@ -58,6 +58,7 @@ export interface FormConfig {
   ControlType: string;
   data: fields;
   layout?: boolean;
+  dynamic?: boolean;
 }
 const beforeBaseFormCofig: () => FormConfig[] = function () {
   return [
@@ -152,6 +153,7 @@ const fieldsMap: any = {
     placeholder: "",
     showRule: "{}",
     required: false,
+    class: '',
     rule: "[]",
     default: "",
   },

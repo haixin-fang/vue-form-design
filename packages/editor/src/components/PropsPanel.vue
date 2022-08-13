@@ -9,7 +9,7 @@
         <el-scrollbar class="dynamic">
           <el-form ref="ruleForm" :model="curControl && (curControl.data || {})" :rules="curControl && curControl.rules" label-width="120px" :status-icon="true">
             <el-form-item v-for="item in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
-              <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
+              <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-bind="globalDatas" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
             </el-form-item>
           </el-form>
           <el-empty :image-size="200" v-if="!curControl || !curControl.data" description="没有选中表单控件"></el-empty>
@@ -24,7 +24,7 @@
         <!-- 该模块暂时先不做,控制整个动态表单样式导致样式崩(如json,富文本编辑器与其他表单高度相差太大),意义不大 -->
         <el-scrollbar class="form_tab3">
           <div v-for="(item, index) in globalFormLists" :key="index" class="form_tab3_list">
-            <component :is="item.ControlType" :item="item" :data="globalDatas" :controlItems="globalFormLists" ></component>
+            <component :is="item.ControlType" :item="item" :data="globalDatas" :controlItems="globalFormLists"></component>
           </div>
         </el-scrollbar>
       </el-tab-pane>
@@ -36,10 +36,10 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw ,ComputedRef} from "vue";
+  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw, ComputedRef } from "vue";
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import { globalFormList } from "@/common/formJson";
-  import type { Controls, AllFormItem,BaseComponentItem, BaseFormConfig } from "@/type";
+  import type { Controls, AllFormItem, BaseComponentItem, BaseFormConfig } from "@/type";
   import type { TabPaneInstance } from "element-plus";
   export default defineComponent({
     props: {
@@ -61,7 +61,7 @@
       const editRight = ref();
       const activeName = ref("form");
       const jsonCenter = ref();
-      let jsonEditor:any = null;
+      let jsonEditor: any = null;
       const isTransition = ref(true); // 默认有补间动画
       const controlItems = computed(() => formStore?.getControlItems());
       const curControl = computed(() => formStore?.get("curControl"));
@@ -81,7 +81,10 @@
       /**
        * 表单配置
        */
-      const globalFormLists = ref(globalFormList);
+      const globalData = formStore?.getDynamicForm(globalFormList);
+      formStore?.set("globalDatas", globalData);
+      formStore?.set("globalFormList", globalFormList);
+      const globalFormLists = computed(() => formStore?.get("globalFormList"));
       const globalDatas = computed(() => formStore?.get("globalDatas"));
 
       // 鼠标落下
@@ -92,13 +95,13 @@
 
       // 预览或保存时验证所有表单是否输入正确
       const preview = computed(() => formStore?.get("preview"));
-      const allFormList:ComputedRef<AllFormItem[] | undefined> = computed(() => formStore?.getAllFormList());
+      const allFormList: ComputedRef<AllFormItem[] | undefined> = computed(() => formStore?.getAllFormList());
       const checkNowFormValidate = function (content: string) {
         return new Promise((resolve) => {
           ruleForm.value.validate((valid: boolean) => {
             if (!valid) {
               window.VApp.$notify.error({
-                title: content
+                title: content,
               });
               resolve(false);
             } else {
@@ -134,7 +137,7 @@
       }
 
       const checkFormValidate = async (list: AllFormItem[] | undefined) => {
-        if(!list)return;
+        if (!list) return;
         const len = list.length;
         for (let i = 0; i < len; ++i) {
           let validate = true;
@@ -190,7 +193,7 @@
             formStore?.set("preview", false);
           } else if (preview) {
             window.VApp.$notify.success({
-              title: type ? "已自动保存" : "保存成功"
+              title: type ? "已自动保存" : "保存成功",
             });
           }
         }
@@ -270,18 +273,6 @@
         }
       );
 
-      /**
-       * 可以不监听,后期直接通过传如动态表单进行列表改变
-       */
-      watch(
-        () => globalDatas,
-        (a) => {
-          console.log(a);
-        },
-        {
-          deep: true,
-        }
-      );
       watch(
         () => curControl.value?.data,
         async () => {

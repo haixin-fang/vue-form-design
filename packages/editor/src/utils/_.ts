@@ -1,6 +1,7 @@
 import { ElNotification } from "element-plus";
 import { nanoid } from "nanoid";
 import { AllFormItem, BaseComponentItem, PartialKey } from "@/type";
+import formStore from '@/controller/form'
 const fieldlist: string[] = [];
 class Flex {
   lastClickTime: number;
@@ -179,8 +180,16 @@ class Flex {
           });
         }
       }
+      /**
+       * 全局动态配置
+       */
+      const dynamicList =  formStore?.get("globalFormList")?.filter((item: any) => {
+        if (item.dynamic) {
+          return item;
+        }
+      })
       item.id = this.generateMixed();
-      const controlItems = item.formConfig.morenConfig();
+      const controlItems = item.formConfig.morenConfig().concat(dynamicList);
       item.rules = this.controlFormRule(controlItems);
       item.controlItems = controlItems;
     }

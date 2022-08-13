@@ -1,14 +1,14 @@
 <template>
   <div class="editor_pages_center" @click="onEditorCenter" tabindex="1">
-    <div class="canvasBox" ref="canvasBox" :class="[fullScreen ? 'fullScreenBox' : '', pageType + '_layout']" :style="`transform: translateX(-50%) scale(${scale})`">
+    <div class="canvasBox" ref="canvasBox" :class="[fullScreen ? 'fullScreenBox' : '', pageType + '_layout', globalDatas.csslist?.join(' ')]" :style="`transform: translateX(-50%) scale(${scale})`">
       <div class="draggable_container" ref="dragDom" @contextmenu="handleNoDraggable">
         <div class="editForm" ref="editForm" v-show="pasteShow">
           <span @click="handlePaste">粘贴</span>
         </div>
         <draggable class="dragArea" animation="300" ghostClass="itemGhost" v-model="allmainList" @add="addControl" group="starfish-form" @choose="chooseClick" item-key="id" @update="changePos">
           <template #item="{ element, index }">
-            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length" >
-              <component :is="element.ControlType" :drag="true" :item="element" :data="{}"  :labelalign="globalDatas.labelAlign" :labelWidth="globalDatas.labelWidth" :suffix="globalDatas.suffix" :size="globalDatas.size"></component>
+            <Shape :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :item="element" :len="allmainList.length">
+              <component :is="element.ControlType" :drag="true" :item="element" :data="{}" v-bind="globalDatas"></component>
             </Shape>
           </template>
         </draggable>
@@ -23,7 +23,7 @@
   // import formStore from "@/store/form";
   // import store from "@/store/index";
   import { paste } from "@/utils/formKeycon";
-  import type { Controls, AllFormItem } from "@/type";
+  import type { Controls, AllFormItem,BaseFormConfig } from "@/type";
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
@@ -44,6 +44,18 @@
       const fullScreen = computed(() => uiControl?.get("isFullscreen"));
 
       const pageType = computed(() => uiControl?.get("pageType"));
+      
+      /**
+       * dynamic: true
+       * 代表全局配置可以定义到组件配置中
+       */
+      const dynamicList = computed(() =>
+        formStore?.get("globalFormList")?.filter((item: BaseFormConfig) => {
+          if (item.dynamic) {
+            return item;
+          }
+        })
+      );
 
       const allmainList = computed({
         get() {
@@ -60,7 +72,7 @@
                 item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
               }
               item.id = proxy.$Flex.generateMixed();
-              const controlItems = item.formConfig.morenConfig();
+              const controlItems = (item.formConfig.morenConfig() as Array<any>).concat(dynamicList.value);
               item.rules = proxy.$Flex.controlFormRule(controlItems, item);
               item.controlItems = controlItems;
             }

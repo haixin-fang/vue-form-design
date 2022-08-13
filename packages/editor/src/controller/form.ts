@@ -16,6 +16,7 @@ const state = reactive<FormState>({
   AllFormResult: [], // 预览和存储到数据库最终结果
   formResult: {}, // 用户在动态表单输入的配置结果
   globalDatas: {},
+  globalFormList: [],
 });
 
 export { state };

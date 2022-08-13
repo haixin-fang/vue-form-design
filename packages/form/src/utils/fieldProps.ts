@@ -24,7 +24,7 @@ export default {
   },
   labelalign: {
     type: String,
-    default: 'top',
+    default: 'top'
   },
   labelWidth: {
     type: Number,
@@ -36,5 +36,12 @@ export default {
   size: {
     type: String,
     default: 'small'
+  },
+  styles: {
+    type: String,
+    default: ''
+  },
+  csslist: {
+    type: Object as PropType<Array<string>>
   }
 };
