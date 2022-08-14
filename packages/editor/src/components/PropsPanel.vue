@@ -9,7 +9,7 @@
         <el-scrollbar class="dynamic">
           <el-form ref="ruleForm" :model="curControl && (curControl.data || {})" :rules="curControl && curControl.rules" label-width="120px" :status-icon="true">
             <el-form-item v-for="item in controlItems" :key="item.id" :control="item.ControlType" :prop="item.data.fieldName">
-              <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" v-bind="globalDatas" v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
+              <component :drag="false" :is="item.ControlType" :data="curControl.data" :item="item" :size="globalDatas.size" :labelWidth="globalDatas.labelWidth" :labelalign="globalDatas.labelalign"  v-if="(show && item.ControlType === 'JsonEditor') || item.ControlType !== 'JsonEditor'"></component>
             </el-form-item>
           </el-form>
           <el-empty :image-size="200" v-if="!curControl || !curControl.data" description="没有选中表单控件"></el-empty>
@@ -86,6 +86,7 @@
       formStore?.set("globalFormList", globalFormList);
       const globalFormLists = computed(() => formStore?.get("globalFormList"));
       const globalDatas = computed(() => formStore?.get("globalDatas"));
+
 
       // 鼠标落下
       const handleMouseDown = async () => {

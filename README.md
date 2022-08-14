@@ -108,6 +108,7 @@ starfish-form,表单组件
 
 - 快捷键tabindex的重要性
 - 表单联动,通过onChange方法进行表单数据操作
+- 布局下的全局样式未生效
 
 # 可用库
 - nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。

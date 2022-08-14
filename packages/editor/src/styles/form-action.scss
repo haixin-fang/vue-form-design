@@ -1,0 +1,82 @@
+.common-layout {
+  padding: 15px;
+  height: 100%;
+  box-sizing: border-box;
+  .action-header {
+    height: 40px;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    background: #f2f6fc;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .is-vertical {
+    flex-direction: column;
+  }
+  .event-script-aside {
+    border-right: 1px solid #eee;
+  }
+  .el-main {
+    padding: 0;
+  }
+  .action-list {
+    margin: 10px;
+    .action {
+      border: 1px solid #dcdfe6;
+      background: #fff;
+      border-radius: 3px;
+      box-sizing: border-box;
+      padding: 10px !important;
+      height: auto;
+      line-height: 1;
+      cursor: default;
+      position: relative;
+      font-size: 14px;
+      white-space: nowrap;
+      &.selectAction {
+        background: #e4e7ed;
+        color: #303133;
+      }
+      .event-script-menu-i {
+        position: absolute;
+        font-size: 12px;
+        left: 5px;
+        top: 13px;
+        width: 45px;
+        text-align: center;
+        color: #67c23a;
+      }
+      .event-script-menu-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        width: 170px;
+        margin-left: 50px;
+        vertical-align: middle;
+      }
+      .event-script-menu-action {
+        display: inline-block;
+        padding-right: 10px;
+        color: #666;
+        font-weight: 600;
+        vertical-align: middle;
+        > i {
+          margin-left: 3px;
+        }
+      }
+    }
+    .action + .action {
+      margin-top: 6px;
+    }
+  }
+  .func_main {
+    padding: 10px;
+  }
+  .event-script-main {
+    padding: 0;
+    .event-script-main-header {
+      text-align: right;
+    }
+  }
+}

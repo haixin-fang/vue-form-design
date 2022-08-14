@@ -22,7 +22,7 @@
 <script lang="ts">
   import { defineComponent, ref, nextTick, watch, computed, inject } from "vue";
   import { copy, paste, onDelete, cut, onTop, onBottom } from "@/utils/formKeycon";
-  import type { Controls, AllFormItem } from "@/type";
+  import type { Controls } from "@/type";
   export default defineComponent({
     props: {
       active: Boolean,

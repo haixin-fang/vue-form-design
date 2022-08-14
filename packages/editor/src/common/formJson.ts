@@ -1,4 +1,3 @@
-import formStore from "@/controller/form";
 const globalFormList = [
   {
     ControlType: "RadioGroup",
@@ -121,13 +120,25 @@ const globalFormList = [
       rule: "[]",
       itemConfig: {
         value: [],
-        items: [
-         
-        ],
+        items: [],
       },
     },
   },
+  {
+    ControlType: "FormAction",
+    nameCn: "文本框",
+    dynamic: true,
+    data: {
+      fieldName: "styles",
+      label: "动作面板",
+      tip: "",
+      placeholder: "",
+      showRule: "{}",
+      required: false,
+      rule: "[]",
+      default: "",
+    },
+  },
 ];
-
 
 export { globalFormList };
