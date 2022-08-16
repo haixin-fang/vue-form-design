@@ -59,6 +59,7 @@ http://10.181.112.141:1100/starfish-vue3-lowcode/playground/#/
 
 即可得到一个动态表单项目
 
+
 ## 架构
 
 使用monorepo架构
@@ -112,7 +113,6 @@ starfish-form,表单组件
 
 # 可用库
 - nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。
-
 
 ## 文档
 - 需要的基础组件

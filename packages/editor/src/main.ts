@@ -17,7 +17,7 @@ import draggable from "vuedraggable";
 import { basicSetup } from "codemirror";
 import VueCodemirror from "vue-codemirror";
 import FormStyle from '@/common/formStyle.vue';
-import FormAction from '@/common/formAction.vue';
+// import FormAction from '@/common/formAction.vue';
 import 'starfish-form/src/styles/index.scss';
 // import { javascript } from '@codemirror/lang-javascript'
 // import { json } from '@codemirror/lang-json'
@@ -54,7 +54,7 @@ export default {
     app.component("draggable", draggable);
     app.component("Shape", Shape);
     app.component('FormStyle', FormStyle);
-    app.component('FormAction',FormAction);
+    // app.component('FormAction',FormAction);
 
     app.component("StarfishEditor", Editor);
   },

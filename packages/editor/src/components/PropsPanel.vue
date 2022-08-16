@@ -21,7 +21,6 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="表单配置" name="global">
-        <!-- 该模块暂时先不做,控制整个动态表单样式导致样式崩(如json,富文本编辑器与其他表单高度相差太大),意义不大 -->
         <el-scrollbar class="form_tab3">
           <div v-for="(item, index) in globalFormLists" :key="index" class="form_tab3_list">
             <component :is="item.ControlType" :item="item" :data="globalDatas" :controlItems="globalFormLists"></component>
@@ -53,7 +52,7 @@
     },
     setup(props, { emit }) {
       const { proxy } = getCurrentInstance() as any;
-      const { uiControl, hisContrl, formStore } = inject<Controls>("control") || {};
+      const { uiControl, hisContrl, formStore} = inject<Controls>("control") || {};
       // 该模块是否隐藏 默认显示
       const moduleIsHidden = ref(true);
       const show = ref(true);
@@ -178,13 +177,7 @@
           formStore?.setFormUpdate(false);
           if (preview) {
             const result: BaseComponentItem[] = initFormToJson(allFormList.value);
-            // toRaw(allFormList.value).forEach((item: any) => {
-            //   result.push({
-            //     data: item.data,
-            //     ControlType: item.ControlType,
-            //     id: proxy.$Flex.generateMixed(),
-            //   });
-            // });
+            debugger
             formStore?.set("AllFormResult", result);
             formStore?.handleDynamicForm();
             emit("save");

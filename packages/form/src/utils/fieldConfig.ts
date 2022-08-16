@@ -1,4 +1,4 @@
-import { AllFormItem } from "../../../editor/src/type"
+import { AllFormItem } from "../../../editor/src/type";
 export interface fields {
   /**
    * 字段名称
@@ -31,12 +31,12 @@ export interface fields {
   /**
    * 默认内容
    */
-  default?: string | number;
+  default?: string | number | any[];
   type?: number;
   size?: string | number;
   itemConfig?: any;
   trs?: fieldsTrs[];
-  columns?:Columns[];
+  columns?: Columns[];
   items?: Columns[];
 }
 
@@ -138,6 +138,18 @@ const afterBaseFormConfig: () => FormConfig[] = function () {
         required: false,
         rule: "[]",
         default: "[]",
+      },
+    },
+    {
+      ControlType: "Action",
+      data: {
+        fieldName: "action",
+        tip: "",
+        label: "动作面板",
+        showRule: "{}",
+        required: false,
+        rule: "[]",
+        default: "{}",
       },
     },
   ];

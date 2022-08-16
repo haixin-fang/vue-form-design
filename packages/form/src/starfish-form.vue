@@ -31,13 +31,14 @@
       },
       globalConfig: {
         type: Object,
-        default(){
-          return {}
-        }
-      }
+        default() {
+          return {};
+        },
+      },
     },
-    setup(props: any, {emit}) {
+    setup(props: any, { emit }) {
       const { proxy } = getCurrentInstance() as any;
+      console.log("props", props);
       // const { allFormList, formResult } = props;
       const rules: any = ref({});
       const ruleForm = ref();
@@ -110,7 +111,8 @@
             }
           }
         });
-        emit('change')
+        executeFunc("updated");
+        emit("change");
       };
       function transformData(data: any) {
         /**普通模式转为高级模式的数据结构,方便复用 */
@@ -203,7 +205,20 @@
           });
         });
       }
-      onMounted(handleControlChange);
+      onMounted(() => {
+        handleControlChange();
+        executeFunc("mounted");
+      });
+      function executeFunc(funcName: string) {
+        const mountedAction = props.globalConfig.action?.find((item: any) => {
+          if (item.type == funcName) {
+            return item;
+          }
+        });
+        if (mountedAction) {
+          eval(`(function(){${mountedAction.funcStr}}).call(proxy)`);
+        }
+      }
       return {
         rules,
         ruleForm,

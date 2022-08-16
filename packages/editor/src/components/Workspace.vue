@@ -23,7 +23,7 @@
   // import formStore from "@/store/form";
   // import store from "@/store/index";
   import { paste } from "@/utils/formKeycon";
-  import type { Controls, AllFormItem,BaseFormConfig } from "@/type";
+  import type { Controls, AllFormItem, BaseFormConfig } from "@/type";
   export default defineComponent({
     setup() {
       const { proxy } = getCurrentInstance() as any;
@@ -44,7 +44,7 @@
       const fullScreen = computed(() => uiControl?.get("isFullscreen"));
 
       const pageType = computed(() => uiControl?.get("pageType"));
-      
+
       /**
        * dynamic: true
        * 代表全局配置可以定义到组件配置中
@@ -64,15 +64,44 @@
         set(value) {
           // 防止引用类型污染
           value = value.map((item: AllFormItem) => {
+            console.log(formcomponents[item.ControlType as any]);
             if (!item.data && !item.controlItems) {
               item = proxy.$Flex.deepClone(item);
-              item.formConfig = formcomponents[item.ControlType as any].formConfig;
+              const currentComponent = formcomponents[item.ControlType as any];
+              item.formConfig = currentComponent.formConfig;
               item.data = item.formConfig.data();
               if (!item.data.fieldName) {
                 item.data.fieldName = item.ControlType + "_" + proxy.$Flex.generateMixed();
               }
               item.id = proxy.$Flex.generateMixed();
-              const controlItems = (item.formConfig.morenConfig() as Array<any>).concat(dynamicList.value);
+              let controlItems = (item.formConfig.morenConfig() as Array<any>).concat(dynamicList.value);
+              /**
+               * 兼容动作面板,不同表单可能需要的事件不一样
+               */
+              if (currentComponent.actionType && currentComponent.actionType.length > 0) {
+                console.log(controlItems);
+                controlItems.find((item) => {
+                  if (item.ControlType == "Action") {
+                    item.data.formConfig = {
+                      value: {},
+                      items: [],
+                    };
+                    currentComponent.actionType.forEach((action: string, index: number) => {
+                      item.data.formConfig.items.push({
+                        label: action,
+                        value: action,
+                        id: index + 1,
+                      });
+                    });
+                  }
+                });
+              } else {
+                controlItems = controlItems.filter((item) => {
+                  if (item.ControlType !== "Action") {
+                    return item;
+                  }
+                });
+              }
               item.rules = proxy.$Flex.controlFormRule(controlItems, item);
               item.controlItems = controlItems;
             }
@@ -80,6 +109,7 @@
             // delete item.icon;
             return item;
           });
+          console.log("value", value);
           formStore?.updateAllFormList(value);
         },
       });

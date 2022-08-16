@@ -1,12 +1,15 @@
 /// <reference types="vite/client" />
 
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
+declare module "*.vue" {
+  import type { DefineComponent } from "vue";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-  const component: DefineComponent<{}, {}, any>
-  export default component
-}
-interface Window {
-  JSONEditor: any;
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
 }
 
+declare module "@codemirror/lang-javascript";
+
+interface Window {
+  JSONEditor: any;
+  VApp: any;
+}

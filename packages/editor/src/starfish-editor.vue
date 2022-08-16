@@ -33,6 +33,7 @@
   import uiControl from "@/controller/ui";
   import hisContrl from "@/controller/history";
   import formStore from "@/controller/form";
+  import actionContrl from '@/controller/action';
   import store from "@/controller/shortcut";
   import { listenGlobalKeyDown } from "@/utils/shortcutKey";
   // 根据编辑器判断,走不同的快捷键逻辑
@@ -96,6 +97,7 @@
         uiControl,
         hisContrl,
         formStore,
+        actionContrl,
         store,
       };
       let keycons: KeyController;

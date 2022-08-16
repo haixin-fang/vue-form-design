@@ -26,6 +26,7 @@
       { fieldName: "default", component: "Text" },
       { fieldName: "placeholder", component: "Text" },
     ]),
+    actionType: ['onchange', 'onforce'],
     props: {
       ...fieldProps,
     },

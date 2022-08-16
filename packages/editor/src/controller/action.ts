@@ -1,11 +1,23 @@
 import { reactive } from "vue";
+
 const state = reactive({
-  action: [{
-    funcName: 'mounted',
-    funcStr: '',
-    disabled: true
-  }],
-  currentAction: null
+  action: [
+    {
+      funcName: "mounted",
+      type: "mounted",
+      methods: 'mounted',
+      funcStr: "",
+      disabled: true,
+    },
+    {
+      funcName: "updated",
+      type: "updated",
+      methods: 'updated',
+      funcStr: "",
+      disabled: true,
+    },
+  ],
+  currentAction: null,
 });
 
 class Action {
@@ -18,4 +30,8 @@ class Action {
   }
 }
 
+export {state};
+
+export type ActionForm =  Action;
+ 
 export default new Action();

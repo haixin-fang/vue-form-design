@@ -1,12 +1,13 @@
 import type { UiControl } from "./controller/ui";
 import type { hisContrl } from "./controller/history";
 import type { formContrl } from "./controller/form";
+import type { ActionForm } from "./controller/action";
 import type { shortCut } from "./controller/shortcut";
 import type { FormConfig, fields } from "starfish-form/src/main";
 /**
  * 组件名称枚举
  */
-type ComponentListEnum = Omit<keyof typeof window.VApp.$formcomponents, 'symbol'>;
+type ComponentListEnum = Omit<keyof typeof window.VApp.$formcomponents, "symbol">;
 
 interface ColumnWidth {
   left: number;
@@ -41,6 +42,7 @@ export interface Controls {
   uiControl: UiControl;
   hisContrl: hisContrl;
   formStore: formContrl;
+  actionContrl: ActionForm;
   store: shortCut;
 }
 
@@ -171,7 +173,7 @@ export interface AllFormItem {
   /**
    * 获取配置列表和配置方法列表
    */
-   formConfig: {
+  formConfig: {
     data: () => fields;
     morenConfig: () => FormConfig[];
   };
@@ -220,13 +222,12 @@ export interface BaseComponentItem {
   rules?: FormRule;
 }
 
-
 export type RequiredKey<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]-?:T[P]
-} 
+  [P in K]-?: T[P];
+};
 
 export type PartialKey<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]?:T[P]
-} 
+  [P in K]?: T[P];
+};
 
 export type BaseFormConfig = FormConfig;

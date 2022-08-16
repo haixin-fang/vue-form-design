@@ -33,6 +33,8 @@ import Tabs from './layout/Tabs.vue';
 import ListConfig from './common/listConfig.vue';
 import Panel from './common/panel.vue';
 import RadioGroup from './common/radiogroup.vue';
+import formAction from './common/formAction.vue';
+import Action from './common/action.vue';
 
 export { default as Dynamicform } from "./starfish-form.vue";
 
@@ -93,6 +95,10 @@ formcomponents[Panel.ControlType] = Panel;
 formcomponents[Rule.ControlType] = Rule;
 formcomponents[ShowRule.ControlType] = ShowRule;
 formcomponents[RadioGroup.ControlType]= RadioGroup;
+formcomponents[formAction.ControlType] = formAction;
+formcomponents[Action.ControlType] = Action;
+
+
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = formcomponents;
   for(const key in formcomponents){

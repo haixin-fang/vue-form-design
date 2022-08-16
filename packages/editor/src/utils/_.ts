@@ -30,13 +30,13 @@ class Flex {
     }
     return isCanGo;
   }
-  public generateMixed() {
+  public generateMixed(size?: number) {
     // let res = "";
     // for (let i = 0; i < n; i++) {
     //   const id = Math.ceil(Math.random() * 35);
     //   res += chars[id];
     // }
-    return nanoid();
+    return nanoid(size);
   }
   public controlFormRule(controlItems: any[]): any {
     const rules: any = {};

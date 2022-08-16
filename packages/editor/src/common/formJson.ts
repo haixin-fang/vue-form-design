@@ -127,16 +127,15 @@ const globalFormList = [
   {
     ControlType: "FormAction",
     nameCn: "文本框",
-    dynamic: true,
     data: {
-      fieldName: "styles",
+      fieldName: "action",
       label: "动作面板",
       tip: "",
       placeholder: "",
       showRule: "{}",
       required: false,
       rule: "[]",
-      default: "",
+      default: [],
     },
   },
 ];
