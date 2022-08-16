@@ -49,7 +49,7 @@
                         </el-form-item>
                         <el-form-item prop="funcStr">
                           <div class="header">function(){</div>
-                          <codemirror v-model="currentAction.funcStr" placeholder="" mode="text/javascript" :style="{ height: '320px' }" :extensions="extensions" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
+                          <codemirror v-model="currentAction.funcStr" placeholder="" mode="text/javascript" :style="{ height: '320px' }"  :autofocus="true" :indent-with-tab="true" :tab-size="2" />
                           <div class="footer">}</div>
                         </el-form-item>
                       </el-form>
@@ -66,7 +66,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, reactive, onMounted, inject, getCurrentInstance } from "vue";
-  import { javascript } from "@codemirror/lang-javascript";
+  // import { javascript } from "@codemirror/lang-javascript";
   export default defineComponent({
     ControlType: "FormAction",
     isHide: true,
@@ -104,7 +104,7 @@
       const { proxy } = getCurrentInstance() as any;
       const action = ref(window.VApp.$Flex.deepClone(actionStore?.get("action")));
       const currentAction = ref(window.VApp.$Flex.deepClone(actionStore?.get("currentAction")));
-      const extensions = [javascript()];
+      // const extensions = [javascript()];
       let actionType = "";
       const rules = reactive({
         funcName: [
@@ -124,7 +124,7 @@
         actionRef,
         action,
         currentAction,
-        extensions,
+        // extensions,
         onAction(type?: string) {
           action.value = window.VApp.$Flex.deepClone(actionStore?.get("action"));
           actionRef.value.init("动作设置", "icon-bianji");

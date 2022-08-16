@@ -19,7 +19,7 @@ import VueCodemirror from "vue-codemirror";
 import FormStyle from '@/common/formStyle.vue';
 // import FormAction from '@/common/formAction.vue';
 import 'starfish-form/src/styles/index.scss';
-// import { javascript } from '@codemirror/lang-javascript'
+import { javascript } from '@codemirror/lang-javascript'
 // import { json } from '@codemirror/lang-json'
 // import { css } from '@codemirror/lang-css'
 export default {
@@ -45,7 +45,7 @@ export default {
       indentWithTab: true,
       tabSize: 2,
       placeholder: "Code goes here...",
-      extensions: [basicSetup],
+      extensions: [basicSetup, javascript()],
       // ...
     });
     app.component("CustomDialog", CustomDialog);
