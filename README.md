@@ -114,6 +114,38 @@ starfish-form,表单组件
 # 可用库
 - nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。
 
+## 项目中引用表单编辑器
+
+先安装包
+```js
+npm i starfish-editor -S
+```
+注册包
+```js
+import { createApp } from "vue";
+import App from "./App.vue";
+import StarfishEditor from "starfish-editor";
+import 'starfish-editor/src/styles/index.scss';
+const app = createApp(App);
+app.use(StarfishEditor);
+app.mount("#app");
+```
+使用编辑器吗,对应字段参考下方
+```js
+<starfish-editor class="starfish-editor"> </starfish-editor>
+```
+动态表单使用
+```js
+import { Dynamicform } from "starfish-form";
+app.component(Dynamicform.name, Dynamicform);
+```
+
+动态表单组件使用
+`formResult`可以为空,list是通过编辑器生成的结果,搭配使用
+```js
+<Dynamicform v-model:formResult="formResult" :allFormList="list" ></Dynamicform>
+```
+
 ## 文档
 - 需要的基础组件
 :basic-fields="['Text', 'textarea']"
