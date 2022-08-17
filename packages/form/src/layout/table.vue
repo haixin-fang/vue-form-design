@@ -52,7 +52,7 @@
       const currentId = computed(() => {
         return formStore.get("currentId");
       });
-      useWatch(props.data);
+      useWatch(props);
       return {
         currentId,
         chooseClick(e: any, list: any[]) {

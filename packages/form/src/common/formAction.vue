@@ -48,8 +48,8 @@
                           <el-input v-model="currentAction.funcName" :disabled="currentAction.disabled" />
                         </el-form-item>
                         <el-form-item prop="funcStr">
-                          <div class="header">function(){</div>
-                          <codemirror v-model="currentAction.funcStr" placeholder="" mode="text/javascript" :style="{ height: '320px' }"  :autofocus="true" :indent-with-tab="true" :tab-size="2" />
+                          <div class="header">function {{ currentAction.funcName }}({{ getField(currentAction.methods) }}){</div>
+                          <codemirror v-model="currentAction.funcStr" placeholder="" mode="text/javascript" :style="{ height: '320px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
                           <div class="footer">}</div>
                         </el-form-item>
                       </el-form>
@@ -124,6 +124,9 @@
         actionRef,
         action,
         currentAction,
+        getField(methods: string) {
+          return window.VApp.$Flex.getField(methods);
+        },
         // extensions,
         onAction(type?: string) {
           action.value = window.VApp.$Flex.deepClone(actionStore?.get("action"));
@@ -143,20 +146,31 @@
             }
           }
         },
+        onEditAction(key: any, type: string) {
+          actionType = key;
+          action.value = window.VApp.$Flex.deepClone(actionStore?.get("action"));
+          actionRef.value.init("动作设置", "icon-bianji");
+          actionRef.value.show();
+          const item = action.value.find((item: any) => {
+            if (item.type == type) {
+              return item;
+            }
+          });
+          if (item) {
+            currentAction.value = item;
+          }
+        },
         handleAction(item: any) {
-          //   actionStore?.set("currentAction", action);
           currentAction.value = item;
         },
         onSave() {
           actionStore?.set("action", action.value);
-          // props.data[props.item.data.fieldName] = action.value;
           actionRef.value.close();
         },
         onCancel() {
           actionRef.value.close();
         },
         copyAction(item: any) {
-          debugger;
           const newAction = window.VApp.$Flex.deepClone(item);
           newAction.funcName = newAction.funcName + "_copy";
           newAction.type = window.VApp.$Flex.generateMixed(5);
@@ -186,8 +200,8 @@
           }
         },
         onConfirm() {
-          if(!props.data[props.item.data.fieldName]){
-            props.data[props.item.data.fieldName] = {}
+          if (!props.data[props.item.data.fieldName]) {
+            props.data[props.item.data.fieldName] = {};
           }
           props.data[props.item.data.fieldName][actionType] = JSON.stringify(currentAction.value);
           proxy.onSave();

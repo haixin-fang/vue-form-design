@@ -26,11 +26,12 @@
       { fieldName: "default", component: "Date" },
       { fieldName: "placeholder", component: "Text" },
     ]),
+    actionType: ["onChange"],
     props: {
       ...fieldProps,
     },
     setup(props) {
-      useWatch(props.data);
+      useWatch(props);
     },
   });
 </script>

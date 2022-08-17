@@ -24,7 +24,7 @@
       ...fieldProps,
     },
     setup(props) {
-      useWatch(props.data);
+      useWatch(props);
     },
   });
 </script>

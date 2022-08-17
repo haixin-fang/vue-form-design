@@ -1,0 +1,25 @@
+.starfish-formitem-action {
+  .label {
+    align-self: flex-start;
+  }
+  .el-collapse-item {
+    border: 1px solid #ebeef5;
+    border-bottom-color: #e1e1e1;
+    .el-collapse-item__header {
+      background: #ebeef5;
+      height: 20px;
+      line-height: 20px;
+      padding: 5px;
+      font-size: 12px;
+      &.is-active {
+        border-bottom-color: transparent;
+      }
+    }
+    .el-collapse-item__content {
+      padding: 5px;
+      .el-button + .el-button {
+        margin-left: 5px;
+      }
+    }
+  }
+}

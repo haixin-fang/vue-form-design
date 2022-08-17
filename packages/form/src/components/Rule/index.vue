@@ -81,7 +81,7 @@
         value: "自定义",
       });
       selectOptions.value = newRuleList;
-      useWatch(props.data);
+      useWatch(props);
       function initJson() {
         const container = jsoneditor.value;
         const data: any = props.data;

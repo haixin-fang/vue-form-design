@@ -50,7 +50,7 @@
       const currentId = computed(() => {
         return formStore.get("currentId");
       });
-      useWatch(props.data);
+      useWatch(props);
       return {
         activeName,
         currentId,

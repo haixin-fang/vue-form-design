@@ -26,8 +26,9 @@
     props: {
       ...fieldProps,
     },
+    actionType: ["onChange"],
     setup(props) {
-      useWatch(props.data);
+      useWatch(props);
     },
   });
 </script>

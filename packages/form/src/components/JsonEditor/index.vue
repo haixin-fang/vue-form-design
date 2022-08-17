@@ -47,6 +47,7 @@
     props: {
       ...fieldProps,
     },
+    actionType: ["onChange"],
     setup(props) {
       /**
        * json dom
@@ -65,7 +66,7 @@
        */
       const JsonViewerDialogDom = ref<any>();
       const myDialog = ref<any>();
-      useWatch(props.data);
+      useWatch(props);
       function initJson() {
         const container = jsoneditor.value;
         const data: any = props.data;

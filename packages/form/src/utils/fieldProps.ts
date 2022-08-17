@@ -42,6 +42,9 @@ export default {
     default: ''
   },
   csslist: {
-    type: Object as PropType<Array<string>>
+    type: Object as PropType<Array<string>>,
+    default(){
+      return [];
+    }
   }
 };

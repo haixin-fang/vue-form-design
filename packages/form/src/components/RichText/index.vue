@@ -27,10 +27,11 @@
     props: {
       ...fieldProps,
     },
+    actionType: ["onChange"],
     setup(props) {
       const richText = ref();
       let editor: any = null;
-      useWatch(props.data);
+      useWatch(props);
       onMounted(() => {
         if (props.drag) {
           editor = new E(richText.value);

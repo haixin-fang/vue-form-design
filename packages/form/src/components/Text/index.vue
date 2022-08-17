@@ -9,12 +9,12 @@
     </div>
     <div class="control" :style="{ marginLeft: labelalign != 'top' ? labelWidth + 'px' : '' }">
       <el-input v-model="item.data.default" :placeholder="item.data.placeholder" v-if="drag" :size="size" clearable />
-      <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" :size="size" clearable />
+      <el-input v-model="data[item.data.fieldName]" :placeholder="item.data.placeholder" v-if="!drag" :size="size" clearable @focus="execFunc('onFocus')" @blur="execFunc('onBlur')" />
     </div>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from "vue";
+  import { defineComponent, getCurrentInstance, ComponentInternalInstance } from "vue";
   import { getFormConfig } from "../../utils/fieldConfig";
   import fieldProps from "../../utils/fieldProps";
   import { useWatch } from "../../utils/customHooks";
@@ -26,12 +26,20 @@
       { fieldName: "default", component: "Text" },
       { fieldName: "placeholder", component: "Text" },
     ]),
-    actionType: ['onchange', 'onforce'],
+    actionType: ["onChange", "onFocus", "onBlur"],
     props: {
       ...fieldProps,
     },
     setup(props) {
-      useWatch(props.data);
+      const vm = getCurrentInstance() as ComponentInternalInstance;
+      useWatch(props);
+      return {
+        execFunc(type: string) {
+          if (props.item.data.action && props.item.data.action[type]) {
+            window.VApp.$Flex.funcExec(props.item.data.action[type], vm.proxy, [props.item.data.fieldName]);
+          }
+        },
+      };
     },
   });
 </script>
