@@ -35,6 +35,7 @@ export interface fields {
   type?: number;
   size?: string | number;
   itemConfig?: any;
+  formConfig?:any;
   trs?: fieldsTrs[];
   columns?: Columns[];
   items?: Columns[];

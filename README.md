@@ -55,7 +55,7 @@ $ pnpm pg
 
 最后在浏览器中打开
 
-http://10.181.112.141:1100/starfish-vue3-lowcode/playground/#/
+http://localhost:1100/starfish-vue3-lowcode/playground/#/
 
 即可得到一个动态表单项目
 
@@ -65,7 +65,7 @@ http://10.181.112.141:1100/starfish-vue3-lowcode/playground/#/
 使用monorepo架构
 该项目分为多个代码包,有
 starfish-form,表单组件
-@starfish/editor,编辑页面
+starfish-editor,编辑页面
 
 
 ### 提交规范
@@ -105,11 +105,11 @@ starfish-form,表单组件
 - 调试交互事件JavaScript代码
 - 自定义CSS样式
 - 嵌套表格
-
-
 - 快捷键tabindex的重要性
 - 表单联动,通过onChange方法进行表单数据操作
 - 布局下的全局样式未生效
+- 动作面板
+- 自定义CSS样式
 
 # 可用库
 - nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。

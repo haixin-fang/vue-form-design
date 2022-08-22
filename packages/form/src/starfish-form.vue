@@ -38,8 +38,6 @@
     },
     setup(props: any, { emit }) {
       const { proxy } = getCurrentInstance() as any;
-      console.log("props", props);
-      // const { allFormList, formResult } = props;
       const rules: any = ref({});
       const ruleForm = ref();
       const controlObj = ref();

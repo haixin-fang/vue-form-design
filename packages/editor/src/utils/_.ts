@@ -138,6 +138,7 @@ class Flex {
   public jsonToForm(item: AllFormItem) {
     if (!item.data || !item.controlItems) {
       item = this.deepClone(item);
+      const currentComponent = window.VApp.$formcomponents[item.ControlType as any];
       item.formConfig = window.VApp.$formcomponents[item.ControlType as any]?.formConfig || {};
       if (!item.data) {
         item.data = item.formConfig.data();
@@ -189,7 +190,34 @@ class Flex {
         }
       });
       item.id = this.generateMixed();
-      const controlItems = item.formConfig.morenConfig().concat(dynamicList);
+      let controlItems = item.formConfig.morenConfig().concat(dynamicList);
+      /**
+       * 兼容动作面板,不同表单可能需要的事件不一样
+       */
+      if (currentComponent.actionType && currentComponent.actionType.length > 0) {
+        console.log(controlItems);
+        controlItems.find((item) => {
+          if (item.ControlType == "Action") {
+            item.data.formConfig = {
+              value: {},
+              items: [],
+            };
+            currentComponent.actionType.forEach((action: string, index: number) => {
+              item.data.formConfig.items.push({
+                label: action,
+                value: action,
+                id: index + 1,
+              });
+            });
+          }
+        });
+      } else {
+        controlItems = controlItems.filter((item) => {
+          if (item.ControlType !== "Action") {
+            return item;
+          }
+        });
+      }
       item.rules = this.controlFormRule(controlItems);
       item.controlItems = controlItems;
     }
