@@ -1,0 +1,16 @@
+.divider {
+  top: 6px;
+  .control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    .divider {
+      flex: 1;
+      height: 2px;
+      background: #000;
+      border-radius: 2px;
+      margin-left: 10px;
+    }
+  }
+}

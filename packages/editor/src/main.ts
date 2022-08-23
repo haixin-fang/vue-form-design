@@ -18,7 +18,8 @@ import { basicSetup } from "codemirror";
 import VueCodemirror from "vue-codemirror";
 import FormStyle from '@/common/formStyle.vue';
 // import FormAction from '@/common/formAction.vue';
-import 'starfish-form/src/styles/index.scss';
+// import 'starfish-form/src/styles/index.scss';
+import 'starfish-form/dist/style.css';
 import { javascript } from '@codemirror/lang-javascript'
 // import { json } from '@codemirror/lang-json'
 // import { css } from '@codemirror/lang-css'

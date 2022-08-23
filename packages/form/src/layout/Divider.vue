@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem" :class="drag ? 'formCover' : ''">
+  <div class="starfish-formitem divider" :class="drag ? 'formCover' : ''">
     <div class="control">
       <div :style="{ color: item.data.color }">{{ item.data.label }}</div>
       <el-divider class="divider" :style="{ background: item.data.dividerColor }"></el-divider>
@@ -28,21 +28,3 @@
     },
   });
 </script>
-<style scoped lang="scss">
-  .starfish-formitem {
-    top: 6px;
-  }
-  .control {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    .divider {
-      flex: 1;
-      height: 2px;
-      background: #000;
-      border-radius: 2px;
-      margin-left: 10px;
-    }
-  }
-</style>

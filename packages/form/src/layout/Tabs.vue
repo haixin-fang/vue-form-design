@@ -73,8 +73,3 @@
     },
   });
 </script>
-<style scoped>
-  .draggable-box {
-    min-height: 50px;
-  }
-</style>

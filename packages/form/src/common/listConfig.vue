@@ -1,18 +1,14 @@
 <template>
-  <div class="starfish-formitem" :class="{ formCover: drag }">
-    <div class="label">
-      <label>{{ item.data.label }}</label>
+  <div class="starfish-formitem starfish-formitem-nomiddle" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top', [item.data.csslist?.join(' ')]: !!item.data.csslist }">
+    <div class="label" :class="'label_' + labelalign" :style="{ width: labelWidth + 'px' }">
+      <label>{{ item.data.label }}{{ suffix }}</label>
     </div>
-    <div class="control">
-      <el-row v-for="(items, index) in data[item.data.fieldName]" :key="index" :gutter="10">
-        <el-col :span="9">
+    <div class="control" :style="{ marginLeft: labelalign != 'top' ? labelWidth + 'px' : '' }">
+      <el-row v-for="(items, index) in data[item.data.fieldName]" :key="index" :gutter="10" style="margin-bottom: 10px;">
           <el-input-number v-model="items.span" :min="0" size="small" controls-position="right" />
-       </el-col>
-        <el-col :span="8">
-          <el-button type="danger" circle size="small" @click="onDelete(index)">
+          <el-button type="danger" circle size="small" @click="onDelete(index)" style="margin-left: 5px;">
             <el-icon><Delete /></el-icon>
           </el-button>
-        </el-col>
       </el-row>
       <el-button plain @click="onAdd" size="small">添加</el-button>
     </div>

@@ -77,24 +77,4 @@
     },
   });
 </script>
-<style lang="scss" scoped>
-  .table_box {
-    .table_layout {
-      width: 100%;
-      &.table_layout_border {
-        border: 1px solid #ccc;
-      }
-      td {
-        vertical-align: top;
-      }
-      .draggable-box {
-        min-height: 60px;
-        background: white;
-        border: 1px #ccc dashed;
-        box-sizing: border-box;
-        min-width: 50px;
-        height: 100%;
-      }
-    }
-  }
-</style>
+
