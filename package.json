@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@7.1.9",
   "scripts": {
-    "dev": "pnpm --filter \"starfish-editor\" dev",
+    "dev": "pnpm --filter \"starfish-playground\" dev",
     "serve": "pnpm --filter \"starfish-editor\" serve",
     "pg": "pnpm --filter \"starfish-playground\" dev",
     "bootstrap": "pnpm i && pnpm prepare",

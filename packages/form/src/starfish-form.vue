@@ -1,6 +1,6 @@
 <template>
   <div class="dynamicform">
-    <el-form ref="ruleForm" :model="formResult" :rules="rules" label-width="120px" class="demo-ruleForm" :validate-on-rule-change="false">
+    <el-form ref="ruleForm" :model="formResult" :rules="rules" label-width="120px" class="demo-ruleForm" :size="globalConfig.size || 'large'" :validate-on-rule-change="false">
       <template v-for="item in allFormList" :key="item.id">
         <el-form-item :prop="item.data.fieldName" v-if="!item.layout && item.show">
           <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" v-bind="globalConfig" :item="item" :data="formResult || '{}'" :drag="false"></component>
@@ -45,6 +45,41 @@
         getRules(item);
       });
 
+      function getFormListRules(rules: any[]) {
+        const result: any[] = [];
+        if (Array.isArray(rules) && rules && rules.length > 0) {
+          rules.forEach((item) => {
+            if (item.type == "enum") {
+              const func = eval(`(${item.value})`);
+              result.push({
+                validator: func,
+                trigger: "blur",
+              });
+            } else if (item.type == "func") {
+              const mainData = props.formResult;
+              const func = eval(`((rule, value, callback, mainData = mainData) => {${item.value.func}})`);
+              result.push({
+                validator: func,
+                trigger: "blur",
+              });
+              console.log('mainData', mainData)
+            } else if (item.type == "high") {
+              if (item.value.ruleType == 5) {
+                result.push({
+                  validator: eval(item.value.validor),
+                  trigger: item.value.trigger,
+                });
+                return;
+              }
+              // let high = JSON.parse(JSON.stringify(item.value));
+              // delete high.ruleType;
+              result.push(item.value);
+            }
+          });
+        }
+        return result;
+      }
+
       function getRules(item: any) {
         if (!item.layout) {
           let rule: any[] = [];
@@ -58,8 +93,9 @@
           if (typeof item.data.rule == "string") {
             rule = rule.concat(proxy.$Flex.tryParseJson(item.data.rule));
           } else {
-            rule = rule.concat(item.data.rule);
+            rule = rule.concat(getFormListRules(item.data.rule));
           }
+          debugger;
           // 特殊的jsoneditor表单要单独处理
           if (item.data.json) {
             rule.push(...proxy.$Flex.getJsonValidate());

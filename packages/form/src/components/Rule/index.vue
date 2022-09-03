@@ -1,29 +1,66 @@
 <template>
-  <div class="starfish-formitem" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top' }">
+  <div class="starfish-formitem starfish-formitem-rule" :class="{ formCover: drag, 'starfish-vertical': labelalign != 'top' }">
     <div class="label" :class="'label_' + labelalign" :style="{ width: labelWidth + 'px' }">
       <label>{{ item.data.label }}</label>
+      <span v-if="item.data.required" class="weight">*</span>
+      <el-tooltip v-if="item.data.tip" class="item" effect="dark" :content="item.data.tip" placement="bottom-start">
+        <span class="tip iconfont icon-tishi"></span>
+      </el-tooltip>
     </div>
-    <div class="control" :style="{marginLeft: labelalign != 'top'?labelWidth + 'px': ''}">
-      <el-select v-model="selectList" :placeholder="item.data.placeholder" multiple @change="onSelectChange" size="small">
-        <!-- value只能是label,value为函数,会导致要么全选中,要么全不选中 -->
-        <el-option v-for="(item, index) in selectOptions" :key="index" :label="item.label" :value="item.label" />
-      </el-select>
-      <div v-show="customShow">
-        <div id="jsoneditor" ref="jsoneditor">
-          <div class="fullScreen" @click="showCustomDialog">
-            <i class="iconfont icon-quanping"></i>
+    <div class="control" :style="{ marginLeft: labelalign != 'top' ? labelWidth + 'px' : '' }">
+      <el-collapse v-if="Array.isArray(data[item.data.fieldName]) && data[item.data.fieldName].length > 0">
+        <el-collapse-item :title="itemList.title" :name="itemList.title" v-for="(itemList, index) in data[item.data.fieldName]" :key="index">
+          <div class="collapse_enums" v-if="itemList.type == 'enum'">
+            <el-select v-model="itemList.value" placeholder="请选择" style="width: 100%" size="mini">
+              <el-option v-for="items in ruleList" :key="items.label" :label="items.label" :value="items.validator"> </el-option>
+            </el-select>
           </div>
-        </div>
-      </div>
+          <div v-if="itemList.type == 'func'">
+            <el-button type="primary" @click="handleFuncEdit(itemList)" size="mini">函数编辑</el-button>
+          </div>
+          <div v-if="itemList.type == 'high'">
+            <el-button type="primary" @click="handleFormEdit(itemList)" size="mini">规则表单编辑</el-button>
+          </div>
+          <el-button type="danger" circle @click="deleteRule(index)" style="margin-left: 10px">
+            <el-icon><Delete /></el-icon>
+          </el-button>
+        </el-collapse-item>
+      </el-collapse>
+      <el-dropdown @command="handleDropdown" style="margin-top: 10px">
+        <el-button type="success"> 新增规则<i class="el-icon-arrow-down el-icon--right"></i> </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="enum">默认枚举</el-dropdown-item>
+            <el-dropdown-item command="func">自定义函数规则</el-dropdown-item>
+            <el-dropdown-item command="high">高级模式</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
-    <CustomDialog ref="myDialog" :width="500">
+    <CustomDialog ref="codeMyDialog">
+      <div class="sqlDialog" style="padding: 20px; height: 100%" v-if="funcItem">
+        <el-select v-model="funcValue.trigger" placeholder="请选择" size="mini" style="margin-bottom: 20px">
+          <el-option label="blur" value="blur"></el-option>
+          <el-option label="change" value="change"></el-option>
+        </el-select>
+        <el-alert title="rule是存放接收参数的对象;value是待校验的值;callback是回调函数(校验完后，要执行的操作，如抛错),mainData为表单数据" type="success" style="margin-bottom: 15px" />
+        <div>(rule, value, callback, mainData) => {</div>
+        <codemirror v-model="funcValue.func" ref="cm" placeholder="" mode="text/javascript" :style="{ height: '320px' }" :autofocus="true" :indent-with-tab="true" :tab-size="2" />
+        <div>}</div>
+      </div>
+      <el-footer class="my-Footer" style="height: 60px; text-align: right">
+        <el-button @click="saveFunc" type="primary">保存</el-button>
+        <el-button @click="closeDialog">关闭</el-button>
+      </el-footer>
+    </CustomDialog>
+    <CustomDialog ref="formRuleDialog">
       <el-main style="padding: 0">
         <el-container style="height: 100%">
-          <el-main class="my-pageMain">
-            <div ref="JsonViewerDialogDom" style="height: calc(100% - 24px)"></div>
+          <el-main class="my-pageMain" style="overflow: hidden">
+            <Dynamicform ref="formdragger" v-model:formResult="formValue" :allFormList="ruleJson" :globalConfig="Object.assign({}, globalDatas, { size: 'large' })"></Dynamicform>
           </el-main>
-          <el-footer class="my-Footer" style="height: 60px; padding-top: 10px; text-align: right">
-            <el-button type="primary" @click="saveJson">保存</el-button>
+          <el-footer class="my-Footer" style="height: 60px; text-align: right">
+            <el-button type="primary" @click="saveField">保存</el-button>
             <el-button @click="closeDialog">关闭</el-button>
           </el-footer>
         </el-container>
@@ -32,164 +69,205 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, watch, ref, nextTick, onMounted, toRaw, getCurrentInstance } from "vue";
+  import { defineComponent, ref, getCurrentInstance, inject, computed } from "vue";
   import fieldProps from "../../utils/fieldProps";
-  import { useWatch } from "../../utils/customHooks";
-  import ruleList from "./rules";
   import _ from "@/utils/_";
-  interface jsonEditor {
-    [key: string]: any;
-  }
+  import ruleListData from "./rules";
+  import ruleJsonData from "./ruleform.json";
+  import { Delete } from "@element-plus/icons-vue";
+  import Dynamicform from "../../starfish-form.vue";
   export default defineComponent({
     ControlType: "Rule", // 必须与文件名匹配
     rule: _.getJsonValidate(),
     props: {
       ...fieldProps,
     },
+    components: {
+      Delete,
+      Dynamicform,
+    },
     setup(props) {
       const { proxy } = getCurrentInstance() as any;
-      /**
-       * json dom
-       */
-      const jsoneditor = ref<jsonEditor>({});
-      /**
-       * dialog 初始化jsoneditor对象
-       */
-      const jsonEditorDialog = ref<jsonEditor>({});
-      /**
-       * jsoneditor对象
-       */
-      const jsonEditors = ref<jsonEditor>();
-      /**
-       * dialog dom
-       */
-      const JsonViewerDialogDom = ref<any>();
-      const myDialog = ref<any>();
-      const customShow = ref<boolean>(false);
-
-      const selectOptions = ref<any>([]);
-      const selectList = ref<any>([]);
-      const selectResult = ref<any>([]);
-      const newRuleList: any = ruleList.map((item) => {
-        return {
-          label: item.label,
-          value: { validator: item.validator, trigger: "blur" },
-        };
-      });
-      newRuleList.push({
-        label: "自定义",
-        value: "自定义",
-      });
-      selectOptions.value = newRuleList;
-      useWatch(props);
-      function initJson() {
-        const container = jsoneditor.value;
-        const data: any = props.data;
-        const item: any = props.item;
-        const options = {
-          modes: ["text", "code", "view"],
-          mode: "code",
-          search: false,
-          onChange() {
-            setDataValue();
-          },
-        };
-        jsonEditors.value = new window.JSONEditor(container, options);
-        if (props.drag) {
-          jsonEditors.value?.set(_.tryParseJson(item.data.default));
-        } else {
-          jsonEditors.value?.set(_.tryParseJson(data[item.data.fieldName]));
-        }
-      }
-
-      function setDataValue() {
-        const data: any = props.data;
-        const item: any = props.item;
-        const fieldName = item.data.fieldName;
-        let res = toRaw(selectResult.value).map((item: any) => item.value);
-        if (customShow.value) {
-          const jsonEditor = proxy.$Flex.tryParseJson(jsonEditors.value?.getText());
-          if (jsonEditor.length > 0 && Array.isArray(jsonEditor)) {
-            res = res.concat(jsonEditor);
-          }
-        }
-        data[fieldName] = res;
-      }
-
-      function onSelectChange(value: string[]) {
-        const selectResults: any[] = [];
-        if (value.includes("自定义")) {
-          customShow.value = true;
-        } else {
-          customShow.value = false;
-          jsonEditors.value?.set([]);
-        }
-
-        value.forEach((item: any) => {
-          if (item == "自定义") {
-            return;
-          }
-          const res = toRaw(selectOptions.value).find((select: any) => {
-            if (select.label == item) {
-              return select;
-            }
-          });
-          selectResults.push(res);
-        });
-        selectResult.value = selectResults;
-        console.log("selectResult", selectResult);
-        setDataValue();
-      }
-
-      onMounted(() => {
-        initJson();
-      });
-      watch(
-        () => props.item,
-        (newValue: any) => {
-          if (props.drag) {
-            jsonEditors.value?.set(_.tryParseJson(newValue.data.default));
-          } else {
-            const data: any = props.data;
-            const item: any = props.item;
-            jsonEditors.value?.set(_.tryParseJson(data[item.data.fieldName]));
-          }
-        }
-      );
+      const { formStore } = inject<any>("control") || {};
+      const globalDatas = computed(() => formStore?.get("globalDatas"));
+      const rules = ref([]);
+      const ruleList = ref(ruleListData);
+      const funcItem: any = ref({});
+      const funcValue: any = ref({});
+      const highItem: any = ref({});
+      const formValue: any = ref({});
+      const ruleJson = ref(ruleJsonData.ruleJson);
+      const IsShow = ref(true);
+      const codeMyDialog = ref();
+      const formRuleDialog = ref();
+      const formdragger = ref();
       return {
-        customShow,
-        myDialog,
-        jsoneditor,
-        JsonViewerDialogDom,
-        selectOptions,
-        selectList,
-        onSelectChange,
-        async showCustomDialog() {
-          const myDialogDom: any = myDialog.value;
-          myDialogDom.show();
-          myDialogDom.init("JSON编辑", "icon-json-full");
-          await nextTick();
-          const container = JsonViewerDialogDom.value;
-          const options = {
-            modes: ["text", "code", "view"],
-            mode: "code",
-            search: false,
-          };
-          jsonEditorDialog.value = new window.JSONEditor(container, options);
-          jsonEditorDialog.value?.set(_.tryParseJson(jsoneditor.value.getText()));
+        IsShow,
+        rules,
+        ruleList,
+        globalDatas,
+        funcItem,
+        funcValue,
+        highItem,
+        formValue,
+        ruleJson,
+        codeMyDialog,
+        formRuleDialog,
+        formdragger,
+        handleDropdown(type: string) {
+          let title = "";
+          if (type == "enum") {
+            title = "自定义枚举";
+          } else if (type == "func") {
+            title = "自定义函数规则";
+          } else if (type == "high") {
+            title = "高级模式";
+          }
+          debugger;
+          if (Array.isArray(props.data[props.item.data.fieldName])) {
+            props.data[props.item.data.fieldName].push({
+              type,
+              title,
+              value: "",
+            });
+          } else {
+            props.data[props.item.data.fieldName] = [];
+            props.data[props.item.data.fieldName].push({
+              type,
+              title,
+              value: "",
+            });
+          }
+        },
+        handleFuncEdit(item: any) {
+          funcItem.value = item;
+          funcValue.value = item.value
+            ? JSON.parse(JSON.stringify(item.value))
+            : {
+                trigger: "blur",
+                func: `/** if (value === "" || value == null) {
+*  callback(new Error("请输入"));
+*} else if (!/^[0-9]*$/.test(value)) {
+*  callback(new Error("必须为数字"));
+*}
+*callback(); 
+*/`,
+              };
+          codeMyDialog.value.init("函数编辑", "icon-bianji");
+          codeMyDialog.value.show();
+        },
+        saveFunc() {
+          funcItem.value.value = funcValue.value;
+          proxy.closeDialog();
         },
         closeDialog() {
-          myDialog.value.close();
+          codeMyDialog.value.close();
+          formRuleDialog.value.close();
         },
-        saveJson() {
-          jsonEditors.value?.set(_.tryParseJson(jsonEditorDialog.value.getText()));
-          const data: any = props.data;
-          const item: any = props.item;
-          const fieldName = item.data.fieldName;
-          data[fieldName] = jsonEditors.value?.getText();
-          myDialog.value.close();
+        deleteRule(index: number) {
+          props.data[props.item.data.fieldName].splice(index, 1);
+        },
+        async handleFormEdit(item: any) {
+          highItem.value = item;
+          formRuleDialog.value.init("规则表单编辑", "icon-bianji");
+          formRuleDialog.value.show();
+          formValue.value = item.value || proxy.getDefaultData(ruleJson.value);
+          // await nextTick();
+          // formdragger.value.initForm(false, false, [], ruleJson.value, formValue.value, {});
+        },
+
+        getDefaultData(items: any) {
+          const maindata = {};
+          items.forEach((item: any) => {
+            maindata[item.data.fieldName] = item.data.default;
+            if (item.data.getDefault) {
+              maindata[item.data.fieldName] = item.data.getDefault();
+            }
+            if (item.data.itemConfig) {
+              maindata[item.data.fieldName] = item.data.itemConfig.value;
+            }
+            maindata[item.data.fieldName] = maindata[item.data.fieldName] != undefined ? JSON.parse(JSON.stringify(maindata[item.data.fieldName])) : undefined;
+          });
+          return maindata;
+        },
+        saveField() {
+          const newFormValue: any = {};
+          const map = {
+            1: {
+              fields: ["required", "trigger", "message"],
+            },
+            2: {
+              fields: ["trigger", "min", "max", "message"],
+            },
+            3: {
+              fields: ["required", "trigger", "type", "message"],
+            },
+            4: {
+              fields: ["required", "trigger", "patternTemp", "message"],
+            },
+            5: {
+              fields: ["trigger", "minValue", "maxValue", "message"],
+            },
+          };
+          for (const key in formValue.value) {
+            if (map[formValue.value.ruleType || "1"].fields.includes(key)) {
+              newFormValue[key] = formValue.value[key];
+            }
+          }
+          if (formValue.value.ruleType == 2) {
+            newFormValue.min = parseInt(newFormValue.min);
+            newFormValue.max = parseInt(newFormValue.max);
+          } else if (formValue.value.ruleType == 4) {
+            newFormValue.pattern = new RegExp(newFormValue.patternTemp);
+          } else if (formValue.value.ruleType == 5) {
+            newFormValue.validor = `(rule, value, callback) => {
+            if (!/(^[1-9]*$)/.test(value)) {
+              callback(new Error("请输入数字值"))
+            } else {
+              if (value > ${newFormValue.maxValue}) {
+                callback(new Error("${newFormValue.message}"))
+              } else if(value < ${newFormValue.minValue}){
+                callback(new Error("${newFormValue.message}"))
+              }else {
+                callback()
+              }
+            }
+          }`;
+          }
+          newFormValue["ruleType"] = formValue.value["ruleType"];
+          highItem.value.value = newFormValue;
+          formRuleDialog.value.close();
         },
       };
     },
   });
 </script>
+<style lang="scss">
+  .el-collapse-item {
+    border: 1px solid #ebeef5;
+    border-bottom-color: #e1e1e1;
+    .el-collapse-item__header {
+      background: #ebeef5;
+      height: 20px;
+      line-height: 20px;
+      padding: 5px;
+      font-size: 12px;
+      &.is-active {
+        border-bottom-color: transparent;
+      }
+    }
+    .el-collapse-item__content {
+      padding: 5px;
+      display: flex;
+      justify-content: space-between;
+      .el-button + .el-button {
+        margin-left: 5px;
+      }
+    }
+  }
+  .starfish-formitem-rule {
+    .label {
+      align-self: flex-start;
+    }
+  }
+</style>

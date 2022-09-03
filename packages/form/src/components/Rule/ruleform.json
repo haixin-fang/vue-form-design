@@ -1,0 +1,315 @@
+{
+  "ruleJson": [
+    {
+      "ControlType": "Radio",
+      "nameCn": "单选框",
+      "id": "fzeXda7JLr_Ji5rHr-p3v",
+      "layout": false,
+      "data": {
+        "fieldName": "ruleType",
+        "label": "规则种类",
+        "tip": "",
+        "value": "",
+        "showRule": "{}",
+        "required": false,
+        "rule": "[]",
+        "default": false,
+        "itemConfig": {
+          "value": "5",
+          "id": 5,
+          "items": [
+            {
+              "label": "必填类",
+              "value": "1",
+              "select": true,
+              "id": 1
+            },
+            {
+              "label": "字符长度类(还要表单必填才能生效)",
+              "value": "2",
+              "select": false,
+              "id": 2
+            },
+            {
+              "label": "字符类型类",
+              "value": "3",
+              "select": false,
+              "id": 3
+            },
+            {
+              "label": "正则类",
+              "value": "4",
+              "select": false,
+              "id": 4
+            },
+            {
+              "label": "数字大小",
+              "value": "5",
+              "select": false,
+              "id": 5
+            }
+          ]
+        },
+        "csslist": []
+      }
+    },
+    {
+      "ControlType": "Switch",
+      "nameCn": "开关",
+      "id": "9cZ6kCMBldaXKMOn6plsX",
+      "layout": false,
+      "data": {
+        "fieldName": "required",
+        "label": "是否必填",
+        "tip": "",
+        "value": "",
+        "showRule": {
+          "type": "andgroup",
+          "result": [
+            {
+              "type": "data",
+              "data": {
+                "field": "ruleType",
+                "logic": "!=",
+                "type": "选项",
+                "value": "2"
+              }
+            },
+            {
+              "type": "data",
+              "data": {
+                "field": "ruleType",
+                "logic": "!=",
+                "type": "选项",
+                "value": "5"
+              }
+            }
+          ],
+          "control": true
+        },
+        "required": false,
+        "rule": "[]",
+        "default": false,
+        "csslist": []
+      }
+    },
+    {
+      "ControlType": "Text",
+      "nameCn": "文本框",
+      "id": "zsnvN-ISlawlqmQ2zKy4_",
+      "layout": false,
+      "data": {
+        "fieldName": "message",
+        "label": "文案提示",
+        "tip": "",
+        "placeholder": "",
+        "showRule": "{}",
+        "required": false,
+        "rule": "[]",
+        "default": "",
+        "csslist": []
+      }
+    },
+    {
+      "ControlType": "Selected",
+      "nameCn": "选择器",
+      "id": "IyJ0vsvwI2JUUA3mx8rDV",
+      "layout": false,
+      "data": {
+        "fieldName": "trigger",
+        "label": "触发方式",
+        "tip": "",
+        "placeholder": "",
+        "showRule": "{}",
+        "required": false,
+        "rule": "[]",
+        "itemConfig": {
+          "value": "change",
+          "items": [
+            {
+              "label": "blur",
+              "value": "blur",
+              "select": true,
+              "id": 1
+            },
+            {
+              "label": "change",
+              "value": "change",
+              "select": false,
+              "id": 2
+            }
+          ],
+          "id": 2
+        }
+      }
+    },
+    {
+      "ControlType": "Text",
+      "nameCn": "文本框",
+      "id": "jrA_d3cgGvu2ihn_FalPb",
+      "layout": false,
+      "data": {
+        "fieldName": "min",
+        "label": "字符最小长度",
+        "tip": "",
+        "placeholder": "",
+        "showRule": {
+          "type": "data",
+          "data": {
+            "field": "ruleType",
+            "logic": "=",
+            "type": "选项",
+            "value": "2"
+          }
+        },
+        "required": false,
+        "rule": "[]",
+        "default": "",
+        "csslist": []
+      }
+    },
+    {
+      "ControlType": "Text",
+      "nameCn": "文本框",
+      "id": "OgCNEDeLUtRqe1PyLjnrm",
+      "layout": false,
+      "data": {
+        "fieldName": "max",
+        "label": "字符最大长度",
+        "tip": "",
+        "placeholder": "",
+        "showRule": {
+          "type": "data",
+          "data": {
+            "field": "ruleType",
+            "logic": "=",
+            "type": "选项",
+            "value": "2"
+          }
+        },
+        "required": false,
+        "rule": "[]",
+        "default": ""
+      }
+    },
+    {
+      "ControlType": "Text",
+      "nameCn": "文本框",
+      "id": "ebsL0k6iGC5iq_8uwsIsg",
+      "layout": false,
+      "data": {
+        "fieldName": "minValue",
+        "label": "最小值",
+        "tip": "",
+        "placeholder": "",
+        "showRule": {
+          "type": "data",
+          "data": {
+            "field": "ruleType",
+            "logic": "=",
+            "type": "选项",
+            "value": "5"
+          }
+        },
+        "required": false,
+        "rule": "[]",
+        "default": ""
+      }
+    },
+    {
+      "ControlType": "Text",
+      "nameCn": "文本框",
+      "id": "194TgvN1pDO7jQgHq9Uqe",
+      "layout": false,
+      "data": {
+        "fieldName": "maxValue",
+        "label": "最大值",
+        "tip": "",
+        "placeholder": "",
+        "showRule": {
+          "type": "data",
+          "data": {
+            "field": "ruleType",
+            "logic": "=",
+            "type": "选项",
+            "value": "5"
+          }
+        },
+        "required": false,
+        "rule": "[]",
+        "default": ""
+      }
+    },
+    {
+      "ControlType": "Selected",
+      "nameCn": "选择器",
+      "id": "-f-r3Nb9ARNbgrEyVrHc5",
+      "layout": false,
+      "data": {
+        "fieldName": "type",
+        "label": "字符类型",
+        "tip": "",
+        "placeholder": "",
+        "showRule": {
+          "type": "data",
+          "data": {
+            "field": "ruleType",
+            "logic": "=",
+            "type": "选项",
+            "value": "3"
+          }
+        },
+        "required": false,
+        "rule": "[]",
+        "itemConfig": {
+          "value": "number",
+          "items": [
+            {
+              "label": "date",
+              "value": "date",
+              "select": true,
+              "id": 1
+            },
+            {
+              "label": "array",
+              "value": "array",
+              "select": false,
+              "id": 2
+            },
+            {
+              "label": "number",
+              "value": "number",
+              "select": false,
+              "id": 3
+            }
+          ],
+          "id": 3
+        }
+      }
+    },
+    {
+      "ControlType": "Text",
+      "nameCn": "文本框",
+      "id": "2q4KrUCOegiGiU7OnIaa6",
+      "layout": false,
+      "data": {
+        "fieldName": "patternTemp",
+        "label": "自定义正则",
+        "tip": "",
+        "placeholder": "^\\d{6}$",
+        "showRule": {
+          "type": "data",
+          "data": {
+            "field": "ruleType",
+            "logic": "=",
+            "type": "选项",
+            "value": "4"
+          }
+        },
+        "required": false,
+        "rule": "[]",
+        "default": ""
+      }
+    }
+  ]
+}
