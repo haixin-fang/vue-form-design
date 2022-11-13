@@ -123,7 +123,6 @@
           } else if (type == "high") {
             title = "高级模式";
           }
-          debugger;
           if (Array.isArray(props.data[props.item.data.fieldName])) {
             props.data[props.item.data.fieldName].push({
               type,

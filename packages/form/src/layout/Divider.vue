@@ -1,5 +1,5 @@
 <template>
-  <div class="starfish-formitem divider" :class="drag ? 'formCover' : ''">
+  <div class="starfish-formitem starfish-form-divider" :class="drag ? 'formCover' : ''">
     <div class="control">
       <div :style="{ color: item.data.color }">{{ item.data.label }}</div>
       <el-divider class="divider" :style="{ background: item.data.dividerColor }"></el-divider>

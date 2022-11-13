@@ -177,6 +177,7 @@
         proxy.$EventBus.emit("setSave", type);
       };
       const handleFormPre = () => {
+        formStore?.set('preview', true)
         proxy.$EventBus.emit("openPreview");
       };
 
