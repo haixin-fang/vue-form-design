@@ -1,87 +1,89 @@
-.shape {
-  box-sizing: content-box;
-  // padding-bottom: 12px;
-  border: 2px solid transparent;
-  position: relative;
-  cursor: move;
-  border: 2px dotted #dfe2e2;
-  box-sizing: border-box;
-  &::before {
-    content: "";
-    height: 5px;
-    width: 0;
-    background: $blue;
-    position: absolute;
-    bottom: 0;
-    left: 100%;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-  }
-  .editbar {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border-radius: 10px 0 0 0;
-    background: $blue;
-    color: white;
-    padding: 1px 5px;
-    z-index: 3333333;
-    cursor: pointer;
-    span {
-      padding: 0 5px;
-      font-weight: 500;
-    }
-    span:first-child,
-    span:nth-child(2) {
-      font-size: 14px;
-    }
-  }
-  .editForm {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    z-index: 3333334;
-    user-select: none;
-    background-color: #fff;
+.starfish-editor {
+  .shape {
+    box-sizing: content-box;
+    // padding-bottom: 12px;
+    border: 2px solid transparent;
+    position: relative;
+    cursor: move;
+    border: 2px dotted #dfe2e2;
     box-sizing: border-box;
-    box-shadow: 0 10px 20px rgb(0 0 0 / 30%), 0 0 0 1px #eee;
-    padding: 5px 0;
-    min-width: 180px;
-    span {
-      padding: 6px 12px;
-      display: flex;
-      text-align: left;
-      white-space: nowrap;
-      color: #333;
-      position: relative;
-      &:hover {
-        background: $blue;
-        color: white;
-      }
-    }
-  }
-  .itemGhost {
-    background-color: #e70c557e;
-  }
-  &.shape_border {
-    border: 2px solid $blue;
-    background: #d1e4f6;
     &::before {
-      left: 0;
-      width: 100%;
-    }
-  }
-  &.shape_border_layout {
-    background: rgba(152, 103, 247, 0.24);
-    border: 2px solid $layout_color;
-    &::before {
-      background: $layout_color;
+      content: "";
+      height: 5px;
+      width: 0;
+      background: $blue;
+      position: absolute;
+      bottom: 0;
+      left: 100%;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
     }
     .editbar {
-      background: $layout_color;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border-radius: 10px 0 0 0;
+      background: $blue;
+      color: white;
+      padding: 1px 5px;
+      z-index: 3333333;
+      cursor: pointer;
+      span {
+        padding: 0 5px;
+        font-weight: 500;
+      }
+      span:first-child,
+      span:nth-child(2) {
+        font-size: 14px;
+      }
     }
-  }
-  &.noactive_layout {
-    background: rgba(152, 103, 247, 0.1);
+    .editForm {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      z-index: 3333334;
+      user-select: none;
+      background-color: #fff;
+      box-sizing: border-box;
+      box-shadow: 0 10px 20px rgb(0 0 0 / 30%), 0 0 0 1px #eee;
+      padding: 5px 0;
+      min-width: 180px;
+      span {
+        padding: 6px 12px;
+        display: flex;
+        text-align: left;
+        white-space: nowrap;
+        color: #333;
+        position: relative;
+        &:hover {
+          background: $blue;
+          color: white;
+        }
+      }
+    }
+    .itemGhost {
+      background-color: #e70c557e;
+    }
+    &.shape_border {
+      border: 2px solid $blue;
+      background: #d1e4f6;
+      &::before {
+        left: 0;
+        width: 100%;
+      }
+    }
+    &.shape_border_layout {
+      background: rgba(152, 103, 247, 0.24);
+      border: 2px solid $layout_color;
+      &::before {
+        background: $layout_color;
+      }
+      .editbar {
+        background: $layout_color;
+      }
+    }
+    &.noactive_layout {
+      background: rgba(152, 103, 247, 0.1);
+    }
   }
 }

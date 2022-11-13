@@ -57,7 +57,7 @@
       <el-main style="padding: 0">
         <el-container style="height: 100%">
           <el-main class="my-pageMain" style="overflow: hidden">
-            <Dynamicform ref="formdragger" v-model:formResult="formValue" :allFormList="ruleJson" :globalConfig="Object.assign({}, globalDatas, { size: 'large' })"></Dynamicform>
+            <Dynamicform ref="formdragger" v-model="formValue" :allFormList="ruleJson" :globalConfig="Object.assign({}, globalDatas, { size: 'large' })"></Dynamicform>
           </el-main>
           <el-footer class="my-Footer" style="height: 60px; text-align: right">
             <el-button type="primary" @click="saveField">保存</el-button>

@@ -1,12 +1,12 @@
 <template>
-  <div class="dynamicform">
+  <div class="starfish-dynamicform">
     <el-form ref="ruleForm" :model="formResult" :rules="rules" label-width="120px" class="demo-ruleForm" :size="globalConfig.size || 'large'" :validate-on-rule-change="false">
-      <template v-for="item in allFormList" :key="item.id">
-        <el-form-item :prop="item.data.fieldName" v-if="!item.layout && item.show">
+      <template v-for="item in allFormList" >
+        <el-form-item :prop="item.data.fieldName" v-if="!item.layout && item.show" :key="item.id">
           <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" v-bind="globalConfig" :item="item" :data="formResult || '{}'" :drag="false"></component>
         </el-form-item>
         <template v-else-if="item.show">
-          <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" v-bind="globalConfig" :item="item" :data="formResult || '{}'" :drag="false"></component>
+          <component ref="controlObj" @change="handleControlChange" :is="item.ControlType" :key="item.id" v-bind="globalConfig" :item="item" :data="formResult || '{}'" :drag="false"></component>
         </template>
       </template>
     </el-form>

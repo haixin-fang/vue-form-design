@@ -21,10 +21,12 @@ class ShortCut {
   paste(list: AllFormItem[]) {
     if (state.copyContent) {
       const pasteControl = window.VueContext.$Flex.deepClone(state.copyContent);
-      pasteControl.data.fieldName = pasteControl.ControlType + "_" + window.VueContext.$Flex.generateMixed();
-      pasteControl.id = window.VueContext.$Flex.generateMixed();
-      list.push(pasteControl);
-      state.form.formUpdate = true;
+      if(pasteControl.data){
+        pasteControl.data.fieldName = pasteControl.ControlType + "_" + window.VueContext.$Flex.generateMixed();
+        pasteControl.id = window.VueContext.$Flex.generateMixed();
+        list.push(pasteControl);
+        state.form.formUpdate = true;
+      }
     }
   }
   delete(list: AllFormItem[]) {

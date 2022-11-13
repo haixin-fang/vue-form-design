@@ -1,5 +1,5 @@
 <template>
-  <div class="table_box">
+  <div class="starfish-table_box">
     <table class="table_layout" :class="item.data.borderShow ? 'table_layout_border' : ''">
       <tr v-for="(trItem, index) in item.data.trs" :key="index">
         <td v-for="(tdItem, tdIndex) in trItem.tds" :key="tdIndex">
@@ -11,12 +11,12 @@
             </draggable>
           </template>
           <template v-else-if="!drag && tdItem.list.length > 0">
-            <template v-for="listItem in tdItem.list" :key="listItem.id">
-              <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+            <template v-for="listItem in tdItem.list">
+              <el-form-item :prop="listItem.data.fieldName"  :key="listItem.id" v-if="!listItem.layout">
                 <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
               </el-form-item>
               <template v-else>
-                <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+                <component ref="controlObj" @change="$emit('change')"  :key="listItem.id" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
               </template>
             </template>
           </template>

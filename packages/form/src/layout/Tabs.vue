@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs_box">
+  <div class="starfish-tabs_box">
     <el-tabs v-model="activeName">
       <el-tab-pane :label="colItem.name" :name="colItem.name" v-for="(colItem, index) in item.data.items" :key="index">
         <template v-if="drag">
@@ -10,12 +10,12 @@
           </draggable>
         </template>
         <template v-else-if="!drag && colItem.list.length > 0">
-          <template v-for="listItem in colItem.list" :key="listItem.id">
-            <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+          <template v-for="listItem in colItem.list" >
+            <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout" :key="listItem.id">
               <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false"></component>
             </el-form-item>
             <template v-else>
-              <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false"></component>
+              <component ref="controlObj" :key="listItem.id" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false"></component>
             </template>
           </template>
         </template>

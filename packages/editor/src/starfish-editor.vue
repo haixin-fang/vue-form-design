@@ -83,7 +83,7 @@
         default: () => ({left: [], right: [], column: true}),
       },
     },
-    setup(props, { emit }) {
+    setup(props:any, { emit }) {
       const workspace = ref();
       let dom: HTMLDivElement;
       const mouseenterHandler = () => {

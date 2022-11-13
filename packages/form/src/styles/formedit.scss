@@ -1,65 +1,69 @@
-.el-form-item__content {
-  margin-left: 0 !important;
-  margin-bottom: 12px;
-  display: block;
-}
-.el-form-item {
-  margin-bottom: 0 !important;
-}
-.el-form-item__error {
-  top: 100%;
-  left: 15px !important;
-}
-.el-form {
-  padding-bottom: 64px;
-}
-.jsoneditor-poweredBy {
-  display: none;
-}
-#app .fullscreen {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1810;
-  transform: translate(0, 0);
-  -webkit-transform: translate(0, 0);
+.starfish-editor,
+.starfish-form,
+.starfish-dynamicform {
+  .el-form-item__content {
+    margin-left: 0 !important;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .el-form-item {
+    margin-bottom: 0 !important;
+  }
+  .el-form-item__error {
+    top: 100%;
+    left: 15px !important;
+  }
+  .el-form {
+    padding-bottom: 64px;
+  }
+  .jsoneditor-poweredBy {
+    display: none;
+  }
+  .starfish-formitem {
+    text-align: left;
+    position: relative;
+    margin: 0 12px;
+    &.starfish-vertical {
+      display: flex;
+      align-items: center;
+      .control {
+        width: 100%;
+      }
+    }
+    &.formCover {
+      padding-bottom: 12px;
+    }
+    .label {
+      font-size: 14px;
+      height: 25px;
+      line-height: 25px;
+      padding-right: 12px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      &.label_right {
+        float: left;
+        text-align: right;
+        position: absolute;
+      }
+      &.label_left {
+        float: left;
+        text-align: left;
+        position: absolute;
+      }
+    }
+    .item_require {
+      color: red;
+    }
+  }
 }
 
-.starfish-formitem {
-  text-align: left;
-  position: relative;
-  margin: 0 12px;
-  &.starfish-vertical {
-    display: flex;
-    align-items: center;
-    .control {
-      width: 100%;
-    }
-  }
-  &.formCover {
-    padding-bottom: 12px;
-  }
-  .label {
-    font-size: 14px;
-    height: 25px;
-    line-height: 25px;
-    padding-right: 12px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    &.label_right {
-      float: left;
-      text-align: right;
-      position: absolute;
-    }
-    &.label_left {
-      float: left;
-      text-align: left;
-      position: absolute;
-    }
-  }
-  .item_require {
-    color: red;
-  }
-}
+// #app .fullscreen {
+//   position: fixed;
+//   left: 0;
+//   top: 0;
+//   height: 100%;
+//   width: 100%;
+//   z-index: 1810;
+//   transform: translate(0, 0);
+//   -webkit-transform: translate(0, 0);
+// }

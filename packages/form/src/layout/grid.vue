@@ -1,5 +1,5 @@
 <template>
-  <div class="grid_box">
+  <div class="starfish-grid_box">
     <el-row :gutter="item.data.gutter">
       <template v-if="drag">
         <el-col class="grid-col" v-for="(colItem, index) in gridList" :key="index" :span="colItem.span">
@@ -14,12 +14,12 @@
       </template>
       <template v-else-if="!drag && item.data.columns.length > 0">
         <el-col class="grid-col" v-for="(colItem, index) in item.data.columns" :key="index" :span="colItem.span">
-          <template v-for="listItem in colItem.list" :key="listItem.id">
-            <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+          <template v-for="listItem in colItem.list" >
+            <el-form-item :prop="listItem.data.fieldName" :key="listItem.id" v-if="!listItem.layout">
               <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false"></component>
             </el-form-item>
             <template v-else>
-              <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false"></component>
+              <component ref="controlObj" @change="$emit('change')" :key="listItem.id" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false"></component>
             </template>
           </template>
         </el-col>
