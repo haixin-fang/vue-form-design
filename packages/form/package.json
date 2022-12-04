@@ -17,7 +17,8 @@
     "./*": "./*"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "prepublish": "npm version && npm run build"
   },
   "dependencies": {
     "element-plus": "^2.2.12",

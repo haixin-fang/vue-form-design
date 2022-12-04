@@ -19,7 +19,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "prepublish": "npm version && npm run build"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",
