@@ -1,6 +1,6 @@
 <template>
   <CustomDialog dialogclass="preview" ref="previewDialog" @close="handleDialogClose">
-    <Dynamicform v-model:formResult="formResult" :allFormList="list" @change="handleFormUpdate" ref="dynamicform" style="height: 100%; overflow: auto"></Dynamicform>
+    <Dynamicform v-model="formResult" :allFormList="list" @change="handleFormUpdate" ref="dynamicform" style="height: 100%; overflow: auto"></Dynamicform>
     <el-footer class="my-Footer" style="text-align: center">
       <el-button @click="goBack" type="primary">关闭</el-button>
       <el-button type="primary" @click="resetForm">重置表单</el-button>
@@ -13,7 +13,9 @@
   import { computed } from "vue";
   import { defineComponent, ref, Ref, getCurrentInstance, ComponentInternalInstance, onMounted } from "vue";
   import Store from "../Server";
+  import { Dynamicform } from "starfish-form";
   export default defineComponent({
+    components:{Dynamicform},
     setup() {
       const list = computed(() => Store?.get("allFormList"));
       const previewDialog = ref();

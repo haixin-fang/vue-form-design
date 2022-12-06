@@ -61,7 +61,7 @@
         get() {
           return formStore?.get("allFormList");
         },
-        set(value) {
+        set(value:AllFormItem[]) {
           // 防止引用类型污染
           value = value.map((item: AllFormItem) => {
             console.log(formcomponents[item.ControlType as any]);

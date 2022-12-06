@@ -1,11 +1,10 @@
 
 
 import {createRouter,createWebHashHistory} from 'vue-router'
-import Home from './components/Home.vue';
-import Form from './components/Form.vue';
+
 const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: Form },
+  { path: '/', component: () => import("./components/Home.vue") },
+  { path: '/about', component: () => import("./components/Form.vue") },
 ]
 
 // 3. 创建路由实例并传递 `routes` 配置

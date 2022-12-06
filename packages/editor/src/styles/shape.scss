@@ -37,6 +37,18 @@
         font-size: 14px;
       }
     }
+    .fade-leave-to,
+    .fade-enter-from {
+      opacity: 0;
+    }
+    .fade-leave-from,
+    .fade-enter-to {
+      opacity: 1;
+    }
+    .fade-leave-active,
+    .fade-enter-to {
+      transition: all 0.2s ease-in;
+    }
     .editForm {
       position: absolute;
       display: flex;
