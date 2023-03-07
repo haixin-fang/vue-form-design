@@ -14,9 +14,7 @@
     "starfish-editor": "^1.0.6",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3",
-    "starfish-form": "^1.1.2",
-    "vue-codemirror": "^6.0.2",
-    "codemirror": "^6.0.1"
+    "starfish-form": "^1.1.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",

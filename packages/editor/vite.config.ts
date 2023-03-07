@@ -3,6 +3,7 @@ import dts from 'vite-plugin-dts';
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import pkg from './package.json';
+import Visualizer from 'rollup-plugin-visualizer'
 const alias: any = [
   {
     find: "@",
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV != "production") {
 }
 export default defineConfig({
   plugins: [
+    Visualizer(),
     dts({
         outputDir: path.join(path.resolve(__dirname, 'dist'), "types"),
         include: ['src/**/*'],

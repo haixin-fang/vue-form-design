@@ -26,8 +26,8 @@ if (process.env.NODE_ENV != "production") {
   alias.push({ find: /^element-plus$/, replacement: path.join(__dirname, "node_modules/element-plus/es/index.mjs") });
   alias.push({ find: /^starfish-form\//, replacement: path.join(__dirname, "node_modules/starfish-form/") });
   alias.push({ find: /^@element-plus\/icons-vue/, replacement: path.join(__dirname, "node_modules/@element-plus/icons-vue/dist/index.js") });
-  alias.push({ find: /^vue-codemirror$/, replacement: path.join(__dirname, "node_modules/vue-codemirror/dist/vue-codemirror.esm.js") });
-  alias.push({ find: /^codemirror$/, replacement: path.join(__dirname, "node_modules/codemirror/dist/index.js") });
+  // alias.push({ find: /^vue-codemirror$/, replacement: path.join(__dirname, "node_modules/vue-codemirror/dist/vue-codemirror.esm.js") });
+  // alias.push({ find: /^codemirror$/, replacement: path.join(__dirname, "node_modules/codemirror/dist/index.js") });
 }
 export default defineConfig({
   plugins: [vue()],

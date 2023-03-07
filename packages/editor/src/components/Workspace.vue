@@ -191,7 +191,7 @@
         pasteShow,
         fullScreen,
         onEditorCenter: (e: any) => {
-          if (e.path[0].className == "editor_pages_center") {
+          if (e && e.path && e.path[0].className == "editor_pages_center") {
             formStore?.setFormCurrentId("");
             pasteShow.value = false;
           }

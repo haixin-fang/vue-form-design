@@ -33,7 +33,7 @@ class Ui {
   }
   public set<T>(name: keyof typeof state, value: T) {
     if (name === "columnWidth") {
-      this.setColumnWidth(value);
+      this.setColumnWidth(value as setColumnWidth);
     } else if (name === "scale") {
       this.setScale(Number(value));
     }else if(name == 'isFullscreen'){

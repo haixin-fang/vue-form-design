@@ -6,6 +6,7 @@
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     box-sizing: border-box;
+    z-index: 2;
     &:hover {
       cursor: ew-resize;
       border-color: $resizer_hover_background_color;
