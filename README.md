@@ -167,4 +167,18 @@ menu: {
     left: ['delete', 'undo', 'redo', 'tree', 'save', 'preview', 'fullscreen'],
     right: ['viewport', 'json-export', 'json-import'],
     column: true
+
 },
+
+
+## `Star`
+
+非常感谢留下星星的好心人，感谢您的支持 :heart:
+
+[![Stargazers for starfish-vue3-lowcode](https://bytecrank.com/nastyox/reporoster/php/stargazersSVG.php?user=haixin-fang&repo=starfish-vue3-lowcode)](https://github.com/haixin-fang/starfish-vue3-lowcode/stargazers)
+
+## `Fork`
+
+瞧，那些 `小哥哥` 、`小姐姐` 认真 `学习` 的样子真滴是 `哎呦不错哦` :heart:
+
+[![Forkers repo roster for starfish-vue3-lowcode](https://reporoster.com/forks/haixin-fang/starfish-vue3-lowcode)](https://github.com/haixin-fang/starfish-vue3-lowcode/network/members)
