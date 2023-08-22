@@ -14,7 +14,9 @@
     "resolveJsonModule":true,
     "baseUrl": ".",
     "types": [
-      "node",
+      "webpack-env",
+      "jest",
+      "node"
     ],
     "paths": {
       "@/*": [
@@ -28,10 +30,15 @@
       "esnext",
       "dom",
       "dom.iterable",
-      "scripthost"
+      "scripthost",
+      "es6",
+      "es2017"
     ]
   },
   "exclude": [
     "node_modules",
+  ],
+  "include": [
+    "*"
   ]
 }

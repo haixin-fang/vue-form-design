@@ -1,6 +1,6 @@
 {
   "name": "starfish-editor",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "publish": false,
   "main": "dist/starfish-editor.umd.js",
   "style": "dist/style.css",

@@ -13,7 +13,7 @@
         <div class="custom_code">
           <codemirror v-model="code" placeholder=".starfish-form-css{}" :style="{ height: '400px' }" :autofocus="true" :extensions="extensions" :indent-with-tab="true" :tab-size="2" />
         </div>
-        <el-footer class="my-Footer" style="text-align: center">
+        <el-footer class="my-Footer" style="text-align: center;">
           <el-button type="primary" @click="saveCssStyle">确定</el-button>
           <el-button @click="closeCodeDialog">关闭</el-button>
         </el-footer>

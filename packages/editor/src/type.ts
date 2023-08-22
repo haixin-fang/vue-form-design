@@ -15,6 +15,8 @@ interface ColumnWidth {
   right: number;
 }
 
+declare type T1 = number;
+
 export interface UiState {
   /**
    * 编辑器各模块宽度

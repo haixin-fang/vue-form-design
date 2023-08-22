@@ -168,3 +168,10 @@ menu: {
     right: ['viewport', 'json-export', 'json-import'],
     column: true
 },
+
+
+
+1、布局控件建议增加表格控件，可以配出类似word表单
+2、建议增加打印
+3、建议增加PC、PAD、H5的预览功能
+4、建议增加自定义样式配置

@@ -169,13 +169,13 @@
       const checkValidates = async (formSave = false, type?: string) => {
         const curControlIndex = formStore?.get("currentIndex");
         if (preview.value || save.value || formUpdate.value) {
-          const preview = await checkFormValidate(allFormList.value);
-          if (preview) {
+          const ispreview = await checkFormValidate(allFormList.value);
+          if (ispreview) {
             formStore?.setFormCurrentIndex(curControlIndex);
           }
-          formStore?.setSave(preview as boolean);
+          formStore?.setSave(ispreview as boolean);
           formStore?.setFormUpdate(false);
-          if (preview) {
+          if (ispreview) {
             const result: BaseComponentItem[] = initFormToJson(allFormList.value);
             debugger
             formStore?.set("AllFormResult", result);
@@ -183,9 +183,9 @@
             emit("save");
           }
           if (!formSave) {
-            formStore?.set("previewShow", preview);
+            formStore?.set("previewShow", ispreview);
             formStore?.set("preview", false);
-          } else if (preview) {
+          } else if (ispreview) {
             window.VApp.$notify.success({
               title: type ? "已自动保存" : "保存成功",
             });
