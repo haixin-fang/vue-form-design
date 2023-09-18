@@ -16,7 +16,7 @@
       <props-panel @save="onSave" :column="menu.column"></props-panel>
     </template>
     <template #other>
-      <form-preview></form-preview>
+      <form-preview ref="formPreview"></form-preview>
     </template>
   </framework>
 </template>
@@ -85,6 +85,7 @@
     },
     setup(props:any, { emit }) {
       const workspace = ref();
+      const formPreview = ref();
       let dom: HTMLDivElement;
       const mouseenterHandler = () => {
         dom?.focus();
@@ -119,6 +120,7 @@
       provide("control", control);
       return {
         workspace,
+        formPreview,
         onSave() {
           emit("save", formStore?.get("AllFormResult"));
         },

@@ -4,8 +4,12 @@
     background: white;
     border: 1px #ccc dashed;
     box-sizing: border-box;
+    width: 100%;
   }
   :deep(.el-collapse-item__content) {
     padding-bottom: 5px;
+    > * {
+      width: 100%;
+    }
   }
 }

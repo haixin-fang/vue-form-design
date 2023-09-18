@@ -5,7 +5,6 @@ declare module "*.vue" {
   export default component;
 }
 
-
 declare module 'starfish-form'
 
 declare module "jsoneditor";

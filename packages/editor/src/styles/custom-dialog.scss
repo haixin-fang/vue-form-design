@@ -104,6 +104,12 @@
       text-align: right;
       padding-top: 3px;
       border-top: 1px solid #ebeef5;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
   }
 }

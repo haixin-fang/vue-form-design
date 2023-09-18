@@ -3,21 +3,21 @@
     <div class="control">
       <el-collapse v-model="activeName" :accordion="item.data.accordion">
         <el-collapse-item :title="colItem.name" :name="colItem.name" v-for="(colItem, index) in item.data.items" :key="index">
-          <tempate v-if="drag">
+          <template v-if="drag">
             <draggable class="draggable-box" animation="300" ghostClass="itemGhost" v-model="colItem.list" @add="addControl($event, colItem.list, index)" group="starfish-form" @choose="chooseClick($event, colItem.list)" item-key="id" @update="changePos($event, colItem.list)">
               <template #item="{ element, index }">
                 <Shape v-if="element.data" :active="currentId == element.id" :currentIndex="index" :currentId="element.id" :len="colItem.list.length" :item="element"> <component :is="element.ControlType" :drag="true" :item="element" :data="{}"></component></Shape>
               </template>
             </draggable>
-          </tempate>
+          </template>
           <template v-else-if="!drag && colItem.list.length > 0">
-            <template v-for="listItem in colItem.list" :key="listItem.id">
-              <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout">
+            <template v-for="listItem in colItem.list" >
+              <el-form-item :prop="listItem.data.fieldName" v-if="!listItem.layout" :key="listItem.id">
               <!-- v-if="listItem.show" -->
                 <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
               </el-form-item>
               <template v-else>
-                <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :drag="false" ></component>
+                <component ref="controlObj" @change="$emit('change')" :is="listItem.ControlType" :item="listItem" :data="data || '{}'" :key="listItem.id" :drag="false" ></component>
               </template>
             </template>
           </template>

@@ -10,7 +10,6 @@ const state = reactive<FormState>({
   preview: false, // 开启预览进行表单验证
   previewShow: false, // 预览是否展示
   save: false, // 保存
-  saveTimetemp: new Date().getTime(), //上一次保存的时间戳
   // 下一次保存的时候判断表单是否变更了，而不用变更就改变vuex的save，但是我们监听了save会形成死循环
   formUpdate: false, // 判断表单是否更新
   AllFormResult: [], // 预览和存储到数据库最终结果

@@ -128,10 +128,7 @@ export interface FormState {
    * 保存
    */
   save: boolean;
-  /**
-   * 上一次保存的时间戳
-   */
-  saveTimetemp: number;
+
   /**
    * 下一次保存的时候判断表单是否变更了，而不用变更就改变save，但是我们监听了save会形成死循环
    * 判断表单是否更新

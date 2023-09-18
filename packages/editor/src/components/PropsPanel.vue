@@ -168,6 +168,8 @@
 
       const checkValidates = async (formSave = false, type?: string) => {
         const curControlIndex = formStore?.get("currentIndex");
+        // 预览模式下不自动保存
+        if(type && preview.value)return;
         if (preview.value || save.value || formUpdate.value) {
           const ispreview = await checkFormValidate(allFormList.value);
           if (ispreview) {
@@ -176,8 +178,8 @@
           formStore?.setSave(ispreview as boolean);
           formStore?.setFormUpdate(false);
           if (ispreview) {
-            const result: BaseComponentItem[] = initFormToJson(allFormList.value);
             debugger
+            const result: BaseComponentItem[] = initFormToJson(allFormList.value);
             formStore?.set("AllFormResult", result);
             formStore?.handleDynamicForm();
             emit("save");

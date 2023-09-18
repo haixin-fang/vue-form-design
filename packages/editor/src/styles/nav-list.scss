@@ -28,10 +28,14 @@
       width: 20% !important;
     }
   }
-  .codeDialog {
-    height: auto;
-    .custom_code {
-      height: 100%;
+}
+.codeDialog {
+  height: auto;
+  .custom_code {
+    height: 100%;
+    flex: 1;
+    .upload-demo {
+      margin-top: 20px;
     }
   }
 }

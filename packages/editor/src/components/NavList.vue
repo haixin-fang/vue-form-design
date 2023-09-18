@@ -78,7 +78,6 @@
     setup(props) {
       const { proxy } = getCurrentInstance() as any;
       const { hisContrl, uiControl, formStore } = inject<Controls>("control") || {};
-      const lastTime = computed(() => formStore?.get("saveTimetemp"));
       const clearIsDisable = computed(() => formStore?.get("allFormList")?.length == 0);
       const historyIndex = computed(() => hisContrl?.get("index"));
       const historyLen = computed(() => hisContrl?.get<Array<any>>("historyList").length || 0);
@@ -100,6 +99,7 @@
         id: string;
         label: string;
         children?: Tree[];
+        name?: string;
       }
       const initTree = () => {
         if (allFormList.value && allFormList.value.length > 0) {
@@ -115,7 +115,7 @@
         if (!item.layout) {
           return {
             id: item.id,
-            label: item.ControlType + "_" + item.data.fieldName,
+            label: item.nameCn,
           };
         } else {
           let children;
@@ -138,13 +138,13 @@
                 });
                 return {
                   id: "",
-                  label: "table_Column",
+                  label: "列",
                   children,
                 };
               });
               return {
                 id: "",
-                label: "table_Row",
+                label: "行",
                 children,
               };
             });
@@ -155,14 +155,14 @@
               });
               return {
                 id: "",
-                label: item.ControlType + "_child",
+                label: item.nameCn + '-child',
                 children,
               };
             });
           }
           return {
             id: item.id,
-            label: item.ControlType + "_" + item.data.fieldName,
+            label: item.nameCn,
             children,
           };
         }
@@ -183,10 +183,7 @@
 
       const setTimeSave = () => {
         timer = setInterval(() => {
-          const nowTime = new Date().getTime();
-          if (nowTime - lastTime.value > 5 * 60 * 1000) {
-            handleFormSave("auto");
-          }
+          handleFormSave("auto");
         }, 20000);
       };
 

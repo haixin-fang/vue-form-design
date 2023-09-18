@@ -9,13 +9,10 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "resolveJsonModule":true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
-      "jest",
       "node"
     ],
     "paths": {
@@ -25,6 +22,7 @@
       "@starfish/*": [
         "packages/*/src"
       ],
+   
     },
     "lib": [
       "esnext",
