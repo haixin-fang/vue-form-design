@@ -168,7 +168,7 @@
         }
       }
       const dialog = ref(false);
-      let timer: unknown = null;
+      const timer: unknown = null;
       const filterNode = (value: string, data: Tree) => {
         if (!value) return true;
         return data.label.includes(value);
@@ -182,9 +182,9 @@
       };
 
       const setTimeSave = () => {
-        timer = setInterval(() => {
-          handleFormSave("auto");
-        }, 20000);
+        // timer = setInterval(() => {
+        //   handleFormSave("auto");
+        // }, 20000);
       };
 
       const handleImportJson = () => {
