@@ -1,4 +1,4 @@
-# starfish-vue3-lowcode
+# vue-form-design
 Starfish 可视化动态表单平台及h5页面搭建平台。
 
 * 💪 Vue 3.0 Composition API
@@ -6,7 +6,7 @@ Starfish 可视化动态表单平台及h5页面搭建平台。
 
 # 在线体验
 
-https://haixin-fang.github.io/starfish-vue3-lowcode/playground/index.html
+https://haixin-fang.github.io/vue-form-design/playground/index.html
 
 ## 图片
 [![vlt3PU.gif](https://s1.ax1x.com/2022/08/09/vlt3PU.gif)](https://imgtu.com/i/vlt3PU)
@@ -55,7 +55,7 @@ $ pnpm pg
 
 最后在浏览器中打开
 
-http://localhost:1100/starfish-vue3-lowcode/playground/#/
+http://localhost:1100/vue-form-design/playground/#/
 
 即可得到一个动态表单项目
 
@@ -181,10 +181,10 @@ menu: {
 
 非常感谢留下星星的好心人，感谢您的支持 :heart:
 
-[![Stargazers for starfish-vue3-lowcode](https://bytecrank.com/nastyox/reporoster/php/stargazersSVG.php?user=haixin-fang&repo=starfish-vue3-lowcode)](https://github.com/haixin-fang/starfish-vue3-lowcode/stargazers)
+[![Stargazers for vue-form-design](https://bytecrank.com/nastyox/reporoster/php/stargazersSVG.php?user=haixin-fang&repo=vue-form-design)](https://github.com/haixin-fang/vue-form-design/stargazers)
 
 ## `Fork`
 
 瞧，那些 `小哥哥` 、`小姐姐` 认真 `学习` 的样子真滴是 `哎呦不错哦` :heart:
 
-[![Forkers repo roster for starfish-vue3-lowcode](https://reporoster.com/forks/haixin-fang/starfish-vue3-lowcode)](https://github.com/haixin-fang/starfish-vue3-lowcode/network/members)
+[![Forkers repo roster for vue-form-design](https://reporoster.com/forks/haixin-fang/vue-form-design)](https://github.com/haixin-fang/vue-form-design/network/members)

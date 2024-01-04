@@ -22,20 +22,20 @@
 在自己的 github 中，找到 fork 下来的项目，git clone 到本地。
 
 ```bash
-$ git clone git@github.com:<yourname>/starfish-vue3-lowcode.git
+$ git clone git@github.com:<yourname>/vue-form-design.git
 ```
 
-#### 添加 starfish-vue3-lowcode 仓库
+#### 添加 vue-form-design 仓库
 
 将 fork 源仓库连接到本地仓库：
 
 ```bash
 $ git remote add <name> <url>
 # 例如：
-$ git remote add wepy git@github.com:haixin-fang/starfish-vue3-lowcode.git
+$ git remote add wepy git@github.com:haixin-fang/vue-form-design.git
 ```
 
-#### 保持与 starfish-vue3-lowcode 仓库的同步
+#### 保持与 vue-form-design 仓库的同步
 
 更新上游仓库：
 

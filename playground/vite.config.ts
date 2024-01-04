@@ -60,7 +60,7 @@ export default defineConfig({
       ],
     },
   },
-  base: "/starfish-vue3-lowcode/playground",
+  base: "/vue-form-design/playground",
   build: {
     cssCodeSplit: false, // 如果设置为false，整个项目中的所有 CSS 将被提取到一个 CSS 文件中
     sourcemap: false, // 构建后是否生成 source map 文件。如果为 true，将会创建一个独立的 source map 文件

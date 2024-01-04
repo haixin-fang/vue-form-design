@@ -1,5 +1,5 @@
 {
-  "name": "starfish-vue3-lowcode",
+  "name": "vue-form-design",
   "version": "1.0.0-alpha.2",
   "private": true,
   "packageManager": "pnpm@7.1.9",
@@ -21,10 +21,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:haixin-fang/starfish-vue3-lowcode.git"
+    "url": "git@github.com:haixin-fang/vue-form-design.git"
   },
   "bugs": {
-    "url": "https://github.com/haixin-fang/starfish-vue3-lowcode/issues"
+    "url": "https://github.com/haixin-fang/vue-form-design/issues"
   },
   "author": "haixin-fang",
   "license": "MIT",
