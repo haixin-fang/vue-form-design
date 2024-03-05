@@ -95,7 +95,6 @@
           } else {
             rule = rule.concat(getFormListRules(item.data.rule));
           }
-          debugger;
           // 特殊的jsoneditor表单要单独处理
           if (item.data.json) {
             rule.push(...proxy.$Flex.getJsonValidate());

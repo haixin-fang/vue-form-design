@@ -162,7 +162,7 @@
           return item.options || [];
         },
         show() {
-          maxJsonDialog.value.init("可用条件", "icon-bianji");
+          maxJsonDialog.value.init("可用条件", "icon-icon-bianji");
           maxJsonDialog.value.show();
           console.log(props.data);
           if (typeof props.data.showRule != "string" && Array.isArray(props.data.showRule)) {

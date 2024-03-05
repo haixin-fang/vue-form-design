@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15466212",
+      "name": "icon-bianji",
+      "font_class": "icon-bianji",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "808620",
       "name": "tree",
       "font_class": "tree",

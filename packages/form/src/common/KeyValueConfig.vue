@@ -8,7 +8,7 @@
       </el-tooltip>
     </div>
     <div class="control" :style="{ marginLeft: labelalign != 'top' ? labelWidth + 'px' : '' }">
-      <div class="keyValueItem" v-for="(items, index) in data[item.data.fieldName].items" :key="index">
+      <div class="starfish-keyValueItem" v-for="(items, index) in data[item.data.fieldName].items" :key="index">
         <div class="keyValueSelect">
           <el-checkbox v-model="items.select" @change="getChangeSelect(items)"></el-checkbox>
         </div>

@@ -208,7 +208,7 @@ export default defineComponent({
       // extensions,
       onAction(type?: string) {
         action.value = window.VApp.$Flex.deepClone(actionStore?.get("action"));
-        actionRef.value.init("动作设置", "icon-bianji");
+        actionRef.value.init("动作设置", "icon-icon-bianji");
         actionRef.value.show();
         if (type) {
           actionType = type;
@@ -227,7 +227,7 @@ export default defineComponent({
       onEditAction(key: any, type: string) {
         actionType = key;
         action.value = window.VApp.$Flex.deepClone(actionStore?.get("action"));
-        actionRef.value.init("动作设置", "icon-bianji");
+        actionRef.value.init("动作设置", "icon-icon-bianji");
         actionRef.value.show();
         const item = action.value.find((item: any) => {
           if (item.type == type) {

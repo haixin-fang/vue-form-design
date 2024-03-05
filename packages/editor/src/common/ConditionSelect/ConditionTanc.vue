@@ -212,7 +212,7 @@
         return this.logicList;
       },
       show(data) {
-        this.$refs.maxJsonDialog.init("可用条件", "icon-bianji");
+        this.$refs.maxJsonDialog.init("可用条件", "icon-icon-bianji");
         this.$refs.maxJsonDialog.show();
         if (Object.keys(data).length > 0) {
           this.table = [data];

@@ -65,7 +65,7 @@
     emits: ["change"],
     methods: {
       async show() {
-        this.$refs.maxJsonDialog.init("可用条件", "icon-bianji");
+        this.$refs.maxJsonDialog.init("可用条件", "icon-icon-bianji");
         this.$refs.maxJsonDialog.show();
         await this.$nextTick();
         const allFormList = formStore?.get("allFormList");
