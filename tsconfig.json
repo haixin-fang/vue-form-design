@@ -28,15 +28,10 @@
       "esnext",
       "dom",
       "dom.iterable",
-      "scripthost",
-      "es6",
-      "es2017"
+      "scripthost"
     ]
   },
   "exclude": [
     "node_modules",
   ],
-  "include": [
-    "*"
-  ]
 }
