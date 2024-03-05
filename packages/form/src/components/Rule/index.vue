@@ -45,7 +45,7 @@
             >
               <el-option
                 v-for="items in ruleList"
-                :key="items.label"
+                :key="items.value"
                 :label="items.label"
                 :value="items.validator"
               >
