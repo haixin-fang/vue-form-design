@@ -1,15 +1,34 @@
 # vue-form-design
-Starfish 可视化动态表单平台及h5页面搭建平台。
 
-* 💪 Vue 3.0 Composition API
-* 🔥 Written in TypeScript
+Starfish 可视化动态表单平台及 h5 页面搭建平台。
+
+- 💪 Vue 3.0 Composition API
+- 🔥 Written in TypeScript
 
 # 在线体验
 
 https://haixin-fang.github.io/vue-form-design/playground/index.html
 
 ## 图片
+
 [![vlt3PU.gif](https://s1.ax1x.com/2022/08/09/vlt3PU.gif)](https://imgtu.com/i/vlt3PU)
+
+## 简介
+
+可以简称`starfish设计器`，是一个功能强大、开箱即用的拖拽式低代码设计器。它基于 Vue3 开发，可以让开发者根据自己的需求自由扩展和定制组件。此外，vue-form-design 使用 JSON 配置来生成页面，可帮助开发者快速生成页面，提高开发效率。它提供了两个重要组件：`starfish-editor` 设计器和 `starfish-form` 生成器。
+
+#### 功能
+
+- [x] 拖拽设计
+- [x] 自定义 actionBar
+- [x] 布局组件扩展
+- [x] 自定义组件扩展
+- [x] 事件扩展
+- [x] 完善布局
+- [x] 组件属性自定义
+- [x] 动态校验 ([开源表单设计器 vue-form-design 动态表单校验实现原理](https://juejin.cn/post/7343161506698592266))
+- [x] 表单显示条件
+- [x] 支持快捷键设计表单
 
 ## 技术栈
 
@@ -17,18 +36,19 @@ https://haixin-fang.github.io/vue-form-design/playground/index.html
 - typescript
 - Vite
 - element-plus
-
-
+- codemirror
 
 ## 代码规范
+
 - husky
-操作 git 钩子的工具
+  操作 git 钩子的工具
 - lint-staged
-本地暂存代码检查工具
+  本地暂存代码检查工具
 - commitlint
-commit 信息校验工具
+  commit 信息校验工具
 - commitizen
-辅助 commit 信息 ,就像这样,通过选择输入,规范提交信息
+  辅助 commit 信息 ,就像这样,通过选择输入,规范提交信息
+
 ## 环境准备
 
 node.js >= 16
@@ -59,14 +79,12 @@ http://localhost:1100/vue-form-design/playground/#/
 
 即可得到一个动态表单项目
 
-
 ## 架构
 
-使用monorepo架构
+使用 monorepo 架构
 该项目分为多个代码包,有
 starfish-form,表单组件
 starfish-editor,编辑页面
-
 
 ### 提交规范
 
@@ -85,97 +103,89 @@ starfish-editor,编辑页面
 - `types` 类型定义文件更改
 - `wip` 开发中
 
-
-## Bug记录,功能记录,后续解决或完成
-
-- 预览模式下自动保存导致动态表单不显示
-- 不能连续点击后退,做个限制
-- 是否全屏加入历史快照
-- 导入导出json
-- 预览功能优化,样式太丑
-- 增加表格
-- 布局增加卡片、栅格、标签页
-- 布局下的表单验证
-- 表单新增提示,间距,html
-- 组件层级结构树
-- 容器组件的显示条件优化
-- github自动构建
-- 抽离样式,统一修改,解决安装依赖库必须打包问题(打包后才有dist文件和唯一的样式文件),解决全局样式变量必须给每个组件打包同一份样式问题
-- 本地运行的产物和打包后的产物不同,所以打包后样式需要手动导入
-- 调试交互事件JavaScript代码
-- 自定义CSS样式
-- 嵌套表格
-- 快捷键tabindex的重要性
-- 表单联动,通过onChange方法进行表单数据操作
-- 布局下的全局样式未生效
-- 动作面板
-- 自定义CSS样式
-
 # 可用库
-- nanoid 一个小巧、安全、URL友好、唯一的 JavaScript 字符串ID生成器。
+
+- nanoid 一个小巧、安全、URL 友好、唯一的 JavaScript 字符串 ID 生成器。
+
+## 核心组件介绍
+
+#### starfish-editor 设计器
+
+`starfish-editor` 是一个可视化设计器组件，用户可以通过拖拽组件的方式快速生成 JSON 配置。它提供了丰富的组件库和配置项，用户可以根据需要选择合适的组件并配置相应的属性、事件和动作。设计器还提供了实时预览功能，用户可以随时查看所设计页面的效果。最终，用户可以将 JSON 配置导出，用于页面的生成和修改。
+
+#### starfish-form 生成器
+
+`e-builder` 是一个页面构建组件，它可以将设计器生成的 JSON 配置构建成页面，完成组件的渲染、事件绑定和数据回显等操作。
 
 ## 项目中引用表单编辑器
 
 先安装包
+
 ```js
 npm i starfish-editor -S
 ```
+
 注册包
+
 ```js
 import { createApp } from "vue";
 import App from "./App.vue";
 import StarfishEditor from "starfish-editor";
-import 'starfish-editor/src/styles/index.scss';
+import "starfish-editor/src/styles/index.scss";
 const app = createApp(App);
 app.use(StarfishEditor);
 app.mount("#app");
 ```
+
 使用编辑器吗,对应字段参考下方
+
 ```js
 <starfish-editor class="starfish-editor"> </starfish-editor>
 ```
-动态表单使用
+
+生成器使用
+
 ```js
 import { Dynamicform } from "starfish-form";
 app.component(Dynamicform.name, Dynamicform);
 ```
 
 动态表单组件使用
-`formResult`可以为空,list是通过编辑器生成的结果,搭配使用
+
+`formResult`可以为空,list 是通过编辑器生成的结果,搭配使用
+
 ```js
 <Dynamicform v-model:formResult="formResult" :allFormList="list" ></Dynamicform>
 ```
 
-## 文档
+## 简要文档说明
+
 - 需要的基础组件
-:basic-fields="['Text', 'textarea']"
+  :basic-fields="['Text', 'textarea']"
 - 需要的布局组件
-:layout-fields="['grid']"
+  :layout-fields="['grid']"
 - 是否禁用快捷键
-shortcut-disabled=true
+  shortcut-disabled=true
 - 保存回调
-@save
-- 获取json
-getJson
-- 设置json
-setJson
+  @save
+- 获取 json
+  getJson
+- 设置 json
+  setJson
 - navlist 每个按钮可配,并且是否可隐藏
-- header头是否展示
-header-show 默认true
+- header 头是否展示
+  header-show 默认 true
 - 菜单按钮自定义
-menu: {
-    left: ['delete', 'undo', 'redo', 'tree', 'save', 'preview', 'fullscreen'],
-    right: ['viewport', 'json-export', 'json-import'],
-    column: true
-},
+  actionbar: {
+  left: ['delete', 'undo', 'redo', 'tree', 'save', 'preview', 'fullscreen'],
+  right: ['viewport', 'json-export', 'json-import'],
+  column: true
+  },
 
-
-
-1、布局控件建议增加表格控件，可以配出类似word表单
+1、布局控件建议增加表格控件，可以配出类似 word 表单
 2、建议增加打印
-3、建议增加PC、PAD、H5的预览功能
+3、建议增加 PC、PAD、H5 的预览功能
 4、建议增加自定义样式配置
-
 
 ## `Star`
 
