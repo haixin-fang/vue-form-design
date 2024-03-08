@@ -14,22 +14,23 @@ $resizer_hover_background_color: #ccc;
 $layout_color: #9867f7;
 @mixin scrollbar() {
   &::-webkit-scrollbar {
-    width: 7px;
+    width: 5px;
     height: 2px;
-    background-color: transparent;
+    background: transparent;
     transition: all 0.3s;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.2);
     transition: all 0.3s;
+    -webkit-box-shadow: none;
   }
   &::-webkit-scrollbar-track {
     border-radius: 8px;
-    background-color: transparent;
+    background: transparent;
   }
   &::-webkit-scrollbar-track-piece {
-    background-color: transparent;
+    background: transparent;
     border: none;
   }
 }

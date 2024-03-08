@@ -141,7 +141,7 @@
         const len = list.length;
         for (let i = 0; i < len; ++i) {
           let validate = true;
-          const curControl = list[i];
+          const curControl:any = list[i];
           curControl.controlItems?.forEach((item: BaseFormConfig) => {
             if (item.data.required) {
               validate = !!curControl.data[item.data.fieldName];
@@ -212,7 +212,7 @@
           jsonEditor?.set(initFormToJson(allmainList.value));
         }
       }
-      function complareControl(newControl: AllFormItem, oldContrl: AllFormItem) {
+      function complareControl(newControl: any, oldContrl: any) {
         if (newControl !== oldContrl) return false;
         let same = true;
         for (const key in newControl) {

@@ -4,6 +4,7 @@
     position: relative;
     height: calc(100% - 40px);
     overflow-y: auto;
+    @include scrollbar();
     outline: 0;
     .editor_nav {
       position: absolute;

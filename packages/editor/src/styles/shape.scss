@@ -9,7 +9,7 @@
     box-sizing: border-box;
     &::before {
       content: "";
-      height: 5px;
+      height: 2px;
       width: 0;
       background: $blue;
       position: absolute;

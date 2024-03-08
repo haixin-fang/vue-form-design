@@ -1,6 +1,6 @@
 # vue-form-design
 
-Starfish 可视化动态表单平台及 h5 页面搭建平台。
+Starfish 可视化动态表单平台
 
 - 💪 Vue 3.0 Composition API
 - 🔥 Written in TypeScript

@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "20104473",
+      "name": "导入",
+      "font_class": "daoru",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "20104475",
+      "name": "导出",
+      "font_class": "daochu",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "666888",
+      "name": "手机",
+      "font_class": "shouji",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    },
+    {
+      "icon_id": "1056544",
+      "name": "电脑",
+      "font_class": "diannao",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "1092160",
+      "name": "平板电脑",
+      "font_class": "pingbandiannao",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
       "icon_id": "15466212",
       "name": "icon-bianji",
       "font_class": "icon-bianji",

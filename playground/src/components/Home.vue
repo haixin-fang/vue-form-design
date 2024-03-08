@@ -1,7 +1,7 @@
 <template>
   <!-- <starfish-editor style="height: 700px" :basic-fields="['Text']" :layout-fields="['grid']"> </starfish-editor> -->
   <div class="container">
-    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" > </starfish-editor>
+    <starfish-editor class="starfish-editor" @save="onSave" ref="starfishRef" :menu="menu" > </starfish-editor>
     <!-- <div class="btnlist">
       <el-button @click="goSave" type="primary">保存</el-button>
       <el-button @click="setJson" type="primary">自定义json</el-button>
@@ -20,7 +20,7 @@
       const menu = ref({
         left: [],
         right: [],
-        column: true,
+        column: false,
       });
       return {
         starfishRef,

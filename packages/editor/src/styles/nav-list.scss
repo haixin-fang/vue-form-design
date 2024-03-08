@@ -23,6 +23,17 @@
       > div {
         margin: 0 5px;
       }
+      .el-button-group {
+        span {
+          margin-right: 5px;
+        }
+        i {
+          font-size: 18px;
+        }
+        .info {
+          color: var(--el-color-primary);
+        }
+      }
     }
     :deep(.demo-drawer) {
       width: 20% !important;

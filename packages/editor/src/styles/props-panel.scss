@@ -12,6 +12,11 @@
     overflow: hidden;
     .demo-tabs {
       flex: 1;
+      .el-tabs__nav {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+      }
     }
     .form_tab3 {
       padding: 5px;

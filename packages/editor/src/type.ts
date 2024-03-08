@@ -96,7 +96,7 @@ export type MenuItem = "delete" | "undo" | "redo" | "tree" | "save" | "preview" 
 export type MenuRight = "viewport" | "json-export" | "json-import";
 export type MenuBarData = {
   left: MenuItem[];
-  rigth: MenuRight[];
+  right: MenuRight[];
   column: boolean;
 };
 export interface FormState {
