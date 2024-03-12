@@ -17,7 +17,11 @@ export default {
     window.VueContext = {
       $Flex: flex,
     };
-    app.use(StarfishForm);
+    app
+      .use(ElementPlus, {
+        locale: zhCn,
+      })
+      .use(StarfishForm);
     app.component(
       "CustomDialog",
       defineAsyncComponent(() => import("@/common/CustomDialog.vue"))
