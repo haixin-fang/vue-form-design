@@ -1,6 +1,6 @@
 {
   "name": "starfish-form",
-  "version": "1.2.3",
+  "version": "1.2.5",
   "main": "dist/starfish-form.mjs",
   "style": "dist/style.css",
   "module": "dist/starfish-form.mjs",
@@ -23,7 +23,10 @@
     "jsoneditor": "^9.9.0",
     "vue": "^3.2.25",
     "@element-plus/icons-vue": "^2.0.8",
-    "wangeditor": "^4.7.15"
+    "wangeditor": "^4.7.15",
+    "vue-codemirror": "^6.1.1",
+    "codemirror": "^6.0.1",
+    "@codemirror/lang-javascript": "^6.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

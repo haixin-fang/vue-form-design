@@ -73,7 +73,7 @@ import _ from "@/utils/_";
 // formcomponents[Action.ControlType] = Action;
 
 const utilFuns: any = {};
-const files = import.meta.glob(["./common/*", "./components/*/*", "./layout/*", "!./components/RichText/index.vue", "!./components/JsonEditor/index.vue"], { eager: true });
+const files = import.meta.glob(["./common/*", "./components/*/*", "./layout/*", "!./components/RichText/index.vue", "!./components/JsonEditor/index.vue", "!./components/Rule/index.vue", "!./common/formAction.vue"], { eager: true });
 Object.keys(files).forEach((fileName) => {
   const result = files[fileName].default;
   utilFuns[result.ControlType] = result;
@@ -97,6 +97,15 @@ jsonEditor.formConfig = getFormConfig("JsonEditor", [{ fieldName: "default", com
 jsonEditor.rule = _.getJsonValidate();
 utilFuns[jsonEditor.ControlType] = jsonEditor;
 
+const formAction = defineAsyncComponent(() => import("./common/formAction.vue"));
+formAction.ControlType = "FormAction"; // 必须与文件名匹配
+formAction.isHide = true;
+utilFuns[formAction.ControlType] = formAction;
+// 规则
+const Rule = defineAsyncComponent(() => import("./components/Rule/index.vue"));
+Rule.ControlType = "Rule"; // 必须与文件名匹配
+Rule.rule = _.getJsonValidate();
+utilFuns[Rule.ControlType] = Rule;
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = utilFuns;
   for (const key in utilFuns) {

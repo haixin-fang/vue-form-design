@@ -87,11 +87,13 @@
               <el-main class="event-script-main">
                 <el-container class="is-vertical">
                   <header class="action-header event-script-main-header">
-                    <el-button type="primary" @click="onConfirm"  size="small"
+                    <el-button type="primary" @click="onConfirm" size="small"
                       >确定</el-button
                     >
-                    <el-button type="primary" @click="onSave" size="small">保存</el-button>
-                    <el-button @click="onCancel"  size="small">取消</el-button>
+                    <el-button type="primary" @click="onSave" size="small"
+                      >保存</el-button
+                    >
+                    <el-button @click="onCancel" size="small">取消</el-button>
                   </header>
                   <el-main v-if="currentAction" class="func_main">
                     <el-scrollbar>
@@ -103,23 +105,23 @@
                           />
                         </el-form-item>
                         <el-form-item prop="funcStr">
-                         <div class="coding">
-                           <div class="header">
-                            function {{ currentAction.funcName }}({{
-                              getField(currentAction.methods)
-                            }}){
+                          <div class="coding">
+                            <div class="header">
+                              function {{ currentAction.funcName }}({{
+                                getField(currentAction.methods)
+                              }}){
+                            </div>
+                            <codemirror
+                              v-model="currentAction.funcStr"
+                              placeholder=""
+                              :style="{ height: '400px' }"
+                              mode="text/javascript"
+                              :autofocus="true"
+                              :indent-with-tab="true"
+                              :tab-size="2"
+                            />
+                            <div class="footer">}</div>
                           </div>
-                          <codemirror
-                            v-model="currentAction.funcStr"
-                            placeholder=""
-                            :style="{ height: '400px' }"
-                            mode="text/javascript"
-                            :autofocus="true"
-                            :indent-with-tab="true"
-                            :tab-size="2"
-                          />
-                          <div class="footer">}</div>
-                         </div>
                         </el-form-item>
                       </el-form>
                     </el-scrollbar>
@@ -143,9 +145,13 @@ import {
   getCurrentInstance,
 } from "vue";
 // import { javascript } from "@codemirror/lang-javascript";
+import { Codemirror } from "vue-codemirror";
 export default defineComponent({
   ControlType: "FormAction",
   isHide: true,
+  components: {
+    Codemirror,
+  },
   props: {
     item: {
       type: Object,

@@ -27,7 +27,7 @@
     </el-footer>
     <custom-dialog ref="codeDialog" dialogclass="codeDialog" width="1000">
       <div class="custom_code">
-        <codemirror
+        <!-- <codemirror
           v-model="code"
           placeholder="Code goes here..."
           mode="text/json"
@@ -36,7 +36,8 @@
           :autofocus="true"
           :indent-with-tab="true"
           :tab-size="2"
-        />
+        /> -->
+        <JsonCode v-model:value="code" />
       </div>
       <el-footer
         class="my-Footer"
@@ -64,17 +65,24 @@
   </CustomDialog>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from "vue";
+import {
+  computed,
+  defineComponent,
+  defineAsyncComponent,
+  ref,
+  watch,
+} from "vue";
 import formStore from "@/controller/form";
 import { Dynamicform } from "starfish-form";
 import uiControl from "@/controller/ui";
 import Clipboard from "clipboard";
 import { json } from "@codemirror/lang-json";
-import { Codemirror } from "vue-codemirror";
+// import Codemirror from 'vue-codemirror'
 export default defineComponent({
   components: {
     Dynamicform,
-    Codemirror,
+    // Codemirror,
+    JsonCode: defineAsyncComponent(() => import("@/common/jsonCode.vue")),
   },
   setup() {
     const previewShow = computed(() => formStore.get("previewShow"));

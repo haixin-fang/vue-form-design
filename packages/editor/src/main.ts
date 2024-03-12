@@ -8,6 +8,7 @@ import StarfishForm from "starfish-form";
 import vm from "./utils/vm";
 import flex from "./utils/_";
 import "starfish-form/dist/style.css";
+import StarfishEditor from "./starfish-editor.vue";
 export default {
   install: (app: App) => {
     app.config.globalProperties.$EventBus = vm;
@@ -46,10 +47,7 @@ export default {
       "FormStyle",
       defineAsyncComponent(() => import("@/common/formStyle.vue"))
     );
-    app.component(
-      "StarfishEditor",
-      defineAsyncComponent(() => import("./starfish-editor.vue"))
-    );
+    app.component("StarfishEditor", StarfishEditor);
   },
 };
 // app.mount("#app");

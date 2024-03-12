@@ -195,13 +195,14 @@
     </el-drawer>
     <custom-dialog ref="jsonDialog" :width="800" dialogclass="codeDialog">
       <div class="custom_code">
-        <codemirror
+        <!-- <codemirror
           v-model="code"
           placeholder="json导入"
           mode="text/json"
           :style="{ height: '400px' }"
           :extensions="extensions"
-        />
+        /> -->
+        <JsonCode v-model:value="code" />
         <el-upload
           accept="application/json"
           class="upload-demo"
@@ -231,6 +232,7 @@ import {
   toRaw,
   watch,
   PropType,
+  defineAsyncComponent,
 } from "vue";
 import type {
   Controls,
@@ -239,11 +241,12 @@ import type {
   BaseComponentItem,
 } from "@/type";
 import { clearCanvas } from "@/utils/formKeycon";
-import { json } from "@codemirror/lang-json";
-import { Codemirror } from "vue-codemirror";
+// import { json } from "@codemirror/lang-json";
+// import Codemirror from "vue-codemirror";
+// import JsonCode from "@/common/jsonCode.vue";
 export default defineComponent({
-   components: {
-    Codemirror,
+  components: {
+    JsonCode: defineAsyncComponent(() => import("@/common/jsonCode.vue")),
   },
   props: {
     /** 顶部工具栏配置 */
@@ -266,7 +269,7 @@ export default defineComponent({
     const fullscreen = computed(() => uiControl?.get("isFullscreen"));
     const allFormList = computed(() => formStore?.get("allFormList"));
     const pageType = computed(() => uiControl?.get("pageType"));
-    const extensions = [json()];
+    // const extensions = [json()];
     const jsonDialog = ref();
     const tree = ref();
     const treeRef = ref();
@@ -401,7 +404,7 @@ export default defineComponent({
     });
 
     return {
-      extensions,
+      // extensions,
       code,
       handleFormSave,
       handleFormPre,
@@ -465,6 +468,7 @@ export default defineComponent({
         jsonDialog.value.close();
       },
       saveJson() {
+        debugger
         formStore?.updateAllFormList(JSON.parse(code.value));
         jsonDialog.value.close();
       },

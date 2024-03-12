@@ -2,7 +2,7 @@
   <div ref="jsonCenter"></div>
 </template>
 <script>
-import { defineComponent, ref, computed, inject, toRaw } from "vue";
+import { defineComponent, ref, computed, inject, toRaw, onMounted } from "vue";
 import JSONEditor from "jsoneditor";
 export default defineComponent({
   setup() {
@@ -13,6 +13,9 @@ export default defineComponent({
     const initFormToJson = (formlist) => {
       return window.VueContext.$Flex.initFormToJson(toRaw(formlist));
     };
+    onMounted(() => {
+      initJsonCenter();
+    })
     function initJsonCenter() {
       const jsonDom = jsonCenter.value;
       if (jsonEditor) {

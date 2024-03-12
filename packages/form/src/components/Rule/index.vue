@@ -163,6 +163,7 @@ import ruleListData from "./rules";
 import ruleJsonData from "./ruleform.json";
 import { Delete } from "@element-plus/icons-vue";
 import Dynamicform from "../../starfish-form.vue";
+import { Codemirror } from "vue-codemirror";
 export default defineComponent({
   ControlType: "Rule", // 必须与文件名匹配
   rule: _.getJsonValidate(),
@@ -172,6 +173,7 @@ export default defineComponent({
   components: {
     Delete,
     Dynamicform,
+    Codemirror,
   },
   setup(props) {
     const { proxy } = getCurrentInstance() as any;

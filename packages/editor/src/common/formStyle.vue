@@ -43,7 +43,7 @@
 <script lang="ts">
 import { defineComponent, ref, getCurrentInstance } from "vue";
 import { css } from "@codemirror/lang-css";
-import { Codemirror } from "vue-codemirror";
+import {Codemirror} from 'vue-codemirror';
 export default defineComponent({
   ControlType: "FormStyle", // 必须与文件名匹配
   isHide: true,
