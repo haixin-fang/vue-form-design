@@ -27,7 +27,6 @@
     props: {
       ...fieldProps,
     },
-    actionType: ["onChange"],
     setup(props) {
       const richText = ref();
       let editor: any = null;

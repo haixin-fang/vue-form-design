@@ -13,9 +13,8 @@
   import { computed } from "vue";
   import { defineComponent, ref, Ref, getCurrentInstance, ComponentInternalInstance, onMounted } from "vue";
   import Store from "../Server";
-  import { Dynamicform } from "starfish-form";
   export default defineComponent({
-    components:{Dynamicform},
+    components:{Dynamicform: () => import("starfish-form")},
     setup() {
       const list = computed(() => Store?.get("allFormList"));
       const previewDialog = ref();

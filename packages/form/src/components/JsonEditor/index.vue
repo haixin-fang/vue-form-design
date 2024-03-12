@@ -60,6 +60,7 @@ import { defineComponent, watch, ref, nextTick, onMounted } from "vue";
 import { getFormConfig } from "../../utils/fieldConfig";
 import fieldProps from "../../utils/fieldProps";
 import { useWatch } from "../../utils/customHooks";
+import JSONEditor from 'jsoneditor'
 import _ from "@/utils/_";
 interface jsonEditor {
   [key: string]: any;
@@ -108,7 +109,7 @@ export default defineComponent({
           data[fieldName] = jsonEditors?.getText();
         },
       };
-      jsonEditors = new window.JSONEditor(container, options);
+      jsonEditors = new JSONEditor(container, options);
       if (props.drag) {
         jsonEditors?.set(_.tryParseJson(item.data.default));
       } else {
@@ -145,7 +146,7 @@ export default defineComponent({
           mode: "code",
           search: false,
         };
-        jsonEditorDialog = new window.JSONEditor(container, options);
+        jsonEditorDialog = new JSONEditor(container, options);
         jsonEditorDialog?.set(_.tryParseJson(jsonEditors.getText()));
       },
       closeDialog() {

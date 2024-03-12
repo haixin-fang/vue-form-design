@@ -13,7 +13,7 @@
     "clean:modules": "rimraf node_modules **/node_modules **/**/node_modules",
     "clean:all": "pnpm clean:top && pnpm clean:modules",
     "prepare": "husky install",
-    "build": "pnpm clean:top && pnpm --filter \"starfish-*\" build",
+    "build": " pnpm --filter \"starfish-*\" build",
     "commit": "git-cz"
   },
   "engines": {

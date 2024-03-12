@@ -1,18 +1,16 @@
 {
   "name": "starfish-form",
-  "version": "1.1.9",
-  "main": "dist/starfish-form.umd.js",
+  "version": "1.2.3",
+  "main": "dist/starfish-form.mjs",
   "style": "dist/style.css",
-  "module": "dist/starfish-form.es.js",
+  "module": "dist/starfish-form.mjs",
   "types": "dist/types/starfish-form.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/starfish-form.es.js",
-      "require": "./dist/starfish-form.umd.js"
+      "import": "./dist/starfish-form.mjs"
     },
     "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+      "import": "./dist/style.css"
     },
     "./*": "./*"
   },
@@ -31,7 +29,7 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "sass": "^1.35.1",
     "typescript": "^4.5.4",
-    "vite": "^2.9.9",
+    "vite": "^4.5.2",
     "vite-plugin-dts": "^1.2.0",
     "vue-tsc": "^0.34.7"
   }

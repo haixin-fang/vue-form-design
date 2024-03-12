@@ -70,12 +70,11 @@ import { Dynamicform } from "starfish-form";
 import uiControl from "@/controller/ui";
 import Clipboard from "clipboard";
 import { json } from "@codemirror/lang-json";
-// import { Codemirror } from "vue-codemirror";
-// import { json } from "@codemirror/lang-json";
+import { Codemirror } from "vue-codemirror";
 export default defineComponent({
   components: {
     Dynamicform,
-    // Codemirror,
+    Codemirror,
   },
   setup() {
     const previewShow = computed(() => formStore.get("previewShow"));
@@ -87,7 +86,6 @@ export default defineComponent({
     const codeDialog = ref();
     const code = ref();
     let clipboard: Clipboard;
-    // const extensions = [json()];
     const dynamicform = ref();
     const previewDialog = ref<any>();
     // let editor: any = null;

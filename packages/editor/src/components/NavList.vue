@@ -235,13 +235,16 @@ import {
 import type {
   Controls,
   MenuBarData,
-  MenuItem,
   AllFormItem,
   BaseComponentItem,
 } from "@/type";
 import { clearCanvas } from "@/utils/formKeycon";
 import { json } from "@codemirror/lang-json";
+import { Codemirror } from "vue-codemirror";
 export default defineComponent({
+   components: {
+    Codemirror,
+  },
   props: {
     /** 顶部工具栏配置 */
     menu: {

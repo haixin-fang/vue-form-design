@@ -17,7 +17,8 @@
       </el-tab-pane>
       <el-tab-pane label="JSON配置" name="json">
         <div class="json">
-          <div ref="jsonCenter"></div>
+          <!-- <div ref="jsonCenter"></div> -->
+          <jsonEnter ref="jsonCenter"/>
         </div>
       </el-tab-pane>
       <el-tab-pane label="表单配置" name="global">
@@ -35,7 +36,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw, ComputedRef } from "vue";
+  import { computed, defineComponent, ref, watch, nextTick, getCurrentInstance, inject, toRaw, ComputedRef, defineAsyncComponent } from "vue";
   import ControllEditSize from "@/layouts/ControlEditSize.vue";
   import { globalFormList } from "@/common/formJson";
   import type { Controls, AllFormItem, BaseComponentItem, BaseFormConfig } from "@/type";
@@ -49,6 +50,7 @@
     },
     components: {
       ControllEditSize,
+      jsonEnter: defineAsyncComponent(() => import("./jsonEditor.vue"))
     },
     setup(props, { emit }) {
       const { proxy } = getCurrentInstance() as any;
@@ -163,7 +165,6 @@
         return true;
       };
       const formUpdate = computed(() => formStore?.get("formUpdate"));
-      const allmainList = computed(() => formStore?.get("allFormList"));
       const newAllmainlist = computed(() => proxy.$Flex.deepClone(formStore?.get("allFormList")));
 
       const checkValidates = async (formSave = false, type?: string) => {
@@ -198,20 +199,6 @@
         return window.VueContext.$Flex.initFormToJson(toRaw(formlist));
       };
 
-      function initJsonCenter() {
-        const jsonDom = jsonCenter.value;
-        if (jsonEditor) {
-          jsonEditor?.set(initFormToJson(allmainList.value));
-        } else {
-          const options = {
-            modes: ["text", "code", "view"],
-            mode: "code",
-            search: false,
-          };
-          jsonEditor = new window.JSONEditor(jsonDom, options);
-          jsonEditor?.set(initFormToJson(allmainList.value));
-        }
-      }
       function complareControl(newControl: any, oldContrl: any) {
         if (newControl !== oldContrl) return false;
         let same = true;
@@ -231,7 +218,7 @@
 
       function handleClick(tab: TabPaneInstance) {
         if (tab.props.name == "json") {
-          initJsonCenter();
+          jsonEditor = jsonCenter.value.initJsonCenter();
         } else if (tab.props.name == "form" && jsonEditor) {
           try {
             const list = proxy.$Flex.tryParseJson(jsonEditor.getText());
@@ -254,7 +241,7 @@
         () => [newAllmainlist.value, newCurControl.value?.data],
         ([, b], [, d]) => {
           if (activeName.value == "json") {
-            initJsonCenter();
+            jsonCenter.value.initJsonCenter();
           }
           if (historyFlag.value) {
             hisContrl?.set("historyFlag", false);

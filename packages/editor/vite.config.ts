@@ -73,6 +73,7 @@ export default defineConfig({
       entry: "src/main.ts",
       name: "StarfishEditor",
       fileName: "starfish-editor",
+      formats: ['es'],
     },
     rollupOptions: {
       // input: {

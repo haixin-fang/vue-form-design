@@ -34,6 +34,7 @@ export default defineConfig({
       entry: "src/main.ts",
       name: "StarfishForm",
       fileName: "starfish-form",
+      formats: ['es'],
     },
 
     rollupOptions: {

@@ -13,7 +13,7 @@
     "resolveJsonModule":true,
     "baseUrl": ".",
     "types": [
-      "node"
+      "node",
     ],
     "paths": {
       "@/*": [
