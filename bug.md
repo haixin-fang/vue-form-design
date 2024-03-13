@@ -26,3 +26,4 @@
 - 新增签名、评价表单
 - 表单新增提示,间距,html 
 - tab选中 初始化
+- 异步加载 loading 过度动画 如jsonEditor

@@ -2,8 +2,11 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
-import pkg from './package.json';
-
+import pkg from "./package.json";
+import visualizer from "rollup-plugin-visualizer";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -15,6 +18,15 @@ export default defineConfig({
       logDiagnostics: true,
     }),
     vue(),
+    visualizer({
+      open: true, //在默认用户代理中打开生成的文件
+    }),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
   ],
   resolve: {
     alias: [
@@ -34,7 +46,7 @@ export default defineConfig({
       entry: "src/main.ts",
       name: "StarfishForm",
       fileName: "starfish-form",
-      formats: ['es'],
+      formats: ["es"],
     },
 
     rollupOptions: {

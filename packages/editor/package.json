@@ -1,6 +1,6 @@
 {
   "name": "starfish-editor",
-  "version": "1.1.6",
+  "version": "1.1.9",
   "main": "dist/starfish-editor.umd.js",
   "style": "dist/style.css",
   "module": "dist/starfish-editor.es.js",
@@ -16,8 +16,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "prepublish": "npm version && npm run build"
+    "build": "vite build"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",
@@ -34,7 +33,7 @@
     "keycon": "^1.1.2",
     "mitt": "^3.0.0",
     "nanoid": "^4.0.0",
-    "starfish-form": "^1.2.3",
+    "starfish-form": "^1.2.6",
     "vue": "^3.2.37",
     "vue-codemirror": "^6.1.1",
     "vuedraggable": "^4.1.0",
@@ -45,6 +44,8 @@
     "cross-env": "^7.0.3",
     "live-server": "^1.2.2",
     "rollup-plugin-visualizer": "^5.8.3",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-components": "^0.26.0",
     "sass": "^1.42.1",
     "typescript": "^4.3.4",
     "vite": "^2.9.12",

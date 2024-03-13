@@ -1,6 +1,6 @@
 {
   "name": "starfish-form",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "dist/starfish-form.mjs",
   "style": "dist/style.css",
   "module": "dist/starfish-form.mjs",
@@ -32,6 +32,9 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "sass": "^1.35.1",
     "typescript": "^4.5.4",
+    "rollup-plugin-visualizer": "^5.8.3",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-components": "^0.26.0",
     "vite": "^4.5.2",
     "vite-plugin-dts": "^1.2.0",
     "vue-tsc": "^0.34.7"

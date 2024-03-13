@@ -19,6 +19,7 @@ const alias: any = [
     replacement: path.resolve(__dirname, "../packages/editor/src/components"),
   },
 ];
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV != "production") {
   alias.push({
     find: /^starfish-form\/dist\/style.css/,
@@ -97,8 +98,6 @@ export default defineConfig({
         main: path.resolve(__dirname, "index.html"),
       },
       output: {
-        manualChunks: {
-        },
         chunkFileNames: "static/js/[name]-[hash].js",
         entryFileNames: "static/js/[name]-[hash].js",
         assetFileNames: "static/[ext]/[name]-[hash].[ext]",

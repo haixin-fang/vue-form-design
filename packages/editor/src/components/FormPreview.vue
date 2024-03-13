@@ -76,7 +76,7 @@ import formStore from "@/controller/form";
 import { Dynamicform } from "starfish-form";
 import uiControl from "@/controller/ui";
 import Clipboard from "clipboard";
-import { json } from "@codemirror/lang-json";
+// import { json } from "@codemirror/lang-json";
 // import Codemirror from 'vue-codemirror'
 export default defineComponent({
   components: {
@@ -90,7 +90,7 @@ export default defineComponent({
     const formResult = computed(() => formStore.get("formResult"));
     const globalDatas = computed(() => formStore?.get("globalDatas"));
     const pageType = computed(() => uiControl?.get("pageType"));
-    const extensions = [json()];
+    // const extensions = [json()];
     const codeDialog = ref();
     const code = ref();
     let clipboard: Clipboard;
@@ -111,7 +111,7 @@ export default defineComponent({
     });
     const JsonViewerDialog = ref();
     return {
-      extensions,
+      // extensions,
       code,
       pageType,
       codeDialog,

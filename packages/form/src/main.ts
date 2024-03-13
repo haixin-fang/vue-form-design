@@ -73,12 +73,13 @@ import _ from "@/utils/_";
 // formcomponents[Action.ControlType] = Action;
 
 const utilFuns: any = {};
-const files = import.meta.glob(["./common/*", "./components/*/*", "./layout/*", "!./components/RichText/index.vue", "!./components/JsonEditor/index.vue", "!./components/Rule/index.vue", "!./common/formAction.vue"], { eager: true });
+const files: any = import.meta.glob(["./common/*", "./components/*/*", "./layout/*", "!./components/RichText/index.vue", "!./components/JsonEditor/index.vue", "!./components/Rule/index.vue", "!./common/formAction.vue"], { eager: true });
 Object.keys(files).forEach((fileName) => {
   const result = files[fileName].default;
-  utilFuns[result.ControlType] = result;
+  if (fileName.indexOf(".vue") != -1) {
+    utilFuns[result.ControlType] = result;
+  }
 });
-
 // 把size过大组件异步加载
 
 // 富文本
@@ -108,12 +109,11 @@ Rule.rule = _.getJsonValidate();
 utilFuns[Rule.ControlType] = Rule;
 const install = (app: App) => {
   app.config.globalProperties.$formcomponents = utilFuns;
-  for (const key in utilFuns) {
-    app.component(key, utilFuns[key]);
-  }
+  // for (const key in utilFuns) {
+  //   app.component(key, utilFuns[key]);
+  // }
 };
-
-export { default as Dynamicform } from "./starfish-form.vue";
+export const Dynamicform = defineAsyncComponent(() => import("./starfish-form.vue"));
 
 export default {
   install,

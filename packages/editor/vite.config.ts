@@ -3,7 +3,10 @@ import dts from 'vite-plugin-dts';
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import pkg from './package.json';
-import Visualizer from 'rollup-plugin-visualizer'
+import visualizer from 'rollup-plugin-visualizer'
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 const alias: any = [
   {
     find: "@",
@@ -19,7 +22,6 @@ if (process.env.NODE_ENV != "production") {
 }
 export default defineConfig({
   plugins: [
-    Visualizer(),
     dts({
         outputDir: path.join(path.resolve(__dirname, 'dist'), "types"),
         include: ['src/**/*'],
@@ -28,6 +30,15 @@ export default defineConfig({
         logDiagnostics: true
     }),
     vue(),
+    visualizer({
+      open: true, //在默认用户代理中打开生成的文件
+    }),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
   ],
   resolve: {
     alias,

@@ -8,7 +8,7 @@
       v-model="activeName"
       class="demo-tabs"
       @tab-click="handleClick"
-      style="height: 100%" 
+      style="height: 100%"
     >
       <el-tab-pane label="组件配置" name="form">
         <el-scrollbar class="dynamic">
@@ -305,7 +305,7 @@ export default defineComponent({
       () => [newAllmainlist.value, newCurControl.value?.data],
       ([, b], [, d]) => {
         if (activeName.value == "json" && jsonCenter.value) {
-            jsonCenter.value.initJsonCenter();
+          jsonCenter.value.initJsonCenter();
         }
         if (historyFlag.value) {
           hisContrl?.set("historyFlag", false);

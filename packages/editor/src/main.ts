@@ -18,11 +18,12 @@ export default {
     window.VueContext = {
       $Flex: flex,
     };
-    app
-      .use(ElementPlus, {
-        locale: zhCn,
-      })
-      .use(StarfishForm);
+    // 合并使用的
+    app.use(StarfishForm);
+    const starfishformlist = app.config.globalProperties.$formcomponents;
+    for (const key in starfishformlist) {
+      app.component(key, starfishformlist[key]);
+    }
     app.component(
       "CustomDialog",
       defineAsyncComponent(() => import("@/common/CustomDialog.vue"))
