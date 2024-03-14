@@ -101,19 +101,6 @@ export default defineConfig({
         chunkFileNames: "static/js/[name]-[hash].js",
         entryFileNames: "static/js/[name]-[hash].js",
         assetFileNames: "static/[ext]/[name]-[hash].[ext]",
-        manualChunks: (id) => {
-          // 这个ID，就是所有文件的绝对路径
-          if (id.includes("element-plus")) {
-            // 因为 node_modules 中的依赖通常是不会改变的
-            // 所以直接单独打包出去
-            // 这个return 的值就是打包的名称
-            return "element-plus";
-          } else if (id.includes("lodash-es")) {
-            return "lodash-es";
-          } else if (id.includes("vue-codemirror")) {
-            return "vue-codemirror";
-          }
-        },
       },
     },
   },
