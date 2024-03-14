@@ -19,7 +19,7 @@ const alias: any = [
     replacement: path.resolve(__dirname, "../packages/editor/src/components"),
   },
 ];
-console.log(process.env.NODE_ENV)
+console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV != "production") {
   alias.push({
     find: /^starfish-form\/dist\/style.css/,
@@ -86,12 +86,12 @@ export default defineConfig({
     sourcemap: false, // 构建后是否生成 source map 文件。如果为 true，将会创建一个独立的 source map 文件
     target: "esnext", // 设置最终构建的浏览器兼容目标。默认值是一个 Vite 特有的值——'modules'  还可设置为 'es2015' 'es2016'等
     minify: "esbuild", // 'terser' 相对较慢，但大多数情况下构建后的文件体积更小。'esbuild' 最小化混淆更快但构建后的文件相对更大。
-    terserOptions: {
-      compress: {
-        drop_console: true, // 生产环境去除console
-        drop_debugger: true, // 生产环境去除debugger
-      },
-    },
+    // terserOptions: {
+    //   compress: {
+    //     drop_console: true, // 生产环境去除console
+    //     drop_debugger: true, // 生产环境去除debugger
+    //   },
+    // },
     // outDir,
     rollupOptions: {
       input: {
@@ -101,6 +101,19 @@ export default defineConfig({
         chunkFileNames: "static/js/[name]-[hash].js",
         entryFileNames: "static/js/[name]-[hash].js",
         assetFileNames: "static/[ext]/[name]-[hash].[ext]",
+        manualChunks: (id) => {
+          // 这个ID，就是所有文件的绝对路径
+          if (id.includes("element-plus")) {
+            // 因为 node_modules 中的依赖通常是不会改变的
+            // 所以直接单独打包出去
+            // 这个return 的值就是打包的名称
+            return "element-plus";
+          } else if (id.includes("lodash-es")) {
+            return "lodash-es";
+          } else if (id.includes("vue-codemirror")) {
+            return "vue-codemirror";
+          }
+        },
       },
     },
   },

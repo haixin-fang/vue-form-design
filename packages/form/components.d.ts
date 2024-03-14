@@ -50,6 +50,8 @@ declare module 'vue' {
     JsonEditor: typeof import('./src/components/JsonEditor/index.vue')['default']
     Radio: typeof import('./src/components/Radio/index.vue')['default']
     RichText: typeof import('./src/components/RichText/index.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     Rule: typeof import('./src/components/Rule/index.vue')['default']
     Selected: typeof import('./src/components/Selected/index.vue')['default']
     Selecteds: typeof import('./src/components/Selecteds/index.vue')['default']
