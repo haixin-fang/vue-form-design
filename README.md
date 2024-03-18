@@ -9,6 +9,13 @@ Starfish 可视化动态表单平台
 
 https://haixin-fang.github.io/vue-form-design/playground/index.html
 
+## 相关技术文章
+
+- [低代码表单设计器介绍](https://juejin.cn/post/7126106760191934495)
+- [开源表单设计器vue-form-design自动化校验实现原理](https://juejin.cn/post/7343161506698592266)
+- [重构, 首页体积从3.9M到1.5M](https://juejin.cn/post/7346426730048913435)
+- [关注我, 持续更文中……](https://juejin.cn/user/4442456629716317)
+
 ## 图片
 
 [![vlt3PU.gif](https://s1.ax1x.com/2022/08/09/vlt3PU.gif)](https://imgtu.com/i/vlt3PU)
@@ -81,10 +88,7 @@ http://localhost:1100/vue-form-design/playground/#/
 
 ## 架构
 
-使用 monorepo 架构
-该项目分为多个代码包,有
-starfish-form,表单组件
-starfish-editor,编辑页面
+使用 monorepo 架构,该项目分为多个代码包,有starfish-form表单生成器, starfish-editor表单设计器
 
 ### 提交规范
 
@@ -115,7 +119,7 @@ starfish-editor,编辑页面
 
 #### starfish-form 生成器
 
-`e-builder` 是一个页面构建组件，它可以将设计器生成的 JSON 配置构建成页面，完成组件的渲染、事件绑定和数据回显等操作。
+`starfish-form` 是一个页面构建组件，它可以将设计器生成的 JSON 配置构建成页面，完成组件的渲染、事件绑定和数据回显等操作。
 
 ## 项目中引用表单编辑器
 
