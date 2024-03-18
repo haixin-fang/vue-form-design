@@ -387,7 +387,10 @@ export default defineComponent({
       } catch (e) {
         code.value = JSON.stringify({});
         console.error(e);
-        window.VApp.$message.error("导入失败，数据格式不对");
+        ElMessage({
+          type: "error",
+          message: "导入失败，数据格式不对",
+        });
       }
     };
 
@@ -468,7 +471,7 @@ export default defineComponent({
         jsonDialog.value.close();
       },
       saveJson() {
-        debugger
+        debugger;
         formStore?.updateAllFormList(JSON.parse(code.value));
         jsonDialog.value.close();
       },
@@ -484,9 +487,15 @@ export default defineComponent({
           actions.setAttribute("href", encodedUri);
           actions.setAttribute("download", fileName);
           actions.click();
-          window.VApp.$message.success("导出成功");
+          ElMessage({
+            type: "success",
+            message: "导出成功",
+          });
         } catch (e) {
-          window.VApp.$message.error("导出失败,数据格式不对");
+          ElMessage({
+            type: "error",
+            message: "导出失败,数据格式不对",
+          });
         }
       },
     };

@@ -138,7 +138,10 @@ export default defineComponent({
             codeDialog.value.show();
             codeDialog.value.init("表单数据", "icon-biaodan");
           } else {
-            window.VApp.$message.error("校验失败");
+            ElMessage({
+              type: "error",
+              message: "校验失败",
+            });
           }
         });
       },
@@ -150,10 +153,16 @@ export default defineComponent({
           clipboard = new Clipboard(".copy_btn");
         }
         clipboard.on("success", () => {
-          window.VApp.$message.success("复制成功");
+          ElMessage({
+            type: "success",
+            message: "复制成功",
+          });
         });
         clipboard.on("error", () => {
-          window.VApp.$message.error("复制失败");
+          ElMessage({
+            type: "error",
+            message: "复制失败",
+          });
         });
         setTimeout(() => {
           // 销毁实例
@@ -170,9 +179,15 @@ export default defineComponent({
           actions.setAttribute("href", encodedUri);
           actions.setAttribute("download", fileName);
           actions.click();
-          window.VApp.$message.success("文件保存成功");
+          ElMessage({
+            type: "success",
+            message: "文件保存成功",
+          });
         } catch (e) {
-          window.VApp.$message.error("文件保存失败");
+          ElMessage({
+            type: "error",
+            message: "文件保存失败",
+          });
         }
       },
     };

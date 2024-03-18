@@ -15,8 +15,6 @@
       <div v-show="result.type && result.type !== 'data' && result.control" class="moreCondition">
         <div v-for="(item, index) in result.result" :key="index" class="selectList">
           <ConditionGroup :result="item" @update="handleUpdateForce" @delete="handleDelete" :index="index" :fieldList="fieldList" />
-          <!-- :rightField="rightField"
-          :request="request" -->
         </div>
         <div class="line" :class="result.type" v-if="result.result && result.result.length >= 2"></div>
       </div>
