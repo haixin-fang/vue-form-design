@@ -94,6 +94,8 @@ import type {
   BaseFormConfig,
 } from "@/type";
 import type { TabPaneInstance } from "element-plus";
+import Loading from "@/common/Loading.vue";
+
 export default defineComponent({
   props: {
     column: {
@@ -103,10 +105,14 @@ export default defineComponent({
   },
   components: {
     ControllEditSize,
-    jsonEnter: defineAsyncComponent(() => import("./jsonEditor.vue")),
-    globalFormComponent: defineAsyncComponent(
-      () => import("./globalFormList.vue")
-    ),
+    jsonEnter: defineAsyncComponent({
+      loader: () => import("./jsonEditor.vue"),
+      loadingComponent: Loading
+    }),
+    globalFormComponent: defineAsyncComponent({
+      loader: () => import("./globalFormList.vue"),
+      loadingComponent: Loading,
+    }),
   },
   setup(props, { emit }) {
     const { proxy } = getCurrentInstance() as any;

@@ -198,23 +198,6 @@ export default {
         ];
       }
       return this.typeList;
-      // const newtypelist = this.typelist.map((item) => {
-      //   return {
-      //     rule: [],
-      //     value: item.value,
-      //     label: item.value,
-      //   };
-      // });
-      // return this.typeList.concat(newtypelist);
-      // return this.typeList.filter((item) => {
-      //   if (item.value == "字段") {
-      //     if (this.rightField && this.rightField.length > 0) {
-      //       return item;
-      //     }
-      //   } else {
-      //     return item;
-      //   }
-      // });
     },
   },
   methods: {
