@@ -107,7 +107,7 @@ export default defineComponent({
     ControllEditSize,
     jsonEnter: defineAsyncComponent({
       loader: () => import("./jsonEditor.vue"),
-      loadingComponent: Loading
+      loadingComponent: Loading,
     }),
     globalFormComponent: defineAsyncComponent({
       loader: () => import("./globalFormList.vue"),
@@ -168,8 +168,10 @@ export default defineComponent({
       return new Promise((resolve) => {
         ruleForm.value.validate((valid: boolean) => {
           if (!valid) {
-            window.VApp.$notify.error({
-              title: content,
+            ElNotification({
+              title: "Error",
+              message: content,
+              type: "error",
             });
             resolve(false);
           } else {
@@ -259,8 +261,10 @@ export default defineComponent({
           formStore?.set("previewShow", ispreview);
           formStore?.set("preview", false);
         } else if (ispreview) {
-          window.VApp.$notify.success({
-            title: type ? "已自动保存" : "保存成功",
+          ElNotification({
+            title: "Success",
+            message: type ? "已自动保存" : "保存成功",
+            type: "success",
           });
         }
       }

@@ -158,16 +158,6 @@ export default {
           value: "常量",
           label: "常量",
         },
-        // {
-        //   rule: [],
-        //   value: "字段",
-        //   label: "字段",
-        // },
-        // {
-        //   rule: [],
-        //   value: "请求参数",
-        //   label: "请求参数",
-        // },
       ],
     };
   },

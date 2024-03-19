@@ -40,4 +40,7 @@ declare module 'vue' {
     Shape: typeof import('./src/components/Shape.vue')['default']
     Workspace: typeof import('./src/components/Workspace.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

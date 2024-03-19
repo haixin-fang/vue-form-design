@@ -16,6 +16,7 @@ module.exports = {
     ElMessage: "readonly",
     ElMessageBox: "readonly",
     ElLoading: "readonly",
+    ElNotification: "readonly"
   },
   extends: ["plugin:vue/vue3-essential", "eslint:recommended", "@vue/typescript/recommended", "@vue/prettier/@typescript-eslint"],
   parser: "vue-eslint-parser",
