@@ -1,7 +1,7 @@
 <template>
   <div>
     <codemirror
-      :value="internalValue"
+      v-model="internalValue"
       @input="onUpdateValue($event.target.innerText)"
       placeholder="json导入"
       mode="text/json"
@@ -24,7 +24,7 @@ export default defineComponent({
   emits: ["update:value"], // 定义emit事件名称
   setup(props, context) {
     const extensions = [json()];
-    const internalValue = ref(""); // 内部状态变量
+    const internalValue = ref(props.value); // 内部状态变量
 
     function updateInternalValue(newVal) {
       internalValue.value = newVal;

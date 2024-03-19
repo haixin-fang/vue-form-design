@@ -251,7 +251,6 @@ export default defineComponent({
         formStore?.setSave(ispreview as boolean);
         formStore?.setFormUpdate(false);
         if (ispreview) {
-          debugger;
           const result: BaseComponentItem[] = initFormToJson(allFormList.value);
           formStore?.set("AllFormResult", result);
           formStore?.handleDynamicForm();
