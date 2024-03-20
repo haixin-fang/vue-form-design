@@ -15,8 +15,8 @@
     <template #workspace>
       <workspace ref="workspace"></workspace>
     </template>
-    <template #propsPanel>
-      <props-panel @save="onSave" :column="menu.column"></props-panel>
+    <template #propsPanel v-if="panel.length > 0">
+      <props-panel @save="onSave" :column="menu.column" :panel="panel"></props-panel>
     </template>
     <template #other>
       <form-preview ref="formPreview"></form-preview>
@@ -100,6 +100,11 @@ export default defineComponent({
       type: Object as PropType<MenuBarData>,
       default: () => ({ left: [], right: [], column: true }),
     },
+    // 右侧配置属性tab
+    panel: {
+      type: Array,
+      default: () => (["form", "json", "global"])
+    }
   },
   setup(props: any, { emit }) {
     const workspace = ref();

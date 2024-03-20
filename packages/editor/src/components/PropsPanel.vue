@@ -10,7 +10,7 @@
       @tab-click="handleClick"
       style="height: 100%"
     >
-      <el-tab-pane label="组件配置" name="form">
+      <el-tab-pane label="组件配置" name="form" v-if="panel.includes('form')">
         <el-scrollbar class="dynamic">
           <el-form
             ref="ruleForm"
@@ -47,13 +47,17 @@
           ></el-empty>
         </el-scrollbar>
       </el-tab-pane>
-      <el-tab-pane label="JSON配置" name="json">
+      <el-tab-pane label="JSON配置" name="json" v-if="panel.includes('json')">
         <div class="json" v-if="activeName == 'json'">
           <!-- <div ref="jsonCenter"></div> -->
           <jsonEnter ref="jsonCenter" />
         </div>
       </el-tab-pane>
-      <el-tab-pane label="表单配置" name="global">
+      <el-tab-pane
+        label="表单配置"
+        name="global"
+        v-if="panel.includes('global')"
+      >
         <el-scrollbar class="form_tab3" v-if="activeName == 'global'">
           <globalFormComponent />
         </el-scrollbar>
@@ -102,11 +106,15 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    panel: {
+      type: Array,
+      default: () => ["form", "json", "global"],
+    },
   },
   components: {
     ControllEditSize,
     jsonEnter: defineAsyncComponent({
-      loader: () => import("./jsonEditor.vue"),
+      loader: () => import("@/common/Loading.vue"),
       loadingComponent: Loading,
     }),
     globalFormComponent: defineAsyncComponent({

@@ -1,6 +1,6 @@
-# vue-form-design
+<h1>vue-form-design</h1>
 
-Starfish 可视化动态表单平台
+Starfish 可视化动态表单平台. 完全采用 `ECMAScript` 模块（`ESM`）规范来编写和组织代码，使用了最新的 `Vue3`、`Vite`、`Element-Plus`、`TypeScript` 等主流技术开发
 
 - 💪 Vue 3.0 Composition API
 - 🔥 Written in TypeScript
@@ -12,8 +12,9 @@ https://haixin-fang.github.io/vue-form-design/playground/index.html
 ## 相关技术文章
 
 - [低代码表单设计器介绍](https://juejin.cn/post/7126106760191934495)
-- [开源表单设计器vue-form-design自动化校验实现原理](https://juejin.cn/post/7343161506698592266)
-- [重构, 首页体积从3.9M到1.5M](https://juejin.cn/post/7346426730048913435)
+- [开源表单设计器 vue-form-design 自动化校验实现原理](https://juejin.cn/post/7343161506698592266)
+- [重构, 首页体积从 3.9M 到 1.5M](https://juejin.cn/post/7346426730048913435)
+- [开源表单设计器颗粒度级别控制表单的显示条件原理分析](https://juejin.cn/post/7347910830761705498)
 - [关注我, 持续更文中……](https://juejin.cn/user/4442456629716317)
 
 ## 图片
@@ -44,17 +45,6 @@ https://haixin-fang.github.io/vue-form-design/playground/index.html
 - Vite
 - element-plus
 - codemirror
-
-## 代码规范
-
-- husky
-  操作 git 钩子的工具
-- lint-staged
-  本地暂存代码检查工具
-- commitlint
-  commit 信息校验工具
-- commitizen
-  辅助 commit 信息 ,就像这样,通过选择输入,规范提交信息
 
 ## 环境准备
 
@@ -88,7 +78,7 @@ http://localhost:1100/vue-form-design/playground/#/
 
 ## 架构
 
-使用 monorepo 架构,该项目分为多个代码包,有starfish-form表单生成器, starfish-editor表单设计器
+使用 monorepo 架构,该项目分为多个代码包,有 starfish-form 表单生成器, starfish-editor 表单设计器
 
 ### 提交规范
 
@@ -107,9 +97,15 @@ http://localhost:1100/vue-form-design/playground/#/
 - `types` 类型定义文件更改
 - `wip` 开发中
 
-# 可用库
+### 如何贡献
 
-- nanoid 一个小巧、安全、URL 友好、唯一的 JavaScript 字符串 ID 生成器。
+Pull Request:
+
+Fork 代码!
+创建自己的分支: `git checkout -b feat/xxxx`
+提交您的修改: `git commit -am 'feat(function): add xxxxx'`
+推送您的分支: `git push origin feat/xxxx`
+提交 `pull request`
 
 ## 核心组件介绍
 
@@ -156,7 +152,7 @@ app.component(Dynamicform.name, Dynamicform);
 
 动态表单组件使用
 
-`formResult`可以为空,list 是通过编辑器生成的结果,搭配使用
+`formResult`可以为空,list 是通过编辑器生成的结果json,搭配使用
 
 ```js
 <Dynamicform v-model:formResult="formResult" :allFormList="list" ></Dynamicform>
@@ -185,6 +181,8 @@ app.component(Dynamicform.name, Dynamicform);
   right: ['viewport', 'json-export', 'json-import'],
   column: true
   },
+- 属性菜单 tab 自定义
+  panel: ["form", "json", "global"] 组件配置、json 配置、表单配置, 不传则默认全展示
 
 1、布局控件建议增加表格控件，可以配出类似 word 表单
 2、建议增加打印

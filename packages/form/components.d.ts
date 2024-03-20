@@ -62,4 +62,7 @@ declare module 'vue' {
     TextArea: typeof import('./src/components/TextArea/index.vue')['default']
     Time: typeof import('./src/components/Time/index.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }
