@@ -1,6 +1,6 @@
 {
   "name": "starfish-form",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "main": "dist/starfish-form.mjs",
   "style": "dist/style.css",
   "module": "dist/starfish-form.mjs",
