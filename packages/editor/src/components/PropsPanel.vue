@@ -114,7 +114,7 @@ export default defineComponent({
   components: {
     ControllEditSize,
     jsonEnter: defineAsyncComponent({
-      loader: () => import("@/common/Loading.vue"),
+      loader: () => import("./jsonEditor.vue"),
       loadingComponent: Loading,
     }),
     globalFormComponent: defineAsyncComponent({
