@@ -1,7 +1,7 @@
 <p align="center">
  <img src="https://cdnjson.com/images/2024/03/20/logo56d6f604a78d5e473.png" height="160" />
 </p>
-<h1 align="center>vue-form-design</h1>
+<h1 align="center">vue-form-design</h1>
 
 Starfish 可视化动态表单平台. 完全采用 `ECMAScript` 模块（`ESM`）规范来编写和组织代码，使用了最新的 `Vue3`、`Vite`、`Element-Plus`、`TypeScript` 等主流技术开发
 
