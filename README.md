@@ -1,4 +1,7 @@
-<h1>vue-form-design</h1>
+<p align="center">
+ <img src="https://cdnjson.com/images/2024/03/20/logo56d6f604a78d5e473.png" height="160" />
+</p>
+<h1 align="center>vue-form-design</h1>
 
 Starfish 可视化动态表单平台. 完全采用 `ECMAScript` 模块（`ESM`）规范来编写和组织代码，使用了最新的 `Vue3`、`Vite`、`Element-Plus`、`TypeScript` 等主流技术开发
 
@@ -152,7 +155,7 @@ app.component(Dynamicform.name, Dynamicform);
 
 动态表单组件使用
 
-`formResult`可以为空,list 是通过编辑器生成的结果json,搭配使用
+`formResult`可以为空,list 是通过编辑器生成的结果 json,搭配使用
 
 ```js
 <Dynamicform v-model:formResult="formResult" :allFormList="list" ></Dynamicform>
@@ -183,11 +186,6 @@ app.component(Dynamicform.name, Dynamicform);
   },
 - 属性菜单 tab 自定义
   panel: ["form", "json", "global"] 组件配置、json 配置、表单配置, 不传则默认全展示
-
-1、布局控件建议增加表格控件，可以配出类似 word 表单
-2、建议增加打印
-3、建议增加 PC、PAD、H5 的预览功能
-4、建议增加自定义样式配置
 
 ## `Star`
 

@@ -1,39 +1,38 @@
 .starfish-editor {
+  background: #fafafa;
   .editor_pages_center {
-    background: #f0f2f5;
     position: relative;
     height: calc(100% - 40px);
-    overflow-y: auto;
-    @include scrollbar();
+    // overflow-y: auto;
     outline: 0;
     .editor_nav {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      box-shadow: 0 0 10px black;
+      box-shadow: 0 0 10px #ebedf0;
     }
     .canvasBox {
-      width: 500px;
-      height: auto;
-      min-height: $editor_canvas_min_height;
       position: absolute;
+      // left: 16px;
       left: 50%;
-      top: 50px;
+      transform: translateX(-50%) scale(var(--scale));
+      top: 16px;
+      // right: 16px;
+      bottom: 10px;
+      width: calc(100% - 32px);
       // margin-left: -350px;
       background: white;
+      box-shadow: 0 4px 12px #ebedf0;
       transform-origin: 50% 50%;
-      box-shadow: 2px 0 10px rgb(0 0 0 / 20%);
       transition: all 0.2s linear;
       overflow: hidden;
       box-sizing: border-box;
-      &.fullScreenBox {
-        width: 100%;
-        top: 0;
-        min-height: 100%;
-      }
+      // &.fullScreenBox {
+      //   width: 100% ;
+      // }
       &.PC_layout {
-        width: 100%;
+        width: calc(100% - 32px);
       }
       &.Pad_layout {
         width: 70%;
@@ -49,14 +48,18 @@
       }
       .draggable_container {
         width: 100%;
-        min-height: $editor_canvas_min_height;
+        height: 100%;
+        // min-height: $editor_canvas_min_height;
+        min-height: 100%;
         z-index: 1;
         text-align: left;
         position: relative;
         .dragArea {
           width: 100%;
           height: 100%;
-          min-height: $editor_canvas_min_height;
+          min-height: 100%;
+          @include scrollbar();
+          overflow-y: auto;
         }
         .form-empty {
           position: absolute;

@@ -38,6 +38,14 @@ export interface UiState {
    * 页面类型
    */
   pageType: string;
+  /**
+   * 右侧配置菜单是否隐藏
+   */
+  rightClose: boolean;
+  /**
+   * 左侧表单列表模块是否隐藏
+   */
+  leftClose: boolean;
 }
 
 export interface Controls {

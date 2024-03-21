@@ -42,5 +42,6 @@ module.exports = {
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "vue/no-v-model-argument":  "off"
   },
 };

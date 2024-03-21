@@ -32,7 +32,9 @@
         effect="dark"
         content="全屏"
         placement="top"
-        v-if="!fullscreen && btnIsShow('left', 'fullscreen')"
+        v-if="
+          !fullscreen && btnIsShow('left', 'fullscreen') && supportFullScreen
+        "
       >
         <span class="iconfont icon-quanping" @click="handleFullScreen()"></span>
       </el-tooltip>
@@ -41,7 +43,9 @@
         effect="dark"
         content="非全屏"
         placement="top"
-        v-if="fullscreen && btnIsShow('left', 'fullscreen')"
+        v-if="
+          fullscreen && btnIsShow('left', 'fullscreen') && supportFullScreen
+        "
       >
         <span class="iconfont icon-suoxiao1" @click="handleFullScreen()"></span>
       </el-tooltip>
@@ -269,6 +273,7 @@ export default defineComponent({
     const fullscreen = computed(() => uiControl?.get("isFullscreen"));
     const allFormList = computed(() => formStore?.get("allFormList"));
     const pageType = computed(() => uiControl?.get("pageType"));
+    const supportFullScreen = ref(!!document.fullscreenEnabled);
     // const extensions = [json()];
     const jsonDialog = ref();
     const tree = ref();
@@ -409,6 +414,7 @@ export default defineComponent({
     return {
       // extensions,
       code,
+      supportFullScreen,
       handleFormSave,
       handleFormPre,
       jsonDialog,
@@ -443,7 +449,38 @@ export default defineComponent({
         hisContrl?.go();
       },
       handleFullScreen: () => {
-        uiControl?.set("isFullscreen", !uiControl?.get("isFullscreen"));
+        const value = !uiControl?.get("isFullscreen");
+        uiControl?.set("isFullscreen", value);
+        if (value) {
+          const element: any = document.documentElement;
+
+          if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.mozRequestFullScreen) {
+            // Firefox
+            element.mozRequestFullScreen();
+          } else if (element.webkitRequestFullscreen) {
+            // Chrome, Safari and Opera
+            element.webkitRequestFullscreen();
+          } else if (element.msRequestFullscreen) {
+            // IE/Edge
+            element.msRequestFullscreen();
+          }
+        } else {
+          const doc:any = document;
+          if (doc.exitFullscreen) {
+            doc.exitFullscreen();
+          } else if (doc.mozCancelFullScreen) {
+            // Firefox
+            doc.mozCancelFullScreen();
+          } else if (doc.webkitExitFullscreen) {
+            // Chrome, Safari and Opera
+            doc.webkitExitFullscreen();
+          } else if (doc.msExitFullscreen) {
+            // IE/Edge
+            doc.msExitFullscreen();
+          }
+        }
       },
       handleTree() {
         dialog.value = true;

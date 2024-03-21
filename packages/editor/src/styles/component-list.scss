@@ -7,9 +7,13 @@
       padding: 12px;
     }
     .list-group {
-      display: flex;
-      flex-wrap: wrap;
+      // display: flex;
+      // flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4列，每列平均分配空间 */
+      // gap: 10px; /* 网格项之间的间隙 */
     }
+
     .list-group-item {
       display: flex;
       flex-direction: column;

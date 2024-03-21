@@ -7,7 +7,7 @@
         "./src/pages/Editor/components/*"
       ],
       "@/*": [
-        "./src/*"
+        "src/*"
       ]
     },
   },

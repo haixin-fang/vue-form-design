@@ -1,5 +1,5 @@
 import { reactive, toRaw } from "vue";
-import { UiState, setColumnWidth, GetColumnWidth } from "@/type";
+import { UiState, setColumnWidth, GetColumnWidth } from "@/type.ts";
 
 const DEFAUTL_LEFT_COLUMN_WIDTH = 300;
 const DEFAUTL_RIGHT_COLUMN_WIDTH = 400;
@@ -22,8 +22,10 @@ const state = reactive<UiState>({
   columnWidth: defaultColumnWidth,
   dialogWidth: DIALOG_WIDTH,
   scale,
-  isFullscreen: true,
-  pageType: 'PC'
+  isFullscreen: false,
+  pageType: 'PC',
+  rightClose: false,
+  leftClose: false
 });
 
 
