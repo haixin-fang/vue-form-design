@@ -194,7 +194,24 @@
           :filter-node-method="filterNode"
           @node-click="myClick"
           style="margin-top: 20px"
-        />
+        >
+          <template #default="{ node, data }">
+            <span class="custom-tree-node">
+              <i
+                class="iconfont"
+                :class="data.icon"
+                style="font-size: 12px; margin-right: 5px"
+              ></i>
+              <span>{{ node.label }}</span>
+              <!-- <span>
+                <i
+                  @click="remove(node, data)"
+                  class="iconfont icon-shanchu1"
+                ></i>
+              </span> -->
+            </span>
+          </template>
+        </el-tree>
       </div>
     </el-drawer>
     <custom-dialog ref="jsonDialog" :width="800" dialogclass="codeDialog">
@@ -301,11 +318,12 @@ export default defineComponent({
         return [];
       }
     };
-    function toTree(item: any): Tree {
+    function toTree(item: any): any {
       if (!item.layout) {
         return {
           id: item.id,
           label: item.nameCn,
+          icon: item.icon,
         };
       } else {
         let children;
@@ -467,7 +485,7 @@ export default defineComponent({
             element.msRequestFullscreen();
           }
         } else {
-          const doc:any = document;
+          const doc: any = document;
           if (doc.exitFullscreen) {
             doc.exitFullscreen();
           } else if (doc.mozCancelFullScreen) {
@@ -535,6 +553,7 @@ export default defineComponent({
           });
         }
       },
+      // remove(node, data) {},
     };
   },
 });

@@ -7,6 +7,7 @@ import vm from "./utils/vm";
 import flex from "./utils/_";
 import "starfish-form/dist/style.css";
 import StarfishEditor from "./starfish-editor.vue";
+import Loading from "@/common/Loading.vue";
 export default {
   install: (app: App) => {
     app.config.globalProperties.$EventBus = vm;
@@ -36,7 +37,10 @@ export default {
     );
     app.component(
       "draggable",
-      defineAsyncComponent(() => import("vuedraggable"))
+      defineAsyncComponent({
+        loader: () => import("vuedraggable"),
+        loadingComponent: Loading,
+      })
     );
     app.component(
       "Shape",

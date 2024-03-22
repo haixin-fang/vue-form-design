@@ -50,3 +50,10 @@
     }
   }
 }
+.custom-tree-node {
+  display: flex;
+  align-items: center;
+  span:last-child {
+    justify-content: flex-end;
+  }
+}
