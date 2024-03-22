@@ -50,7 +50,7 @@
       <el-tab-pane label="JSON配置" name="json" v-if="panel.includes('json')">
         <div class="json" v-if="activeName == 'json'">
           <!-- <div ref="jsonCenter"></div> -->
-          <jsonEnter ref="jsonCenter" />
+          <jsonEnter ref="jsonCenter" @editor="onEditor" />
         </div>
       </el-tab-pane>
       <el-tab-pane
@@ -256,7 +256,7 @@ export default defineComponent({
         if (ispreview) {
           formStore?.setFormCurrentIndex(curControlIndex);
         }
-        formStore?.setSave(ispreview as boolean);
+        formStore?.setSave(true);
         formStore?.setFormUpdate(false);
         if (ispreview) {
           const result: BaseComponentItem[] = initFormToJson(allFormList.value);
@@ -312,6 +312,10 @@ export default defineComponent({
       }
     }
 
+    function onEditor(editor: any) {
+      jsonEditor = editor;
+    }
+
     proxy.$EventBus.on("openPreview", async () => {
       checkValidates();
     });
@@ -353,6 +357,8 @@ export default defineComponent({
       globalDatas,
       jsonCenter,
       handleClick,
+      jsonEditor,
+      onEditor,
       activeName,
       handleMouseDown,
       moduleIsHidden,

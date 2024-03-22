@@ -5,7 +5,7 @@
 import { defineComponent, ref, computed, inject, toRaw, onMounted } from "vue";
 import JSONEditor from "jsoneditor";
 export default defineComponent({
-  setup() {
+  setup(props, context) {
     const jsonCenter = ref();
     let jsonEditor = undefined;
     const { formStore } = inject("control") || {};
@@ -14,8 +14,9 @@ export default defineComponent({
       return window.VueContext.$Flex.initFormToJson(toRaw(formlist));
     };
     onMounted(() => {
-      initJsonCenter();
-    })
+      const result = initJsonCenter();
+      context.emit("editor", result);
+    });
     function initJsonCenter() {
       const jsonDom = jsonCenter.value;
       if (jsonEditor) {
@@ -29,11 +30,11 @@ export default defineComponent({
         jsonEditor = new JSONEditor(jsonDom, options);
         jsonEditor?.set(initFormToJson(allmainList.value));
       }
-      return jsonEditor
+      return jsonEditor;
     }
     return {
       initJsonCenter,
-      jsonCenter
+      jsonCenter,
     };
   },
 });
