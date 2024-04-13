@@ -11,7 +11,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.8",
     "element-plus": "^2.2.12",
-    "starfish-editor": "^1.1.19",
+    "starfish-editor": "^1.1.21",
     "starfish-form": "^1.2.9",
     "vite": "^4.5.2",
     "vue": "^3.2.37",

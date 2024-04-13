@@ -2,10 +2,10 @@ import { ElNotification } from "element-plus";
 import { nanoid } from "nanoid";
 import { AllFormItem, BaseComponentItem, PartialKey } from "@/type";
 import formStore from "@/controller/form";
-const fieldlist: string[] = [];
 class Flex {
   lastClickTime: number;
   openTanc: boolean;
+
   constructor() {
     this.lastClickTime = 0;
     this.openTanc = false; // 是否有弹窗
@@ -58,7 +58,7 @@ class Flex {
   }
   public deepClone(target: any): any {
     // 定义一个变量
-    let result;
+    let result: any;
     // 如果当前需要深拷贝的是一个对象的话
     if (typeof target === "object") {
       // 如果是一个数组的话
@@ -143,13 +143,9 @@ class Flex {
       if (!item.data) {
         item.data = item.formConfig.data();
       }
+
       if (!item.data.fieldName) {
         item.data.fieldName = item.ControlType + "_" + this.generateMixed();
-      }
-      if (fieldlist.includes(item.data.fieldName)) {
-        item.data.fieldName = item.ControlType + "_" + this.generateMixed();
-      } else {
-        fieldlist.push(item.data.fieldName);
       }
       if (item.layout) {
         if (item.ControlType == "Grid" && item.data.columns && item.data.columns.length > 0) {
@@ -196,7 +192,7 @@ class Flex {
        */
       if (currentComponent.actionType && currentComponent.actionType.length > 0) {
         console.log(controlItems);
-        controlItems.find((item) => {
+        controlItems.find((item: any) => {
           if (item.ControlType == "Action") {
             item.data.formConfig = {
               value: {},
@@ -212,7 +208,7 @@ class Flex {
           }
         });
       } else {
-        controlItems = controlItems.filter((item) => {
+        controlItems = controlItems.filter((item: any) => {
           if (item.ControlType !== "Action") {
             return item;
           }
