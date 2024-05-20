@@ -19,7 +19,6 @@
       <resizer type="left"></resizer>
       <div
         class="starfish-editor-framework-center"
-        :style="`width:${centerWidth}px`"
       >
         <slot name="navlist"></slot>
         <slot name="workspace"></slot>
@@ -58,13 +57,7 @@ export default defineComponent({
     );
     const leftClose: any = computed(() => uiControl?.get("leftClose"));
     const rightClose: any = computed(() => uiControl?.get("rightClose"));
-    const centerWidth: any = computed(() => {
-      const center =
-        (leftClose.value ? columnWidth.value.left : 0) +
-        centerWidth.value +
-        (rightClose.value ? columnWidth.value.right : 0);
-      return center;
-    });
+
     function onLeftArrow() {
       uiControl?.set("leftClose", !leftClose.value);
     }
