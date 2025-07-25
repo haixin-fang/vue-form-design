@@ -2,8 +2,8 @@
   <div class="conditionSelect" :class="result.type">
     <!-- {{ result.type }} -->
     <div class="control" v-show="result.result && result.result.length > 0 && result.type !== 'data'">
-      <span class="iconfont icon-jiahao" v-if="!result.control" @click="handleControl(true)"></span>
-      <span class="iconfont icon-jianhao" v-else @click="handleControl(false)"></span>
+      <span class="iconfontui icon-jiahao" v-if="!result.control" @click="handleControl(true)"></span>
+      <span class="iconfontui icon-jianhao" v-else @click="handleControl(false)"></span>
     </div>
     <el-select v-model="result.type" placeholder="请选择" @change="onChange">
       <el-option v-for="item in groupSelect" :key="item.value" :label="item.label" :value="item.value"> </el-option>

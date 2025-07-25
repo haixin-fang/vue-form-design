@@ -1,12 +1,12 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 2838003 */
+  font-family: "iconfontui"; /* Project id 2838003 */
   src: url('iconfont.woff2?t=1709887803805') format('woff2'),
        url('iconfont.woff?t=1709887803805') format('woff'),
        url('iconfont.ttf?t=1709887803805') format('truetype');
 }
 
-.iconfont {
-  font-family: "iconfont" !important;
+.iconfontui {
+  font-family: "iconfontui" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;

@@ -9,7 +9,7 @@
         :content="item.data.tip"
         placement="top"
       >
-        <span class="tip iconfont icon-tishi"></span>
+        <span class="tip iconfontui icon-tishi"></span>
       </el-tooltip>
     </div>
     <div class="control">

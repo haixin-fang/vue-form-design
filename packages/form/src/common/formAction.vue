@@ -22,7 +22,7 @@
         :content="item.data.tip"
         placement="top"
       >
-        <span class="tip iconfont icon-tishi"></span>
+        <span class="tip iconfontui icon-tishi"></span>
       </el-tooltip>
     </div>
     <div
@@ -69,12 +69,12 @@
                           >
                             <i
                               title="复制"
-                              class="iconfont icon-fuzhi"
+                              class="iconfontui icon-fuzhi"
                               @click.stop="copyAction(item)"
                             ></i>
                             <i
                               title="删除"
-                              class="iconfont icon-shanchu1"
+                              class="iconfontui icon-shanchu1"
                               @click.stop="deleteAction(item)"
                             ></i>
                           </div>

@@ -66,7 +66,7 @@
 
     <div class="editor_right_accept" @click="handleEditBtn">
       <i
-        class="iconfont icon-jiantou_xiangyouliangci"
+        class="iconfontui icon-jiantou_xiangyouliangci"
         :class="
           moduleIsHidden
             ? 'icon-jiantou_xiangyouliangci'

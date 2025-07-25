@@ -3,7 +3,7 @@
     <div class="label" :class="'label_' + labelalign" :style="{ width: labelWidth + 'px' }">
       <label>{{ item.data.label }}{{ suffix }}</label>
       <el-tooltip class="item" effect="dark" content="可拖拽调整顺序" placement="top">
-        <span class="tip iconfont icon-tishi"></span>
+        <span class="tip iconfontui icon-tishi"></span>
       </el-tooltip>
     </div>
     <div class="control" :style="{ marginLeft: labelalign != 'top' ? labelWidth + 'px' : '' }">
@@ -13,7 +13,7 @@
             <template #item="{ element, index }">
               <el-row :gutter="10">
                 <el-col :span="1.5">
-                  <i class="iconfont icon-bars handle"></i>
+                  <i class="iconfontui icon-bars handle"></i>
                 </el-col>
                 <el-col class="list-group-item" :span="14">
                   <el-input size="small" v-model="element.name" clearable />

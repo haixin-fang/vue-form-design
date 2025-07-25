@@ -19,7 +19,7 @@
             <el-container class="my-pageContainer">
               <el-header class="my-pageHeader" style="height: 45px">
                 <div class="my-icon">
-                  <em class="iconfont" :class="icon"></em>
+                  <em class="iconfontui" :class="icon"></em>
                 </div>
                 <div class="my-title">{{ title }}</div>
                 <div class="my-toolbar">
@@ -28,7 +28,7 @@
                     @click="isFullScreen = !isFullScreen"
                   >
                     <em
-                      class="iconfont icon"
+                      class="iconfontui icon"
                       :class="{
                         'icon-suoxiao1': isFullScreen,
                         'icon-quanping': !isFullScreen,
@@ -36,7 +36,7 @@
                     ></em>
                   </el-button>
                   <el-button class="my-toolbtn" @click="close">
-                    <em class="iconfont icon-guanbi"></em>
+                    <em class="iconfontui icon-guanbi"></em>
                   </el-button>
                 </div>
               </el-header>

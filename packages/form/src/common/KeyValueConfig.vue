@@ -4,7 +4,7 @@
       <label>{{ item.data.label }}{{ suffix }}</label>
       <span v-if="item.data.required" class="item_require">*</span>
       <el-tooltip v-if="item.data.tip" class="item" effect="dark" :content="item.data.tip" placement="top">
-        <span class="tip iconfont icon-tishi"></span>
+        <span class="tip iconfontui icon-tishi"></span>
       </el-tooltip>
     </div>
     <div class="control" :style="{ marginLeft: labelalign != 'top' ? labelWidth + 'px' : '' }">
@@ -28,16 +28,16 @@
         </div>
         <div class="keyValueControl">
           <div class="add" @click="addItem(index)">
-            <i class="iconfont icon-zengjia"></i>
+            <i class="iconfontui icon-zengjia"></i>
           </div>
           <div class="remove" @click="removeItem(index)">
-            <i class="iconfont icon-shanchu"></i>
+            <i class="iconfontui icon-shanchu"></i>
           </div>
           <div class="top" @click="handleTop(index)">
-            <i class="iconfont icon-shangyi"></i>
+            <i class="iconfontui icon-shangyi"></i>
           </div>
           <div class="bottom" @click="handleBottom(index)">
-            <i class="iconfont icon-xiayi"></i>
+            <i class="iconfontui icon-xiayi"></i>
           </div>
         </div>
       </div>
