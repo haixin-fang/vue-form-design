@@ -21,7 +21,7 @@
         :content="item.data.tip"
         placement="top"
       >
-        <span class="tip iconfont icon-tishi"></span>
+        <span class="tip iconfontui icon-tishi"></span>
       </el-tooltip>
     </div>
     <div
@@ -30,7 +30,7 @@
     >
       <div id="jsoneditor" ref="jsoneditor">
         <div class="fullScreen" @click="showCustomDialog">
-          <i class="iconfont icon-quanping"></i>
+          <i class="iconfontui icon-quanping"></i>
         </div>
       </div>
     </div>

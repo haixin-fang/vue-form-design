@@ -1,16 +1,16 @@
 <template>
   <div class="controller_edit_size" ref="controllerSize">
-    <span @click="handleCanvasSize(0.1)"><i class="iconfont icon-jiahao"></i></span>
+    <span @click="handleCanvasSize(0.1)"><i class="iconfontui icon-jiahao"></i></span>
     <span>{{ parseInt(String(size * 100)) }}%</span>
-    <span @click="handleCanvasSize(-0.1)"><i class="iconfont icon-jianhao"></i></span>
+    <span @click="handleCanvasSize(-0.1)"><i class="iconfontui icon-jianhao"></i></span>
     <span @mouseover="handleShortcutShow" @mouseleave="handleShortCutHidden">
-      <i class="iconfont icon-jianpan_o"></i>
+      <i class="iconfontui icon-jianpan_o"></i>
       <transition name="slide-fade">
         <shortcutKey v-show="shortCutShow" />
       </transition>
     </span>
     <span @click="handleCanvasSize()" title="复位">
-      <i class="iconfont icon-huanyuan"></i>
+      <i class="iconfontui icon-huanyuan"></i>
     </span>
   </div>
 </template>
