@@ -9,7 +9,7 @@
         v-if="btnIsShow('left', 'save')"
       >
         <span
-          class="iconfont icon-baocun"
+          class="iconfontui icon-baocun"
           :class="clearIsDisable ? 'noactive' : ''"
           @click="handleFormSave()"
         ></span>
@@ -22,7 +22,7 @@
         v-if="btnIsShow('left', 'preview')"
       >
         <span
-          class="iconfont icon-icon_yulan"
+          class="iconfontui icon-icon_yulan"
           :class="clearIsDisable ? 'noactive' : ''"
           @click="handleFormPre()"
         ></span>
@@ -36,7 +36,7 @@
           !fullscreen && btnIsShow('left', 'fullscreen') && supportFullScreen
         "
       >
-        <span class="iconfont icon-quanping" @click="handleFullScreen()"></span>
+        <span class="iconfontui icon-quanping" @click="handleFullScreen()"></span>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -47,7 +47,7 @@
           fullscreen && btnIsShow('left', 'fullscreen') && supportFullScreen
         "
       >
-        <span class="iconfont icon-suoxiao1" @click="handleFullScreen()"></span>
+        <span class="iconfontui icon-suoxiao1" @click="handleFullScreen()"></span>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -57,7 +57,7 @@
         v-if="btnIsShow('left', 'delete')"
       >
         <span
-          class="iconfont icon-shanchu1"
+          class="iconfontui icon-shanchu1"
           :class="clearIsDisable ? 'noactive' : ''"
           @click="handleClear()"
         >
@@ -70,7 +70,7 @@
         placement="top"
         v-if="btnIsShow('left', 'tree')"
       >
-        <span class="iconfont icon-tree" @click="handleTree()"> </span>
+        <span class="iconfontui icon-tree" @click="handleTree()"> </span>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -80,7 +80,7 @@
         v-if="btnIsShow('left', 'undo')"
       >
         <span
-          class="iconfont icon-24gl-undo3"
+          class="iconfontui icon-24gl-undo3"
           :class="historyIndex == -1 ? 'noactive' : ''"
           @click="handleBack()"
         ></span>
@@ -93,7 +93,7 @@
         v-if="btnIsShow('left', 'redo')"
       >
         <span
-          class="iconfont icon-24gl-redo3"
+          class="iconfontui icon-24gl-redo3"
           :class="historyIndex == historyLen - 1 ? 'noactive' : ''"
           @click="handleForward()"
         ></span>
@@ -117,7 +117,7 @@
           <span
             :class="pageType == 'PC' ? 'info' : ''"
             @click="updatePageType('PC')"
-            ><i class="iconfont icon-diannao"></i
+            ><i class="iconfontui icon-diannao"></i
           ></span>
         </el-tooltip>
         <el-tooltip
@@ -130,7 +130,7 @@
           <span
             :class="pageType == 'Pad' ? 'info' : ''"
             @click="updatePageType('Pad')"
-            ><i class="iconfont icon-pingbandiannao"></i
+            ><i class="iconfontui icon-pingbandiannao"></i
           ></span>
         </el-tooltip>
         <el-tooltip
@@ -143,7 +143,7 @@
           <span
             :class="pageType == 'H5' ? 'info' : ''"
             @click="updatePageType('H5')"
-            ><i class="iconfont icon-shouji"></i
+            ><i class="iconfontui icon-shouji"></i
           ></span>
         </el-tooltip>
         <el-tooltip
@@ -157,7 +157,7 @@
             plain
             @click="ImportJson"
             v-if="btnIsShow('right', 'json-import')"
-            ><i class="iconfont icon-daoru"></i
+            ><i class="iconfontui icon-daoru"></i
           ></span>
         </el-tooltip>
         <el-tooltip
@@ -171,7 +171,7 @@
             plain
             @click="exportJson"
             v-if="btnIsShow('right', 'json-export')"
-            ><i class="iconfont icon-daochu"></i
+            ><i class="iconfontui icon-daochu"></i
           ></span>
         </el-tooltip>
       </div>
@@ -198,7 +198,7 @@
           <template #default="{ node, data }">
             <span class="custom-tree-node">
               <i
-                class="iconfont"
+                class="iconfontui"
                 :class="data.icon"
                 style="font-size: 12px; margin-right: 5px"
               ></i>
@@ -206,7 +206,7 @@
               <!-- <span>
                 <i
                   @click="remove(node, data)"
-                  class="iconfont icon-shanchu1"
+                  class="iconfontui icon-shanchu1"
                 ></i>
               </span> -->
             </span>

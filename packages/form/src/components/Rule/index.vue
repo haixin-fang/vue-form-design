@@ -17,7 +17,7 @@
         :content="item.data.tip"
         placement="bottom-start"
       >
-        <span class="tip iconfont icon-tishi"></span>
+        <span class="tip iconfontui icon-tishi"></span>
       </el-tooltip>
     </div>
     <div

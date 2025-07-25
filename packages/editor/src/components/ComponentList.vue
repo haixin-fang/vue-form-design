@@ -22,7 +22,7 @@
           @click.stop="clickAddControl(element)"
         >
           <div class="form-item">
-            <span class="iconfont" :class="element.icon"></span>
+            <span class="iconfontui" :class="element.icon"></span>
           </div>
           <div class="item-text">{{ element.nameCn }}</div>
         </div>
@@ -43,7 +43,7 @@
           @click.stop="clickAddControl(element)"
         >
           <div class="form-item">
-            <span class="iconfont" :class="element.icon"></span>
+            <span class="iconfontui" :class="element.icon"></span>
           </div>
           <div class="item-text">{{ element.nameCn }}</div>
         </div>
