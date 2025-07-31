@@ -187,6 +187,7 @@ app.component(Dynamicform.name, Dynamicform);
 - 属性菜单 tab 自定义
   panel: ["form", "json", "global"] 组件配置、json 配置、表单配置, 不传则默认全展示
 
+
 ## `Star`
 
 非常感谢留下星星的好心人，感谢您的支持 :heart:
