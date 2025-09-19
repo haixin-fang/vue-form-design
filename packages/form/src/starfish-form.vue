@@ -203,7 +203,7 @@
             case "in":
               if (Array.isArray(value)) {
                 value.find((item) => {
-                  if (result.value.include(item)) {
+                  if (result.value.includes(item)) {
                     isShow = result.value.includes(item);
                     return item;
                   }
