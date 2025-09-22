@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>可视化低代码表单设计器 - vue-form-design</title>
+    <link rel="icon" sizes="any" mask="" href="/vue-form-design/playground/static/ico/favicon-9f703827.ico" />
+
+    <style>
+      .first-screen-loading {
+        width: 200px;
+        height: 200px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .first-screen-loading-spinner {
+        width: 36px;
+        height: 36px;
+        border: 3px solid #4d7cff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spinner 0.8s linear infinite;
+      }
+      .first-screen-loading-text {
+        margin-top: 20px;
+        color: #4d7cff;
+      }
+      @keyframes spinner {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="/vue-form-design/playground/static/js/main-7e53c33c.js"></script>
+    <link rel="stylesheet" href="/vue-form-design/playground/static/css/index-0c5e8daf.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="first-screen-loading">
+        <div class="first-screen-loading-spinner"></div>
+        <div class="first-screen-loading-text">正在加载中，请稍等 ...</div>
+      </div>
+    </div>
+    
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>
+      LA.init({ id: "3GODrnzUczsjYuJT", ck: "3GODrnzUczsjYuJT" });
+    </script>
+  </body>
+</html>
